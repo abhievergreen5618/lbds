@@ -17,7 +17,6 @@ use App\Http\Controllers\Common\RequestController;
 Route::get('/', function() {
     return view('auth.login');
 });
-//priya
 
 Auth::routes();
 Auth::routes(['verify' => true]);
@@ -35,4 +34,7 @@ Route::controller(RequestController::class)->group(function () {
 Route::get('/email/verify', function () {
     return view('auth.verify');
 })->middleware('auth')->name('verification.notice');
+
+// Route::get('/agency-register',[App\Http\Controllers\UserController::class, 'create'])->name('agency-user');
+Route::post('/agency-user/insert',[App\Http\Controllers\UserController::class, 'store'])->name('agency-insert');
 
