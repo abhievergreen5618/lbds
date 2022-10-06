@@ -18,7 +18,6 @@ use App\Http\Controllers\Admin\InspectionController;
 Route::get('/', function() {
     return view('auth.login'); 
 });
-//priya
 
 Auth::routes();
 
@@ -34,8 +33,17 @@ Route::controller(RequestController::class)->group(function () {
     Route::get('/request', 'index')->name('admin.request.create');
 });
 
+
+// Route::get('/agency-register',[App\Http\Controllers\UserController::class, 'create'])->name('agency-user');
+Route::post('/agency-user/insert',[App\Http\Controllers\UserController::class, 'store'])->name('agency-insert');
+
+
 Route::controller(InspectionController::class)->group(function () {
     Route::get('/add-inspection-type', 'index')->name('admin.create.addinspectiontype');
     Route::post('/create-inspection-type','create')->name('admin.create.createinspectiontype');
     Route::get('/all-inspection-type','show')->name('admin.allinspectiontype');
+
 });
+
+});
+
