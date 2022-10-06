@@ -75,7 +75,7 @@
                                         <label for="zip_code">{{ __('Zip Code') }}<span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <div class="input-group-text"><i class="fa fa-user"></i></div>
-                                            <input id="zip_code" type="number" class="form-control @error('zip_code') is-invalid @enderror" name="zip_code" value="{{ old('zipcode') }}" >
+                                            <input id="zip_code" type="number" class="form-control @error('zip_code') is-invalid @enderror" name="zip_code" value="{{ old('zip_code') }}" >
                                         </div>
                                         @error('zip_code')
                                         <div>
