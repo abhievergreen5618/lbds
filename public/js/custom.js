@@ -1,14 +1,36 @@
 $(document).ready(function () {
-    console.log("load");
     $('#inspectiontable').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: "inspectiontypedata",
-        columns: [
-            {data: 'id', name: 'id'},
-            {data: 'name', name: 'name'},
-            {data: 'description', name: 'description'},
-            {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
-    });
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                "url": "inspectiontypedetails",
+                "type": "POST",
+                'beforeSend': function(request) {
+                    request.setRequestHeader("X-CSRF-TOKEN", jQuery('meta[name="csrf-token"]').attr('content'));
+                },
+            },
+            "columnDefs": [
+                {"className": "dt-center", "targets": "_all"}
+              ],
+            "columns": [
+                {
+                    "data": "sno",
+                },
+                {
+                    "data": "name",
+                },
+                {
+                    "data": "description",
+                },
+                {
+                    "data": "status",
+                },
+                {
+                    "data": "created_at",
+                },
+                {
+                    "data": "action",
+                },
+            ],
+      });
 });
