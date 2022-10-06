@@ -49,6 +49,7 @@ Route::controller(InspectionController::class)->group(function () {
 });
 });
 
+Auth::routes(['verify' => true]);
 
 
 Route::get('/email/verify', function () {
