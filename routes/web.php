@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\InspectionController;
 Route::get('/', function() {
     return view('auth.login'); 
 });
+//priya
 
 Auth::routes();
 
