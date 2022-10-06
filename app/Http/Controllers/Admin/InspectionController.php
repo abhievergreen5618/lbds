@@ -101,7 +101,6 @@ class InspectionController extends Controller
             $data = Inspectiontype::all();
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('sno', function($row){
-                    dd($row);
                     $sno = $row->id;
                     return $sno;
                 })
