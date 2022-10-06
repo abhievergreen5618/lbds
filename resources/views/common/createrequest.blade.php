@@ -27,8 +27,8 @@
                             @foreach($data as $key=>$value)
                             <div class="col-lg-4 my-2">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" name="inspectiontype" value="{{$key}}">
-                                    <label class="form-check-label">{{__($value)}}</label>
+                                    <input class="inspection-type-{{$key}}" type="checkbox" name="inspectiontype" value="{{$key}}">
+                                    <label class="form-check-label" for="inspection-type-{{$key}}">{{__($value)}}</label>
                                 </div>
                             </div>
                             @endforeach
