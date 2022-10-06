@@ -30,11 +30,11 @@
                 <div class="form-group mb-2">
                     <label for="exampleInputEmail1">{{ __('Description') }}</label>
                     <textarea class="form-control @error('description') {{ 'is-invalid' }} @enderror" id="description" name="description" rows="3" placeholder="Enter ..."></textarea>
-                @error('description')
-                <div>
-                    <label class="error fail-alert  mt-1">{{ $message }}</label>
-                </div>
-                @enderror
+                    @error('description')
+                    <div>
+                        <label class="error fail-alert  mt-1">{{ $message }}</label>
+                    </div>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1" class="">{{ __('Status') }}</label>
@@ -46,11 +46,11 @@
                         <input class="form-check-input" type="radio" name="status" id="inactive" value="inactive">
                         <label class="form-check-label" for="inactive">Inactive</label>
                     </div>
-                @error('status')
-                <div>
-                    <label class="error fail-alert  mt-1">{{ $message }}</label>
-                </div>
-                @enderror
+                    @error('status')
+                    <div>
+                        <label class="error fail-alert  mt-1">{{ $message }}</label>
+                    </div>
+                    @enderror
                 </div>
             </div>
             <!-- /.card-body -->

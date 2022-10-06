@@ -2,19 +2,23 @@
 
 @section('content')
 <div class="col-lg-12">
-  <div class="card">
-    <div class="card-header">
-      <h3 class="card-title">Inspection Type</h3>
+    <div class="card">
+        <div class="card-body">
+          <h3 class="card-title">Inspection Type Details</h3>
+        </div>
     </div>
+</div>
+<div class="col-lg-12">
+  <div class="card">
     <div class="card-body pt-2">
       <table id="inspectiontable" class="table table-bordered table-striped">
         <thead>
           <tr>
+            <th>Created At</th>
             <th>Sno</th>
             <th>Name</th>
             <th>Description</th>
             <th>Status</th>
-            <th>Created At</th>
             <th>Action</th>
           </tr>
         </thead>

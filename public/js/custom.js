@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('#inspectiontable').DataTable({
+    var inspectiontable = $('#inspectiontable').DataTable({
             "processing": true,
             "serverSide": true,
             "ajax": {
@@ -14,6 +14,9 @@ $(document).ready(function () {
               ],
             "columns": [
                 {
+                    "data": "created_at",
+                },
+                {
                     "data": "sno",
                 },
                 {
@@ -26,11 +29,75 @@ $(document).ready(function () {
                     "data": "status",
                 },
                 {
-                    "data": "created_at",
-                },
-                {
                     "data": "action",
                 },
             ],
       });
+      inspectiontable.on('click', '.delete', function() {
+        $('#userdetails_processing').show();
+        element = $(this);
+        var userid = $(this).attr('data-id');
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: 'task-delete',
+                    data: {
+                        id: userid
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        inspectiontable.ajax.reload();
+                    },
+                    error: function(data) {
+                        // console.log(data);
+                    }
+                });
+            };
+        });
+    });
+    inspectiontable.on('click', '.status', function() {
+            element = $(this);
+            var userid = $(this).attr('data-id');
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You will be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes!'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        type: "POST",
+                        headers: {
+                            'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                        },
+                        url: 'inspection-type-status-update',
+                        data: { 
+                            id: userid
+                        },
+                        dataType: 'json',
+                        success: function(data) {
+                            inspectiontable.ajax.reload();
+                        },
+                        error: function(data) {
+                            // console.log(data);
+                        }
+                    });
+                };
+            });
+        });
 });
