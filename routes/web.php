@@ -43,7 +43,8 @@ Route::controller(InspectionController::class)->group(function () {
     Route::get('/update-inspection-type', 'index')->name('admin.update.inspectiontype');
     Route::post('/create-inspection-type','create')->name('admin.create.createinspectiontype');
     Route::get('/all-inspection-type','show')->name('admin.allinspectiontype');
+    Route::post('/inspectiontypedetails','display')->name('inspectiontypedetails');
 });
 
-Route::post('/inspectiontypedetails','display')->name('inspectiontypedetails');
+
 
