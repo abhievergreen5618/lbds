@@ -1,4 +1,7 @@
 $(document).ready(function () {
+    $(".alert").delay(2000).slideUp(200, function () {
+        $(this).alert('close');
+      });
     var inspectiontable = $('#inspectiontable').DataTable({
             "processing": true,
             "serverSide": true,
@@ -52,7 +55,7 @@ $(document).ready(function () {
                     headers: {
                         'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
                     },
-                    url: 'task-delete',
+                    url: 'inspection-type-delete',
                     data: {
                         id: userid
                     },

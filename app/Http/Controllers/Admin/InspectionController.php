@@ -31,12 +31,24 @@ class InspectionController extends Controller
             "description"=>"required",
             "status"=>"required",
         ]);
-        Inspectiontype::create([
-            "name" => $request->name,
-            "description" => $request->description,
-            "status" => $request->status,
-        ]);
-        return redirect()->back()->with("msg","Record Created Successfully");
+        if(isset($request['id']) && !empty($request['id']))
+        {
+            Inspectiontype::where('id',decrypt($request['id']))->update([
+                "name" => $request->name,
+                "description" => $request->description,
+                "status" => $request->status,
+            ]);
+            return redirect()->route('admin.allinspectiontype')->with("msg","Record Updated Successfully");
+        }
+        else
+        {
+            Inspectiontype::create([
+                "name" => $request->name,
+                "description" => $request->description,
+                "status" => $request->status,
+            ]);
+            return redirect()->back()->route('admin.allinspectiontype')->with("msg","Record Created Successfully");
+        }
     }
 
     /**
@@ -79,9 +91,17 @@ class InspectionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        if(isset($request['id']) && !empty($request['id']))
+        {   
+            $data = Inspectiontype::where('id', decrypt($request['id']))->first();
+            return view('admin.inspection.addinspectiontype')->with(["data"=>$data]);
+        }
+        else
+        {
+            return redirect()->back()->with("msg","Record Created Successfully");
+        }
     }
 
     /**
@@ -90,19 +110,44 @@ class InspectionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $request->validate(
+            [
+                "id" => 'required',
+            ]
+        );
+        Inspectiontype::where('id', decrypt($request['id']))->delete();
+        $msg = "Deleted Successfully";
+        return response()->json(array("msg" => $msg), 200);
+    }
+
+
+    public function status(Request $request)
+    {
+        $request->validate(
+            [
+                "id" => 'required',
+            ]
+        );
+        $status = Inspectiontype::where('id', decrypt($request['id']))->first('status');
+        $status= ($status['status'] == "active") ? "inactive" : "active";
+        Inspectiontype::where('id', decrypt($request['id']))->Update([
+            "status" => $status,
+        ]);
+        $msg = "Status Updated Successfully";
+        return response()->json(array("msg" => $msg), 200);
     }
 
     public function display(Request $request)
     {
         if ($request->ajax()) {
+            $GLOBALS['count'] = 0;
             $data = Inspectiontype::all();
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('sno', function($row){
-                    $sno = $row->id;
-                    return $sno;
+                    $GLOBALS['count']++;
+                    return $GLOBALS['count'];
                 })
                 ->addColumn('action', function($row){
                     $id = encrypt($row->id);

@@ -40,10 +40,12 @@ Route::post('/agency-user/insert',[App\Http\Controllers\UserController::class, '
 
 Route::controller(InspectionController::class)->group(function () {
     Route::get('/add-inspection-type', 'index')->name('admin.create.addinspectiontype');
-    Route::get('/update-inspection-type', 'index')->name('admin.update.inspectiontype');
+    Route::get('/update-inspection-type','update')->name('admin.update.inspectiontype');
     Route::post('/create-inspection-type','create')->name('admin.create.createinspectiontype');
     Route::get('/all-inspection-type','show')->name('admin.allinspectiontype');
     Route::post('/inspectiontypedetails','display')->name('inspectiontypedetails');
+    Route::post('/inspection-type-status-update','status')->name('inspection-type-status-update');
+    Route::post('/inspection-type-delete','destroy')->name('inspection-type-delete');
 });
 
 
