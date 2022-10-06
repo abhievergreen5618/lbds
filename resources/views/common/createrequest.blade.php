@@ -18,6 +18,7 @@
         <form id="requestform">
             <div class="card-body">
                 <div class="row g-3 align-items-end">
+                    @if(!empty($data) && count($data) != 0)
                     <div class="col-md-12 my-2">
                         <div class="row">
                             <div class="col-lg-12">
@@ -33,6 +34,7 @@
                             @endforeach
                         </div>
                     </div>
+                    @endif
                     <div class="col-md-12 my-2">
                         <div class="row">
                             <div class="col-lg-12">
