@@ -15,7 +15,7 @@
         </div>
         <!-- /.card-header -->
         <!-- form start -->
-        <form>
+        <form id="requestform">
             <div class="card-body">
                 <div class="row g-3 align-items-end">
                     <div class="col-md-12 my-2">
@@ -23,24 +23,14 @@
                             <div class="col-lg-12">
                                 <label for="">{{ __('Select Inspection Type') }}</label>
                             </div>
+                            @foreach($data as $key=>$value)
                             <div class="col-lg-4 my-2">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox">
-                                    <label class="form-check-label">{{__('Checkbox')}}</label>
+                                    <input class="form-check-input" type="checkbox" name="inspectiontype" value="{{$key}}">
+                                    <label class="form-check-label">{{__($value)}}</label>
                                 </div>
                             </div>
-                            <div class="col-lg-4 my-2">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox">
-                                    <label class="form-check-label">{{__('Checkbox')}}</label>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 my-2">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox">
-                                    <label class="form-check-label">{{__('Checkbox')}}</label>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                     <div class="col-md-12 my-2">
@@ -49,16 +39,16 @@
                                 <label for="">{{ __('Insured / Applicant Information') }}</label>
                             </div>
                             <div class="col-lg-4 my-2">
-                                <label for="exampleInputPassword1">{{ __('Name') }}</label>
-                                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                <label for="applicantname">{{ __('Name') }}</label>
+                                <input type="text" class="form-control" id="applicantname" name="applicantname" placeholder="Name">
                             </div>
                             <div class="col-lg-4 my-2">
-                                <label for="exampleInputPassword1">{{ __('Email address') }}</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                <label for="applicantemail">{{ __('Email address') }}</label>
+                                <input type="email" class="form-control" id="applicantemail" name="applicantemail" placeholder="Email">
                             </div>
                             <div class="col-lg-4 my-2">
-                                <label for="exampleInputPassword1">{{ __('Phone') }}</label>
-                                <input type="number" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                <label for="applicantmobile">{{ __('Phone') }}</label>
+                                <input type="number" class="form-control" id="applicantmobile" name="applicantmobile" placeholder="Phone">
                             </div>
                         </div>
                     </div>
@@ -68,20 +58,20 @@
                                 <label for="">{{ __('Subject Property Information') }}</label>
                             </div>
                             <div class="col-lg-12 my-2">
-                                <label for="exampleInputPassword1">{{ __('Address') }}</label>
-                                <textarea class="form-control" rows="3" placeholder="Enter ..."></textarea>
+                                <label for="address">{{ __('Address') }}</label>
+                                <textarea class="form-control" rows="3" placeholder="Enter ..." id="address" name="address"></textarea>
                             </div>
                             <div class="col-lg-4 my-2">
-                                <label for="exampleInputPassword1">{{ __('City') }}</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                <label for="city">{{ __('City') }}</label>
+                                <input type="password" class="form-control" id="exampleInputPassword1" id="city" name="city" placeholder="Password">
                             </div>
                             <div class="col-lg-4 my-2">
-                                <label for="exampleInputPassword1">{{ __('State') }}</label>
-                                <input type="number" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                <label for="zipcode">{{ __('State') }}</label>
+                                <input type="number" class="form-control" id="exampleInputPassword1" id="state" name="state" placeholder="Password">
                             </div>
                             <div class="col-lg-4 my-2">
-                                <label for="exampleInputPassword1">{{ __('ZipCode') }}</label>
-                                <input type="number" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                <label for="zipcode">{{ __('ZipCode') }}</label>
+                                <input type="number" class="form-control" id="exampleInputPassword1" id="zipcode" name="zipcode" placeholder="Password">
                             </div>
                         </div>
                     </div>
@@ -116,22 +106,22 @@
                         </div>
                     </div>
                     <div class="col-md-12 my-2">
-                        <label for="exampleInputPassword1">{{ __('Comments') }}</label>
-                        <textarea class="form-control" rows="3" placeholder="Enter ..."></textarea>
+                        <label for="comments">{{ __('Comments') }}</label>
+                        <textarea class="form-control" rows="3" placeholder="Enter ..." name="comments" id="comments"></textarea>
                     </div>
                     <div class="col-md-6 my-2">
-                        <label for="exampleInputPassword1">{{ __('Reports') }}</label>
-                        <select class="form-control">
+                        <label for="report">{{ __('Reports') }}</label>
+                        <select class="form-control" name="report">
                             <option>Select Reports</option>
                             <option>Agency Uploads</option>
                         </select>
                     </div>
                     <div class="col-md-6 my-2">
-                        <label for="exampleInputPassword1">{{ __('Related Files') }}</label>
+                        <label for="relatedfiles">{{ __('Related Files') }}</label>
                         <div class="input-group">
                             <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="exampleInputFile">
-                                <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                <input type="file" class="custom-file-input" id="relatedfiles" name="relatedfiles">
+                                <label class="custom-file-label" for="report">Choose file</label>
                             </div>
                         </div>
                         </select>

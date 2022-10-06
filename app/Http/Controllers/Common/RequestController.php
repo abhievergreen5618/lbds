@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Inspectiontype;
 
 class RequestController extends Controller
 {
@@ -14,7 +15,8 @@ class RequestController extends Controller
      */
     public function index()
     {
-        return view('common.createrequest');
+        $data = Inspectiontype::pluck("name","id");
+        return view('common.createrequest')->with(["data"=>$data]);
     }
 
     /**
