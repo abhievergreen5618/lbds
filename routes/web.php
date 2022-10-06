@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\Common\RequestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,34 +14,20 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 Route::get('/', function() {
-    return view('auth.login'); });
-
-
-    Route::get('/ins', function() {
-        return view('layouts.inspector.dashboard_inspector'); });
-
-    Route::get('/agency', function() {
-       return view('layouts.company.dashboard_company'); });
-
-    Route::get('/agency-register',[App\Http\Controllers\UserController::class, 'index'])->name('agency-user');
-
-
-Auth::routes();
-
-Route::group(['middleware' => ['auth']], function () {
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    return view('auth.login'); 
 });
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::controller(UserController::class)->group(function () {
+    Route::get('/agency-register', 'create')->name('agency-user');
+    Route::post('/agency-user/insert', 'store')->name('agency-insert');
+});
+
+Route::controller(RequestController::class)->group(function () {
+    Route::get('/request', 'index')->name('admin.request.create');
+});

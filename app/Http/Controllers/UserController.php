@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -12,9 +13,10 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
-       return view('layouts.company.agency_register');
+
     }
 
     /**
@@ -24,7 +26,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('company.agency_register');
     }
 
     /**
@@ -33,9 +35,37 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, User $user)
     {
-        //
+        // dd($request->all());
+        // User::Create($request->all());
+ $request->validate([
+    'company_name '               => 'required',
+    'company_address '            => 'required',
+    'city'                        => 'required|max:11',
+    'zip_code'                    => 'required|max:11',
+    'company_phonenumber'         => 'required',
+    'name'                        => 'required',
+    'direct_number'               => 'required',
+    'email'                       => 'required|unique:users|max:255',
+    'password'                    => 'required',
+ ]);
+
+        $user                          = new User();
+        $user->company_name         =$request->company_name;
+        $user->company_address      =$request->company_address;
+        $user->city                 =$request->city;
+        $user->zip_code             =$request->zip_code;
+        $user->company_phonenumber  =$request->company_phonenumber;
+        $user->name                 =$request->name;
+        $user->direct_number        =$request->direct_number;
+        $user->email                =$request->email;
+        $user->password             =Hash::make($request->password);
+        $user->role                 ='agency';
+        $user->save();
+
+        return redirect(route('login'));
+
     }
 
     /**
