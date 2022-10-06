@@ -17,6 +17,7 @@ use App\Http\Controllers\Common\RequestController;
 Route::get('/', function() {
     return view('auth.login');
 });
+//priya
 
 Auth::routes();
 Auth::routes(['verify' => true]);
