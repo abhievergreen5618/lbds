@@ -76,15 +76,15 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
             'company_name' => $data['company_name'],
             'company_address' => $data['company_address'],
             'city' => $data['city'],
             'zip_code' => $data['zip_code'],
             'company_phonenumber' => $data['company_phonenumber'],
-            'role' => "3",
+            'name' => $data['name'],
+            'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'role' => "3",
         ]);
         return redirect()->route('login')->with(["msg"=>"Registered Successfully"]);
     }
