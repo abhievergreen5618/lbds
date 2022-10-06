@@ -47,7 +47,7 @@ class InspectionController extends Controller
                 "description" => $request->description,
                 "status" => $request->status,
             ]);
-            return redirect()->back()->route('admin.allinspectiontype')->with("msg","Record Created Successfully");
+            return redirect()->route('admin.allinspectiontype')->with("msg","Record Created Successfully");
         }
     }
 
