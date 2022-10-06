@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="{{asset('/plugins/daterangepicker/daterangepicker.css')}}">
   <!-- summernote -->
   <link rel="stylesheet" href="{{asset('/plugins/summernote/summernote-bs4.min.css')}}">
+  <link rel="stylesheet" href="{{asset('/css/datatable.css')}}">
   <link rel="stylesheet" href="{{asset('/css/style.css')}}">
   @stack("header_extras")
 </head>
@@ -93,6 +94,7 @@
 <script src="{{asset('/dist/js/pages/dashboard.js')}}"></script>
 <script src="{{asset('/js/validation.min.js')}}"></script>
 <script src="{{asset('/js/validate.js')}}"></script>
+<script src="{{asset('/js/datatable.min.js')}}"></script>
 <script src="{{asset('/js/custom.js')}}"></script>
 @stack("footer_extras")
 </body>

@@ -39,17 +39,17 @@ class UserController extends Controller
     {
         // dd($request->all());
         // User::Create($request->all());
-        // $validateData=$request->validate([
-        //     'company_name '               => 'required',
-        //     'company_address '            => 'required',
-        //     'city'                        => 'required|max:11',
-        //     'zip_code'                    => 'required|max:11',
-        //     'company_phonenumber'         => 'required',
-        //     'name'                        => 'required',
-        //     'direct_number'               => 'required',
-        //     'email'                       => 'required|unique:users|max:255',
-        //     'password'                    => 'required',
-        // ]);
+ $request->validate([
+    'company_name '               => 'required',
+    'company_address '            => 'required',
+    'city'                        => 'required|max:11',
+    'zip_code'                    => 'required|max:11',
+    'company_phonenumber'         => 'required',
+    'name'                        => 'required',
+    'direct_number'               => 'required',
+    'email'                       => 'required|unique:users|max:255',
+    'password'                    => 'required',
+ ]);
 
         $user                          = new User();
         $user->company_name         =$request->company_name;
@@ -61,7 +61,7 @@ class UserController extends Controller
         $user->direct_number        =$request->direct_number;
         $user->email                =$request->email;
         $user->password             =Hash::make($request->password);
-        $user->role                 ='3';
+        $user->role                 ='agency';
         $user->save();
 
         return redirect(route('login'));
