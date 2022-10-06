@@ -15,19 +15,23 @@ use App\Http\Controllers\Common\RequestController;
 |
 */
 Route::get('/', function() {
-    return view('auth.login'); 
+    return view('auth.login');
 });
 
 Auth::routes();
+Auth::routes(['verify' => true]);
+
+Route::group(['middleware' => ['auth']], function () {
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-Route::controller(UserController::class)->group(function () {
-    Route::get('/agency-register', 'create')->name('agency-user');
-    Route::post('/agency-user/insert', 'store')->name('agency-insert');
-});
-
 Route::controller(RequestController::class)->group(function () {
     Route::get('/request', 'index')->name('admin.request.create');
 });
+});
+
+Route::get('/email/verify', function () {
+    return view('auth.verify');
+})->middleware('auth')->name('verification.notice');
+
