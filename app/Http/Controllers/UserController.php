@@ -26,7 +26,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('company.agency_register');
+        // return view('company.agency_register');
     }
 
     /**
@@ -37,9 +37,7 @@ class UserController extends Controller
      */
     public function store(Request $request, User $user)
     {
-        // dd($request->all());
-        // User::Create($request->all());
-        $validateData=$request->validate([
+        $request->validate([
             'company_name '               => 'required',
             'company_address '            => 'required',
             'city'                        => 'required|max:11',
@@ -51,7 +49,7 @@ class UserController extends Controller
             'password'                    => 'required',
         ]);
 
-        $user                          = new User();
+        $user                       = new User();
         $user->company_name         =$request->company_name;
         $user->company_address      =$request->company_address;
         $user->city                 =$request->city;

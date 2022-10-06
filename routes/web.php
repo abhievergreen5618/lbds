@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Common\RequestController;
 use App\Http\Controllers\Admin\InspectionController;
+use App\Http\Controllers\Auth\RegisterController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,8 +23,6 @@ Route::get('/', function() {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
 
 Route::controller(UserController::class)->group(function () {
     Route::get('/agency-register', 'create')->name('agency-user');
@@ -32,12 +32,12 @@ Route::controller(UserController::class)->group(function () {
 Route::controller(RequestController::class)->group(function () {
     Route::get('/request', 'index')->name('admin.request.create');
 });
-
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Route::get('/agency-register',[App\Http\Controllers\UserController::class, 'create'])->name('agency-user');
 Route::post('/agency-user/insert',[App\Http\Controllers\UserController::class, 'store'])->name('agency-insert');
 
-
+Route::group(['middleware' => 'auth'], function () {
 Route::controller(InspectionController::class)->group(function () {
     Route::get('/add-inspection-type', 'index')->name('admin.create.addinspectiontype');
     Route::get('/update-inspection-type','update')->name('admin.update.inspectiontype');
@@ -47,6 +47,25 @@ Route::controller(InspectionController::class)->group(function () {
     Route::post('/inspection-type-status-update','status')->name('inspection-type-status-update');
     Route::post('/inspection-type-delete','destroy')->name('inspection-type-delete');
 });
+});
 
 
 
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+ 
+    return redirect('/home');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+
+ 
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+ 
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');

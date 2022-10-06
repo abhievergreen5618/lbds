@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -69,5 +70,39 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+    public function store(Request $request, User $user)
+    {
+        $request->validate([
+            'company_name'                => 'required',
+            'company_address'             => 'required',
+            'city'                        => 'required|max:11',
+            'zip_code'                    => 'required|max:11',
+            'company_phonenumber'         => 'required',
+            'name'                        => 'required',
+            'direct_number'               => 'required',
+            'email'                       => 'required|unique:users|max:255',
+            'password'                    => 'required|min:6',
+        ],
+        [
+            "required" => "Field is required."
+        ]
+    );
+
+        $user                       = new User();
+        $user->company_name         =$request->company_name;
+        $user->company_address      =$request->company_address;
+        $user->city                 =$request->city;
+        $user->zip_code             =$request->zip_code;
+        $user->company_phonenumber  =$request->company_phonenumber;
+        $user->name                 =$request->name;
+        $user->direct_number        =$request->direct_number;
+        $user->email                =$request->email;
+        $user->password             =Hash::make($request->password);
+        $user->role                 ='3';
+        $user->save();
+
+        return redirect()->route('login')->with(["msg"=>"Registered Successfully"]);
+
     }
 }

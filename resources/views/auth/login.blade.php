@@ -35,12 +35,12 @@
                                         <label for="email">{{ __('Email Address') }}<span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <div class="input-group-text"><i class="fa fa-user"></i></div>
-                                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" autocomplete="email" autofocus>
                                         </div>
                                         @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
+                                        <div>
+                                            <label class="error fail-alert  mt-1">{{ $message }}</label>
+                                        </div>
                                         @enderror
                                     </div>
 
@@ -48,12 +48,12 @@
                                         <label for="password">{{ __('Password') }}<span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <div class="input-group-text"><i class="fa fa-key"></i></div>
-                                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="current-password">
                                         </div>
                                         @error('password')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
+                                        <div>
+                                            <label class="error fail-alert  mt-1">{{ $message }}</label>
+                                        </div>
                                         @enderror
                                     </div>
 
@@ -66,7 +66,7 @@
 
                                     <div class="col-sm-6">
                                         @if (Route::has('password.request'))
-                                        <a href="#" class="float-end text-primary" href="{{ route('password.request') }}">
+                                        <a class="float-end text-primary" href="{{ route('password.request') }}">
                                             {{ __('Forgot Your Password?') }}
                                         </a>
                                         @endif

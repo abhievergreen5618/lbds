@@ -14,12 +14,14 @@
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('/plugins/fontawesome-free/css/all.min.css')}}">
+    <link rel="stylesheet" href="{{asset('/css/style.css')}}">
     <!-- Scripts -->
     @stack('header_extras')
 </head>
 <body>
     <div id="app">
         <main>
+            @include('layouts.partials.alert')
             @yield('content')
         </main>
     </div>

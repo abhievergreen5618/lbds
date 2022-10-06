@@ -33,103 +33,120 @@
                     <div class="row">
                         <div class="col-md-6 pe-0">
                             <div class="form-left h-100 py-5 px-5 overflow-auto">
-                                <form method="POST" action="{{ route('login') }}" class="row g-4  main-form">
+                            @if($errors->any())
+                            @foreach ($errors->all() as $message)
+                                {{$message}}
+                            @endforeach
+                            @endif
+                                <form method="POST" action="{{ route('register') }}" class="row g-4  main-form">
                                 @csrf
                                     <div class="col-12">
-                                        <label for="email">{{ __('Company Name') }}<span class="text-danger">*</span></label>
+                                        <label for="company_name">{{ __('Company Name') }}<span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <div class="input-group-text"><i class="fa fa-user"></i></div>
-                                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                            <input id="company_name" type="text" class="form-control @error('company_name') is-invalid @enderror" name="company_name" value="{{ old('company_name') }}" >
                                         </div>
-                                        @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
+                                        @error('company_name')
+                                        <div>
+                                            <label class="error fail-alert  mt-1">{{ $message }}</label>
+                                        </div>
                                         @enderror
                                     </div>
                                     <div class="col-12">
-                                        <label for="email">{{ __('Company Address') }}<span class="text-danger">*</span></label>
+                                        <label for="company_address">{{ __('Company Address') }}<span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <div class="input-group-text"><i class="fa fa-user"></i></div>
-                                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                            <input id="text" type="text" class="form-control @error('company_address') is-invalid @enderror" name="company_address" value="{{ old('company_address') }}" >
                                         </div>
-                                        @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
+                                        @error('company_address')
+                                        <div>
+                                            <label class="error fail-alert  mt-1">{{ $message }}</label>
+                                        </div>
                                         @enderror
                                     </div>
                                     <div class="col-12">
-                                        <label for="email">{{ __('Zip Code') }}<span class="text-danger">*</span></label>
+                                        <label for="city">{{ __('City') }}<span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <div class="input-group-text"><i class="fa fa-user"></i></div>
-                                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                            <input id="city" type="text" class="form-control @error('city') is-invalid @enderror" name="city" value="{{ old('city') }}" >
                                         </div>
-                                        @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
+                                        @error('city')
+                                        <div>
+                                            <label class="error fail-alert  mt-1">{{ $message }}</label>
+                                        </div>
                                         @enderror
                                     </div>
                                     <div class="col-12">
-                                        <label for="email">{{ __('Company Phone Number') }}<span class="text-danger">*</span></label>
+                                        <label for="zip_code">{{ __('Zip Code') }}<span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <div class="input-group-text"><i class="fa fa-user"></i></div>
-                                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                            <input id="zip_code" type="number" class="form-control @error('zip_code') is-invalid @enderror" name="zip_code" value="{{ old('zipcode') }}" >
                                         </div>
-                                        @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
+                                        @error('zip_code')
+                                        <div>
+                                            <label class="error fail-alert  mt-1">{{ $message }}</label>
+                                        </div>
                                         @enderror
                                     </div>
                                     <div class="col-12">
-                                        <label for="email">{{ __('Name') }}<span class="text-danger">*</span></label>
+                                        <label for="company_phonenumber">{{ __('Company Phone Number') }}<span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <div class="input-group-text"><i class="fa fa-user"></i></div>
-                                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                            <input id="company_phonenumber" type="number" class="form-control @error('company_phonenumber') is-invalid @enderror" name="company_phonenumber" value="{{ old('company_phonenumber') }}" >
                                         </div>
-                                        @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
+                                        @error('company_phonenumber')
+                                        <div>
+                                            <label class="error fail-alert  mt-1">{{ $message }}</label>
+                                        </div>
                                         @enderror
                                     </div>
                                     <div class="col-12">
-                                        <label for="email">{{ __('Direct Number') }}<span class="text-danger">*</span></label>
+                                        <label for="name">{{ __('Name') }}<span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <div class="input-group-text"><i class="fa fa-user"></i></div>
-                                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                            <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" >
                                         </div>
-                                        @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
+                                        @error('name')
+                                        <div>
+                                            <label class="error fail-alert  mt-1">{{ $message }}</label>
+                                        </div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="direct_number">{{ __('Direct Number') }}<span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <div class="input-group-text"><i class="fa fa-user"></i></div>
+                                            <input id="direct_number" type="number" class="form-control @error('direct_number') is-invalid @enderror" name="direct_number" value="{{ old('direct_number') }}" >
+                                        </div>
+                                        @error('direct_number')
+                                        <div>
+                                            <label class="error fail-alert  mt-1">{{ $message }}</label>
+                                        </div>
                                         @enderror
                                     </div>
                                     <div class="col-12">
                                         <label for="email">{{ __('Email Address') }}<span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <div class="input-group-text"><i class="fa fa-user"></i></div>
-                                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" >
                                         </div>
                                         @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
+                                        <div>
+                                            <label class="error fail-alert  mt-1">{{ $message }}</label>
+                                        </div>
                                         @enderror
                                     </div>
                                     <div class="col-12">
-                                        <label for="email">{{ __('Password') }}<span class="text-danger">*</span></label>
+                                        <label for="password">{{ __('Password') }}<span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <div class="input-group-text"><i class="fa fa-user"></i></div>
-                                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-                                            <small>Password must have at least 6 characters.</small>
+                                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" value="{{ old('password') }}" >
                                         </div>
-                                        @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
+                                        <small>Password must have at least 6 characters.</small>
+                                        @error('password')
+                                        <div>
+                                            <label class="error fail-alert  mt-1">{{ $message }}</label>
+                                        </div>
                                         @enderror
                                     </div>
                                     <!-- <div class="col-lg-12 text-center">
