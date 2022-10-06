@@ -144,6 +144,19 @@
                                         </div>
                                         @enderror
                                     </div>
+                                    <div class="col-12">
+                                        <label for="password_confirmation">{{ __('Confirm Password') }}<span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <div class="input-group-text"><i class="fa fa-user"></i></div>
+                                            <input id="password_confirmation" type="text" class="form-control @error('password_confirmation') is-invalid @enderror" name="password_confirmation" value="{{ old('password_confirmation') }}" >
+                                        </div>
+                                        <small>Password must have at least 6 characters.</small>
+                                        @error('password_confirmation')
+                                        <div>
+                                            <label class="error fail-alert  mt-1">{{ $message }}</label>
+                                        </div>
+                                        @enderror
+                                    </div>
                                     <!-- <div class="col-lg-12 text-center">
                                         <a href="{{ route('register') }}" class="text-center text-primary">Register a new membership</a>
                                     </div> -->
