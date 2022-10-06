@@ -33,11 +33,6 @@
                     <div class="row">
                         <div class="col-md-6 pe-0">
                             <div class="form-left h-100 py-5 px-5 overflow-auto">
-                            @if($errors->any())
-                            @foreach ($errors->all() as $message)
-                                {{$message}}
-                            @endforeach
-                            @endif
                                 <form method="POST" action="{{ route('register') }}" class="row g-4  main-form">
                                 @csrf
                                     <div class="col-12">
