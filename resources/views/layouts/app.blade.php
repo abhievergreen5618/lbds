@@ -25,12 +25,13 @@
   <link rel="stylesheet" href="{{asset('/plugins/daterangepicker/daterangepicker.css')}}">
   <!-- summernote -->
   <link rel="stylesheet" href="{{asset('/plugins/summernote/summernote-bs4.min.css')}}">
+  <link rel="stylesheet" href="{{asset('/css/style.css')}}">
+  @stack("header_extras")
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
     @include('layouts.partials.loader')
     @include('layouts.partials.header')
-
 
     @switch(Auth::user()->role)
             @case('1')
@@ -45,6 +46,7 @@
     @endswitch
     <div class="content-wrapper" style="min-height: 214px;">
       <div class="container-fluid mt-2">
+        @include('layouts.partials.alert')
         @yield("content")
       </div>
     </div>
@@ -89,5 +91,9 @@
 <script src="{{asset('/dist/js/demo.js')}}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{asset('/dist/js/pages/dashboard.js')}}"></script>
+<script src="{{asset('/js/validation.min.js')}}"></script>
+<script src="{{asset('/js/validate.js')}}"></script>
+<script src="{{asset('/js/custom.js')}}"></script>
+@stack("footer_extras")
 </body>
 </html>
