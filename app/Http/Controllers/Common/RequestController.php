@@ -15,7 +15,7 @@ class RequestController extends Controller
      */
     public function index()
     {
-        $data = Inspectiontype::pluck("name","id");
+        $data = Inspectiontype::where("status","active")->pluck("name","id");
         return view('common.createrequest')->with(["data"=>$data]);
     }
 
