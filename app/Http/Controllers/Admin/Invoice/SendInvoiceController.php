@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Invoice;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SendInvoice;
+use DataTables;
 
 class SendInvoiceController extends Controller
 {
@@ -90,7 +91,7 @@ class SendInvoiceController extends Controller
         if(isset($request['id']) && !empty($request['id']))
         {   
             $data = SendInvoice::where('id', decrypt($request['id']))->first();
-            return view('admin.inspection.addSendInvoice')->with(["data"=>$data]);
+            return view('admin.invoice.addsendinvoice')->with(["data"=>$data]);
         }
         else
         {
@@ -126,7 +127,7 @@ class SendInvoiceController extends Controller
         );
         $status = SendInvoice::where('id', decrypt($request['id']))->first('status');
         $status= ($status['status'] == "active") ? "inactive" : "active";
-        SendInvoice::where('id', decrypt($request['id']))->Update([
+        SendInvoice::where('id',decrypt($request['id']))->Update([
             "status" => $status,
         ]);
         $msg = "Status Updated Successfully";
@@ -145,7 +146,7 @@ class SendInvoiceController extends Controller
                 })
                 ->addColumn('action', function($row){
                     $id = encrypt($row->id);
-                    $editlink = route('admin.update.SendInvoice', ['id' => $id]);
+                    $editlink = route('admin.update.sendinvoice', ['id' => $id]);
                     $btn = "<div class='d-flex justify-content-around'><a href='$editlink' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Edit' class='btn limegreen btn-primary  edit'><i class='fas fa-edit'></i></a><a href='javascript:void(0)' data-id='$id' class='delete btn red-btn btn-danger  '  data-bs-toggle='tooltip' data-bs-placement='top' title='Delete'><i class='fa fa-trash' aria-hidden='true'></i></a></div>";
                     return $btn;
                 })

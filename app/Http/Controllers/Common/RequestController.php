@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\SendInvoice;
 use App\Models\Inspectiontype;
 
 class RequestController extends Controller
@@ -16,7 +17,8 @@ class RequestController extends Controller
     public function index()
     {
         $data = Inspectiontype::where("status","active")->pluck("name","id");
-        return view('common.createrequest')->with(["data"=>$data]);
+        $invoicedata = SendInvoice::where("status","active")->pluck("name","id");
+        return view('common.createrequest')->with(["data"=>$data,"invoicedata"=>$invoicedata]);
     }
 
     /**

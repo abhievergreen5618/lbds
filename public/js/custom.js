@@ -36,7 +36,7 @@ $(document).ready(function () {
                 },
             ],
       });
-    var inspectiontable = $('#sendinvoicetable').DataTable({
+    var sendinvoicetable = $('#sendinvoicetable').DataTable({
             "processing": true,
             "serverSide": true,
             "ajax": {
@@ -129,6 +129,73 @@ $(document).ready(function () {
                         dataType: 'json',
                         success: function(data) {
                             inspectiontable.ajax.reload();
+                        },
+                        error: function(data) {
+                            // console.log(data);
+                        }
+                    });
+                };
+            });
+        });
+        sendinvoicetable.on('click', '.delete', function() {
+        $('#userdetails_processing').show();
+        element = $(this);
+        var userid = $(this).attr('data-id');
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: 'send-invoice-delete',
+                    data: {
+                        id: userid
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        sendinvoicetable.ajax.reload();
+                    },
+                    error: function(data) {
+                        // console.log(data);
+                    }
+                });
+            };
+        });
+    });
+    sendinvoicetable.on('click', '.status', function() {
+            element = $(this);
+            var userid = $(this).attr('data-id');
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You will be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes!'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        type: "POST",
+                        headers: {
+                            'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                        },
+                        url: 'send-invoice-status-update',
+                        data: { 
+                            id: userid
+                        },
+                        dataType: 'json',
+                        success: function(data) {
+                            sendinvoicetable.ajax.reload();
                         },
                         error: function(data) {
                             // console.log(data);

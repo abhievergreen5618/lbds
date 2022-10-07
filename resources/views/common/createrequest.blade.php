@@ -77,24 +77,21 @@
                             </div>
                         </div>
                     </div>
+                    @if(!empty($invoicedata) && count($invoicedata) != 0)
                     <div class="col-md-12 my-2">
                         <div class="row">
                             <div class="col-lg-12">
                                 <label for="">{{ __('Send Invoice(s) To:') }}</label>
                             </div>
+                            @foreach($invoicedata as $key=>$value)
                             <div class="col-lg-4 my-2">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox">
-                                    <label class="form-check-label">{{__('Checkbox')}}</label>
+                                    <input class="form-check-input" id="send-invoice-{{$key}}" type="checkbox" name="sendinvoice" value="{{$key}}">
+                                    <label class="form-check-label" for="send-invoice-{{$key}}">{{__($value)}}</label>
                                 </div>
                             </div>
-                            <div class="col-lg-4 my-2">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox">
-                                    <label class="form-check-label">{{__('Checkbox')}}</label>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 my-2">
+                            @endforeach
+                            <!-- <div class="col-lg-4 my-2">
                                 <div class="form-check form-check-inline">
                                     <div class="input-group mb-3">
                                         <div class="input-group-text align-items-center">
@@ -104,29 +101,24 @@
                                         <input type="text" class="form-control" aria-label="Text input with checkbox">
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
+                    @endif
                     <div class="col-md-12 my-2">
                         <label for="comments">{{ __('Comments') }}</label>
                         <textarea class="form-control" rows="3" placeholder="Enter ..." name="comments" id="comments"></textarea>
                     </div>
-                    <div class="col-md-6 my-2">
+                    <div class="col-md-12 my-2">
                         <label for="report">{{ __('Reports') }}</label>
                         <select class="form-control" name="report">
                             <option>Select Reports</option>
                             <option>Agency Uploads</option>
                         </select>
                     </div>
-                    <div class="col-md-6 my-2">
+                    <div class="col-md-12 my-2">
                         <label for="relatedfiles">{{ __('Related Files') }}</label>
-                        <div class="input-group">
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="relatedfiles" name="relatedfiles">
-                                <label class="custom-file-label" for="report">Choose file</label>
-                            </div>
-                        </div>
-                        </select>
+                        <div class="dropzone" id="kt_dropzonejs_example_1"></div>
                     </div>
                 </div>
 
@@ -140,3 +132,66 @@
     </div>
 </div>
 @endsection
+
+@push('footer_extras')
+<script>
+            Dropzone.autoDiscover = false;
+        const myDropzone = new $(".dropzone").dropzone({
+            autoProcessQueue: false,
+            addRemoveLinks: true,
+            url: "fileupload",
+            headers: {
+                'x-csrf-token': $('meta[name="csrf-token"]').attr('content'),
+            },
+            maxFilesize: 10,
+            acceptedFiles: ".jpeg,.jpg,.png,.pdf",
+            init: function() {
+                var myDropzone = this;
+                const $button = document.getElementById('submit-btn')
+                $button.addEventListener("click", function(e) {
+                    if ($('#task-form').valid()) {
+                        $('#preloader').show();
+                        var count = myDropzone.getAcceptedFiles().length;
+                        if (count == 0) {
+                            e.preventDefault();
+                            taskformsubmit();
+                        } else {
+                            if (uploaded === false) {
+                                const acceptedFiles = myDropzone.getAcceptedFiles();
+                                for (let i = 0; i < acceptedFiles.length; i++) {
+                                    setTimeout(function() {
+                                        myDropzone.processFile(acceptedFiles[i])
+                                    }, i * 500)
+                                }
+                            } else {
+                                e.preventDefault();
+                                taskformsubmit();
+                            }
+                            e.preventDefault();
+                            e.stopPropagation();
+                        }
+                    }
+                });
+                this.on("queuecomplete", function() {
+                    if ($('#task-form').valid()) {
+                        uploaded = true;
+                        taskformsubmit();
+                        $('.dz-remove').remove();
+                    }
+                });
+            },
+            success: function(file, response) {
+                if (response.hasOwnProperty('id')) {
+                    var msg = "<input type='hidden' value='" + response.id + "' name='id'>";
+                    $('#task-form').prepend(msg);
+                }
+            },
+            removedfile: function(file) {
+                var _ref;
+                return (_ref = file.previewElement) != null ? _ref.parentNode
+                    .removeChild(
+                        file.previewElement) : void 0;
+            },
+        });
+</script>
+@endpush

@@ -27,6 +27,7 @@
   <link rel="stylesheet" href="{{asset('/plugins/summernote/summernote-bs4.min.css')}}">
   <link rel="stylesheet" href="{{asset('/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
   <link rel="stylesheet" href="{{asset('/css/sweetalert.min.css')}}">
+  <link rel="stylesheet" href="{{asset('/css/dropzone.min.css')}}">
   <link rel="stylesheet" href="{{asset('/css/style.css')}}">
   @stack("header_extras")
 </head>
@@ -96,6 +97,7 @@
 <script src="{{asset('/js/validation.min.js')}}"></script>
 <script src="{{asset('/js/validate.js')}}"></script>
 <script src="{{asset('/js/sweetalert.min.js')}}"></script>
+<script src="{{asset('/js/dropzone.min.js')}}"></script>
 <script src="{{asset('/plugins/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
 <script src="{{asset('/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
