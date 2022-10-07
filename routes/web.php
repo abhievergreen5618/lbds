@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Common\RequestController;
 use App\Http\Controllers\Admin\InspectionController;
-use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Admin\Invoice\SendInvoiceController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
@@ -46,6 +46,15 @@ Route::controller(InspectionController::class)->group(function () {
     Route::post('/inspectiontypedetails','display')->name('inspectiontypedetails');
     Route::post('/inspection-type-status-update','status')->name('inspection-type-status-update');
     Route::post('/inspection-type-delete','destroy')->name('inspection-type-delete');
+});
+Route::controller(SendInvoiceController::class)->group(function () {
+    Route::get('/add-send-invoice', 'index')->name('admin.create.addsendinvoice');
+    Route::get('/update-send-invoice','update')->name('admin.update.sendinvoice');
+    Route::post('/create-send-invoice','create')->name('admin.create.sendinvoice');
+    Route::get('/all-all-send-invoice','show')->name('admin.allsendinvoice');
+    Route::post('/sendinvoicedetails','display')->name('sendinvoicedetails');
+    Route::post('/send-invoice-status-update','status')->name('send-invoice-status-update');
+    Route::post('/send-invoice-delete','destroy')->name('send-invoice-delete');
 });
 });
 

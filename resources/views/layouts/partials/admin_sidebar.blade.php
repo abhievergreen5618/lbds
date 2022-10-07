@@ -76,6 +76,33 @@
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-user-circle"></i>
                         <p>
+                            SendInvoice
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('admin.create.addsendinvoice')}}" class="nav-link">
+                                <i class="nav-icon fas fa-user-plus"></i>
+                                <p>
+                                    Add Send Invoice
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('admin.allsendinvoice')}}" class="nav-link">
+                                <i class="nav-icon fas fa-users"></i>
+                                <p>
+                                    View All SendInvoice
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-user-circle"></i>
+                        <p>
                             Requests
                             <i class="fas fa-angle-left right"></i>
                         </p>

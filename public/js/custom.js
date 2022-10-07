@@ -36,6 +36,40 @@ $(document).ready(function () {
                 },
             ],
       });
+    var inspectiontable = $('#sendinvoicetable').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                "url": "sendinvoicedetails",
+                "type": "POST",
+                'beforeSend': function(request) {
+                    request.setRequestHeader("X-CSRF-TOKEN", jQuery('meta[name="csrf-token"]').attr('content'));
+                },
+            },
+            "columnDefs": [
+                {"className": "dt-center", "targets": "_all"}
+              ],
+            "columns": [
+                {
+                    "data": "created_at",
+                },
+                {
+                    "data": "sno",
+                },
+                {
+                    "data": "name",
+                },
+                {
+                    "data": "description",
+                },
+                {
+                    "data": "status",
+                },
+                {
+                    "data": "action",
+                },
+            ],
+      });
       inspectiontable.on('click', '.delete', function() {
         $('#userdetails_processing').show();
         element = $(this);
