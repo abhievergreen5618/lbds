@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SendInvoice;
 use App\Models\Inspectiontype;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class RequestController extends Controller
 {
@@ -18,7 +20,15 @@ class RequestController extends Controller
     {
         $data = Inspectiontype::where("status","active")->pluck("name","id");
         $invoicedata = SendInvoice::where("status","active")->pluck("name","id");
-        return view('common.createrequest')->with(["data"=>$data,"invoicedata"=>$invoicedata]);
+        if(Auth::User()->role == 1)
+        {
+            $companydetails = User::where(["role"=>"3","status"=>"active"])->pluck("company_name","id");   
+            return view('common.createrequest')->with(["data"=>$data,"invoicedata"=>$invoicedata,"companydetails"=>$companydetails]);
+        }
+        else
+        {
+            return view('common.createrequest')->with(["data"=>$data,"invoicedata"=>$invoicedata]);   
+        }
     }
 
     /**

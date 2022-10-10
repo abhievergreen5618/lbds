@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('zip_code')->nullable();
             $table->string('company_phonenumber')->nullable();
             $table->string('direct_number')->nullable();
+            $table->string('status')->default("active");
             $table->rememberToken();
             $table->timestamps();
         });

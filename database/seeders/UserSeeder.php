@@ -31,6 +31,7 @@ class UserSeeder extends Seeder
         User::create([
             "name" => "company",
             "email" => "testcompany@gmail.com",
+            "company_name" => "Wind Mitigation",
             "password" => Hash::make("12345678"),
             "role" => "3",
         ]);

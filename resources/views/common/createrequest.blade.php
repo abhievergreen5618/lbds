@@ -18,6 +18,19 @@
         <form id="requestform">
             <div class="card-body">
                 <div class="row g-3 align-items-end">
+                    @if(auth()->user()->role == 1)
+                        <div class="col-md-12 my-2">
+                            <label for="report">{{ __('Agencies') }}</label>
+                            <select class="form-control" name="agency" id="agency">
+                                <option value="">Select Agency</option>
+                                @if(!empty($companydetails) && count($companydetails) != 0)
+                                @foreach($companydetails as $key=>$value)
+                                    <option value="{{$key}}">{{__($value)}}</option>
+                                @endforeach
+                                @endif
+                            </select>
+                        </div>
+                    @endif
                     @if(!empty($data) && count($data) != 0)
                     <div class="col-md-12 my-2">
                         <div class="row">
@@ -110,25 +123,11 @@
                         <textarea class="form-control" rows="3" placeholder="Enter Comments" name="comments" id="comments"></textarea>
                     </div>
                     <div class="col-md-6 my-2">
-                        <label for="report">{{ __('Reports') }}</label>
-                        <select class="form-control" name="agencyreport" id="agencyreport">
-                            <option value="">Select Reports</option>
-                            <option value="1">Agency Uploads</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6 my-2">
-                        <label for="report">{{ __('Reports') }}</label>
-                        <select class="form-control" name="report" id="report">
-                            <option value="">Select Reports</option>
-                            <option value="1">Agency Uploads</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6 my-2">
-                        <label for="relatedfiles">{{ __('Related Files') }}</label>
+                        <label for="relatedfiles">{{ __('Agency Related Files') }}</label>
                         <div class="dropzone" id="kt_dropzonejs_example_1"></div>
                     </div>
                     <div class="col-md-6 my-2">
-                        <label for="relatedfiles">{{ __('Related Files') }}</label>
+                        <label for="relatedfiles">{{ __('Reports Related Files') }}</label>
                         <div class="dropzone" id="kt_dropzonejs_example_2"></div>
                     </div>
                 </div>
@@ -143,6 +142,13 @@
 
 @push('footer_extras')
 <script>
+            $(document).ready(function(){
+                var myselect = $('#agency').select2({
+                    placeholder: "Select",
+                    allowClear: true
+                });
+            });
+
             Dropzone.autoDiscover = false;
             const myDropzone = new $(".dropzone").dropzone({
             autoProcessQueue: false,
@@ -201,5 +207,9 @@
                         file.previewElement) : void 0;
             },
         });
+        function requestformsubmit()
+        {
+            
+        }
 </script>
 @endpush

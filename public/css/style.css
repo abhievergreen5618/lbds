@@ -78,3 +78,14 @@ select.error.fail-alert{
   border: 0;
   border-radius: 0.375rem;
 }
+
+
+.select2-selection__rendered {
+  line-height: 31px !important;
+}
+.select2-container .select2-selection--single {
+  height: 42px !important;
+}
+.select2-selection__arrow {
+  height: 34px !important;
+}
