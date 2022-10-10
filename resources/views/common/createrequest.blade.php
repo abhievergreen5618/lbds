@@ -109,16 +109,27 @@
                         <label for="comments">{{ __('Comments') }}</label>
                         <textarea class="form-control" rows="3" placeholder="Enter Comments" name="comments" id="comments"></textarea>
                     </div>
-                    <div class="col-md-12 my-2">
+                    <div class="col-md-6 my-2">
+                        <label for="report">{{ __('Reports') }}</label>
+                        <select class="form-control" name="agencyreport" id="agencyreport">
+                            <option value="">Select Reports</option>
+                            <option value="1">Agency Uploads</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 my-2">
                         <label for="report">{{ __('Reports') }}</label>
                         <select class="form-control" name="report" id="report">
                             <option value="">Select Reports</option>
                             <option value="1">Agency Uploads</option>
                         </select>
                     </div>
-                    <div class="col-md-12 my-2">
+                    <div class="col-md-6 my-2">
                         <label for="relatedfiles">{{ __('Related Files') }}</label>
                         <div class="dropzone" id="kt_dropzonejs_example_1"></div>
+                    </div>
+                    <div class="col-md-6 my-2">
+                        <label for="relatedfiles">{{ __('Related Files') }}</label>
+                        <div class="dropzone" id="kt_dropzonejs_example_2"></div>
                     </div>
                 </div>
             </div>
