@@ -150,7 +150,7 @@
                                             <div class="input-group-text"><i class="fa fa-user"></i></div>
                                             <input id="password_confirmation" type="text" class="form-control @error('password_confirmation') is-invalid @enderror" name="password_confirmation" value="{{ old('password_confirmation') }}" >
                                         </div>
-                                        <small>Password must have at least 6 characters.</small>
+                                        <small>Password must have at least 8 characters.</small>
                                         @error('password_confirmation')
                                         <div>
                                             <label class="error fail-alert  mt-1">{{ $message }}</label>

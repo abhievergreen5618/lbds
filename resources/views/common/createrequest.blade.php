@@ -5,8 +5,8 @@
     }
 </style>
 @endpush
-@extends('layouts.app')
 
+@extends('layouts.app')
 @section('content')
 <div class="col-md-12">
     <div class="card card-primary">
@@ -61,19 +61,19 @@
                             </div>
                             <div class="col-lg-12 my-2">
                                 <label for="address">{{ __('Address') }}</label>
-                                <textarea class="form-control" rows="3" placeholder="Enter ..." id="address" name="address"></textarea>
+                                <textarea class="form-control" rows="3" placeholder="Enter Address" id="address" name="address"></textarea>
                             </div>
                             <div class="col-lg-4 my-2">
                                 <label for="city">{{ __('City') }}</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1" id="city" name="city" placeholder="Password">
+                                <input type="text" class="form-control" id="exampleInputPassword1" id="city" name="city" placeholder="City">
                             </div>
                             <div class="col-lg-4 my-2">
                                 <label for="zipcode">{{ __('State') }}</label>
-                                <input type="number" class="form-control" id="exampleInputPassword1" id="state" name="state" placeholder="Password">
+                                <input type="number" class="form-control" id="exampleInputPassword1" id="state" name="state" placeholder="State">
                             </div>
                             <div class="col-lg-4 my-2">
                                 <label for="zipcode">{{ __('ZipCode') }}</label>
-                                <input type="number" class="form-control" id="exampleInputPassword1" id="zipcode" name="zipcode" placeholder="Password">
+                                <input type="number" class="form-control" id="exampleInputPassword1" id="zipcode" name="zipcode" placeholder="ZipCode">
                             </div>
                         </div>
                     </div>
@@ -126,7 +126,7 @@
             <!-- /.card-body -->
 
             <div class="card-footer">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary" id="submit-btn">Submit</button>
             </div>
         </form>
     </div>
@@ -136,7 +136,7 @@
 @push('footer_extras')
 <script>
             Dropzone.autoDiscover = false;
-        const myDropzone = new $(".dropzone").dropzone({
+            const myDropzone = new $(".dropzone").dropzone({
             autoProcessQueue: false,
             addRemoveLinks: true,
             url: "fileupload",
@@ -147,9 +147,9 @@
             acceptedFiles: ".jpeg,.jpg,.png,.pdf",
             init: function() {
                 var myDropzone = this;
-                const $button = document.getElementById('submit-btn')
+                const $button = document.getElementById('submit-btn');
                 $button.addEventListener("click", function(e) {
-                    if ($('#task-form').valid()) {
+                    if ($('#requestform').valid()) {
                         $('#preloader').show();
                         var count = myDropzone.getAcceptedFiles().length;
                         if (count == 0) {

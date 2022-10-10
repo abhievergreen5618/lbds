@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '22a94ea5a464471ef8a084212e2068ae45426ed3',
+        'reference' => '8a6d02d2703e7ee7ebf476a07e8789958a601ccb',
         'name' => 'laravel/laravel',
         'dev' => true,
     ),
@@ -379,7 +379,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '22a94ea5a464471ef8a084212e2068ae45426ed3',
+            'reference' => '8a6d02d2703e7ee7ebf476a07e8789958a601ccb',
             'dev_requirement' => false,
         ),
         'laravel/pint' => array(
@@ -557,6 +557,15 @@
             'install_path' => __DIR__ . '/../nunomaduro/termwind',
             'aliases' => array(),
             'reference' => '10065367baccf13b6e30f5e9246fa4f63a79eb1d',
+            'dev_requirement' => false,
+        ),
+        'onecentlin/laravel-adminer' => array(
+            'pretty_version' => '6.0.0',
+            'version' => '6.0.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../onecentlin/laravel-adminer',
+            'aliases' => array(),
+            'reference' => 'd383fc4a269eba936c71bd366448a14a5718ccdc',
             'dev_requirement' => false,
         ),
         'phar-io/manifest' => array(

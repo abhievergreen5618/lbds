@@ -35,7 +35,6 @@
 <div class="wrapper">
     @include('layouts.partials.loader')
     @include('layouts.partials.header')
-
     @switch(Auth::user()->role)
             @case('1')
                 @include('layouts.partials.admin_sidebar')

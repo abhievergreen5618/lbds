@@ -108,6 +108,10 @@ class ComposerStaticInitfc059942e5381afd9ff09c858caf16ba
             'PhpParser\\' => 10,
             'PhpOption\\' => 10,
         ),
+        'O' => 
+        array (
+            'Onecentlin\\Adminer\\' => 19,
+        ),
         'N' => 
         array (
             'NunoMaduro\\Collision\\' => 21,
@@ -374,6 +378,10 @@ class ComposerStaticInitfc059942e5381afd9ff09c858caf16ba
         'PhpOption\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption',
+        ),
+        'Onecentlin\\Adminer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/onecentlin/laravel-adminer/src',
         ),
         'NunoMaduro\\Collision\\' => 
         array (
@@ -3361,6 +3369,8 @@ class ComposerStaticInitfc059942e5381afd9ff09c858caf16ba
         'NunoMaduro\\Collision\\Provider' => __DIR__ . '/..' . '/nunomaduro/collision/src/Provider.php',
         'NunoMaduro\\Collision\\SolutionsRepositories\\NullSolutionsRepository' => __DIR__ . '/..' . '/nunomaduro/collision/src/SolutionsRepositories/NullSolutionsRepository.php',
         'NunoMaduro\\Collision\\Writer' => __DIR__ . '/..' . '/nunomaduro/collision/src/Writer.php',
+        'Onecentlin\\Adminer\\Http\\Controllers\\AdminerController' => __DIR__ . '/..' . '/onecentlin/laravel-adminer/src/Http/Controllers/AdminerController.php',
+        'Onecentlin\\Adminer\\ServiceProvider' => __DIR__ . '/..' . '/onecentlin/laravel-adminer/src/ServiceProvider.php',
         'PHPUnit\\Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit\\Framework\\ActualValueIsNotAnObjectException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Exception/ActualValueIsNotAnObjectException.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert.php',
