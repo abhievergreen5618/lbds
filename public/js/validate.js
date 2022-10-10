@@ -33,9 +33,12 @@ $(document).ready(function () {
         },
         applicantemail: {
           required: true,
+          email:true,
         },
         applicantmobile: {
           required: true,
+          minlength: 10,
+          maxlength: 10,
         },
         address: {
           required: true,
@@ -49,12 +52,18 @@ $(document).ready(function () {
         zipcode: {
           required: true,
         },
+        comments: {
+          required: true,
+        },
+        report: {
+          required: true,
+        },
       },
       errorPlacement: function (error, element) {
         if (element.attr("type") == "checkbox" || element.attr("type") == "radio")  {
             $(element).parent().parent().append(error);
         } else {
-            element.after( error );
+            element.after(error);
         }
     }
     });

@@ -27,7 +27,7 @@
                             @foreach($data as $key=>$value)
                             <div class="col-lg-4 my-2">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" id="inspection-type-{{$key}}" type="checkbox" name="inspectiontype" value="{{$key}}">
+                                    <input class="form-check-input" id="inspection-type-{{$key}}" type="checkbox" name="inspectiontype[]" value="{{$key}}">
                                     <label class="form-check-label" for="inspection-type-{{$key}}">{{__($value)}}</label>
                                 </div>
                             </div>
@@ -65,15 +65,15 @@
                             </div>
                             <div class="col-lg-4 my-2">
                                 <label for="city">{{ __('City') }}</label>
-                                <input type="text" class="form-control" id="exampleInputPassword1" id="city" name="city" placeholder="City">
+                                <input type="text" class="form-control" id="city" name="city" placeholder="City">
                             </div>
                             <div class="col-lg-4 my-2">
-                                <label for="zipcode">{{ __('State') }}</label>
-                                <input type="number" class="form-control" id="exampleInputPassword1" id="state" name="state" placeholder="State">
+                                <label for="state">{{ __('State') }}</label>
+                                <input type="number" class="form-control" id="state" name="state" placeholder="State">
                             </div>
                             <div class="col-lg-4 my-2">
                                 <label for="zipcode">{{ __('ZipCode') }}</label>
-                                <input type="number" class="form-control" id="exampleInputPassword1" id="zipcode" name="zipcode" placeholder="ZipCode">
+                                <input type="number" class="form-control" id="zipcode" name="zipcode" placeholder="ZipCode">
                             </div>
                         </div>
                     </div>
@@ -86,7 +86,7 @@
                             @foreach($invoicedata as $key=>$value)
                             <div class="col-lg-4 my-2">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" id="send-invoice-{{$key}}" type="checkbox" name="sendinvoice" value="{{$key}}">
+                                        <input class="form-check-input" id="send-invoice-{{$key}}" type="checkbox" name="sendinvoice[]" value="{{$key}}">
                                     <label class="form-check-label" for="send-invoice-{{$key}}">{{__($value)}}</label>
                                 </div>
                             </div>
@@ -107,13 +107,13 @@
                     @endif
                     <div class="col-md-12 my-2">
                         <label for="comments">{{ __('Comments') }}</label>
-                        <textarea class="form-control" rows="3" placeholder="Enter ..." name="comments" id="comments"></textarea>
+                        <textarea class="form-control" rows="3" placeholder="Enter Comments" name="comments" id="comments"></textarea>
                     </div>
                     <div class="col-md-12 my-2">
                         <label for="report">{{ __('Reports') }}</label>
-                        <select class="form-control" name="report">
-                            <option>Select Reports</option>
-                            <option>Agency Uploads</option>
+                        <select class="form-control" name="report" id="report">
+                            <option value="">Select Reports</option>
+                            <option value="1">Agency Uploads</option>
                         </select>
                     </div>
                     <div class="col-md-12 my-2">
@@ -121,10 +121,7 @@
                         <div class="dropzone" id="kt_dropzonejs_example_1"></div>
                     </div>
                 </div>
-
             </div>
-            <!-- /.card-body -->
-
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary" id="submit-btn">Submit</button>
             </div>
@@ -154,7 +151,7 @@
                         var count = myDropzone.getAcceptedFiles().length;
                         if (count == 0) {
                             e.preventDefault();
-                            taskformsubmit();
+                            requestformsubmit();
                         } else {
                             if (uploaded === false) {
                                 const acceptedFiles = myDropzone.getAcceptedFiles();
@@ -165,7 +162,7 @@
                                 }
                             } else {
                                 e.preventDefault();
-                                taskformsubmit();
+                                requestformsubmit();
                             }
                             e.preventDefault();
                             e.stopPropagation();
@@ -175,7 +172,7 @@
                 this.on("queuecomplete", function() {
                     if ($('#task-form').valid()) {
                         uploaded = true;
-                        taskformsubmit();
+                        requestformsubmit();
                         $('.dz-remove').remove();
                     }
                 });
