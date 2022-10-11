@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\SendInvoice;
 use App\Models\Inspectiontype;
 use App\Models\User;
+use App\Models\RequestModel;
+use DataTables;
 use Illuminate\Support\Facades\Auth;
 
 class RequestController extends Controller
@@ -36,9 +38,61 @@ class RequestController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $request->validate(
+        [
+            "agency" => "required",
+            "inspectiontype" => "required",
+            "applicantname" => "required",
+            "applicantemail" => "required",
+            "applicantmobile" => "required",
+            "address" => "required",
+            "city" => "required",
+            "state" => "required",
+            "zipcode" => "required",
+            "sendinvoice" => "required",
+            "comments" => "required",
+        ],
+        [
+            "required" => "Field is required.",
+        ]
+    );
+        if(!isset($request['id']))
+        {
+            RequestModel::create([
+                "company_id" => decrypt($request['agency']),
+                "inspectiontype" => $request['inspectiontype'],
+                "applicantname" => $request['applicantname'],
+                "applicantemail" => $request['applicantemail'],
+                "applicantmobile" => $request['applicantmobile'],
+                "address" => $request['address'],
+                "city" => $request['city'],
+                "state" => $request['state'],
+                "zipcode" => $request['zipcode'],
+                "sendinvoice" => $request['sendinvoice'],
+                "comments" => $request['comments'],
+            ]); 
+        }
+        else
+        {
+            RequestModel::where("id",decrypt($request['id']))->update([
+                "company_id" => decrypt($request['agency']),
+                "inspectiontype" => $request['inspectiontype'],
+                "applicantname" => $request['applicantname'],
+                "applicantemail" => $request['applicantemail'],
+                "applicantmobile" => $request['applicantmobile'],
+                "address" => $request['address'],
+                "city" => $request['city'],
+                "state" => $request['state'],
+                "zipcode" => $request['zipcode'],
+                "sendinvoice" => $request['sendinvoice'],
+                "comments" => $request['comments'],
+            ]); 
+            session()->forget('taskid');
+        }
+        $msg = "Details Saved Successfully";
+        return response()->json(array("msg" => $msg), 200);
     }
 
     /**
@@ -58,9 +112,9 @@ class RequestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        //
+        return view('admin.request.allrequest');
     }
 
     /**
@@ -95,5 +149,111 @@ class RequestController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    public function display(Request $request)
+    {
+        if ($request->ajax()) {
+            $GLOBALS['count'] = 0;
+            $data = RequestModel::latest()->get(["id","company_id","applicantname","address","inspectiontype","created_at","status"]);
+            return Datatables::of($data)->addIndexColumn()
+                ->addColumn('company_id', function($row)
+                {
+                    $company_name = User::where(["id"=>$row->company_id,"role"=>"3"])->first("company_name");
+                    return (!empty($company_name['company_name'])) ? $company_name['company_name'] : "";
+                })
+                ->addColumn('inspectiontype', function($row)
+                {
+                    $returnvalue = "";
+                    foreach($row->inspectiontype as $value)
+                    {
+                        $inspectiontype = Inspectiontype::where(["id"=>$value])->first("name");
+                        $returnvalue = $returnvalue."<br>".$inspectiontype['name'];
+                    }
+                    return $returnvalue;
+                })
+                ->addColumn('inspectiontype', function($row)
+                {
+                    $returnvalue = "";
+                    foreach($row->inspectiontype as $value)
+                    {
+                        $inspectiontype = Inspectiontype::where(["id"=>$value])->first("name");
+                        $returnvalue = $returnvalue.$inspectiontype['name']."<br>";
+                    }
+                    return $returnvalue;
+                })
+                ->addColumn('action', function($row){
+                    $id = encrypt($row->id);
+                    // $editlink = route('admin.update.sendinvoice', ['id' => $id]);
+                    $editlink = "";
+                    $btn = "<div class='d-flex justify-content-around'><a href='$editlink' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Edit' class='btn limegreen btn-primary  edit'>View</a><a href='javascript:void(0)' data-id='$id' class='ml-2 delete btn red-btn btn-danger'  data-bs-toggle='tooltip' data-bs-placement='top' title='Delete'>Cancel</a></div>";
+                    return $btn;
+                })
+                ->addColumn('assigned_inspector', function($row){
+                    $returnvalue = "<select class='form-control' name='inspector' id='inspector'><option value=''>Select Inspector</option>";
+                    $inspectors = User::where(["role"=>"2"])->pluck("name","id");
+                    foreach($inspectors as $key=>$value)
+                    {
+                        $returnvalue = $returnvalue."<option value='".encrypt($key)."'>".$value."</option>";
+                    }
+                    $returnvalue = $returnvalue."</select>";
+                    return $returnvalue;
+                })
+                ->addColumn('created_at', function ($row) {
+                    return date('d-m-Y h:i a', strtotime($row->created_at));
+                })
+                ->addColumn('status', function ($row) {
+                    if ($row->status == "pending") {
+                        $class = "btn btn-warning ms-2 status";
+                    } 
+                    elseif($row->status == "completed")
+                    {
+                        $class = "btn btn-success ms-2 status";
+                    }
+                    $btntext = $row->status;
+                    $id = encrypt($row->id);
+                    $statusBtn = "<div class='d-flex justify-content-center'><a href='javascript:void(0)' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Task $btntext' class='$class'>$btntext</a></div>";
+                    return $statusBtn;
+                })
+                ->rawColumns(['company_id','inspectiontype','created_at','action','status','assigned_inspector'])
+                ->make(true);
+        }
+    }
+
+    public function upload(Request $request)
+    {
+        // session()->forget('taskid');
+        $block = false;
+        if (session()->has('taskid')) {
+            $id = $request->session()->get('taskid');
+            $i = 0;
+            $newfilearray = array();
+            $filearray = ($request['type'] == "agencyfiles") ? RequestModel::where('id', $id)->pluck("agency_related_files") : RequestModel::where('id', $id)->pluck("reports_related_files");
+            if (!empty($filearray)) {
+                $files = (is_array($filearray[0])) ? $filearray[0] : (array)$filearray[0];
+                foreach ($files as $newvalue) {
+                    array_push($newfilearray, $newvalue);
+                }
+                $rand = rand(10, 5000);
+                $name = $request->file('file')->getClientOriginalName();
+                $fileName = time() . $rand . '.' . $request->file('file')->getClientOriginalExtension();
+                $request->file('file')->move(public_path('taskfiles'), $fileName);
+                array_push($newfilearray, $fileName);
+                ($request['type'] == "agencyfiles") ? RequestModel::where('id', $id)->update(["agency_related_files" => $newfilearray]) : RequestModel::where('id', $id)->update(["reports_related_files" => $newfilearray]);
+                return response()->json(array("msg" => "Added Successfully"), 200);
+            }
+        } elseif ($block == false) {
+            $rand = rand(10, 5000);
+            $name = $request->file('file')->getClientOriginalName();
+            $filearray = array();
+            $fileName = time() . $rand . '.' . $request->file('file')->getClientOriginalExtension();
+            $request->file('file')->move(public_path('taskfiles'), $fileName);
+            $filearray = $fileName;
+            $id = ($request['type'] == "agencyfiles") ? RequestModel::create(["agency_related_files" => $filearray]) : RequestModel::create(["reports_related_files" => $filearray]);
+            session(["taskid" => $id['id']]);
+            $block = true;
+            return response()->json(array("id" => encrypt($id['id'])), 200);
+        }
     }
 }

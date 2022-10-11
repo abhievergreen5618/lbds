@@ -31,6 +31,12 @@ Route::controller(UserController::class)->group(function () {
 
 Route::controller(RequestController::class)->group(function () {
     Route::get('/request', 'index')->name('admin.request.create');
+    Route::get('/request-list','show')->name('admin.request.list');
+    Route::post('/requestsubmit','create')->name('requestsubmit');
+    Route::post('/fileuploadrequest','upload')->name('fileuploadrequest');
+    Route::post('/requestdetails','display')->name('requestdetails');
+    Route::post('/request-status-update','status')->name('request-status-update');
+    Route::post('/request-delete','destroy')->name('request-delete');
 });
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -79,3 +85,10 @@ Route::post('/email/verification-notification', function (Request $request) {
  
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+
+Route::group(['middleware' => ['auth']], function() {
+    Route::resource('roles', RoleController::class);
+    Route::resource('users', UserController::class);
+    Route::resource('products', ProductController::class);
+});

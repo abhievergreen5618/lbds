@@ -1,6 +1,6 @@
 @push('header_extras')
 <style>
-    .others{
+    .others {
         margin-left: 10px !important;
     }
 </style>
@@ -19,17 +19,19 @@
             <div class="card-body">
                 <div class="row g-3 align-items-end">
                     @if(auth()->user()->role == 1)
-                        <div class="col-md-12 my-2">
-                            <label for="report">{{ __('Agencies') }}</label>
-                            <select class="form-control" name="agency" id="agency">
-                                <option value="">Select Agency</option>
-                                @if(!empty($companydetails) && count($companydetails) != 0)
+                    <div class="col-md-12 my-2">
+                        <label for="report">{{ __('Agencies') }}</label>
+                        <select class="form-control" name="agency" id="agency">
+                            <option value="">Select Agency</option>
+                            @if(!empty($companydetails) && count($companydetails) != 0)
                                 @foreach($companydetails as $key=>$value)
-                                    <option value="{{$key}}">{{__($value)}}</option>
+                                <option value="{{encrypt($key)}}">{{__($value)}}</option>
                                 @endforeach
-                                @endif
-                            </select>
-                        </div>
+                            @endif
+                        </select>
+                    </div>
+                    @elseif(auth()->user()->role == 2)
+                        <input type="hidden" name="agency" value="{{encrypt(auth()->user()->id)}}">
                     @endif
                     @if(!empty($data) && count($data) != 0)
                     <div class="col-md-12 my-2">
@@ -99,7 +101,7 @@
                             @foreach($invoicedata as $key=>$value)
                             <div class="col-lg-4 my-2">
                                 <div class="form-check form-check-inline">
-                                        <input class="form-check-input" id="send-invoice-{{$key}}" type="checkbox" name="sendinvoice[]" value="{{$key}}">
+                                    <input class="form-check-input" id="send-invoice-{{$key}}" type="checkbox" name="sendinvoice[]" value="{{$key}}">
                                     <label class="form-check-label" for="send-invoice-{{$key}}">{{__($value)}}</label>
                                 </div>
                             </div>
@@ -124,11 +126,11 @@
                     </div>
                     <div class="col-md-6 my-2">
                         <label for="relatedfiles">{{ __('Agency Related Files') }}</label>
-                        <div class="dropzone" id="kt_dropzonejs_example_1"></div>
+                        <div class="dropzone" id="agencyfiles"></div>
                     </div>
                     <div class="col-md-6 my-2">
                         <label for="relatedfiles">{{ __('Reports Related Files') }}</label>
-                        <div class="dropzone" id="kt_dropzonejs_example_2"></div>
+                        <div class="dropzone" id="reportfiles"></div>
                     </div>
                 </div>
             </div>
@@ -142,74 +144,122 @@
 
 @push('footer_extras')
 <script>
-            $(document).ready(function(){
-                var myselect = $('#agency').select2({
-                    placeholder: "Select",
-                    allowClear: true
-                });
-            });
+    $(document).ready(function() {
+        var myselect = $('#agency').select2({
+            placeholder: "Select",
+        });
+    });
 
-            Dropzone.autoDiscover = false;
-            const myDropzone = new $(".dropzone").dropzone({
-            autoProcessQueue: false,
-            addRemoveLinks: true,
-            url: "fileupload",
+    function requestformsubmit() {
+        $.ajax({
+            url: "requestsubmit",
+            data: $("#requestform").serialize(),
+            type: 'Post',
+            dataType: 'json',
             headers: {
-                'x-csrf-token': $('meta[name="csrf-token"]').attr('content'),
+            'x-csrf-token': $('meta[name="csrf-token"]').attr('content'),
             },
-            maxFilesize: 10,
-            acceptedFiles: ".jpeg,.jpg,.png,.pdf",
-            init: function() {
-                var myDropzone = this;
-                const $button = document.getElementById('submit-btn');
-                $button.addEventListener("click", function(e) {
-                    if ($('#requestform').valid()) {
-                        $('#preloader').show();
-                        var count = myDropzone.getAcceptedFiles().length;
-                        if (count == 0) {
-                            e.preventDefault();
-                            requestformsubmit();
-                        } else {
-                            if (uploaded === false) {
-                                const acceptedFiles = myDropzone.getAcceptedFiles();
-                                for (let i = 0; i < acceptedFiles.length; i++) {
-                                    setTimeout(function() {
-                                        myDropzone.processFile(acceptedFiles[i])
-                                    }, i * 500)
-                                }
-                            } else {
-                                e.preventDefault();
-                                requestformsubmit();
-                            }
-                            e.preventDefault();
-                            e.stopPropagation();
+            success: function(result) {
+                $('.preloader').children().hide();
+                $('.preloader').css("height","0");
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Good job!',
+                    text: 'Details saved successfully',
+                    showConfirmButton: false,
+                    timer: 1000,
+                }).then((result) => {
+                    var newloc = "{{ route('admin.request.list') }}";
+                    window.location.href = newloc;
+                });
+            },
+            error: function(xhr) {
+                $('.preloader').children().hide();
+                $('.preloader').css("height","0");
+                if (xhr.status == 422) {
+                    $('*').removeClass("is-invalid-special");
+                    $.each(xhr.responseJSON.errors, function(key, value) {
+                        if(key == "agency")
+                        {
+                            $("[name='"+key+"']").next().focus();
+                            $("#error-"+key).next().remove();
+                            $("[name='"+key+"']").next().after("<label id='error-"+key+"' class='error fail-alert'>"+value+"</label>");
                         }
-                    }
-                });
-                this.on("queuecomplete", function() {
-                    if ($('#task-form').valid()) {
-                        uploaded = true;
-                        requestformsubmit();
-                        $('.dz-remove').remove();
-                    }
-                });
-            },
-            success: function(file, response) {
-                if (response.hasOwnProperty('id')) {
-                    var msg = "<input type='hidden' value='" + response.id + "' name='id'>";
-                    $('#task-form').prepend(msg);
+                        else
+                        {
+                            $("[name='"+key+"']").focus();
+                            $("#error-"+key).remove();
+                            $("[name='"+key+"']").after("<label id='error-"+key+"' class='error fail-alert'>"+value+"</label>");
+                        }
+                    });
                 }
             },
-            removedfile: function(file) {
-                var _ref;
-                return (_ref = file.previewElement) != null ? _ref.parentNode
-                    .removeChild(
-                        file.previewElement) : void 0;
-            },
         });
-        function requestformsubmit()
-        {
-            
-        }
+    }
+
+    var uploaded = false;
+    Dropzone.autoDiscover = false;
+    const myDropzone = new $(".dropzone").dropzone({
+        autoProcessQueue: false,
+        addRemoveLinks: true,
+        url: "fileuploadrequest",
+        headers: {
+            'x-csrf-token': $('meta[name="csrf-token"]').attr('content'),
+        },
+        maxFilesize: 100,
+        acceptedFiles: ".jpeg,.jpg,.png,.pdf",
+        init: function() {
+            var myDropzone = this;
+            const $button = document.getElementById('submit-btn');
+            $button.addEventListener("click", function(e) {
+                if ($('#requestform').valid()) {
+                    $('.preloader').children().show();
+                    $('.preloader').css("height","100vh");
+                    var count = myDropzone.getAcceptedFiles().length;
+                    if (count == 0) {
+                        e.preventDefault();
+                        requestformsubmit();
+                    } else {
+                        if (uploaded === false) {
+                            var element = $(myDropzone).get(0).element;
+                            const acceptedFiles = myDropzone.getAcceptedFiles();
+                            myDropzone.on('sending', function(file, xhr, formData) {
+                                formData.append('type', $(element).attr("id"));
+                            });
+                            for (let i = 0; i < acceptedFiles.length; i++) {
+                                setTimeout(function() {
+                                    myDropzone.processFile(acceptedFiles[i])
+                                }, i * 500)
+                            }
+                        } else {
+                            e.preventDefault();
+                            requestformsubmit();
+                        }
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+                }
+            });
+            this.on("queuecomplete", function() {
+                if ($('#requestform').valid()) {
+                    uploaded = true;
+                    requestformsubmit();
+                    $('.dz-remove').remove();
+                }
+            });
+        },
+        success: function(file, response) {
+            if (response.hasOwnProperty('id')) {
+                var msg = "<input type='hidden' value='" + response.id + "' name='id'>";
+                $('#requestform').prepend(msg);
+            }
+        },
+        removedfile: function(file) {
+            var _ref;
+            return (_ref = file.previewElement) != null ? _ref.parentNode
+                .removeChild(
+                    file.previewElement) : void 0;
+        },
+    });
 </script>
 @endpush
