@@ -6,6 +6,7 @@ use App\Http\Controllers\Common\RequestController;
 use App\Http\Controllers\Admin\InspectionController;
 use App\Http\Controllers\Admin\Invoice\SendInvoiceController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\Company\Employee\EmployeeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,6 +62,16 @@ Route::controller(SendInvoiceController::class)->group(function () {
     Route::post('/sendinvoicedetails','display')->name('sendinvoicedetails');
     Route::post('/send-invoice-status-update','status')->name('send-invoice-status-update');
     Route::post('/send-invoice-delete','destroy')->name('send-invoice-delete');
+});
+Route::controller(EmployeeController::class)->group(function () {
+    Route::get('/add-employee','index')->name('admin.employee.create');
+    Route::post('/add-employee','create')->name('admin.employee.create');
+    // Route::get('/request-list','show')->name('admin.request.list');
+    // Route::post('/requestsubmit','create')->name('requestsubmit');
+    // Route::post('/fileuploadrequest','upload')->name('fileuploadrequest');
+    // Route::post('/requestdetails','display')->name('requestdetails');
+    // Route::post('/request-status-update','status')->name('request-status-update');
+    // Route::post('/request-delete','destroy')->name('request-delete');
 });
 });
 

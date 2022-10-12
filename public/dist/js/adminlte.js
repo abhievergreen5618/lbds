@@ -1309,6 +1309,7 @@
     };
 
     _proto.openTabSidebar = function openTabSidebar(item, autoOpen) {
+
       if (autoOpen === void 0) {
         autoOpen = this._config.autoShowNewTab;
       }

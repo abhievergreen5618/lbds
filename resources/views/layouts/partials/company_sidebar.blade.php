@@ -38,13 +38,50 @@
                 data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-                <li class="nav-item menu-open">
-                    <a href="#" class="nav-link active">
+                <li class="nav-itemn">
+                    <a href="{{route('home')}}" class="nav-link {{ Route::currentRouteName() == 'home' ? 'active' : ''}}">
                         <i class="nav-icon fas fa-home"></i>
                         <p>
                             Dashboard
                         </p>
                     </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-user-circle"></i>
+                        <p>
+                            Employee
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            <a href="{{route('admin.employee.create')}}" class="nav-link">
+                                <i class="nav-icon fas fa-user-plus"></i>
+                                <p>
+                                    Add new Employee
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="" class="nav-link">
+                                <i class="nav-icon fas fa-users"></i>
+                                <p>
+                                    View All Employees
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="" class="nav-link">
+                                <i class="nav-icon fas fa-comments"></i>
+                                <p>
+                                    Employees Messages
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a href="" class="nav-link">
