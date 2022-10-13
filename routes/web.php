@@ -6,6 +6,7 @@ use App\Http\Controllers\Common\RequestController;
 use App\Http\Controllers\Admin\InspectionController;
 use App\Http\Controllers\Admin\Invoice\SendInvoiceController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\Admin\Inspector\InspectorController;
 use App\Http\Controllers\Company\Employee\EmployeeController;
 
 /*
@@ -72,6 +73,18 @@ Route::controller(EmployeeController::class)->group(function () {
     // Route::post('/requestdetails','display')->name('requestdetails');
     // Route::post('/request-status-update','status')->name('request-status-update');
     // Route::post('/request-delete','destroy')->name('request-delete');
+});
+
+
+Route::controller(InspectorController::class)->group(function () {
+    Route::get('/view-inspector','index')->name('admin.view.inspector');
+    Route::post('/inspectortabledetails','display')->name('inspectortabledetails');
+    Route::get('/update-inspector','update')->name('admin.show.inspector');
+    Route::post('submit/update-inspector/','submitUpdate')->name('admin.update.inspector');
+    Route::get('/add-inspector','create')->name('admin.create.addinspector');
+    Route::post('/insert-inspector','store')->name('admin.insert.insertinspector');
+    Route::post('/inspector-delete','destroy')->name('inspector-delete');
+    Route::post('/inspector-status-update','status')->name('inspector-status-update');
 });
 });
 
