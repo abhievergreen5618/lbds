@@ -400,5 +400,112 @@ $(document).ready(function () {
         $(this).parent('li .nav-link').addClass('menu-is-opening menu-open');
         $(this).find('ul').css('display', 'block');
     });
+
+
+    var usertable = $('#usertable').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
+            "url": "usertableedetails",
+            "type": "POST",
+            'beforeSend': function (request) {
+                request.setRequestHeader("X-CSRF-TOKEN", jQuery('meta[name="csrf-token"]').attr('content'));
+            },
+        },
+        "columnDefs": [
+            { "className": "dt-center", "targets": "_all" }
+        ],
+        "columns": [
+            {
+                "data": "created_at",
+            },
+            {
+                "data": "sno",
+            },
+            {
+                "data": "name",
+            },
+            {
+                "data": "email",
+            },
+            {
+                "data": "status",
+            },
+            {
+                "data": "action",
+            },
+        ],
+    });
+
+    
+    usertable.on('click', '.delete', function() {
+        $('#userdetails_processing').show();
+        element = $(this);
+        var userid = $(this).attr('data-id');
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: 'inspector-delete',
+                    data: {
+                        id: userid
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        usertable.ajax.reload();
+                    },
+                    error: function(data) {
+                        // console.log(data);
+                    }
+                });
+            };
+        });
+    });
+
+    usertable.on('click', '.status', function() {
+        element = $(this);
+        var userid = $(this).attr('data-id');
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You will be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: 'inspector-status-update',
+                    data: {
+                        id: userid
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        usertable.ajax.reload();
+                    },
+                    error: function(data) {
+                        // console.log(data);
+                    }
+                });
+            };
+        });
+    });
+
 });
 

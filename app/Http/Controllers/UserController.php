@@ -4,110 +4,104 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Arr;
+use DataTables;
+
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-
-    public function index()
+    public function index(Request $request)
     {
-
+        return view('admin.users.alluserlist');
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        // return view('company.agency_register');
+        $roles = Role::pluck('name','name')->all();
+        return view('users.create',compact('roles'));
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request, User $user)
+    public function store(Request $request)
     {
-        $request->validate([
-            'company_name '               => 'required',
-            'company_address '            => 'required',
-            'city'                        => 'required|max:11',
-            'zip_code'                    => 'required|max:11',
-            'company_phonenumber'         => 'required',
-            'name'                        => 'required',
-            'direct_number'               => 'required',
-            'email'                       => 'required|unique:users|max:255',
-            'password'                    => 'required',
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|same:confirm-password',
+            'roles' => 'required'
         ]);
-
-        $user                       = new User();
-        $user->company_name         =$request->company_name;
-        $user->company_address      =$request->company_address;
-        $user->city                 =$request->city;
-        $user->zip_code             =$request->zip_code;
-        $user->company_phonenumber  =$request->company_phonenumber;
-        $user->name                 =$request->name;
-        $user->direct_number        =$request->direct_number;
-        $user->email                =$request->email;
-        $user->password             =Hash::make($request->password);
-        $user->role                 ='3';
-        $user->save();
-
-        return redirect(route('login'));
-
+    
+        $input = $request->all();
+        $input['password'] = Hash::make($input['password']);
+    
+        $user = User::create($input);
+        $user->assignRole($request->input('roles'));
+    
+        return redirect()->route('users.index')
+                        ->with('success','User created successfully');
+    }
+    public function destroy(Request $request)
+    {
+        $request->validate(
+            [
+                "id" => 'required',
+            ]
+        );
+        User::where('id', decrypt($request['id']))->delete();
+        $msg = "Deleted Successfully";
+        return response()->json(array("msg" => $msg), 200);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function show(User $user)
+    public function status(Request $request)
     {
-        //
+        $request->validate(
+            [
+                "id" => 'required',
+            ]
+        );
+        $status = User::where('id', decrypt($request['id']))->first('status');
+        $status= ($status['status'] == "active") ? "inactive" : "active";
+        User::where('id',decrypt($request['id']))->Update([
+            "status" => $status,
+        ]);
+        $msg = "Status Updated Successfully";
+        return response()->json(array("msg" => $msg), 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(User $user)
+    public function display(Request $request)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, User $user)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(User $user)
-    {
-        //
+    //    dd($request->all());
+        if ($request->ajax()) {
+            $GLOBALS['count'] = 0;
+            $data = User::latest()->get(['id','name','email','status','created_at']);
+            return Datatables::of($data)->addIndexColumn()
+            ->addColumn('sno', function($row){
+                $GLOBALS['count']++;
+                return $GLOBALS['count'];
+            })
+                ->addColumn('action', function($row){
+                    $id = encrypt($row->id);
+                    $editlink = route('admin.show.inspector', ['id' => $id]);
+                    $btn = "<div class='d-flex justify-content-around'><a href='$editlink' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Edit' class='btn limegreen btn-primary  edit'><i class='fas fa-edit'></i></a><a href='javascript:void(0)' data-id='$id' class='delete btn red-btn btn-danger  '  data-bs-toggle='tooltip' data-bs-placement='top' title='Delete'><i class='fa fa-trash' aria-hidden='true'></i></a></div>";
+                    return $btn;
+                })
+                ->addColumn('status', function ($row) {
+                    if ($row->status == "inactive") {
+                        $class = "btn btn-danger ms-2 status";
+                        $btntext = "Inactive";
+                    } else {
+                        $class = "btn btn-success ms-2 status";
+                        $btntext = "Active";
+                    }
+                    $id = encrypt($row->id);
+                    $statusBtn = "<div class='d-flex justify-content-center'><a href='javascript:void(0)' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Task $btntext' class='$class'>$btntext</a></div>";
+                    return $statusBtn;
+                })
+                ->addColumn('created_at', function ($row) {
+                    return date('d-m-Y h:i a', strtotime($row->created_at));
+                })
+                ->rawColumns(['sno','created_at','id','action','status'])
+                ->make(true);
+        }
     }
 }

@@ -86,6 +86,26 @@ Route::controller(InspectorController::class)->group(function () {
     Route::post('/inspector-delete','destroy')->name('inspector-delete');
     Route::post('/inspector-status-update','status')->name('inspector-status-update');
 });
+Route::controller(InspectorController::class)->group(function () {
+    Route::get('/view-inspector','index')->name('admin.view.inspector');
+    Route::post('/inspectortabledetails','display')->name('inspectortabledetails');
+    Route::get('/update-inspector','update')->name('admin.show.inspector');
+    Route::post('submit/update-inspector/','submitUpdate')->name('admin.update.inspector');
+    Route::get('/add-inspector','create')->name('admin.create.addinspector');
+    Route::post('/insert-inspector','store')->name('admin.insert.insertinspector');
+    Route::post('/inspector-delete','destroy')->name('inspector-delete');
+    Route::post('/inspector-status-update','status')->name('inspector-status-update');
+});
+Route::controller(UserController::class)->group(function () {
+    // Route::get('/view-inspector','index')->name('admin.view.inspector');
+    Route::post('/usertableedetails','display')->name('usertableedetails');
+    // Route::get('/update-inspector','update')->name('admin.show.inspector');
+    // Route::post('submit/update-inspector/','submitUpdate')->name('admin.update.inspector');
+    // Route::get('/add-inspector','create')->name('admin.create.addinspector');
+    // Route::post('/insert-inspector','store')->name('admin.insert.insertinspector');
+    // Route::post('/inspector-delete','destroy')->name('inspector-delete');
+    // Route::post('/inspector-status-update','status')->name('inspector-status-update');
+});
 });
 
 Auth::routes(['verify' => true]);
