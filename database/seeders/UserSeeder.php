@@ -17,31 +17,32 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        User::create([
-            "name" => "admin",
-            "email" => "testadmin@gmail.com",
-            "password" => Hash::make("12345678"),
-            "role" => "1",
-        ]);
+        // User::create([
+        //     "name" => "admin",
+        //     "email" => "testadmin@gmail.com",
+        //     "password" => Hash::make("12345678"),
+        //     "email_verified_at" => Carbon::now()->timestamp,
+        //     "role" => "1",
+        // ]);
         User::create([
             "name" => "Bishoples",
             "email" => "bishoples@gmail.com",
             "password" => Hash::make("12345678"),
-            "email_verified_at" => Carbon::now()->timestamp,
+            // "email_verified_at" => Carbon::now()->timestamp,
             "role" => "1",
         ]);
         User::create([
             "name" => "inspector",
-            "email" => "testinspector@gmail.com",
+            "email" => "abhishek@evergreenbrain.com",
             "password" => Hash::make("12345678"),
-            "email_verified_at" => Carbon::now()->timestamp,
+            // "email_verified_at" => Carbon::now()->timestamp,
             "role" => "2",
         ]);
         User::create([
             "name" => "company",
             "email" => "testcompany@gmail.com",
             "company_name" => "Wind Mitigation",
-            "email_verified_at" => Carbon::now()->timestamp,
+            // "email_verified_at" => Carbon::now()->timestamp,
             "password" => Hash::make("12345678"),
             "role" => "3",
         ]);

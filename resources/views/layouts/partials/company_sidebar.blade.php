@@ -83,6 +83,38 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item {{ (Route::currentRouteName() == 
+                    'admin.request.create' ) ? 'menu-open menu-is-opening ' : ''}}">
+
+                    <a href="#"  class="nav-link {{ (Route::currentRouteName() == 
+                    'admin.request.create') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-user-circle"></i>
+                        <p>
+                            Roles & Permission
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() == 
+                        'admin.request.create') ? 'display: block;' : ''}}">
+
+                        <li class="nav-item">
+                            <a href="{{ route('roles.index') }}" class="nav-link {{str_contains(request()->path(), 'admin.request.create') ? 'active' : ''}}">
+                                <i class="nav-icon fas fa-user-plus"></i>
+                                <p>
+                                    Manage Role
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('roles.create') }}" class="nav-link">
+                                <i class="nav-icon fas fa-users"></i>
+                                <p>
+                                    Add Roles
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="nav-item">
                     <a href="" class="nav-link">
                         <i class="nav-icon fas fa-align-left"></i>

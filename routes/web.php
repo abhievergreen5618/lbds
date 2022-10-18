@@ -1,13 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\Common\RequestController;
 use App\Http\Controllers\Admin\InspectionController;
 use App\Http\Controllers\Admin\Invoice\SendInvoiceController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\Admin\Inspector\InspectorController;
 use App\Http\Controllers\Company\Employee\EmployeeController;
+use App\Http\Controllers\Admin\Role\RoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -105,6 +106,8 @@ Route::controller(UserController::class)->group(function () {
     // Route::post('/insert-inspector','store')->name('admin.insert.insertinspector');
     // Route::post('/inspector-delete','destroy')->name('inspector-delete');
     // Route::post('/inspector-status-update','status')->name('inspector-status-update');
+});
+Route::controller(UserController::class)->group(function () {
 });
 });
 
