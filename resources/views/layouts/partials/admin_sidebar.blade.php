@@ -133,7 +133,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link">
+                            <a href="{{route('admin.request.list')}}" class="nav-link">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>
                                     View All Requests
@@ -143,10 +143,12 @@
                     </ul>
                 </li>
                 <li class="nav-item {{ (Route::currentRouteName() == 
-                    'admin.request.create' ) ? 'menu-open menu-is-opening ' : ''}}">
+                    'users.create') || 
+                    (Route::currentRouteName() == 'users.index') ? 'menu-open menu-is-opening ' : ''}}">
 
                     <a href="#"  class="nav-link {{ (Route::currentRouteName() == 
-                    'admin.request.create') ? 'active' : ''}}">
+                    'users.create') || 
+                    (Route::currentRouteName() == 'users.index') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-user-circle"></i>
                         <p>
                             Users
@@ -154,7 +156,8 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() == 
-                        'admin.request.create') ? 'display: block;' : ''}}">
+                        'users.create') || 
+                    (Route::currentRouteName() == 'users.index') ? 'display: block;' : ''}}">
 
                         <li class="nav-item">
                             <a href="{{ route('users.create') }}" class="nav-link {{str_contains(request()->path(), 'admin.request.create') ? 'active' : ''}}">
@@ -175,18 +178,20 @@
                     </ul>
                 </li>
                 <li class="nav-item {{ (Route::currentRouteName() == 
-                    'admin.request.create' ) ? 'menu-open menu-is-opening ' : ''}}">
+                        'roles.index') || 
+                    (Route::currentRouteName() == 'roles.create') ? 'menu-open menu-is-opening ' : ''}}">
 
                     <a href="#"  class="nav-link {{ (Route::currentRouteName() == 
-                    'admin.request.create') ? 'active' : ''}}">
+                        'roles.index') || 
+                    Route::currentRouteName() == 'roles.create' ? 'active' : ''}}">
                         <i class="nav-icon fas fa-user-circle"></i>
                         <p>
                             Roles & Permission
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() == 
-                        'admin.request.create') ? 'display: block;' : ''}}">
+                    <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() == 'roles.index') || 
+                    (Route::currentRouteName() == 'roles.create') ? 'display: block;' : ''}}">
 
                         <li class="nav-item">
                             <a href="{{ route('roles.index') }}" class="nav-link {{str_contains(request()->path(), 'admin.request.create') ? 'active' : ''}}">
