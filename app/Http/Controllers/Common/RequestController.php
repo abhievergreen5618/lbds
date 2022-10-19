@@ -24,9 +24,9 @@ class RequestController extends Controller
     {
         $data = Inspectiontype::where("status","active")->pluck("name","id");
         $invoicedata = SendInvoice::where("status","active")->pluck("name","id");
-        if(Auth::User()->role == 1)
+        if(Auth::user()->hasRole("admin"))
         {
-            $companydetails = User::where(["role"=>"3","status"=>"active"])->pluck("company_name","id");   
+            $companydetails = User::role('company')->where(["status"=>"active"])->pluck("company_name","id");   
             return view('common.createrequest')->with(["data"=>$data,"invoicedata"=>$invoicedata,"companydetails"=>$companydetails]);
         }
         else
@@ -162,7 +162,7 @@ class RequestController extends Controller
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('company_id', function($row)
                 {
-                    $company_name = User::where(["id"=>$row->company_id,"role"=>"3"])->first("company_name");
+                    $company_name = User::role('company')->where(["id"=>$row->company_id])->first("company_name");
                     return (!empty($company_name['company_name'])) ? $company_name['company_name'] : "";
                 })
                 ->addColumn('inspectiontype', function($row)
@@ -194,7 +194,7 @@ class RequestController extends Controller
                 })
                 ->addColumn('assigned_inspector', function($row){
                     $returnvalue = "<select class='form-control' name='inspector' id='inspector'><option value=''>Select Inspector</option>";
-                    $inspectors = User::where(["role"=>"2"])->pluck("name","id");
+                    $inspectors = User::role('inspector')->pluck("name","id");
                     foreach($inspectors as $key=>$value)
                     {
                         $returnvalue = $returnvalue."<option value='".encrypt($key)."'>".$value."</option>";
@@ -257,5 +257,9 @@ class RequestController extends Controller
             $block = true;
             return response()->json(array("id" => encrypt($id['id'])), 200);
         }
+    }
+    public function requestcheck(Request $request)
+    {
+        return view('admin.request.requeststatus');
     }
 }

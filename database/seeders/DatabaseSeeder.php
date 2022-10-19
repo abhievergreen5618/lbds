@@ -6,6 +6,8 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Database\Seeders\CreateAdminUserSeeder;
 use Database\Seeders\PermissionTableSeeder;
+use Database\Seeders\InspectionSeeder;
+use Database\Seeders\SendInvoiceSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,6 +21,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             PermissionTableSeeder::class,
             UserSeeder::class,
+            InspectionSeeder::class,
+            SendInvoiceSeeder::class,
         ]);
     }
 }

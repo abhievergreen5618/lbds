@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('zipcode')->nullable();
             $table->string('comments')->nullable();
             $table->string('sendinvoice')->nullable();
+            $table->string('assigned_ins')->nullable();
             $table->string('status')->default("pending");
             $table->string('agency_related_files')->nullable();
             $table->string('reports_related_files')->nullable();

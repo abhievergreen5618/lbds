@@ -18,7 +18,7 @@
         <form id="requestform">
             <div class="card-body">
                 <div class="row g-3 align-items-end">
-                    @if(auth()->user()->role == 1)
+                @role('admin')
                     <div class="col-md-12 my-2">
                         <label for="report">{{ __('Agencies') }}</label>
                         <select class="form-control" name="agency" id="agency">
@@ -30,9 +30,10 @@
                             @endif
                         </select>
                     </div>
-                    @elseif(auth()->user()->role == 2)
+                    @endrole
+                    @role('company')
                         <input type="hidden" name="agency" value="{{encrypt(auth()->user()->id)}}">
-                    @endif
+                    @endrole
                     @if(!empty($data) && count($data) != 0)
                     <div class="col-md-12 my-2">
                         <div class="row">
