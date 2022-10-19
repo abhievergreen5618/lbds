@@ -73,32 +73,16 @@ class ProfileController extends Controller
      */
     public function update(Request $request)
     {
-        $validator = Validator::make(
-            $request->all(),
-            [
-                "name" => "required",
-                "mobile_number" => "required|numeric|digits:10",
-                'old_password' => [
-                    'required', function ($attribute, $value, $fail) {
-                        if (!Hash::check($value, Auth::user()->password)) {
-                            $fail('Old Password didn\'t match');
-                        }
-                    },
-                ],
-                "password" => "required|max:8|confirmed",
-            ],
-            [
-                "mobile_number.digits" => "Please enter a valid phone number",
-                "required" => "Field is required.",
-                "confirmed" => "The password confirmation does not match.",
-            ]
-        );
-        if ($validator->fails()) {
-            return redirect()->back()->withInput()->withErrors($validator);
-        }
-        else
-        {
-            if($request->file('profile_img')){
+        $request->validate([
+            "name" => "required",
+            "mobile_number" => "required|numeric|digits:10",
+        ],
+        [
+            "mobile_number.digits" => "Please enter a valid phone number",
+            "required" => "Field is required.",
+        ]);
+            if($request->file('profile_img'))
+            {
             $rand = rand(10, 5000);
             $name = $request->file('profile_img')->getClientOriginalName();
             $fileName = time() . $rand . '.' . $request->file('profile_img')->getClientOriginalExtension();
@@ -111,8 +95,35 @@ class ProfileController extends Controller
             $user =Auth::user();
             $user->name = $request['name'];
             $user->mobile_number = $request['mobile_number'];
+            $user->save();
+            return back()->with('msg','Profile Updated Successfully');
+    }
+    public function updatepass(Request $request)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'old_password' => [
+                    'required', function ($attribute, $value, $fail) {
+                        if (!Hash::check($value, Auth::user()->password)) {
+                            $fail('Old Password didn\'t match');
+                        }
+                    },
+                ],
+                "password" => "required|min:8|confirmed",
+            ],
+            [
+                "required" => "Field is required.",
+                "confirmed" => "The password confirmation does not match.",
+            ]
+        );
+        if ($validator->fails()) {
+            return redirect()->back()->withInput()->withErrors($validator);
+        }
+        else
+        {
+            $user =Auth::user();
             $user->password = Hash::make($request['password']);
-            $user->profile_img = $fileName;
             $user->save();
             return back()->with('msg','Profile Updated Successfully');
         }

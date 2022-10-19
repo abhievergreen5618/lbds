@@ -111,6 +111,7 @@ Route::controller(UserController::class)->group(function () {
     Route::controller(ProfileController::class)->group(function () {
         Route::get('/profile/show','show')->name('profile.show');
         Route::post('/profile/update','update')->name('profile.update');
+        Route::post('/profile/updatepass','updatepass')->name('profile.updatepass');
     });
 });
 
