@@ -303,7 +303,7 @@ $(document).ready(function () {
                 "data": "color_code",
             },
             {
-                "data": "number",
+                "data": "mobile_number",
             },
             {
                 "data": "email",

@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use DataTables;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class InspectorController extends Controller
 {
@@ -18,95 +20,59 @@ class InspectorController extends Controller
          $this->middleware('permission:inspector-edit', ['only' => ['edit','update']]);
          $this->middleware('permission:inspector-delete', ['only' => ['destroy']]);
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         // $data
         return view('admin.inspector.inspectorViewList');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         return view('admin.inspector.registerInspector');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request,User $inspector)
     {
         // dd($request->all());
         $request->validate([
             'company_name'               => 'required',
-            'name'                        => 'required',
-            'number'                      => 'required',
-            'license_number'              => 'required',
-            'area_coverage'               => 'required',
+            'name'                       => 'required',
+            'number'                     => 'required',
+            'license_number'             => 'required',
+            'area_coverage'              => 'required',
             'color_code'                 => 'required',
-            'email'                       => 'required|unique:users|max:255',
-            'password'                    => 'required',
+            'email'                      => 'required|unique:users|max:255',
+            'password'                   => 'required',
         ]);
-
-      
-        $inspector                       = new User();
-        $inspector->company_name         =$request->company_name;
-        $inspector->name                 =$request->name;
-        $inspector->number               =$request->number;
-        $inspector->email                =$request->email;
-        $inspector->license_number       =$request->license_number;
-        $inspector->area_coverage        =$request->area_coverage;
-        $inspector->color_code           =$request->color_code;
-        $inspector->password             =Hash::make($request->password);
-        $inspector->role                 ='2';
-        $inspector->inspector_id        ='INS'.time().rand(1,100);
-        // dd($inspector);
-        $inspector->save();
-
+        $user = User::create([
+            'company_name' => $request['company_name'],
+            'name' => $request['name'],
+            'mobile_number' => $request['number'],
+            'email' => $request['email'],
+            'license_number' => $request['license_number'],
+            'area_coverage' => $request['area_coverage'],
+            'color_code' => $request['color_code'],
+            'password' => Hash::make($request['password']),
+            'inspector_id' => 'INS'.time().rand(1,100),
+        ]);
+        $user->save();
+        $role = Role::findByName('inspector');
+        $user->assignRole([$role->id]);
         return redirect()->route('admin.view.inspector')->with('msg','Record Save Successfully.');
       
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
     public function show(User $user)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
     public function edit(User $user)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, User $user)
     {
         if(isset($request['id']) && !empty($request['id']))
@@ -127,7 +93,7 @@ class InspectorController extends Controller
             User::where('id',decrypt($request['id']))->update([
                 "company_name" => $request->company_name,
                 "name" => $request->name,
-                "number" => $request->number,
+                "mobile_number" => $request->number,
                 "license_number" => $request->license_number,
                 "area_coverage" => $request->area_coverage,
                 "color_code" => $request->color_code,
@@ -139,12 +105,6 @@ class InspectorController extends Controller
       
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Request $request)
     {
         $request->validate(
@@ -178,10 +138,8 @@ class InspectorController extends Controller
     //    dd($request->all());
         if ($request->ajax()) {
             $GLOBALS['count'] = 0;
-            $data = User::where('role','2')->latest()->get(['id','company_name','name','color_code','number','email','status','license_number',
-            'area_coverage']);
+            $data = User::role('inspector')->latest()->get(['id','company_name','name','color_code','mobile_number','email','status','license_number','area_coverage']);
             return Datatables::of($data)->addIndexColumn()
-                
                 ->addColumn('action', function($row){
                     $id = encrypt($row->id);
                     $editlink = route('admin.show.inspector', ['id' => $id]);
