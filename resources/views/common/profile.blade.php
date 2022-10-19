@@ -3,6 +3,49 @@
     .others {
         margin-left: 10px !important;
     }
+    .profile-pic {
+	 color: transparent;
+	 transition: all 0.3s ease;
+	 display: flex;
+	 justify-content: center;
+	 align-items: center;
+	 position: relative;
+	 transition: all 0.3s ease;
+}
+ .profile-pic input {
+	 display: none;
+}
+ .profile-pic img {
+	 position: absolute;
+	 object-fit: cover;
+	 width: 165px;
+	 height: 165px;
+	 box-shadow: 0 0 10px 0 rgba(255, 255, 255, .35);
+	 border-radius: 100px;
+	 z-index: 0;
+}
+ .profile-pic .-label {
+	 cursor: pointer;
+	 height: 165px;
+	 width: 165px;
+}
+ .profile-pic:hover .-label {
+	 display: flex;
+	 justify-content: center;
+	 align-items: center;
+	 background-color: rgba(0, 0, 0, .8);
+	 z-index: 10000;
+	 color: #fafafa;
+	 transition: background-color 0.2s ease-in-out;
+	 border-radius: 100px;
+	 margin-bottom: 0;
+}
+ .profile-pic span {
+	 display: inline-flex;
+	 padding: 0.2em;
+	 height: 2em;
+}
+ 
 </style>
 @endpush
 @extends('layouts.app')
@@ -13,14 +56,19 @@
         <div class="card-header">
             <h3 class="card-title">{{ __('Profile') }}</h3>
         </div>
-        <!-- /.card-header -->
-        <!-- form start -->
-        <form id="inspection-type-form" action="{{route('admin.create.sendinvoice')}}" method="POST">
+        <form id="profile-form" action="{{route('profile.update')}}" method="POST" enctype="multipart/form-data">
             @csrf
-            @isset($data)
-                <input type="hidden" name="id" value="{{encrypt($data->id)}}">
-            @endisset
             <div class="card-body">
+                <div class="form-group mb-2">
+                    <div class="profile-pic">
+                        <label class="-label" for="file">
+                            <span class="glyphicon glyphicon-camera"></span>
+                            <span>Change Image</span>
+                        </label>
+                        <input id="file" type="file" name="profile_img" onchange="loadFile(event)" accept="image/*" />
+                        <img src="{{ (isset($data->profile_img)) ? asset('images/profile/').'/'.$data->profile_img : asset('images/profile/profile.jpg')}}" id="output" width="200" />
+                    </div>
+                </div>
                 <div class="form-group mb-2">
                     <label for="name">{{ __('Name') }}</label>
                     <input type="text" class="form-control @error('name') {{ 'is-invalid' }} @enderror" id="name" name="name" placeholder="Enter Inspection Name" value="{{@old('name',$data->name)}}">
@@ -31,37 +79,67 @@
                 </div>
                 @enderror
                 <div class="form-group mb-2">
-                    <label for="exampleInputEmail1">{{ __('Description') }}</label>
-                    <textarea class="form-control @error('description') {{ 'is-invalid' }} @enderror" id="description" name="description" rows="3" placeholder="Enter ...">{{@old('name',$data->description)}}</textarea>
-                    @error('description')
+                    <label for="exampleInputEmail1">{{ __('Phone Number') }}</label>
+                    <input type="number" class="form-control @error('mobile_number') {{ 'is-invalid' }} @enderror" id="mobile_number" name="mobile_number" placeholder="Enter Phone Number" value="{{@old('mobile_number',$data->mobile_number)}}">
+                    @error('mobile_number')
                     <div>
                         <label class="error fail-alert  mt-1">{{ $message }}</label>
                     </div>
                     @enderror
                 </div>
-                <div class="form-group">
-                    <label for="exampleInputEmail1" class="">{{ __('Status') }}</label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="status" id="active" value="active" @isset($data) @if($data['status'] == "active") {{"checked"}} @endif @endisset>
-                        <label class="form-check-label" for="active">Active</label>
+                <div class="form-group mb-2">
+                    <label for="exampleInputEmail1">{{ __('Email Address') }}</label>
+                    <input type="email" class="form-control @error('email') {{ 'is-invalid' }} @enderror" id="email" name="email" placeholder="Enter Phone Number" value="{{@old('email',$data->email)}}" disabled>
+                    @error('email')
+                    <div>
+                        <label class="error fail-alert  mt-1">{{ $message }}</label>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="status" id="inactive" value="inactive"  @isset($data) @if($data['status'] == "inactive") {{"checked"}} @endif @endisset>
-                        <label class="form-check-label" for="inactive">Inactive</label>
+                    @enderror
+                </div>
+                <div class="form-group mb-2">
+                    <label for="exampleInputEmail1">{{ __('Old password') }}</label>
+                    <input type="password" class="form-control @error('old_password') {{ 'is-invalid' }} @enderror" id="old_password" name="old_password" placeholder="Enter Phone Number">
+                    @error('old_password')
+                    <div>
+                        <label class="error fail-alert  mt-1">{{ $message }}</label>
                     </div>
-                    @error('status')
+                    @enderror
+                </div>
+                <div class="form-group mb-2">
+                    <label for="exampleInputEmail1">{{ __('New password') }}</label>
+                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password">
+                    <div>
+                        <small>Password must have at least 8 characters.</small>
+                    </div>
+                    @error('password')
+                    <div>
+                        <label class="error fail-alert  mt-1">{{ $message }}</label>
+                    </div>
+                    @enderror
+                </div>
+                <div class="form-group mb-2">
+                    <label for="password_confirmation">{{ __('Confirm Password') }}</label>
+                    <input id="password_confirmation" type="text" class="form-control @error('password_confirmation') is-invalid @enderror" name="password_confirmation">
+                    @error('password_confirmation')
                     <div>
                         <label class="error fail-alert  mt-1">{{ $message }}</label>
                     </div>
                     @enderror
                 </div>
             </div>
-            <!-- /.card-body -->
-
             <div class="card-footer">
-                <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
+                <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
             </div>
         </form>
     </div>
 </div>
 @endsection
+
+@push('footer_extras')
+<script>
+    var loadFile = function (event) {
+  var image = document.getElementById("output");
+  image.src = URL.createObjectURL(event.target.files[0]);
+};
+</script>
+@endpush

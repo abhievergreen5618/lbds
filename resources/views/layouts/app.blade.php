@@ -36,17 +36,15 @@
 <div class="wrapper">
     @include('layouts.partials.loader')
     @include('layouts.partials.header')
-    @switch(Auth::user()->role)
-            @case('1')
-                @include('layouts.partials.admin_sidebar')
-            @break;
-            @case('2')
-                @include('layouts.partials.inspector_sidebar')
-            @break;
-            @default
-                @include('layouts.partials.company_sidebar')
-            @break;
-    @endswitch
+    @role('admin')
+          @include('layouts.partials.admin_sidebar')
+    @endrole
+    @role('inspector')
+          @include('layouts.partials.inspector_sidebar')
+    @endrole
+    @role('company')
+          @include('layouts.partials.company_sidebar')
+    @endrole
     <div class="content-wrapper" style="min-height: 214px;">
       <div class="container-fluid mt-2">
         @include('layouts.partials.alert')

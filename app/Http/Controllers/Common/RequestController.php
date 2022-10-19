@@ -13,11 +13,13 @@ use Illuminate\Support\Facades\Auth;
 
 class RequestController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    function __construct()
+    {
+         $this->middleware('permission:request-list|request-create|request-edit|request-delete', ['only' => ['index','show']]);
+         $this->middleware('permission:request-create', ['only' => ['create','store']]);
+         $this->middleware('permission:request-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:request-delete', ['only' => ['destroy']]);
+    }
     public function index()
     {
         $data = Inspectiontype::where("status","active")->pluck("name","id");

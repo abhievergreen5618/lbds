@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\Admin\Inspector\InspectorController;
 use App\Http\Controllers\Company\Employee\EmployeeController;
 use App\Http\Controllers\Admin\Role\RoleController;
+use App\Http\Controllers\Common\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -107,8 +108,10 @@ Route::controller(UserController::class)->group(function () {
     // Route::post('/inspector-delete','destroy')->name('inspector-delete');
     // Route::post('/inspector-status-update','status')->name('inspector-status-update');
 });
-Route::controller(UserController::class)->group(function () {
-});
+    Route::controller(ProfileController::class)->group(function () {
+        Route::get('/profile/show','show')->name('profile.show');
+        Route::post('/profile/update','update')->name('profile.update');
+    });
 });
 
 Auth::routes(['verify' => true]);

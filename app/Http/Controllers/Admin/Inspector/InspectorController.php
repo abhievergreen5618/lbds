@@ -10,6 +10,14 @@ use DataTables;
 
 class InspectorController extends Controller
 {
+
+    function __construct()
+    {
+         $this->middleware('permission:inspector-list|inspector-create|inspector-edit|inspector-delete', ['only' => ['index','show']]);
+         $this->middleware('permission:inspector-create', ['only' => ['create','store']]);
+         $this->middleware('permission:inspector-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:inspector-delete', ['only' => ['destroy']]);
+    }
     /**
      * Display a listing of the resource.
      *

@@ -118,4 +118,46 @@ $(document).ready(function () {
         }
     }
     });
+       $('#profile-form').validate({
+        errorClass: "error fail-alert",
+        validClass: "valid success-alert",
+        rules: {
+          name: {
+            required: true,
+          },
+          mobile_number: {
+            required: true,
+            minlength: 10,
+            maxlength: 10,
+          },
+          email: {
+            email:true,
+            required: true,
+          },
+          old_password: {
+            required: true,
+          },
+          password: {
+            required: true,
+            minlength : 8
+          },
+          password_confirmation: {
+            required: true,
+            minlength : 8,
+            equalTo : '#password',
+          },
+        },
+        errorPlacement: function (error, element) {
+          if (element.attr("type") == "checkbox" || element.attr("type") == "radio")  {
+              $(element).parent().parent().append(error);
+          }
+          else if(element.attr("name") == "password")
+          {
+              $(element).parent().append(error);
+          } 
+          else {
+              element.after(error);
+          }
+      }
+    });
   });

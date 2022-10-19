@@ -7,6 +7,8 @@ use Illuminate\Database\Seeder;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class UserSeeder extends Seeder
 {
@@ -17,34 +19,49 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        // User::create([
-        //     "name" => "admin",
-        //     "email" => "testadmin@gmail.com",
-        //     "password" => Hash::make("12345678"),
-        //     "email_verified_at" => Carbon::now()->timestamp,
-        //     "role" => "1",
-        // ]);
-        User::create([
+        $user = User::create([
+            "name" => "admin",
+            "email" => "testadmin@gmail.com",
+            "password" => Hash::make("12345678"),
+            "email_verified_at" => Carbon::now()->timestamp,
+        ]);
+        $role = Role::create(['name' => 'admin']);
+        
+        $permissions = Permission::pluck('id','id')->all();
+   
+        $role->syncPermissions($permissions);
+     
+        $user->assignRole([$role->id]);
+
+        $user = User::create([
             "name" => "Bishoples",
             "email" => "bishoples@gmail.com",
             "password" => Hash::make("12345678"),
-            // "email_verified_at" => Carbon::now()->timestamp,
-            "role" => "1",
+            "email_verified_at" => Carbon::now()->timestamp,
         ]);
-        User::create([
+        
+        // $permissions = Permission::pluck('id','id')->all();
+   
+        // $role->syncPermissions($permissions);
+     
+        $user->assignRole([$role->id]);
+        $user = User::create([
             "name" => "inspector",
-            "email" => "abhishek@evergreenbrain.com",
+            "email" => "testinspector@gmail.com",
             "password" => Hash::make("12345678"),
-            // "email_verified_at" => Carbon::now()->timestamp,
-            "role" => "2",
+            "email_verified_at" => Carbon::now()->timestamp,
         ]);
-        User::create([
+        $role = Role::create(['name' => 'inspector']);
+        $user->assignRole([$role->id]);
+        
+        $user = User::create([
             "name" => "company",
             "email" => "testcompany@gmail.com",
             "company_name" => "Wind Mitigation",
-            // "email_verified_at" => Carbon::now()->timestamp,
+            "email_verified_at" => Carbon::now()->timestamp,
             "password" => Hash::make("12345678"),
-            "role" => "3",
         ]);
+        $role = Role::create(['name' => 'company']);
+        $user->assignRole([$role->id]);
     }
 }
