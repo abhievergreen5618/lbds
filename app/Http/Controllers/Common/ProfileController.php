@@ -95,6 +95,7 @@ class ProfileController extends Controller
             $user =Auth::user();
             $user->name = $request['name'];
             $user->mobile_number = $request['mobile_number'];
+            $user->profile_img = $fileName;
             $user->save();
             return back()->with('msg','Profile Updated Successfully');
     }
