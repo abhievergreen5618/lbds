@@ -2,6 +2,23 @@ $(document).ready(function () {
     $(".alert").delay(2000).slideUp(200, function () {
         $(this).alert('close');
     });
+    var session = (sessionStorage.length != 0) ? sessionStorage.getItem("activetab") : 0;
+    if (session != 0) {
+        $('.nav li a').removeClass("active");
+        $('.card-div').hide();
+        $("[data-childid=" + session + "]").addClass("active");
+        $('#' + session).show();
+    }
+    $(document).on('click', '.nav li a', function () {
+        childid = $(this).attr("data-childid");
+        if (childid != "undefined") {
+            $('.nav li a').removeClass("active");
+            $(this).addClass("active");
+            $('.card-div').hide();
+            $('#' + childid).show();
+            sessionStorage.setItem("activetab", childid);
+        }
+    });
     var inspectiontable = $('#inspectiontable').DataTable({
         "processing": true,
         "serverSide": true,
@@ -204,8 +221,18 @@ $(document).ready(function () {
             };
         });
     });
-
+    function select2call() {
+        $('.inspectorlist').select2({
+            placeholder: "Assign Inspector",
+            tags: true,
+        });
+    }
     var requesttable = $('#requesttable').DataTable({
+        "preDrawCallback": function (settings) {
+            setTimeout(function () {
+                select2call();
+            }, 1000);
+        },
         "processing": true,
         "serverSide": true,
         "ajax": {
@@ -216,7 +243,8 @@ $(document).ready(function () {
             },
         },
         "columnDefs": [
-            { "className": "dt-center", "targets": "_all" }
+            { "className": "dt-center", "targets": "_all" },
+            { "width": "30%", "targets": 5 }
         ],
         "columns": [
             {
@@ -286,7 +314,7 @@ $(document).ready(function () {
         "ajax": {
             "url": "inspectortabledetails",
             "type": "POST",
-            'beforeSend': function(request) {
+            'beforeSend': function (request) {
                 request.setRequestHeader("X-CSRF-TOKEN", jQuery('meta[name="csrf-token"]').attr('content'));
             },
         },
@@ -294,37 +322,37 @@ $(document).ready(function () {
             { "className": "dt-center", "targets": "_all" }
         ],
         "columns": [{
-                "data": "company_name",
-            },
-            {
-                "data": "name",
-            },
-            {
-                "data": "color_code",
-            },
-            {
-                "data": "mobile_number",
-            },
-            {
-                "data": "email",
-            },
-            {
-                "data": "status",
-            },
-            {
-                "data": "license_number",
-            },
-            {
-                "data": "area_coverage",
-            },
-            {
-                "data": "action",
-            },
+            "data": "company_name",
+        },
+        {
+            "data": "name",
+        },
+        {
+            "data": "color_code",
+        },
+        {
+            "data": "mobile_number",
+        },
+        {
+            "data": "email",
+        },
+        {
+            "data": "status",
+        },
+        {
+            "data": "license_number",
+        },
+        {
+            "data": "area_coverage",
+        },
+        {
+            "data": "action",
+        },
 
         ],
     });
 
-    inspectortable.on('click', '.status', function() {
+    inspectortable.on('click', '.status', function () {
         element = $(this);
         var userid = $(this).attr('data-id');
         Swal.fire({
@@ -347,10 +375,10 @@ $(document).ready(function () {
                         id: userid
                     },
                     dataType: 'json',
-                    success: function(data) {
+                    success: function (data) {
                         inspectortable.ajax.reload();
                     },
-                    error: function(data) {
+                    error: function (data) {
                         // console.log(data);
                     }
                 });
@@ -358,7 +386,7 @@ $(document).ready(function () {
         });
     });
 
-    inspectortable.on('click', '.delete', function() {
+    inspectortable.on('click', '.delete', function () {
         $('#userdetails_processing').show();
         element = $(this);
         var userid = $(this).attr('data-id');
@@ -382,10 +410,10 @@ $(document).ready(function () {
                         id: userid
                     },
                     dataType: 'json',
-                    success: function(data) {
+                    success: function (data) {
                         inspectortable.ajax.reload();
                     },
-                    error: function(data) {
+                    error: function (data) {
                         // console.log(data);
                     }
                 });
@@ -437,8 +465,8 @@ $(document).ready(function () {
         ],
     });
 
-    
-    usertable.on('click', '.delete', function() {
+
+    usertable.on('click', '.delete', function () {
         $('#userdetails_processing').show();
         element = $(this);
         var userid = $(this).attr('data-id');
@@ -462,10 +490,10 @@ $(document).ready(function () {
                         id: userid
                     },
                     dataType: 'json',
-                    success: function(data) {
+                    success: function (data) {
                         usertable.ajax.reload();
                     },
-                    error: function(data) {
+                    error: function (data) {
                         // console.log(data);
                     }
                 });
@@ -473,7 +501,7 @@ $(document).ready(function () {
         });
     });
 
-    usertable.on('click', '.status', function() {
+    usertable.on('click', '.status', function () {
         element = $(this);
         var userid = $(this).attr('data-id');
         Swal.fire({
@@ -496,16 +524,58 @@ $(document).ready(function () {
                         id: userid
                     },
                     dataType: 'json',
-                    success: function(data) {
+                    success: function (data) {
                         usertable.ajax.reload();
                     },
-                    error: function(data) {
+                    error: function (data) {
                         // console.log(data);
                     }
                 });
             };
         });
     });
-
+    requesttable.on('select2:selecting', '.inspectorlist', function (sel) {
+        $(this).find("option[value=" + sel.params.args.data.id + "]").each(function (e) {
+            element = $(this);
+            var insid = $(this).val();
+            var reqid = $(this).attr('data-req-id');
+            if (insid.length && reqid.length) {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You will be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes!'
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            type: "POST",
+                            headers: {
+                                'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                            },
+                            url: 'inspectorassign',
+                            data: {
+                                id: insid,
+                                reqid: reqid,
+                            },
+                            dataType: 'json',
+                            success: function (data) {
+                                toastr.success(data.msg);
+                                requesttable.ajax.reload();
+                            },
+                            error: function (xhr) {
+                                console.log(xhr);
+                                if (xhr.status == 422 && xhr.responseJSON.msg.length) {
+                                    toastr.error(xhr.responseJSON.msg);
+                                }
+                            }
+                        });
+                    };
+                });
+            }
+        });
+    });
 });
 

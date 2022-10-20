@@ -10,6 +10,8 @@ use App\Models\User;
 use App\Models\RequestModel;
 use DataTables;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 
 class RequestController extends Controller
 {
@@ -119,6 +121,29 @@ class RequestController extends Controller
         return view('admin.request.allrequest');
     }
 
+    public function assign(Request $request)
+    {
+        $validator =Validator::make($request->all(), [
+                "id" => 'required',
+                "reqid" => 'required',
+        ]);
+        if ($validator->fails()) {
+            $msg = "OOps! Something Went Wrong";
+            return response()->json(array("msg" => $msg), 422);
+        }
+        else
+        {
+            $current_date_time = Carbon::now()->toDateTimeString();
+            RequestModel::where(["id"=>decrypt($request['reqid'])])->update([
+                    "assigned_ins" => decrypt($request['id']),
+                    "assigned_at" => $current_date_time,
+                    "status" => "scheduled",
+            ]);
+            $msg = "Inspector Assigned Successfully";
+            return response()->json(array("msg" => $msg), 200);
+        }
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -158,7 +183,7 @@ class RequestController extends Controller
     {
         if ($request->ajax()) {
             $GLOBALS['count'] = 0;
-            $data = RequestModel::latest()->get(["id","company_id","applicantname","address","inspectiontype","created_at","status"]);
+            $data = RequestModel::latest()->get(["id","company_id","applicantname","address","inspectiontype","created_at","status","assigned_ins"]);
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('company_id', function($row)
                 {
@@ -171,33 +196,24 @@ class RequestController extends Controller
                     foreach($row->inspectiontype as $value)
                     {
                         $inspectiontype = Inspectiontype::where(["id"=>$value])->first("name");
-                        $returnvalue = $returnvalue."<br>".$inspectiontype['name'];
-                    }
-                    return $returnvalue;
-                })
-                ->addColumn('inspectiontype', function($row)
-                {
-                    $returnvalue = "";
-                    foreach($row->inspectiontype as $value)
-                    {
-                        $inspectiontype = Inspectiontype::where(["id"=>$value])->first("name");
                         $returnvalue = $returnvalue.$inspectiontype['name']."<br>";
                     }
                     return $returnvalue;
                 })
-                ->addColumn('action', function($row){
+                ->addColumn('action', function($row)
+                {   
                     $id = encrypt($row->id);
-                    // $editlink = route('admin.update.sendinvoice', ['id' => $id]);
-                    $editlink = "";
+                    $editlink = route('requestcheck', ['id' => $id]);
                     $btn = "<div class='d-flex justify-content-around'><a href='$editlink' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Edit' class='btn limegreen btn-primary  edit'>View</a><a href='javascript:void(0)' data-id='$id' class='ml-2 delete btn red-btn btn-danger'  data-bs-toggle='tooltip' data-bs-placement='top' title='Delete'>Cancel</a></div>";
                     return $btn;
                 })
                 ->addColumn('assigned_inspector', function($row){
-                    $returnvalue = "<select class='form-control' name='inspector' id='inspector'><option value=''>Select Inspector</option>";
+                    $returnvalue = "<select class='form-control inspectorlist' name='inspector' id='inspector'><option value=''></option>";
                     $inspectors = User::role('inspector')->pluck("name","id");
                     foreach($inspectors as $key=>$value)
                     {
-                        $returnvalue = $returnvalue."<option value='".encrypt($key)."'>".$value."</option>";
+                        $select = ((!empty($row->assigned_ins)) && $row->assigned_ins == $key) ? "selected" : ""; 
+                        $returnvalue = $returnvalue."<option value='".encrypt($key)."' data-req-id='".encrypt($row->id)."' $select>".$value."</option>";
                     }
                     $returnvalue = $returnvalue."</select>";
                     return $returnvalue;
@@ -209,11 +225,15 @@ class RequestController extends Controller
                     if ($row->status == "pending") {
                         $class = "btn btn-warning ms-2 status";
                     } 
+                    elseif($row->status == "scheduled")
+                    {
+                        $class = "btn btn-danger ms-2 status";
+                    }
                     elseif($row->status == "completed")
                     {
                         $class = "btn btn-success ms-2 status";
                     }
-                    $btntext = $row->status;
+                    $btntext = ucfirst($row->status);
                     $id = encrypt($row->id);
                     $statusBtn = "<div class='d-flex justify-content-center'><a href='javascript:void(0)' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Task $btntext' class='$class'>$btntext</a></div>";
                     return $statusBtn;
@@ -260,6 +280,17 @@ class RequestController extends Controller
     }
     public function requestcheck(Request $request)
     {
-        return view('admin.request.requeststatus');
+        $company = RequestModel::where("id",decrypt($request->id))->first('company_id');
+        $companydetails = User::where("id",$company['company_id'])->first();
+        $requestdetails = RequestModel::where("company_id",decrypt($request->id))->first();
+        $agencyfiles = RequestModel::where("id",decrypt($request->id))->first("agency_related_files");
+        $reportfiles = RequestModel::where("id",decrypt($request->id))->first("reports_related_files");
+        return view('admin.request.requeststatus')->with(
+            [
+            "companydetails"=>$companydetails,
+            "requestdetails"=>$requestdetails,
+            "agencyfiles" => $agencyfiles['agency_related_files'],
+            "reportfiles" => $reportfiles['reports_related_files'],
+        ]);
     }
 }

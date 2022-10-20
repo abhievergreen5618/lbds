@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="{{asset('/plugins/jqvmap/jqvmap.min.css')}}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('/dist/css/adminlte.min.css')}}">
+  <link rel="stylesheet" href="{{asset('/plugins/toastr/toastr.min.css')}}">
   <!-- overlayScrollbars -->
   <link rel="stylesheet" href="{{asset('/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
   <!-- Daterange picker -->
@@ -64,6 +65,7 @@
 
 <!-- jQuery -->
 <script src="{{asset('/plugins/jquery/jquery.min.js')}}"></script>
+<script src="{{asset('/plugins/toastr/toastr.min.js')}}"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="{{asset('/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->

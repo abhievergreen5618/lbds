@@ -25,6 +25,7 @@ class RequestModel extends Model
         'agency_related_files',
         'reports_related_files',
         'assigned_ins',
+        'assigned_at',
     ];
 
     protected $casts = [
