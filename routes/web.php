@@ -45,6 +45,7 @@ Route::controller(RequestController::class)->group(function () {
     Route::post('/inspectorassign','assign')->name('inspectorassign');
     Route::post('/request-delete','destroy')->name('request-delete');
     Route::post('/request-update','update')->name('requestupdate');
+    Route::post('/requestschedule','schedule')->name('requestschedule');
 });
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

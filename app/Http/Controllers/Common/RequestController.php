@@ -117,6 +117,8 @@ class RequestController extends Controller
 
     public function assign(Request $request)
     {
+        // $request['id'] = "eyJpdiI6IjhtM085TjU3akltRTl2YnpRNkZEeFE9PSIsInZhbHVlIjoicmhJc1hVTU4zNlFpeEdMM1kxR0tJdz09IiwibWFjIjoiMDkyYjc2ZTU0ZmE0ZmJkZjg4ZmQ3NTUyYWYwNTkwN2UxMjZkNWJlMmFjZTE0ZGM5ZTY4OWY3ZDM4YjQ3ZmQwYyIsInRhZyI6IiJ9";
+        // $request['reqid'] = "eyJpdiI6IjhSU0pxNjZLaUV4UTdVRGJTNkdPdkE9PSIsInZhbHVlIjoiYlFTdEFCT2lxd3RyWFk0N1BvRHJsdz09IiwibWFjIjoiNDIyMjQ4Mjc1M2QwNWYyZTA2YWMzOGNmMWEzNDU4OWI1Zjc1ZGViNzg0NGQ3MTEzYWNlZmZkODQxMDU2Yzg3MSIsInRhZyI6IiJ9";
         $validator = Validator::make($request->all(), [
             "id" => 'required',
             "reqid" => 'required',
@@ -125,9 +127,17 @@ class RequestController extends Controller
             $msg = "OOps! Something Went Wrong";
             return response()->json(array("msg" => $msg), 422);
         } else {
-            $mailData = "";
             $insemail = User::role('inspector')->where("id",decrypt($request['id']))->first('email');
-            Mail::to($insemail['email'])->send(new Inspectorassign($mailData));
+            $insdetails = User::role('inspector')->where("id",decrypt($request['id']))->first();
+            $requestdetails = RequestModel::where("id",decrypt($request['reqid']))->first();
+            $companydetails = User::role('company')->where("id",$requestdetails['company_id'])->first();
+            // return view('admin.inspector.mail.assign')->with([
+            //     'insdetails' => $insdetails,
+            //     'requestdetails' => $requestdetails,
+            //     'companydetails' => $companydetails,
+            // ]);  
+            Mail::to($insemail['email'])->send(new Inspectorassign($insdetails,$companydetails,$requestdetails));
+            Mail::to($requestdetails['applicantemail'])->send(new Inspectorassign($insdetails,$companydetails,$requestdetails));
             $current_date_time = Carbon::now()->toDateTimeString();
             RequestModel::where(["id" => decrypt($request['reqid'])])->update([
                 "assigned_ins" => decrypt($request['id']),
@@ -159,7 +169,6 @@ class RequestController extends Controller
      */
     public function update(Request $request)
     {
-        // dd($request->all());
         $request->validate(
             [
                 "id" => "required",
@@ -179,7 +188,6 @@ class RequestController extends Controller
             ]
         );
         RequestModel::where("id", decrypt($request['id']))->update([
-            "company_id" => decrypt($request['id']),
             "inspectiontype" => $request['inspectiontype'],
             "applicantname" => $request['applicantname'],
             "applicantemail" => $request['applicantemail'],
@@ -190,6 +198,7 @@ class RequestController extends Controller
             "zipcode" => $request['zipcode'],
             "sendinvoice" => $request['sendinvoice'],
             "comments" => $request['comments'],
+            "ins_fee" => $request['ins_fee'],
         ]);
         return redirect()->back()->with('msg','Request Updated Successfully');
     }
@@ -210,6 +219,25 @@ class RequestController extends Controller
         RequestModel::where('id', decrypt($request['id']))->delete();
         $msg = "Deleted Successfully";
         return response()->json(array("msg" => $msg), 200); 
+    }
+
+    public function schedule(Request $request)
+    {
+        $request->validate(
+            [
+                "id"   => "required",
+                "time" => "required",
+                "date" => "required|date|after:today", 
+            ],
+            [
+                "required" => "Field is required.",
+            ]
+        );
+        RequestModel::where('id', decrypt($request['id']))->update([
+            "schedule_at" => $request->date,
+            "schedule_time" => $request->time,
+        ]);
+        return redirect()->back()->with('msg','Request Scheduled Successfully');
     }
 
 

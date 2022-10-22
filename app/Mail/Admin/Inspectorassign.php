@@ -13,14 +13,15 @@ class Inspectorassign extends Mailable
 {
     use Queueable, SerializesModels;
 
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public $insdetails;
+    public $companydetails;
+    public $requestdetails;
+
+    public function __construct($insdetails,$companydetails,$requestdetails)
     {
-        //
+        $this->insdetails = $insdetails;
+        $this->companydetails = $companydetails;
+        $this->requestdetails = $requestdetails;
     }
 
     /**

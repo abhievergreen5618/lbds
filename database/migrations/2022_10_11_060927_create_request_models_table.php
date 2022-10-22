@@ -27,7 +27,10 @@ return new class extends Migration
             $table->string('comments')->nullable();
             $table->string('sendinvoice')->nullable();
             $table->string('assigned_ins')->nullable();
+            $table->string('ins_fee')->nullable();
             $table->timestamp('assigned_at')->nullable();
+            $table->date('schedule_at')->nullable();
+            $table->time('schedule_time')->nullable();
             $table->string('status')->default("pending");
             $table->string('agency_related_files')->nullable();
             $table->string('reports_related_files')->nullable();

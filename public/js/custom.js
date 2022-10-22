@@ -550,6 +550,8 @@ $(document).ready(function () {
                     confirmButtonText: 'Yes!'
                 }).then((result) => {
                     if (result.value) {
+                        $('.preloader').children().show();
+                        $('.preloader').css("height", "100vh");
                         $.ajax({
                             type: "POST",
                             headers: {
@@ -562,12 +564,15 @@ $(document).ready(function () {
                             },
                             dataType: 'json',
                             success: function (data) {
+                                $('.preloader').children().hide();
+                                $('.preloader').css("height", "0");
                                 toastr.success(data.msg);
                                 requesttable.ajax.reload();
                             },
                             error: function (xhr) {
-                                console.log(xhr);
                                 if (xhr.status == 422 && xhr.responseJSON.msg.length) {
+                                    $('.preloader').children().hide();
+                                $('.preloader').css("height", "0");
                                     toastr.error(xhr.responseJSON.msg);
                                 }
                             }

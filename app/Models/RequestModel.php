@@ -26,6 +26,7 @@ class RequestModel extends Model
         'reports_related_files',
         'assigned_ins',
         'assigned_at',
+        'ins_fee',
     ];
 
     protected $casts = [
