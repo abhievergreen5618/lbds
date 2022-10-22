@@ -12,6 +12,8 @@ use DataTables;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
+use App\Mail\Admin\Inspectorassign;
+use Illuminate\Support\Facades\Mail;
 
 class RequestController extends Controller
 {
@@ -123,6 +125,9 @@ class RequestController extends Controller
             $msg = "OOps! Something Went Wrong";
             return response()->json(array("msg" => $msg), 422);
         } else {
+            $mailData = "";
+            $insemail = User::role('inspector')->where("id",decrypt($request['id']))->first('email');
+            Mail::to($insemail['email'])->send(new Inspectorassign($mailData));
             $current_date_time = Carbon::now()->toDateTimeString();
             RequestModel::where(["id" => decrypt($request['reqid'])])->update([
                 "assigned_ins" => decrypt($request['id']),
@@ -186,7 +191,7 @@ class RequestController extends Controller
             "sendinvoice" => $request['sendinvoice'],
             "comments" => $request['comments'],
         ]);
-        return redirect()->route('')->with('msg','Request Updated Successfully');
+        return redirect()->back()->with('msg','Request Updated Successfully');
     }
 
     /**

@@ -297,7 +297,8 @@
                                 formData.append('type', $(element).attr("id"));
                             });
                             myDropzone.processQueue();
-                        } else {
+                        }
+                         else {
                             e.preventDefault();
                             requestformsubmit();
                         }
