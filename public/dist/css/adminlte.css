@@ -33693,7 +33693,7 @@ a.close.disabled, a.disabled.mailbox-attachment-close {
   background-color: #fff;
 }
 
-.timeline {
+/* .timeline {
   margin: 0 0 45px;
   padding: 0;
   position: relative;
@@ -33832,7 +33832,7 @@ a.close.disabled, a.disabled.mailbox-attachment-close {
 
 .dark-mode .timeline > div > .timeline-item > .time {
   color: #ced4da;
-}
+} */
 
 .products-list {
   list-style: none;
