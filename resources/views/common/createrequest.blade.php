@@ -171,8 +171,8 @@
                     showConfirmButton: false,
                     timer: 1000,
                 }).then((result) => {
-                    var newloc = "{{ route('admin.request.list') }}";
-                    window.location.href = newloc;
+                    // var newloc = "{{ route('admin.request.list') }}";
+                    // window.location.href = newloc;
                 });
             },
             error: function(xhr) {
