@@ -117,6 +117,9 @@
     .col-12.p-4.bg-white.shadow-sm.brequest.rounded-10 {
         margin-top: 24px;
     }
+    h6.mb-0.font-95.float-end.col-6.px-2.p-1.bg-dark.font-weight-600.text-white {
+        float: right !important;
+    }
 </style>
 @endpush
 @extends('layouts.app')
