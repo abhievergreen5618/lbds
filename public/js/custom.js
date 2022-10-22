@@ -292,7 +292,7 @@ $(document).ready(function () {
                     headers: {
                         'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
                     },
-                    url: 'inspection-type-delete',
+                    url: 'request-delete',
                     data: {
                         id: userid
                     },

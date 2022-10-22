@@ -18,21 +18,21 @@
         <form id="requestform">
             <div class="card-body">
                 <div class="row g-3 align-items-end">
-                @role('admin')
+                    @role('admin')
                     <div class="col-md-12 my-2">
                         <label for="report">{{ __('Agencies') }}</label>
                         <select class="form-control" name="agency" id="agency">
                             <option value="">Select Agency</option>
                             @if(!empty($companydetails) && count($companydetails) != 0)
-                                @foreach($companydetails as $key=>$value)
-                                <option value="{{encrypt($key)}}">{{__($value)}}</option>
-                                @endforeach
+                            @foreach($companydetails as $key=>$value)
+                            <option value="{{encrypt($key)}}">{{__($value)}}</option>
+                            @endforeach
                             @endif
                         </select>
                     </div>
                     @endrole
                     @role('company')
-                        <input type="hidden" name="agency" value="{{encrypt(auth()->user()->id)}}">
+                    <input type="hidden" name="agency" value="{{encrypt(auth()->user()->id)}}">
                     @endrole
                     @if(!empty($data) && count($data) != 0)
                     <div class="col-md-12 my-2">
@@ -152,17 +152,18 @@
     });
 
     function requestformsubmit() {
+        var formdata = getFormData($("#requestform"));
         $.ajax({
             url: "requestsubmit",
-            data: $("#requestform").serialize(),
+            data: formdata,
             type: 'Post',
             dataType: 'json',
             headers: {
-            'x-csrf-token': $('meta[name="csrf-token"]').attr('content'),
+                'x-csrf-token': $('meta[name="csrf-token"]').attr('content'),
             },
             success: function(result) {
                 $('.preloader').children().hide();
-                $('.preloader').css("height","0");
+                $('.preloader').css("height", "0");
                 Swal.fire({
                     icon: 'success',
                     title: 'Good job!',
@@ -176,27 +177,86 @@
             },
             error: function(xhr) {
                 $('.preloader').children().hide();
-                $('.preloader').css("height","0");
+                $('.preloader').css("height", "0");
                 if (xhr.status == 422) {
                     $('*').removeClass("is-invalid-special");
                     $.each(xhr.responseJSON.errors, function(key, value) {
-                        if(key == "agency")
-                        {
-                            $("[name='"+key+"']").next().focus();
-                            $("#error-"+key).next().remove();
-                            $("[name='"+key+"']").next().after("<label id='error-"+key+"' class='error fail-alert'>"+value+"</label>");
-                        }
-                        else
-                        {
-                            $("[name='"+key+"']").focus();
-                            $("#error-"+key).remove();
-                            $("[name='"+key+"']").after("<label id='error-"+key+"' class='error fail-alert'>"+value+"</label>");
+                        if (key == "agency") {
+                            $("[name='" + key + "']").next().focus();
+                            $("#error-" + key).remove();
+                            $("[name='" + key + "']").next().after("<label id='error-" + key + "' class='error fail-alert'>" + value + "</label>");
+                        } else if (key == "sendinvoice") {
+                            $("[name='sendinvoice[]']:first").focus();
+                            $("#error-" + key).remove();
+                            $("[name='sendinvoice[]']:first").parent().parent().parent().parent().append("<label id='error-" + key + "' class='error fail-alert'>" + value + "</label>");
+                        } else if (key == "inspectiontype") {
+                            $("[name='inspectiontype[]']:first").focus();
+                            $("#error-" + key).remove();
+                            $("[name='inspectiontype[]']:first").parent().parent().parent().parent().append("<label id='error-" + key + "' class='error fail-alert'>" + value + "</label>");
+                        } else {
+                            $("[name='" + key + "']").focus();
+                            $("#error-" + key).remove();
+                            $("[name='" + key + "']").after("<label id='error-" + key + "' class='error fail-alert'>" + value + "</label>");
                         }
                     });
                 }
             },
         });
     }
+
+    function getFormData($form) {
+
+        var unindexed_array = $form.serializeArray();
+
+        var indexed_array = {};
+
+        const posts = [];
+
+        $.each(unindexed_array, function(key, value) {
+
+            name = value.name;
+
+            val = value.value;
+
+            if (val.length) {
+
+                if (name == "sendinvoice[]") {
+
+                    posts.push(val);
+
+                    indexed_array["sendinvoice[]"] = posts;
+
+                }
+                if (name == "inspectiontype[]") {
+
+                    posts.push(val);
+
+                    indexed_array["inspectiontype[]"] = posts;
+
+                } else {
+
+                    indexed_array[name] = val;
+
+                }
+
+            }
+
+        });
+
+        return indexed_array;
+
+    }
+
+    function checkcount(count,id) {
+        if (count == 0 && id == "agencyfiles") {
+            return false;
+        } else if (count > 0 && id == "reportfiles") {
+            return false;
+        } else if (count == 0 && id == "reportfiles") {
+            return true;
+        }
+    }
+
 
     var uploaded = false;
     Dropzone.autoDiscover = false;
@@ -215,14 +275,16 @@
             $button.addEventListener("click", function(e) {
                 if ($('#requestform').valid()) {
                     $('.preloader').children().show();
-                    $('.preloader').css("height","100vh");
+                    $('.preloader').css("height", "100vh");
                     var count = myDropzone.getAcceptedFiles().length;
-                    if (count == 0) {
+                    var element = $(myDropzone).get(0).element;
+                    count = checkcount(count,$(element).attr("id"));
+                    if (typeof(count) != "undefined" && count == true) {
                         e.preventDefault();
                         requestformsubmit();
-                    } else {
+                    }
+                    else {
                         if (uploaded === false) {
-                            var element = $(myDropzone).get(0).element;
                             const acceptedFiles = myDropzone.getAcceptedFiles();
                             myDropzone.on('sending', function(file, xhr, formData) {
                                 formData.append('type', $(element).attr("id"));
@@ -230,7 +292,7 @@
                             for (let i = 0; i < acceptedFiles.length; i++) {
                                 setTimeout(function() {
                                     myDropzone.processFile(acceptedFiles[i])
-                                }, i * 500)
+                                }, i * 1000)
                             }
                         } else {
                             e.preventDefault();

@@ -1,4 +1,5 @@
 @push('header_extras')
+<link rel="stylesheet" href="{{asset('/css/all.css')}}">
 <style>
     .stepwizard-step p {
         margin-top: 10px;
@@ -57,248 +58,463 @@
         line-height: 1.428571429;
         border-radius: 15px;
     }
-    .requestdetailcard
-    {
+
+    .requestdetailcard {
         background-color: #007bff;
         color: white;
     }
-    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
-    color: black !important;
-    background-color: #fff;
-    border-color: #dee2e6 #dee2e6 #fff;
+
+    .nav-tabs .nav-item.show .nav-link,
+    .nav-tabs .nav-link.active {
+        color: black !important;
+        background-color: #fff;
+        border-color: #dee2e6 #dee2e6 #fff;
+    }
+
+    .section1 {
+        background-color: #f5f5f5;
+        padding: 2%;
+    }
+
+    h4.mb-1.font-weight-bold.text-danger {
+        text-align: right;
+    }
+
+    .container-fluid.VV {
+        background-color: white;
+        padding: 28PX;
+        border: 1px solid #f5eeee;
+        box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%);
+        margin-top: 15px;
+    }
+
+    svg.svg-inline--fa.fa-bars.fa-w-14.fa-lg {
+        color: black;
+        margin-top: 7px;
+    }
+
+    .px-4.nav.justify-content-between {
+        margin-top: -19%;
+    }
+
+    button.accordion-button.collapsed {
+        border: 1px solid #f5eeee;
+        box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%);
+        padding-top: 19px;
+        margin-top: 23px;
+        font-weight: 500;
+        font-size: 20px;
+    }
+
+    .row.btn-danger {
+        background-color: #ffffff;
+        padding: 15px;
+        border-radius: 4px;
+        border: 1px solid #f5eeee;
+        box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%);
+    }
+
+    .col-12.p-4.bg-white.shadow-sm.brequest.rounded-10 {
+        margin-top: 24px;
     }
 </style>
 @endpush
 @extends('layouts.app')
 
 @section('content')
-<div class="col-lg-12">
-    <div class="card">
-        <div class="card-body">
-            <h3 class="card-title">Request Details</h3>
+<div class="section1">
+    <div class="container-fluid">
+        <div class="row jj">
+            <div class="col-md-6">
+                <div>
+                    <h3 class="mb-1 font-weight-bold text-black">Request
+                        Information</h3>
+                    <h6 class="mb-0 font-95 col-6 px-2 p-1 bg-dark
+                        font-weight-600"><span class="text-white">Request #
+                            0eaff1</span></h6>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div>
+                    <div class="status-label float-end">
+
+                    </div>
+
+
+                    <h4 class="mb-1 font-weight-bold text-danger">Scheduled</h4>
+                    <h6 class="mb-0 font-95 float-end col-6 px-2 p-1 bg-dark
+                        font-weight-600 text-white"><span class="font-weight-500">Assigned To:</span> Alexander
+                        hernandez Piedra </h6>
+                </div>
+            </div>
+
         </div>
     </div>
-</div>
-<div class="col-lg-12">
-    <div class="card">
-        <div class="card-body pt-2">
-            <div class="container">
-                <div class="stepwizard">
-                    <div class="stepwizard-row setup-panel">
-                        <div class="stepwizard-step">
-                            <a href="#step-1" type="button" class="btn btn-primary btn-circle"><i class="fa fa-check"></i></a>
-                            <p>Submitted</p>
-                        </div>
-                        <div class="stepwizard-step">
-                            <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-check"></i></a>
-                            <p>Assigned</p>
-                        </div>
-                        <div class="stepwizard-step">
-                            <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-check"></i></a>
-                            <p>Scheduled</p>
-                        </div>
-                        <div class="stepwizard-step">
-                            <a href="#step-4" type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-check"></i></a>
-                            <p>Under Review</p>
-                        </div>
-                        <div class="stepwizard-step">
-                            <a href="#step-4" type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-check"></i></a>
-                            <p>Completed</p>
-                        </div>
-                    </div>
+
+
+
+
+    <div class="container-fluid VV">
+
+        <div class="col-md-12 mb-3 nav justify-content-between timeline">
+            <div class="text-center single-timeline"> <i class="fas
+                     fa-check-circle text-success fa-3x"></i>
+                <h5 class="font-weight-600 mt-2 text-black">Submitted</h5>
+                <h6 class="font-weight-500 mt-2 text-secondary font-95"> Oct
+                    20th, 2022</h6>
+            </div>
+            <div class="text-center single-timeline "> <i class="fas
+                     fa-check-circle text-success fa-3x"></i>
+                <h5 class="font-weight-600 mt-2 text-black">Assigned</h5>
+                <h6 class="font-weight-500 mt-2 text-secondary font-95"> Oct
+                    20th, 2022 </h6>
+            </div>
+            <div class="text-center single-timeline ">
+                <i class="fas fa-check-circle text-success fa-3x"></i>
+                <h5 class="font-weight-600 mt-2 text-black">Scheduled
+                </h5>
+                <h6 class="font-weight-500 mt-2 text-secondary font-95"> Oct
+                    21st, 2022 12:30 PM </h6>
+            </div>
+            <div class="text-center single-timeline opacity-50"> <i class="far fa-clock text-success fa-3x"></i>
+                <h5 class="font-weight-600 mt-2 text-black">Under Review</h5>
+                <h6 class="font-weight-500 mt-2 text-secondary font-95"> ----
+                    ---- ------ </h6>
+            </div>
+            <div class="text-center single-timeline opacity-50"> <i class="far fa-clock text-success fa-3x"></i>
+                <h5 class="font-weight-600 mt-2 text-black">Completed</h5>
+                <h6 class="font-weight-500 mt-2 text-secondary font-95"> ----
+                    ---- ------ </h6>
+            </div>
+        </div>
+
+
+
+
+        <div class="row">
+            <div class="col-md-12 mb-3 nav ">
+                <div class="col-md-6 mb-3">
+                    <form name="requestForm" id="requestForm" method="post" action="{{route('requestupdate')}}">
+                        @csrf
+                        <input type="hidden" name="id" value="{{encrypt($requestdetails->id)}}">
+                        <table class="table table-responsive brequest">
+                            <tbody>
+                                <tr>
+                                    <td>Applicant Name</td>
+                                    <td><input type="text" class="form-control" id="applicantname" name="applicantname" placeholder="Name" value="{{$requestdetails->applicantname}}" class="form-control">
+                                        @error('applicantname')
+                                        <div>
+                                            <label class="error fail-alert  mt-1">{{$message}}<label>
+                                        </div>
+                                        @enderror
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Applicant Email</td>
+                                    <td><input type="email" class="form-control" id="applicantemail" name="applicantemail" placeholder="Email" value="{{$requestdetails->applicantemail}}">
+                                        @error('applicantemail')
+                                        <div>
+                                            <label class="error fail-alert  mt-1">{{$message}}<label>
+                                        </div>
+                                        @enderror
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Applicant Phone</td>
+                                    <td><input type="number" class="form-control" id="applicantmobile" name="applicantmobile" placeholder="Phone" value="{{$requestdetails->applicantmobile}}">
+                                        @error('applicantmobile')
+                                        <div>
+                                            <label class="error fail-alert  mt-1">{{$message}}<label>
+                                        </div>
+                                        @enderror
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Address</td>
+                                    <td><textarea class="form-control" rows="3" placeholder="Enter Address" id="address" name="address">{{$requestdetails->address}}</textarea>
+                                        @error('address')
+                                        <div>
+                                            <label class="error fail-alert  mt-1">{{$message}}<label>
+                                        </div>
+                                        @enderror
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>City</td>
+                                    <td><input type="text" class="form-control" id="city" name="city" placeholder="City" value="{{$requestdetails->city}}">
+                                        @error('city')
+                                        <div>
+                                            <label class="error fail-alert  mt-1">{{$message}}<label>
+                                        </div>
+                                        @enderror
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>State</td>
+                                    <td><input type="number" class="form-control" id="state" name="state" placeholder="State" value="{{$requestdetails->state}}">
+                                        @error('state')
+                                        <div>
+                                            <label class="error fail-alert  mt-1">{{$message}}<label>
+                                        </div>
+                                        @enderror
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Zip Code</td>
+                                    <td><input type="number" class="form-control" id="zipcode" name="zipcode" placeholder="ZipCode" value="{{$requestdetails->zipcode}}">
+                                        @error('zipcode')
+                                        <div>
+                                            <label class="error fail-alert  mt-1">{{$message}}<label>
+                                        </div>
+                                        @enderror
+                                    </td>
+                                </tr>
+                                @if(!empty($invoicedata) && count($invoicedata) != 0)
+                                <tr>
+                                    <td>Send Invoice(s) To:</td>
+                                    <td>
+                                        @foreach($invoicedata as $key=>$value)
+                                        <div>
+                                            <label class="px-2 py-1 mb-1">
+                                                <input type="checkbox" value="{{$key}}" name="sendinvoice[]" @if(in_array($key,$requestdetails['sendinvoice'])) {{"checked"}} @endif>
+                                                {{$value}}
+                                            </label>
+                                        </div>
+                                        @endforeach
+                                    </td>
+                                </tr>
+                                @endif
+                                <tr>
+                                    <td>Inspection Fee</td>
+                                    <td><input type="text" name="ins_fee" value=""></td>
+                                </tr>
+                                @if(!empty($data) && count($data) != 0)
+                                <tr>
+                                    <td>Inspection Type</td>
+                                    <td>
+                                        <div class="form-group">
+                                            <label>Select Inspection Type:</label>
+                                            <div class="row type">
+                                                @foreach($data as $key=>$value)
+                                                <div class="col-md-6">
+                                                    <label class="px-2 py-1 border mb-2
+                                                border col-md-12">
+                                                        <input id="inspection-type-{{$key}}" type="checkbox" name="inspectiontype[]" value="{{$key}}" @if(in_array($key,$requestdetails['inspectiontype'])) {{"checked"}} @endif>
+                                                        {{$value}}
+                                                    </label>
+                                                </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endif
+                                <tr>
+                                    <td>Comments:</td>
+                                    <td><textarea class="form-control" rows="3" placeholder="Enter Comments" name="comments" id="comments">{{$requestdetails->comments}}</textarea></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="10"><input type="submit" class="btn btn-primary" value="Update">
+                                        <input id="btn-delete" type="button" class="btn btn-danger" value="Delete">
+                                        <input id="btn-cancel" type="button" class="btn btn-danger" value="Cancel">
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </form>
                 </div>
-                <div class="card text-center">
-                    <div class="card-header requestdetailcard">
-                        <ul class="nav nav-tabs card-header-tabs">
-                            <li class="nav-item">
-                                <a class="nav-link active text-light" aria-current="true" href="#" data-childid="companydetails">Company Details</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link  text-light" href="#" data-childid="editdetails">Edit</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link  text-light" href="#" data-childid="reportupload">Completed Reports Uploads</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link  text-light" href="#" data-childid="agencyupload">Agency Uploads</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="card-body card-div" id="companydetails">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <h2>Company Name</h2>
-                            </div>
-                            <div class="col-lg-6">
-                                <p>{{$companydetails->company_name}}</p>
-                            </div>
-                            <div class="col-lg-6">
-                                <h2>Company Address</h2>
-                            </div>
-                            <div class="col-lg-6">
-                                <p>{{$companydetails->company_address}}</p>
-                            </div>
-                            <div class="col-lg-6">
-                                <h2>Company Phone</h2>
-                            </div>
-                            <div class="col-lg-6">
-                                <p>{{$companydetails->company_phonenumber}}</p>
-                            </div>
-                            <div class="col-lg-6">
-                                <h2>Agent Name</h2>
-                            </div>
-                            <div class="col-lg-6">
-                                <p>{{$companydetails->name}}</p>
-                            </div>
-                            <div class="col-lg-6">
-                                <h2>Agent Direct Number</h2>
-                            </div>
-                            <div class="col-lg-6">
-                                <p>{{$companydetails->direct_number}}</p>
-                            </div>
-                            <div class="col-lg-6">
-                                <h2>Agent Email</h2>
-                            </div>
-                            <div class="col-lg-6">
-                                <p>{{$companydetails->email}}</p>
-                            </div>
+                <div class="col-md-6 mb-3">
+                    <!--                    <h5 class="py-2 bg-white font-weight-600 text-black mb-0">Clinic Details</h5>-->
+                    <table class="table brequest">
+                        <tbody>
+                            <tr>
+                                <td>Company Name</td>
+                                <td>
+                                    {{$companydetails->company_name}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Company Address</td>
+                                <td>
+                                    {{$companydetails->company_address}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Company Phone</td>
+                                <td>{{$companydetails->company_phonenumber}}</td>
+                            </tr>
+                            <tr>
+                                <td>Agent Name</td>
+                                <td>{{$companydetails->name}}</td>
+                            </tr>
+                            <tr>
+                                <td>Agent Direct Number</td>
+                                <td>{{$companydetails->direct_number}}</td>
+                            </tr>
+                            <tr>
+                                <td>Agent Email</td>
+                                <td>{{$companydetails->email}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!---xxx--->
+                    <div class="mt-3 mb-3 scheduled0eaff1"> <span class="btn
+                           btn-danger col-12 shadow-sm font-weight-600 btn-sm
+                           pointer"> Schedule Inspection &nbsp; <i class="fas
+                              fa-arrow-down fa-sm"></i></span> <br>
+                        <div class="input-group">
+                            <input type="date" class="border p-2 col-7" name="date" min="2022-10-21" required="">
+                            <input type="time" class="border p-2 col-5" name="time" required="">
                         </div>
+                        <button class="btn btn-sm col-12 btn-light
+                           font-weight-500 btn-schedule border" id="0eaff1">
+                            Submit &nbsp; <i class="fas fa-save fa-sm"></i>
+                        </button>
                     </div>
-                    <div class="card-body card-div" id="editdetails" style="display: none;">
-                    <div class="row g-3 align-items-end">
-                            <div class="col-md-12 my-2">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <label for="">{{ __('Insured / Applicant Information') }}</label>
-                                    </div>
-                                    <div class="col-lg-4 my-2">
-                                        <label for="applicantname">{{ __('Name') }}</label>
-                                        <input type="text" class="form-control" id="applicantname" name="applicantname" placeholder="Name">
-                                    </div>
-                                    <div class="col-lg-4 my-2">
-                                        <label for="applicantemail">{{ __('Email address') }}</label>
-                                        <input type="email" class="form-control" id="applicantemail" name="applicantemail" placeholder="Email">
-                                    </div>
-                                    <div class="col-lg-4 my-2">
-                                        <label for="applicantmobile">{{ __('Phone') }}</label>
-                                        <input type="number" class="form-control" id="applicantmobile" name="applicantmobile" placeholder="Phone">
-                                    </div>
-                                </div>
+                    <div class="status-label mt-2"> <span class="btn btn-sm
+                           btn-danger font-weight-500 py-0">Scheduled</span>
+                        <div id="reschedule0eaff1" class="collapse">
+                            <div class="input-group">
+                                <input type="date" class="border p-2 col-7" name="date" min="2022-10-21" required="">
+                                <input type="time" class="border p-2 col-5" name="time" required="">
                             </div>
-                            <div class="col-md-12 my-2">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <label for="">{{ __('Subject Property Information') }}</label>
-                                    </div>
-                                    <div class="col-lg-12 my-2">
-                                        <label for="address">{{ __('Address') }}</label>
-                                        <textarea class="form-control" rows="3" placeholder="Enter Address" id="address" name="address"></textarea>
-                                    </div>
-                                    <div class="col-lg-4 my-2">
-                                        <label for="city">{{ __('City') }}</label>
-                                        <input type="text" class="form-control" id="city" name="city" placeholder="City">
-                                    </div>
-                                    <div class="col-lg-4 my-2">
-                                        <label for="state">{{ __('State') }}</label>
-                                        <input type="number" class="form-control" id="state" name="state" placeholder="State">
-                                    </div>
-                                    <div class="col-lg-4 my-2">
-                                        <label for="zipcode">{{ __('ZipCode') }}</label>
-                                        <input type="number" class="form-control" id="zipcode" name="zipcode" placeholder="ZipCode">
-                                    </div>
-                                </div>
-                            </div>
+                            <button class="btn btn-sm col-12 btn-light
+                              font-weight-500 btn-reschedule border" id="0eaff1">Submit &nbsp;<i class="fas fa-save
+                                 fa-sm"></i></button>
                         </div>
-                    </div>
-                    <div class="card-body card-div" id="reportupload" style="display: none;">
-                        <div class="row">
-                            @foreach($agencyfiles as $key=>$value)
-                            <div class="col-lg-3">
-                                <div class="card text-bg-dark">
-                                    <img src="{{asset('/taskfiles/').'/'.$value}}" class="card-img" alt="...">
-                                    <!-- <div class="card-img-overlay">
-                                    </div> -->
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
-                    </div>
-                    <div class="card-body card-div" id="agencyupload" style="display: none;">
-                        <div class="row">
-                            @foreach($reportfiles as $key=>$value)
-                            <div class="col-lg-3">
-                                <div class="card text-bg-dark">
-                                    <img src="{{asset('/taskfiles/').'/'.$value}}" class="card-img" alt="...">
-                                    <!-- <div class="card-img-overlay">
-                                    </div> -->
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
+                        <span id="btn-calendar" class="btn btn-sm btn-dark
+                           font-weight-500 py-0 shadow pointer"> <i class="fas
+                              fa-calendar"></i> Add to Calendar </span> <span id="btn-calendar-google" class="btn btn-sm btn-info
+                           font-weight-500 py-0 shadow pointer"> <i class="fas
+                              fa-calendar"></i> Add to Google WorkSpace </span>
                     </div>
                 </div>
             </div>
         </div>
+
+
+
+
+        <div class="accordion accordion-flush" id="accordionFlushConcept">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                        Completed Reports Uploads
+                    </button>
+                </h2>
+                <div id="flush-collapseOne" class="accordion-collapse
+                     collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushConcept">
+                    <div class="accordion-body">This is the first item's
+                        accordion body content, which is intended to demonstrate
+                        the
+                        <code>.accordion-flush
+                        </code> class.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                        Agency Uploads
+                    </button>
+                </h2>
+                <div id="flush-collapseTwo" class="accordion-collapse
+                     collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushConcept">
+                    <div class="accordion-body">This is the second item's
+                        accordion body content, which is intended to demonstrate
+                        the
+                        <code>.accordion-flush
+                        </code> class.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                        Send report
+                    </button>
+                </h2>
+                <div id="flush-collapseThree" class="accordion-collapse
+                     collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushConcept">
+                    <div class="accordion-body">This is the second item's
+                        accordion body content, which is intended to demonstrate
+                        the
+                        <code>.accordion-flush
+                        </code> class.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
     </div>
-</div>
-@endsection
 
-@push('footer_extras')
-<script>
-    $(document).ready(function() {
+    @endsection
 
 
 
-        var navListItems = $('div.setup-panel div a'),
-            allWells = $('.setup-content'),
-            allNextBtn = $('.nextBtn'),
-            allPrevBtn = $('.prevBtn');
 
-        allWells.hide();
 
-        navListItems.click(function(e) {
-            e.preventDefault();
-            var $target = $($(this).attr('href')),
-                $item = $(this);
+    @push('footer_extras')
+    <script>
+        $(document).ready(function() {
+            var navListItems = $('div.setup-panel div a'),
+                allWells = $('.setup-content'),
+                allNextBtn = $('.nextBtn'),
+                allPrevBtn = $('.prevBtn');
 
-            if (!$item.hasClass('disabled')) {
-                navListItems.removeClass('btn-primary').addClass('btn-default');
-                $item.addClass('btn-primary');
-                allWells.hide();
-                $target.show();
-                $target.find('input:eq(0)').focus();
-            }
-        });
+            allWells.hide();
 
-        allNextBtn.click(function() {
-            var curStep = $(this).closest(".setup-content"),
-                curStepBtn = curStep.attr("id"),
-                nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
-                curInputs = curStep.find("input[type='text'],input[type='url']"),
-                isValid = true;
+            navListItems.click(function(e) {
+                e.preventDefault();
+                var $target = $($(this).attr('href')),
+                    $item = $(this);
 
-            $(".form-group").removeClass("has-error");
-            for (var i = 0; i < curInputs.length; i++) {
-                if (!curInputs[i].validity.valid) {
-                    isValid = false;
-                    $(curInputs[i]).closest(".form-group").addClass("has-error");
+                if (!$item.hasClass('disabled')) {
+                    navListItems.removeClass('btn-primary').addClass('btn-default');
+                    $item.addClass('btn-primary');
+                    allWells.hide();
+                    $target.show();
+                    $target.find('input:eq(0)').focus();
                 }
-            }
+            });
 
-            if (isValid)
-                nextStepWizard.removeAttr('disabled').trigger('click');
+            allNextBtn.click(function() {
+                var curStep = $(this).closest(".setup-content"),
+                    curStepBtn = curStep.attr("id"),
+                    nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+                    curInputs = curStep.find("input[type='text'],input[type='url']"),
+                    isValid = true;
+
+                $(".form-group").removeClass("has-error");
+                for (var i = 0; i < curInputs.length; i++) {
+                    if (!curInputs[i].validity.valid) {
+                        isValid = false;
+                        $(curInputs[i]).closest(".form-group").addClass("has-error");
+                    }
+                }
+
+                if (isValid)
+                    nextStepWizard.removeAttr('disabled').trigger('click');
+            });
+
+            allPrevBtn.click(function() {
+                var curStep = $(this).closest(".setup-content"),
+                    curStepBtn = curStep.attr("id"),
+                    prevStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().prev().children("a");
+
+                $(".form-group").removeClass("has-error");
+                prevStepWizard.removeAttr('disabled').trigger('click');
+            });
+
+            $('div.setup-panel div a.btn-primary').trigger('click');
         });
-
-        allPrevBtn.click(function() {
-            var curStep = $(this).closest(".setup-content"),
-                curStepBtn = curStep.attr("id"),
-                prevStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().prev().children("a");
-
-            $(".form-group").removeClass("has-error");
-            prevStepWizard.removeAttr('disabled').trigger('click');
-        });
-
-        $('div.setup-panel div a.btn-primary').trigger('click');
-    });
-</script>
-@endpush
+    </script>
+    @endpush

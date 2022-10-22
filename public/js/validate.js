@@ -58,11 +58,25 @@ $(document).ready(function () {
       report: {
         required: true,
       },
+      agency: {
+        required: true,
+      },
+      "inspectiontype[]": {
+        required: true,
+      },
+      'sendinvoice[]': {
+        required: true,
+      },
     },
     errorPlacement: function (error, element) {
       if (element.attr("type") == "checkbox" || element.attr("type") == "radio") {
-        $(element).parent().parent().append(error);
-      } else {
+        $(element).parent().parent().parent().parent().append(error);
+      }
+      else if(element.attr("name") == "agency" )
+      {
+        $(element).parent().append(error);
+      }
+      else {
         element.after(error);
       }
     }
