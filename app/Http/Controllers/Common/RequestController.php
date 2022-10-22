@@ -24,17 +24,24 @@ class RequestController extends Controller
     }
     public function index()
     {
-        $data = Inspectiontype::where("status", "active")->pluck("name", "id");
-        $invoicedata = SendInvoice::where("status", "active")->pluck("name", "id");
+        $data = Inspectiontype::where("status", "active")->pluck("name","id");
+        $invoicedata = SendInvoice::where("status", "active")->pluck("name","id");
+        if(!session()->has('taskid'))
+        {
+            $id = RequestModel::create(["agency_related_files" =>[]]);
+            $id = $id['id'];
+            session()->put('taskid',$id);
+        }
+        else
+        {
+            $id = session()->get('taskid');
+        }
+        // session()->forget('taskid');
         if (Auth::user()->hasRole("admin")) {
-            session()->forget('taskid');
-            session()->forget('count');
             $companydetails = User::role('company')->where(["status" => "active"])->pluck("company_name", "id");
-            return view('common.createrequest')->with(["data" => $data, "invoicedata" => $invoicedata, "companydetails" => $companydetails]);
+            return view('common.createrequest')->with(["data" => $data, "invoicedata" => $invoicedata, "companydetails" => $companydetails,"id"=> $id]);
         } else {
-            session()->forget('taskid');
-            session()->forget('count');
-            return view('common.createrequest')->with(["data" => $data, "invoicedata" => $invoicedata]);
+            return view('common.createrequest')->with(["data" => $data, "invoicedata" => $invoicedata,"id"=> $id]);
         }
     }
 
@@ -64,21 +71,7 @@ class RequestController extends Controller
                 "required" => "Field is required.",
             ]
         );
-        if (!isset($request['id'])) {
-            RequestModel::create([
-                "company_id" => decrypt($request['agency']),
-                "inspectiontype" => $request['inspectiontype'],
-                "applicantname" => $request['applicantname'],
-                "applicantemail" => $request['applicantemail'],
-                "applicantmobile" => $request['applicantmobile'],
-                "address" => $request['address'],
-                "city" => $request['city'],
-                "state" => $request['state'],
-                "zipcode" => $request['zipcode'],
-                "sendinvoice" => $request['sendinvoice'],
-                "comments" => $request['comments'],
-            ]);
-        } else {
+        if (isset($request['id'])) {
             RequestModel::where("id", decrypt($request['id']))->update([
                 "company_id" => decrypt($request['agency']),
                 "inspectiontype" => $request['inspectiontype'],
@@ -193,7 +186,7 @@ class RequestController extends Controller
             "sendinvoice" => $request['sendinvoice'],
             "comments" => $request['comments'],
         ]);
-        return redirect()->route()->with('msg','Request Updated Successfully');
+        return redirect()->route('')->with('msg','Request Updated Successfully');
     }
 
     /**
@@ -219,7 +212,7 @@ class RequestController extends Controller
     {
         if ($request->ajax()) {
             $GLOBALS['count'] = 0;
-            $data = RequestModel::latest()->get(["id", "company_id", "applicantname", "address", "inspectiontype", "created_at", "status", "assigned_ins"]);
+            $data = RequestModel::whereNotNull("company_id","")->latest()->get(["id", "company_id", "applicantname", "address", "inspectiontype", "created_at", "status", "assigned_ins"]);
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('company_id', function ($row) {
                     $company_name = User::role('company')->where(["id" => $row->company_id])->first("company_name");
@@ -272,44 +265,21 @@ class RequestController extends Controller
 
     public function upload(Request $request)
     {
-            
-            if ($request->file('file')) {
-            $i = session()->has('count') ? $request->session()->get('count') : 0;
-            $i++;
-            session(["count" => $i]);
-            if($i > 1)
-            {
-                if (session()->has('taskid')) {
-                    $id = $request->session()->get('taskid');
-                    $i = 0;
-                    $newfilearray = array();
-                    $filearray = ($request['type'] == "agencyfiles") ? RequestModel::where('id', $id)->pluck("agency_related_files") : RequestModel::where('id', $id)->pluck("reports_related_files");
-                    if (!empty($filearray)) {
-                        $files = (is_array($filearray[0])) ? $filearray[0] : (array)$filearray[0];
-                        foreach ($files as $newvalue) {
-                            array_push($newfilearray, $newvalue);
-                        }
-                        $rand = rand(10, 5000);
-                        $name = $request->file('file')->getClientOriginalName();
-                        $fileName = time() . $rand . '.' . $request->file('file')->getClientOriginalExtension();
-                        $request->file('file')->move(public_path('taskfiles'), $fileName);
-                        array_push($newfilearray, $fileName);
-                        ($request['type'] == "agencyfiles") ? RequestModel::where('id', $id)->update(["agency_related_files" => $newfilearray]) : RequestModel::where('id', $id)->update(["reports_related_files" => $newfilearray]);
-                        return response()->json(array("msg" => "Added Successfully", "i" => $i), 200);
-                    }
-                } 
-            }
-            else if($i == 1) {
-                $rand = rand(10, 5000);
-                $name = $request->file('file')->getClientOriginalName();
+        if ($request->file('file')) {
+            if (session()->has('taskid')) {
+                $id = $request->session()->get('taskid');
                 $filearray = array();
-                $fileName = time() . $rand . '.' . $request->file('file')->getClientOriginalExtension();
-                $request->file('file')->move(public_path('taskfiles'), $fileName);
-                $filearray = $fileName;
-                $id = ($request['type'] == "agencyfiles") ? RequestModel::create(["agency_related_files" => $filearray]) : RequestModel::create(["reports_related_files" => $filearray]);
-                $request->session()->put('taskid', $id['id']);
-                return response()->json(array("id" => encrypt($id['id']), "i" => $i), 200);
-            }
+                foreach($request->file('file') as $key=>$value)
+                {
+                    $rand = rand(10, 5000);
+                    $name = $value->getClientOriginalName();
+                    $fileName = time() . $rand . '.' .$value->getClientOriginalExtension();
+                    $value->move(public_path('taskfiles'), $fileName);
+                    array_push($filearray, $fileName);
+                }
+                ($request['type'] == "agencyfiles") ? RequestModel::where('id', $id)->update(["agency_related_files" => $filearray]) : RequestModel::where('id', $id)->update(["reports_related_files" => $filearray]);
+                return response()->json(array("msg" => "Added Successfully"), 200);
+            }  
         }
     }
     public function requestcheck(Request $request)

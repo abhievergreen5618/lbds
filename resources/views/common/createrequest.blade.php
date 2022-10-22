@@ -16,6 +16,10 @@
         <!-- /.card-header -->
         <!-- form start -->
         <form id="requestform">
+            <!-- {{$id}} -->
+            @if(!empty($id))
+                <input type='hidden' value='{{encrypt($id)}}' name='id'>
+            @endif
             <div class="card-body">
                 <div class="row g-3 align-items-end">
                     @role('admin')
@@ -171,8 +175,8 @@
                     showConfirmButton: false,
                     timer: 1000,
                 }).then((result) => {
-                    // var newloc = "{{ route('admin.request.list') }}";
-                    // window.location.href = newloc;
+                    var newloc = "{{ route('admin.request.list') }}";
+                    window.location.href = newloc;
                 });
             },
             error: function(xhr) {
@@ -258,10 +262,14 @@
     }
 
 
+
     var uploaded = false;
     Dropzone.autoDiscover = false;
     const myDropzone = new $(".dropzone").dropzone({
         autoProcessQueue: false,
+        uploadMultiple: true,
+        parallelUploads: 100,
+        maxFiles: 100,
         addRemoveLinks: true,
         url: "fileuploadrequest",
         headers: {
@@ -285,15 +293,10 @@
                     }
                     else {
                         if (uploaded === false) {
-                            const acceptedFiles = myDropzone.getAcceptedFiles();
                             myDropzone.on('sending', function(file, xhr, formData) {
                                 formData.append('type', $(element).attr("id"));
                             });
-                            for (let i = 0; i < acceptedFiles.length; i++) {
-                                setTimeout(function() {
-                                    myDropzone.processFile(acceptedFiles[i])
-                                }, i * 1000)
-                            }
+                            myDropzone.processQueue();
                         } else {
                             e.preventDefault();
                             requestformsubmit();
@@ -303,19 +306,17 @@
                     }
                 }
             });
-            this.on("queuecomplete", function() {
+            myDropzone.on("queuecomplete", function() {
+                var element = $(myDropzone).get(0).element;
+                var id = $(element).attr("id");
                 if ($('#requestform').valid()) {
                     uploaded = true;
-                    requestformsubmit();
+                    if (id == "reportfiles") {
+                        requestformsubmit();
+                    }
                     $('.dz-remove').remove();
                 }
             });
-        },
-        success: function(file, response) {
-            if (response.hasOwnProperty('id')) {
-                var msg = "<input type='hidden' value='" + response.id + "' name='id'>";
-                $('#requestform').prepend(msg);
-            }
         },
         removedfile: function(file) {
             var _ref;
