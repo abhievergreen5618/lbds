@@ -280,11 +280,11 @@ class RequestController extends Controller
                 })
                 ->addColumn('status', function ($row) {
                     if ($row->status == "pending") {
-                        $class = "btn btn-warning ms-2 status";
+                        $class = "badge btn-warning ms-2 status";
                     } elseif ($row->status == "scheduled") {
-                        $class = "btn btn-danger ms-2 status";
+                        $class = "badge btn-danger ms-2 status";
                     } elseif ($row->status == "completed") {
-                        $class = "btn btn-success ms-2 status";
+                        $class = "badge btn-success ms-2 status";
                     }
                     $btntext = ucfirst($row->status);
                     $id = encrypt($row->id);
