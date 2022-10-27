@@ -28,9 +28,7 @@
         content: " ";
         width: 100%;
         height: 1px;
-        background-color: #ccc;
-        z-order: 0;
-
+        background-color: #ccc;        
     }
 
     .stepwizard-step {
@@ -117,6 +115,7 @@
     .col-12.p-4.bg-white.shadow-sm.brequest.rounded-10 {
         margin-top: 24px;
     }
+
     h6.mb-0.font-95.float-end.col-6.px-2.p-1.bg-dark.font-weight-600.text-white {
         float: right !important;
     }
@@ -146,9 +145,7 @@
 
 
                     <h4 class="mb-1 font-weight-bold text-danger">Scheduled</h4>
-                    <h6 class="mb-0 font-95 float-end col-6 px-2 p-1 bg-dark
-                        font-weight-600 text-white"><span class="font-weight-500">Assigned To:</span> Alexander
-                        hernandez Piedra </h6>
+                    <h6 class="mb-0 font-95 float-end col-6 px-2 p-1 bg-dark font-weight-600 text-white"><span class="font-weight-500">Assigned To:</span>{{!empty($requestdetails->assigned_ins) ? $inspectordetails->name : "" }} </h6>
                 </div>
             </div>
 
@@ -365,27 +362,27 @@
                            btn-danger col-12 shadow-sm font-weight-600 btn-sm
                            pointer"> Schedule Inspection &nbsp; <i class="fas
                               fa-arrow-down fa-sm"></i></span> <br>
-                            <form method="post" action="{{route('requestschedule')}}">
-                                @csrf
-                                <input type="hidden" name="id" value="{{encrypt($requestdetails->id)}}">
-                                <div class="my-2">
-                                    <input type="date" class="border p-2 form-control" id="date" name="date" min="2022-10-21" value="{{old('date',$requestdetails->schedule_at)}}">
-                                    @error('date')
-                                    <div>
-                                        <label class="error fail-alert  mt-1">{{$message}}<label>
-                                    </div>
-                                    @enderror
+                        <form method="post" action="{{route('requestschedule')}}">
+                            @csrf
+                            <input type="hidden" name="id" value="{{encrypt($requestdetails->id)}}">
+                            <div class="my-2">
+                                <input type="date" class="border p-2 form-control" id="date" name="date" min="2022-10-21" value="{{old('date',$requestdetails->schedule_at)}}">
+                                @error('date')
+                                <div>
+                                    <label class="error fail-alert  mt-1">{{$message}}<label>
                                 </div>
-                                <div class="mb-2">
+                                @enderror
+                            </div>
+                            <div class="mb-2">
                                 <input type="time" class="border p-2 form-control" id="time" name="time" value="{{old('time',$requestdetails->schedule_time)}}">
-                                    @error('time')
-                                    <div>
-                                        <label class="error fail-alert  mt-1">{{$message}}<label>
-                                    </div>
-                                    @enderror
+                                @error('time')
+                                <div>
+                                    <label class="error fail-alert  mt-1">{{$message}}<label>
                                 </div>
-                                <button type="submit" class="btn btn-sm col-12 btn-light font-weight-500 btn-reschedule border" id="0eaff1">Submit<i class="fas fa-savefa-sm"></i></button>
-                            </form>
+                                @enderror
+                            </div>
+                            <button type="submit" class="btn btn-sm col-12 btn-light font-weight-500 btn-reschedule border" id="0eaff1">Submit<i class="fas fa-savefa-sm"></i></button>
+                        </form>
                     </div>
                     <div class="status-label mt-2"> <span class="btn btn-sm
                            btn-danger font-weight-500 py-0">Scheduled</span>
@@ -414,17 +411,17 @@
                         <span id="btn-calendar" class="btn btn-sm btn-dark
                            font-weight-500 py-0 shadow pointer">
                             @if(!empty($requestdetails->schedule_at))
-                                @php
-                                 $link = "https://calendar.google.com/calendar/r/eventedit?text=Inspection&details=test&location=&dates=".$requestdetails->schedule_at."T".$requestdetails->time."ctz=(GMT+5:30)";
-                                @endphp
+                            @php
+                            $link = "https://calendar.google.com/calendar/r/eventedit?text=Inspection&details=test&location=&dates=".$requestdetails->schedule_at."T".$requestdetails->time."ctz=(GMT+5:30)";
+                            @endphp
                             @else
-                                @php
-                                 $link = ""; 
-                                @endphp
+                            @php
+                            $link = "";
+                            @endphp
                             @endif
-                           <a href="{{$link}}"><i class="fas
+                            <a href="{{$link}}"><i class="fas
                               fa-calendar"></i> Add to Calendar </span> </a>
-                              <span id="btn-calendar-google" class="btn btn-sm btn-info
+                        <span id="btn-calendar-google" class="btn btn-sm btn-info
                            font-weight-500 py-0 shadow pointer"> <i class="fas
                               fa-calendar"></i> Add to Google WorkSpace </span>
                     </div>
@@ -445,48 +442,46 @@
                             </a>
                         </h4>
                     </div>
-                    <div id="collapseOne" class="collapse" data-parent="#accordion" style="">
+                    <div id="collapseOne" class="collapse" data-parent="#accordion">
                         <div class="card-body">
                             @if(!empty($reportfiles) && count($reportfiles) != 0)
                             <div class="row">
                                 @php $i = 1; @endphp
-                            @foreach ($reportfiles as $key => $item)
-                                                    @php
-                                                        $info = pathinfo(public_path('taskfiles') . $item);
-                                                        $ext = $info['extension'];
-                                                    @endphp
+                                @foreach ($reportfiles as $key => $item)
+                                @php
+                                $info = pathinfo(public_path('taskfiles') . $item);
+                                $ext = $info['extension'];
+                                @endphp
 
-                                                    @if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg')
-                                                        <div class="col-lg-4 preview  @if ($i >= 4) {{ 'mt-3' }} @endif"
-                                                            style="cursor: pointer;"
-                                                            data-file="{{ asset('taskfiles/' . $item) }}">
-                                                            <img src="{{ asset('taskfiles/' . $item) }}"
-                                                                class="img-thumbnail h-100 preview-images" alt="...">
-                                                            <a id="" href="#" data-file="{{ $item }}"
-                                                                class="remove-btn">Remove file</a>
-                                                        </div>
-                                                    @else
-                                                        <div class="col-lg-4 pdfview @if ($i >= 4) {{ 'mt-3' }} @endif"
-                                                            style="cursor: pointer;"
-                                                            data-file="{{ asset('taskfiles/' . $item) }}">
-                                                            <div class="preview-images taskpdf"
-                                                                data-file="{{ asset('taskfiles/' . $item) }}">
-                                                                <span
-                                                                    class="h-100 w-100 d-flex justify-content-center align-items-center flex-column"
-                                                                    style=" overflow: hidden;
+                                @if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg')
+                                <div class="col-lg-4 preview  @if ($i >= 4) {{ 'mt-3' }} @endif" style="cursor: pointer;" data-file="{{ asset('taskfiles/' . $item) }}">
+                                    <img src="{{ asset('taskfiles/' . $item) }}" class="img-thumbnail h-100 preview-images" alt="...">
+                                    <a id="" href="#" data-file="{{ $item }}" class="remove-btn">Remove file</a>
+                                    <div class="image-overlay  position-absolute" style="display:none;">
+                                        <a href="{{route('filedownload',['filename' => $item])}}"  data-file="{{ $item }}"><i class="fa fa-download" aria-hidden="true"></i></a>
+                                        <a href=""><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+                                @else
+                                <div class="col-lg-4 pdfview @if ($i >= 4) {{ 'mt-3' }} @endif " style="cursor: pointer;" data-file="{{ asset('taskfiles/' . $item) }}">
+                                    <div class="preview-images taskpdf h-100" data-file="{{ asset('taskfiles/' . $item) }}">
+                                        <span class="h-100 w-100 d-flex justify-content-center align-items-center flex-column" style=" overflow: hidden;
                                                                                                         text-overflow: ellipsis; word-break: break-all;">
-                                                                    {{ $item }}
-                                                                </span>
-                                                            </div>
-                                                            <a id="" href="#" data-file="{{ $item }}"
-                                                                class="remove-btn">Remove file
-                                                            </a>
-                                                        </div>
-                                                    @endif
-                                                    @php
-                                                        $i++;
-                                                    @endphp
-                                                @endforeach
+                                            {{ $item }}
+                                        </span>
+                                    </div>
+                                    <a id="" href="#" data-file="{{ $item }}" class="remove-btn">Remove file
+                                    </a>
+                                    <div class="image-overlay  position-absolute" style="display:none;">
+                                        <a href="{{route('filedownload',['filename' => $item])}}" ><i class="fa fa-download" aria-hidden="true"></i></a>
+                                        <a href="{{asset('taskfiles').'/'.$item}}" target="blank" data-file="{{ $item }}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+                                @endif
+                                @php
+                                $i++;
+                                @endphp
+                                @endforeach
                             </div>
                             @else
                             <p>No Files Founded</p>
@@ -502,48 +497,46 @@
                             </a>
                         </h4>
                     </div>
-                    <div id="collapseTwo" class="collapse" data-parent="#accordion" style="">
+                    <div id="collapseTwo" class="collapse" data-parent="#accordion">
                         <div class="card-body">
                             @if(!empty($agencyfiles) && count($agencyfiles) != 0)
                             <div class="row">
-                            @php $i = 1; @endphp
-                            @foreach ($agencyfiles as $key => $item)
-                                                    @php
-                                                        $info = pathinfo(public_path('taskfiles') . $item);
-                                                        $ext = $info['extension'];
-                                                    @endphp
+                                @php $i = 1; @endphp
+                                @foreach ($agencyfiles as $key => $item)
+                                @php
+                                $info = pathinfo(public_path('taskfiles') . $item);
+                                $ext = $info['extension'];
+                                @endphp
 
-                                                    @if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg')
-                                                        <div class="col-lg-4 preview  @if ($i >= 4) {{ 'mt-3' }} @endif"
-                                                            style="cursor: pointer;"
-                                                            data-file="{{ asset('taskfiles/' . $item) }}">
-                                                            <img src="{{ asset('taskfiles/' . $item) }}"
-                                                                class="img-thumbnail h-100 preview-images" alt="...">
-                                                            <a id="" href="#" data-file="{{ $item }}"
-                                                                class="remove-btn">Remove file</a>
-                                                        </div>
-                                                    @else
-                                                        <div class="col-lg-4 pdfview @if ($i >= 4) {{ 'mt-3' }} @endif"
-                                                            style="cursor: pointer;"
-                                                            data-file="{{ asset('taskfiles/' . $item) }}">
-                                                            <div class="preview-images taskpdf"
-                                                                data-file="{{ asset('taskfiles/' . $item) }}">
-                                                                <span
-                                                                    class="h-100 w-100 d-flex justify-content-center align-items-center flex-column"
-                                                                    style=" overflow: hidden;
+                                @if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg')
+                                <div class="col-lg-4 preview  @if ($i >= 4) {{ 'mt-3' }} @endif" style="cursor: pointer;" data-file="{{ asset('taskfiles/' . $item) }}">
+                                    <img src="{{ asset('taskfiles/' . $item) }}" class="img-thumbnail h-100 preview-images" alt="...">
+                                    <a id="" href="#" data-file="{{ $item }}" class="remove-btn">Remove file</a>
+                                    <div class="image-overlay  position-absolute" style="display:none;">
+                                        <a href="{{route('filedownload',['filename' => $item])}}" ><i class="fa fa-download" aria-hidden="true"></i></a>
+                                        <a href="" data-file="{{ $item }}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+                                @else
+                                <div class="col-lg-4 pdfview @if ($i >= 4) {{ 'mt-3' }} @endif" style="cursor: pointer;" data-file="{{ asset('taskfiles/' . $item) }}">
+                                    <div class="preview-images taskpdf h-100" data-file="{{ asset('taskfiles/' . $item) }}">
+                                        <span class="h-100 w-100 d-flex justify-content-center align-items-center flex-column" style=" overflow: hidden;
                                                                                                         text-overflow: ellipsis; word-break: break-all;">
-                                                                    {{ $item }}
-                                                                </span>
-                                                            </div>
-                                                            <a id="" href="#" data-file="{{ $item }}"
-                                                                class="remove-btn">Remove file
-                                                            </a>
-                                                        </div>
-                                                    @endif
-                                                    @php
-                                                        $i++;
-                                                    @endphp
-                                                @endforeach
+                                            {{ $item }}
+                                        </span>
+                                    </div>
+                                    <a id="" href="#" class="remove-btn">Remove file
+                                    </a>
+                                    <div class="image-overlay  position-absolute" style="display:none;">
+                                        <a href="{{route('filedownload',['filename' => $item])}}" ><i class="fa fa-download" aria-hidden="true"></i></a>
+                                        <a href="{{asset('taskfiles').'/'.$item}}" target="blank" data-file="{{ $item }}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+                                @endif
+                                @php
+                                $i++;
+                                @endphp
+                                @endforeach
                             </div>
                             @else
                             <p>No Files Founded</p>
@@ -559,7 +552,7 @@
                             </a>
                         </h4>
                     </div>
-                    <div id="collapseThree" class="collapse" data-parent="#accordion" style="">
+                    <div id="collapseThree" class="collapse" data-parent="#accordion">
                         <div class="card-body">
                             Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
                             3
@@ -582,66 +575,69 @@
 
 
             </div>
+        </div>
+    </div>
+</div>
 
-            @endsection
+@endsection
 
 
 
 
 
-            @push('footer_extras')
-            <script>
-                $(document).ready(function() {
-                    var navListItems = $('div.setup-panel div a'),
-                        allWells = $('.setup-content'),
-                        allNextBtn = $('.nextBtn'),
-                        allPrevBtn = $('.prevBtn');
+@push('footer_extras')
+<script>
+    $(document).ready(function() {
+        var navListItems = $('div.setup-panel div a'),
+            allWells = $('.setup-content'),
+            allNextBtn = $('.nextBtn'),
+            allPrevBtn = $('.prevBtn');
 
-                    allWells.hide();
+        allWells.hide();
 
-                    navListItems.click(function(e) {
-                        e.preventDefault();
-                        var $target = $($(this).attr('href')),
-                            $item = $(this);
+        navListItems.click(function(e) {
+            e.preventDefault();
+            var $target = $($(this).attr('href')),
+                $item = $(this);
 
-                        if (!$item.hasClass('disabled')) {
-                            navListItems.removeClass('btn-primary').addClass('btn-default');
-                            $item.addClass('btn-primary');
-                            allWells.hide();
-                            $target.show();
-                            $target.find('input:eq(0)').focus();
-                        }
-                    });
+            if (!$item.hasClass('disabled')) {
+                navListItems.removeClass('btn-primary').addClass('btn-default');
+                $item.addClass('btn-primary');
+                allWells.hide();
+                $target.show();
+                $target.find('input:eq(0)').focus();
+            }
+        });
 
-                    allNextBtn.click(function() {
-                        var curStep = $(this).closest(".setup-content"),
-                            curStepBtn = curStep.attr("id"),
-                            nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
-                            curInputs = curStep.find("input[type='text'],input[type='url']"),
-                            isValid = true;
+        allNextBtn.click(function() {
+            var curStep = $(this).closest(".setup-content"),
+                curStepBtn = curStep.attr("id"),
+                nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+                curInputs = curStep.find("input[type='text'],input[type='url']"),
+                isValid = true;
 
-                        $(".form-group").removeClass("has-error");
-                        for (var i = 0; i < curInputs.length; i++) {
-                            if (!curInputs[i].validity.valid) {
-                                isValid = false;
-                                $(curInputs[i]).closest(".form-group").addClass("has-error");
-                            }
-                        }
+            $(".form-group").removeClass("has-error");
+            for (var i = 0; i < curInputs.length; i++) {
+                if (!curInputs[i].validity.valid) {
+                    isValid = false;
+                    $(curInputs[i]).closest(".form-group").addClass("has-error");
+                }
+            }
 
-                        if (isValid)
-                            nextStepWizard.removeAttr('disabled').trigger('click');
-                    });
+            if (isValid)
+                nextStepWizard.removeAttr('disabled').trigger('click');
+        });
 
-                    allPrevBtn.click(function() {
-                        var curStep = $(this).closest(".setup-content"),
-                            curStepBtn = curStep.attr("id"),
-                            prevStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().prev().children("a");
+        allPrevBtn.click(function() {
+            var curStep = $(this).closest(".setup-content"),
+                curStepBtn = curStep.attr("id"),
+                prevStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().prev().children("a");
 
-                        $(".form-group").removeClass("has-error");
-                        prevStepWizard.removeAttr('disabled').trigger('click');
-                    });
+            $(".form-group").removeClass("has-error");
+            prevStepWizard.removeAttr('disabled').trigger('click');
+        });
 
-                    $('div.setup-panel div a.btn-primary').trigger('click');
-                });
-            </script>
-            @endpush
+        $('div.setup-panel div a.btn-primary').trigger('click');
+    });
+</script>
+@endpush

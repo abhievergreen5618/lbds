@@ -250,14 +250,21 @@
         return indexed_array;
 
     }
-
+    var firstcount = false;
+    var secondcount = false;
     function checkcount(count, id) {
         if (count == 0 && id == "agencyfiles") {
+            firstcount = true;
             return false;
         } else if (count > 0 && id == "reportfiles") {
             return false;
-        } else if (count == 0 && id == "reportfiles") {
+        } else if (firstcount != false && count == 0 && id == "reportfiles") {
+            secondcount = true;
             return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -287,10 +294,12 @@
                     var count = myDropzone.getAcceptedFiles().length;
                     var element = $(myDropzone).get(0).element;
                     count = checkcount(count, $(element).attr("id"));
+                    debugger;
                     if (typeof(count) != "undefined" && count == true) {
                         e.preventDefault();
                         requestformsubmit();
-                    } else {
+                    } 
+                    else {
                         if (uploaded === false) {
                             myDropzone.on('sending', function(file, xhr, formData) {
                                 formData.append('type', $(element).attr("id"));
@@ -311,6 +320,10 @@
                 if ($('#requestform').valid()) {
                     uploaded = true;
                     if (id == "reportfiles") {
+                        requestformsubmit();
+                    }
+                    else if(firstcount == false && secondcount != true)
+                    {
                         requestformsubmit();
                     }
                     $('.dz-remove').remove();

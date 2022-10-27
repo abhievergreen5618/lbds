@@ -582,5 +582,12 @@ $(document).ready(function () {
             }
         });
     });
+
+    $(".preview,.pdfview").mouseenter(function(){   
+        $(this).find(".image-overlay").show();
+    });
+    $(".preview,.pdfview").mouseleave(function(){   
+        $(this).find(".image-overlay").hide();
+    });
 });
 

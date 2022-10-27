@@ -322,6 +322,7 @@ class RequestController extends Controller
         $company = RequestModel::where("id", decrypt($request->id))->first('company_id');
         $companydetails = User::where("id", $company['company_id'])->first();
         $requestdetails = RequestModel::where("id",decrypt($request->id))->first();
+        $inspectordetails = User::where("id",$requestdetails['assigned_ins'])->first();
         $agencyfiles = RequestModel::where("id", decrypt($request->id))->first("agency_related_files");
         $reportfiles = RequestModel::where("id", decrypt($request->id))->first("reports_related_files");
         $data = Inspectiontype::where("status", "active")->pluck("name", "id");
@@ -333,8 +334,17 @@ class RequestController extends Controller
                 "agencyfiles" => $agencyfiles['agency_related_files'],
                 "reportfiles" => $reportfiles['reports_related_files'],
                 "invoicedata" => $invoicedata,
+                "inspectordetails" => $inspectordetails,
                 "data" => $data 
             ]
         );
+    }
+    public function filedownload(Request $request)
+    {
+        $request->validate([
+            "filename" => "required",
+        ]);
+        $file = public_path('taskfiles')."/".$request['filename'];       
+        return response()->download($file);
     }
 }

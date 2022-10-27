@@ -46,6 +46,7 @@ Route::controller(RequestController::class)->group(function () {
     Route::post('/request-delete','destroy')->name('request-delete');
     Route::post('/request-update','update')->name('requestupdate');
     Route::post('/requestschedule','schedule')->name('requestschedule');
+    Route::get('/filedownload','filedownload')->name('filedownload');
 });
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
