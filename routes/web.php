@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\Inspector\InspectorController;
 use App\Http\Controllers\Company\Employee\EmployeeController;
 use App\Http\Controllers\Admin\Role\RoleController;
 use App\Http\Controllers\Common\ProfileController;
+use App\Http\Controllers\vendor\Chatify\MessagesListController;
+use App\Http\Controllers\vendor\Chatify\MessagesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -118,6 +120,18 @@ Route::controller(UserController::class)->group(function () {
         Route::get('/profile/show','show')->name('profile.show');
         Route::post('/profile/update','update')->name('profile.update');
         Route::post('/profile/updatepass','updatepass')->name('profile.updatepass');
+    });
+
+    Route::controller(MessagesListController::class)->group(function () {
+        //Agency all messages list routes
+        Route::get('/agency-message','index')->name('admin.agency.message');
+        Route::post('/agency-messagesdetails','agencyDisplay')->name('agency-messagesdetails');
+        //Inspector all messages list routes
+        Route::get('/inspector-message','inspectorView')->name('admin.inspector.message');
+        Route::post('/inspector-messagesdetails','inspectorDisplay')->name('inspector-messagesdetails');
+    });
+    Route::controller(MessagesController::class)->group(function () {
+        Route::get('/message','usersession')->name('usersession');
     });
 });
 

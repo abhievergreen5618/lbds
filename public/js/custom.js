@@ -572,7 +572,7 @@ $(document).ready(function () {
                             error: function (xhr) {
                                 if (xhr.status == 422 && xhr.responseJSON.msg.length) {
                                     $('.preloader').children().hide();
-                                $('.preloader').css("height", "0");
+                                    $('.preloader').css("height", "0");
                                     toastr.error(xhr.responseJSON.msg);
                                 }
                             }
@@ -583,11 +583,77 @@ $(document).ready(function () {
         });
     });
 
-    $(".preview,.pdfview").mouseenter(function(){   
+    $(".preview,.pdfview").mouseenter(function () {
         $(this).find(".image-overlay").show();
     });
-    $(".preview,.pdfview").mouseleave(function(){   
+    $(".preview,.pdfview").mouseleave(function () {
         $(this).find(".image-overlay").hide();
+    });
+
+    //agency fetch all messagesList
+    var agencyMessages = $('#agencyMessages').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
+            "url": "agency-messagesdetails",
+            "type": "POST",
+            'beforeSend': function (request) {
+                request.setRequestHeader("X-CSRF-TOKEN", jQuery('meta[name="csrf-token"]').attr('content'));
+            },
+        },
+        "columnDefs": [
+            { "className": "dt-center", "targets": "_all" }
+        ],
+        "columns": [{
+            "data": "name",
+        },
+        {
+            "data": "email",
+        },
+        {
+            "data": "seen",
+        },
+        {
+            "data": "message",
+        }
+
+        ],
+    });
+
+
+    //inspector fetch all messagesList
+    var inspectorMessages = $('#inspectorMessages').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
+            "url": "inspector-messagesdetails",
+            "type": "POST",
+            'beforeSend': function (request) {
+                request.setRequestHeader("X-CSRF-TOKEN", jQuery('meta[name="csrf-token"]').attr('content'));
+            },
+        },
+        "columnDefs": [
+            { "className": "dt-center", "targets": "_all" }
+        ],
+        "columns": [{
+            "data": "name",
+        },
+        {
+            "data": "email",
+        },
+        {
+            "data": "seen",
+        },
+        {
+            "data": "message",
+        }
+
+        ],
+    });
+
+
+    $("#refreshBtn").click(function () {
+        location.reload();
     });
 });
 

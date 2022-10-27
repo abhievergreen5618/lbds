@@ -132,8 +132,7 @@
                     <h3 class="mb-1 font-weight-bold text-black">Request
                         Information</h3>
                     <h6 class="mb-0 font-95 col-6 px-2 p-1 bg-dark
-                        font-weight-600"><span class="text-white">Request #
-                            0eaff1</span></h6>
+                        font-weight-600"><span class="text-white">Request #{{$requestdetails->id}}</span></h6>
                 </div>
             </div>
 

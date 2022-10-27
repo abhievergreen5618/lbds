@@ -98,6 +98,7 @@ class InspectorController extends Controller
                 "area_coverage" => $request->area_coverage,
                 "color_code" => $request->color_code,
                 "email" => $request->email,
+                "password" => Hash::make($request->password),
             ]);
             return redirect()->route('admin.view.inspector')->with("msg","Record Updated Successfully");
         }

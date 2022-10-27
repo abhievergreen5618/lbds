@@ -54,7 +54,7 @@
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
-                    
+
                     <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() == 
                     'admin.create.addinspectiontype'|| 
                     Route::currentRouteName() == 'admin.allinspectiontype') ? 'display: block;' : ''}}">
@@ -81,7 +81,7 @@
                     'admin.create.addsendinvoice' || Route::currentRouteName() == 
                     'admin.allsendinvoice') ? 'menu-open menu-is-opening' : '' }}">
 
-                    <a href="#"  class="nav-link {{ (Route::currentRouteName() == 'admin.create.addsendinvoice'|| 
+                    <a href="#" class="nav-link {{ (Route::currentRouteName() == 'admin.create.addsendinvoice'|| 
                     Route::currentRouteName() == 'admin.allsendinvoice') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-user-circle"></i>
                         <p>
@@ -91,7 +91,7 @@
                     </a>
                     <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() == 
                     'admin.create.addsendinvoice'|| 
-                    Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}" >
+                    Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}">
                         <li class="nav-item">
                             <a href="{{route('admin.create.addsendinvoice')}}" class="nav-link {{str_contains(request()->path(), 'admin.create.addsendinvoice') ? 'active' : ''}}">
                                 <i class="nav-icon fas fa-user-plus"></i>
@@ -101,7 +101,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('admin.allsendinvoice')}}" class="nav-link {{str_contains(request()->path(), 'admin.allsendinvoice') ? 'active' : ''}}" >
+                            <a href="{{route('admin.allsendinvoice')}}" class="nav-link {{str_contains(request()->path(), 'admin.allsendinvoice') ? 'active' : ''}}">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>
                                     View All SendInvoice
@@ -113,7 +113,7 @@
                 <li class="nav-item {{ (Route::currentRouteName() == 
                     'admin.request.create' ) ? 'menu-open menu-is-opening ' : ''}}">
 
-                    <a href="#"  class="nav-link {{ (Route::currentRouteName() == 
+                    <a href="#" class="nav-link {{ (Route::currentRouteName() == 
                     'admin.request.create') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-user-circle"></i>
                         <p>
@@ -146,7 +146,7 @@
                     'users.create') || 
                     (Route::currentRouteName() == 'users.index') ? 'menu-open menu-is-opening ' : ''}}">
 
-                    <a href="#"  class="nav-link {{ (Route::currentRouteName() == 
+                    <a href="#" class="nav-link {{ (Route::currentRouteName() == 
                     'users.create') || 
                     (Route::currentRouteName() == 'users.index') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-user-circle"></i>
@@ -181,7 +181,7 @@
                         'roles.index') || 
                     (Route::currentRouteName() == 'roles.create') ? 'menu-open menu-is-opening ' : ''}}">
 
-                    <a href="#"  class="nav-link {{ (Route::currentRouteName() == 
+                    <a href="#" class="nav-link {{ (Route::currentRouteName() == 
                         'roles.index') || 
                     Route::currentRouteName() == 'roles.create' ? 'active' : ''}}">
                         <i class="nav-icon fas fa-user-circle"></i>
@@ -234,9 +234,9 @@
                             View All Agencies
                         </p>
                     </a>
-                    </li>
+                </li>
                 <li class="nav-item">
-                    <a href="" class="nav-link">
+                    <a href="{{ route('admin.agency.message') }}" class="nav-link {{  (Route::currentRouteName() == 'admin.agency.message') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-comments"></i>
                         <p>
                             Agency Messages
@@ -276,7 +276,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link">
+                            <a href="{{ route('admin.inspector.message') }}" class="nav-link {{str_contains(request()->path(), 'admin.inspector.message') ? 'active' : ''}}">
                                 <i class="nav-icon fas fa-comments"></i>
                                 <p>
                                     Inspector Messages
