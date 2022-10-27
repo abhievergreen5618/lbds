@@ -18,7 +18,7 @@
         <form id="requestform">
             <!-- {{$id}} -->
             @if(!empty($id))
-                <input type='hidden' value='{{encrypt($id)}}' name='id'>
+            <input type='hidden' value='{{encrypt($id)}}' name='id'>
             @endif
             <div class="card-body">
                 <div class="row g-3 align-items-end">
@@ -251,7 +251,7 @@
 
     }
 
-    function checkcount(count,id) {
+    function checkcount(count, id) {
         if (count == 0 && id == "agencyfiles") {
             return false;
         } else if (count > 0 && id == "reportfiles") {
@@ -275,7 +275,7 @@
         headers: {
             'x-csrf-token': $('meta[name="csrf-token"]').attr('content'),
         },
-        maxFilesize: 100,
+        maxFilesize: 500,
         acceptedFiles: ".jpeg,.jpg,.png,.pdf",
         init: function() {
             var myDropzone = this;
@@ -286,19 +286,17 @@
                     $('.preloader').css("height", "100vh");
                     var count = myDropzone.getAcceptedFiles().length;
                     var element = $(myDropzone).get(0).element;
-                    count = checkcount(count,$(element).attr("id"));
+                    count = checkcount(count, $(element).attr("id"));
                     if (typeof(count) != "undefined" && count == true) {
                         e.preventDefault();
                         requestformsubmit();
-                    }
-                    else {
+                    } else {
                         if (uploaded === false) {
                             myDropzone.on('sending', function(file, xhr, formData) {
                                 formData.append('type', $(element).attr("id"));
                             });
                             myDropzone.processQueue();
-                        }
-                         else {
+                        } else {
                             e.preventDefault();
                             requestformsubmit();
                         }
@@ -307,7 +305,7 @@
                     }
                 }
             });
-            myDropzone.on("queuecomplete", function() {
+            this.on("queuecomplete", function() {
                 var element = $(myDropzone).get(0).element;
                 var id = $(element).attr("id");
                 if ($('#requestform').valid()) {
@@ -318,6 +316,10 @@
                     $('.dz-remove').remove();
                 }
             });
+            // this.on("error", function(file, message) {
+            //     alert(message);
+            //     this.removeFile(file);
+            // });
         },
         removedfile: function(file) {
             var _ref;

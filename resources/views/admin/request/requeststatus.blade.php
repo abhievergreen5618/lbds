@@ -449,15 +449,44 @@
                         <div class="card-body">
                             @if(!empty($reportfiles) && count($reportfiles) != 0)
                             <div class="row">
-                                @foreach($reportfiles as $key=>$value)
-                                <div class="col-lg-3">
-                                    <div class="card text-bg-dark">
-                                        <img src="{{asset('/taskfiles/').'/'.$value}}" class="card-img" alt="...">
-                                        <!-- <div class="card-img-overlay">
-                                        </div> -->
-                                    </div>
-                                </div>
-                                @endforeach
+                                @php $i = 1; @endphp
+                            @foreach ($reportfiles as $key => $item)
+                                                    @php
+                                                        $info = pathinfo(public_path('taskfiles') . $item);
+                                                        $ext = $info['extension'];
+                                                    @endphp
+
+                                                    @if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg')
+                                                        <div class="col-lg-4 preview  @if ($i >= 4) {{ 'mt-3' }} @endif"
+                                                            style="cursor: pointer;"
+                                                            data-file="{{ asset('taskfiles/' . $item) }}">
+                                                            <img src="{{ asset('taskfiles/' . $item) }}"
+                                                                class="img-thumbnail h-100 preview-images" alt="...">
+                                                            <a id="" href="#" data-file="{{ $item }}"
+                                                                class="remove-btn">Remove file</a>
+                                                        </div>
+                                                    @else
+                                                        <div class="col-lg-4 pdfview @if ($i >= 4) {{ 'mt-3' }} @endif"
+                                                            style="cursor: pointer;"
+                                                            data-file="{{ asset('taskfiles/' . $item) }}">
+                                                            <div class="preview-images taskpdf"
+                                                                data-file="{{ asset('taskfiles/' . $item) }}">
+                                                                <span
+                                                                    class="h-100 w-100 d-flex justify-content-center align-items-center flex-column"
+                                                                    style=" overflow: hidden;
+                                                                                                        text-overflow: ellipsis; word-break: break-all;">
+                                                                    {{ $item }}
+                                                                </span>
+                                                            </div>
+                                                            <a id="" href="#" data-file="{{ $item }}"
+                                                                class="remove-btn">Remove file
+                                                            </a>
+                                                        </div>
+                                                    @endif
+                                                    @php
+                                                        $i++;
+                                                    @endphp
+                                                @endforeach
                             </div>
                             @else
                             <p>No Files Founded</p>
@@ -477,15 +506,44 @@
                         <div class="card-body">
                             @if(!empty($agencyfiles) && count($agencyfiles) != 0)
                             <div class="row">
-                                @foreach($agencyfiles as $key=>$value)
-                                <div class="col-lg-3">
-                                    <div class="card text-bg-dark">
-                                        <img src="{{asset('/taskfiles/').'/'.$value}}" class="card-img" alt="...">
-                                        <!-- <div class="card-img-overlay">
-                                        </div> -->
-                                    </div>
-                                </div>
-                                @endforeach
+                            @php $i = 1; @endphp
+                            @foreach ($agencyfiles as $key => $item)
+                                                    @php
+                                                        $info = pathinfo(public_path('taskfiles') . $item);
+                                                        $ext = $info['extension'];
+                                                    @endphp
+
+                                                    @if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg')
+                                                        <div class="col-lg-4 preview  @if ($i >= 4) {{ 'mt-3' }} @endif"
+                                                            style="cursor: pointer;"
+                                                            data-file="{{ asset('taskfiles/' . $item) }}">
+                                                            <img src="{{ asset('taskfiles/' . $item) }}"
+                                                                class="img-thumbnail h-100 preview-images" alt="...">
+                                                            <a id="" href="#" data-file="{{ $item }}"
+                                                                class="remove-btn">Remove file</a>
+                                                        </div>
+                                                    @else
+                                                        <div class="col-lg-4 pdfview @if ($i >= 4) {{ 'mt-3' }} @endif"
+                                                            style="cursor: pointer;"
+                                                            data-file="{{ asset('taskfiles/' . $item) }}">
+                                                            <div class="preview-images taskpdf"
+                                                                data-file="{{ asset('taskfiles/' . $item) }}">
+                                                                <span
+                                                                    class="h-100 w-100 d-flex justify-content-center align-items-center flex-column"
+                                                                    style=" overflow: hidden;
+                                                                                                        text-overflow: ellipsis; word-break: break-all;">
+                                                                    {{ $item }}
+                                                                </span>
+                                                            </div>
+                                                            <a id="" href="#" data-file="{{ $item }}"
+                                                                class="remove-btn">Remove file
+                                                            </a>
+                                                        </div>
+                                                    @endif
+                                                    @php
+                                                        $i++;
+                                                    @endphp
+                                                @endforeach
                             </div>
                             @else
                             <p>No Files Founded</p>

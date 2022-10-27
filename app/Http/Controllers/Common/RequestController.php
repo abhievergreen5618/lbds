@@ -299,13 +299,15 @@ class RequestController extends Controller
     public function upload(Request $request)
     {
         if ($request->file('file')) {
+            // $request->validate([
+            //     'file.*' => 'required|mimes:image/jpeg,image/png,image/jpg,application/pdf|max:2048',
+            // ]);
             if (session()->has('taskid')) {
                 $id = $request->session()->get('taskid');
                 $filearray = array();
                 foreach($request->file('file') as $key=>$value)
                 {
                     $rand = rand(10, 5000);
-                    $name = $value->getClientOriginalName();
                     $fileName = time() . $rand . '.' .$value->getClientOriginalExtension();
                     $value->move(public_path('taskfiles'), $fileName);
                     array_push($filearray, $fileName);
