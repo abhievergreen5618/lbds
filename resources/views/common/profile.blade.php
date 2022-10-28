@@ -92,7 +92,7 @@
                                 @enderror
                                 <div class="form-group mb-2">
                                     <label for="exampleInputEmail1">{{ __('Phone Number') }}</label>
-                                    <input type="number" class="form-control @error('mobile_number') {{ 'is-invalid' }} @enderror" id="mobile_number" name="mobile_number" placeholder="Enter Phone Number" value="{{@old('mobile_number',$data->mobile_number)}}">
+                                    <input type="number" class="form-control @error('mobile_number') {{ 'is-invalid' }} @enderror" id="mobile_number" name="mobile_number" placeholder="Enter Phone Number" value="{{@old('mobile_number',(Auth::user()->hasRole('company')) ? $data->company_phonenumber : $data->mobile_number)}}">
                                     @error('mobile_number')
                                     <div>
                                         <label class="error fail-alert  mt-1">{{ $message }}</label>

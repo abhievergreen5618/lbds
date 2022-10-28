@@ -87,7 +87,7 @@ class RequestController extends Controller
             session()->forget('taskid');
         }
         $msg = "Details Saved Successfully";
-        $newlocation = route('admin.request.list');
+        $newlocation = (Auth::user()->hasRole("admin")) ?  route('admin.request.list') : route('home');
         return response()->json(['msg' => $msg, 'newlocation' => $newlocation], 200);
     }
 
@@ -311,6 +311,40 @@ class RequestController extends Controller
                 ->make(true);
         }
     }
+    public function displaycompanylist(Request $request)
+    {
+        if ($request->ajax()) {
+            $GLOBALS['count'] = 0;
+            $data = RequestModel::where(["company_id"=>Auth::user()->id])->latest()->get(["id","inspectiontype","applicantname","address","city","zipcode","inspectiontype","created_at","status"]);
+            return Datatables::of($data)->addIndexColumn()
+                ->addColumn('inspectiontype', function ($row) {
+                    $returnvalue = "";
+                    foreach ($row->inspectiontype as $value) {
+                        $inspectiontype = Inspectiontype::where(["id" => $value])->first("name");
+                        $returnvalue = $returnvalue . $inspectiontype['name'] . "<br>";
+                    }
+                    return $returnvalue;
+                })
+                ->addColumn('created_at', function ($row) {
+                    return date('d-m-Y h:i a', strtotime($row->created_at));
+                })
+                ->addColumn('status', function ($row) {
+                    if ($row->status == "pending") {
+                        $class = "badge btn-warning ms-2 status";
+                    } elseif ($row->status == "scheduled" || $row->status == "cancelled" || $row->status == "assigned") {
+                        $class = "badge btn-danger ms-2 status";
+                    } elseif ($row->status == "completed") {
+                        $class = "badge btn-success ms-2 status";
+                    }
+                    $btntext = ucfirst($row->status);
+                    $id = encrypt($row->id);
+                    $statusBtn = "<div class='d-flex justify-content-center'><a href='javascript:void(0)' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Task $btntext' class='$class'>$btntext</a></div>";
+                    return $statusBtn;
+                })
+                ->rawColumns(['inspectiontype','created_at','status'])
+                ->make(true);
+        }
+    }
 
     public function upload(Request $request)
     {
@@ -377,5 +411,9 @@ class RequestController extends Controller
         ]);
         $msg = "Request Cancelled Successfully";
         return response()->json(["msg" => $msg], 200);
+    }
+    public function showcompanylist(Request $request)
+    {
+       return view('company.request.requestlist');
     }
 }

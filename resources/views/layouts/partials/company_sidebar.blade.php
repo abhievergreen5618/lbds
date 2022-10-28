@@ -38,7 +38,7 @@
                 data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-                <li class="nav-itemn">
+                <li class="nav-item">
                     <a href="{{route('home')}}" class="nav-link {{ Route::currentRouteName() == 'home' ? 'active' : ''}}">
                         <i class="nav-icon fas fa-home"></i>
                         <p>
@@ -115,13 +115,37 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a href="" class="nav-link">
-                        <i class="nav-icon fas fa-align-left"></i>
+                <li class="nav-item {{ (Route::currentRouteName() == 
+                    'admin.request.create' ) ? 'menu-open menu-is-opening ' : ''}}">
+
+                    <a href="#" class="nav-link {{ (Route::currentRouteName() == 
+                    'admin.request.create') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-user-circle"></i>
                         <p>
                             Requests
+                            <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() == 
+                        'admin.request.create') ? 'display: block;' : ''}}">
+
+                        <li class="nav-item">
+                            <a href="{{route('admin.request.create')}}" class="nav-link {{str_contains(request()->path(), 'admin.request.create') ? 'active' : ''}}">
+                                <i class="nav-icon fas fa-user-plus"></i>
+                                <p>
+                                    Add new Request
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('company.request.list')}}" class="nav-link">
+                                <i class="nav-icon fas fa-users"></i>
+                                <p>
+                                    View All Requests
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a href="" class="nav-link">
@@ -133,55 +157,11 @@
                 </li>
                 <li class="nav-item">
                     <a href="" class="nav-link">
-                        <i class="nav-icon fas fa-align-left"></i>
-                        <p>
-                            Completed Request
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="" class="nav-link">
                         <i class="nav-icon fas fa-file-alt"></i>
                         <p>
                            Content
                         </p>
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-user-circle"></i>
-                        <p>
-                            Inspectors
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-
-                        <li class="nav-item">
-                            <a href="" class="nav-link">
-                                <i class="nav-icon fas fa-user-plus"></i>
-                                <p>
-                                    Add new Inspector
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="" class="nav-link">
-                                <i class="nav-icon fas fa-users"></i>
-                                <p>
-                                    View All Inspectors
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="" class="nav-link">
-                                <i class="nav-icon fas fa-comments"></i>
-                                <p>
-                                    Inspector Messages
-                                </p>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
                 <li class="nav-item">
                     <a href="" class="nav-link">

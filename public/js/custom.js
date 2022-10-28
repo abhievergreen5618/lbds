@@ -273,6 +273,45 @@ $(document).ready(function () {
             },
         ],
     });
+    var companyrequesttable = $('#companyrequesttable').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
+            "url": "companyrequestdetails",
+            "type": "POST",
+            'beforeSend': function (request) {
+                request.setRequestHeader("X-CSRF-TOKEN", jQuery('meta[name="csrf-token"]').attr('content'));
+            },
+        },
+        "columnDefs": [
+            { "className": "dt-center", "targets": "_all" },
+            { "width": "30%", "targets": 5 }
+        ],
+        "columns": [
+            {
+                "data": "inspectiontype",
+            },
+            {
+                "data": "applicantname",
+            },
+            {
+                "data": "address",
+            },
+            {
+                "data": "city",
+            },
+            {
+                "data": "zipcode",
+            },
+            {
+                "data": "created_at",
+            },
+            {
+                "data": "status",
+            },
+           
+        ],
+    });
     requesttable.on('click', '.delete', function () {
         $('#userdetails_processing').show();
         element = $(this);

@@ -50,6 +50,9 @@ Route::controller(RequestController::class)->group(function () {
     Route::post('/request-update','update')->name('requestupdate');
     Route::post('/requestschedule','schedule')->name('requestschedule');
     Route::get('/filedownload','filedownload')->name('filedownload');
+    // company routes
+    Route::get('/company-request-list','showcompanylist')->name('company.request.list');
+    Route::post('/companyrequestdetails','displaycompanylist')->name('companyrequestdetails');
 });
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
