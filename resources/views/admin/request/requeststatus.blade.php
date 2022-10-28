@@ -28,7 +28,7 @@
         content: " ";
         width: 100%;
         height: 1px;
-        background-color: #ccc;        
+        background-color: #ccc;
     }
 
     .stepwizard-step {
@@ -143,7 +143,7 @@
                     </div>
 
 
-                    <h4 class="mb-1 font-weight-bold text-danger">Scheduled</h4>
+                    <h4 class="mb-1 font-weight-bold text-danger">{{ucfirst($requestdetails->status)}}</h4>
                     <h6 class="mb-0 font-95 float-end col-6 px-2 p-1 bg-dark font-weight-600 text-white"><span class="font-weight-500">Assigned To:</span>{{!empty($requestdetails->assigned_ins) ? $inspectordetails->name : "" }} </h6>
                 </div>
             </div>
@@ -151,37 +151,44 @@
         </div>
     </div>
 
-
-
-
     <div class="container-fluid VV">
-
-        <div class="col-md-12 mb-3 nav justify-content-between timeline">
-            <div class="text-center single-timeline"> <i class="fas
-                     fa-check-circle text-success fa-3x"></i>
-                <h5 class="font-weight-600 mt-2 text-black">Submitted</h5>
-                <h6 class="font-weight-500 mt-2 text-secondary font-95">{{!empty($requestdetails->created_at) ? date('F d ,Y',strtotime($requestdetails->created_at)) : ""}}</h6>
+        @if($requestdetails->status == "cancelled")
+        <div class="col-12">
+            <div class="alert font-weight-600 mb-3 alert-light text-black p-3 rounded-10 h6 border" style="border-left:5px solid red !important;">
+                <h5 class="text-danger font-weight-bold mb-0">{{ucfirst($requestdetails->status)}}</h5>
+                <hr class="my-2">
+                Reason : {{$requestdetails->cancel_reason}} <br>
+                Cancelled By : Admin <span class="text-dark">[Admin]</span>
+                <p class="mb-0 font-weight-500 mt-1 font-95 text-dark"></p>
             </div>
-            <div class="text-center single-timeline "> <i class="fas
-                     fa-check-circle text-success fa-3x"></i>
+        </div>
+        @endif
+        <div class="col-md-12 mb-3 nav justify-content-between timeline">
+            <div class="text-center single-timeline"> <i class="fas fa-check-circle text-success fa-3x"></i>
+                <h5 class="font-weight-600 mt-2 text-black">Submitted</h5>
+                <h6 class="font-weight-500 mt-2 text-secondary font-95">{{!empty($requestdetails->created_at) ? date('F d ,Y',strtotime($requestdetails->created_at)) : "----
+                    ---- ------ "}}</h6>
+            </div>
+            <div class="text-center single-timeline"><i class="{{($requestdetails->status == 'scheduled' || $requestdetails->status == 'underreview' || $requestdetails->status == 'completed' || $requestdetails->status == 'assigned') ? 'fas fa-check-circle' : 'far fa-clock'}}  text-success fa-3x"></i>
                 <h5 class="font-weight-600 mt-2 text-black">Assigned</h5>
-                <h6 class="font-weight-500 mt-2 text-secondary font-95">{{!empty($requestdetails->assigned_at) ? date('F d ,Y',strtotime($requestdetails->assigned_at)) : ""}}</h6>
+                <h6 class="font-weight-500 mt-2 text-secondary font-95">{{!empty($requestdetails->assigned_at) ? date('F d ,Y',strtotime($requestdetails->assigned_at)) : "----
+                    ---- ------ "}}</h6>
             </div>
             <div class="text-center single-timeline ">
-                <i class="fas fa-check-circle text-success fa-3x"></i>
-                <h5 class="font-weight-600 mt-2 text-black">Scheduled
-                </h5>
-                <h6 class="font-weight-500 mt-2 text-secondary font-95">{{!empty($requestdetails->schedule_at) ? date('Y/m/d',strtotime($requestdetails->schedule_at)) : ""}}</h6>
+                <i class="{{($requestdetails->status == 'scheduled' || $requestdetails->status == 'underreview' || $requestdetails->status == 'completed') ? 'fas fa-check-circle' : 'far fa-clock'}} text-success fa-3x"></i>
+                <h5 class="font-weight-600 mt-2 text-black">Scheduled</h5>
+                <h6 class="font-weight-500 mt-2 text-secondary font-95">{{!empty($requestdetails->schedule_at) ? date('Y/m/d',strtotime($requestdetails->schedule_at)) : "----
+                    ---- ------ "}}</h6>
             </div>
-            <div class="text-center single-timeline opacity-50"> <i class="far fa-clock text-success fa-3x"></i>
+            <div class="text-center single-timeline opacity-50"> <i class="{{($requestdetails->status == 'underreview' || $requestdetails->status == 'completed') ? 'fas fa-check-circle' : 'far fa-clock'}} text-success fa-3x"></i>
                 <h5 class="font-weight-600 mt-2 text-black">Under Review</h5>
-                <h6 class="font-weight-500 mt-2 text-secondary font-95"> ----
-                    ---- ------ </h6>
+                <h6 class="font-weight-500 mt-2 text-secondary font-95">{{!empty($requestdetails->underreview_at) ? date('Y/m/d',strtotime($requestdetails->schedule_at)) : "----
+                    ---- ------ "}}</h6>
             </div>
-            <div class="text-center single-timeline opacity-50"> <i class="far fa-clock text-success fa-3x"></i>
+            <div class="text-center single-timeline opacity-50"> <i class="{{($requestdetails->status == 'completed') ? 'fas fa-check-circle' : 'far fa-clock'}} text-success fa-3x"></i>
                 <h5 class="font-weight-600 mt-2 text-black">Completed</h5>
-                <h6 class="font-weight-500 mt-2 text-secondary font-95"> ----
-                    ---- ------ </h6>
+                <h6 class="font-weight-500 mt-2 text-secondary font-95">{{!empty($requestdetails->completed_at) ? date('Y/m/d',strtotime($requestdetails->schedule_at)) : "----
+                    ---- ------ "}}</h6>
             </div>
         </div>
 
@@ -356,7 +363,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <!---xxx--->
+                    @if(!empty($requestdetails->assigned_at))
                     <div class="mt-3 mb-3 scheduled0eaff1"> <span class="btn
                            btn-danger col-12 shadow-sm font-weight-600 btn-sm
                            pointer"> Schedule Inspection &nbsp; <i class="fas
@@ -380,33 +387,12 @@
                                 </div>
                                 @enderror
                             </div>
-                            <button type="submit" class="btn btn-sm col-12 btn-light font-weight-500 btn-reschedule border" id="0eaff1">Submit<i class="fas fa-savefa-sm"></i></button>
+                            <div class="col-12  text-center">
+                                <button type="submit" class="btn btn-success font-weight-500 btn-reschedule border" id="0eaff1">Submit<i class="fas fa-savefa-sm"></i></button>
+                            </div>
                         </form>
                     </div>
-                    <div class="status-label mt-2"> <span class="btn btn-sm
-                           btn-danger font-weight-500 py-0">Scheduled</span>
-                        <div id="reschedule0eaff1" class="collapse">
-                            <!-- <form method="post" action="{{route('requestschedule')}}">
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Email address</label>
-                                    <input type="date" class="border p-2 col-7" id="date" name="date" min="2022-10-21" value="{{old('date')}}">
-                                    @error('date')
-                                    <div>
-                                        <label class="error fail-alert  mt-1">{{$message}}<label>
-                                    </div>
-                                    @enderror
-                                </div>
-                                <div class="mb-3">
-                                <input type="time" class="border p-2 col-5" id="time" name="time" value="{{old('time')}}">
-                                    @error('time')
-                                    <div>
-                                        <label class="error fail-alert  mt-1">{{$message}}<label>
-                                    </div>
-                                    @enderror
-                                </div>
-                                <button type="submit" class="btn btn-sm col-12 btn-light font-weight-500 btn-reschedule border" id="0eaff1">Submit<i class="fas fa-savefa-sm"></i></button>
-                            </form> -->
-                        </div>
+                    <div class="status-label mt-2">
                         <span id="btn-calendar" class="btn btn-sm btn-dark
                            font-weight-500 py-0 shadow pointer">
                             @if(!empty($requestdetails->schedule_at))
@@ -415,15 +401,44 @@
                             @endphp
                             @else
                             @php
-                            $link = "";
+                            $link = "#";
                             @endphp
                             @endif
-                            <a href="{{$link}}"><i class="fas
+                            <a href="{{$link}}" class="text-light"><i class="fas
                               fa-calendar"></i> Add to Calendar </span> </a>
                         <span id="btn-calendar-google" class="btn btn-sm btn-info
                            font-weight-500 py-0 shadow pointer"> <i class="fas
                               fa-calendar"></i> Add to Google WorkSpace </span>
                     </div>
+                    @else
+                    <div class="mt-3 mb-3 scheduled0eaff1"> <span class="btn
+                           btn-danger col-12 shadow-sm font-weight-600 btn-sm
+                           pointer">Assign Inspector &nbsp; <i class="fas
+                              fa-arrow-down fa-sm"></i></span> <br>
+                        <form method="post" action="{{route('inspectorassign')}}">
+                            @csrf
+                            <input type="hidden" name="reqid" value="{{encrypt($requestdetails->id)}}">
+                            <div class="my-2">
+                                <select class="form-control" name="id" id="agency">
+                                    <option value="">Select Inspector</option>
+                                    @forelse($inslist as $key=>$value)
+                                        <option value="{{encrypt($key)}}">{{__($value)}}</option>
+                                    @empty
+                                        <option value="">No Inspector Founded</option>
+                                    @endforelse
+                                </select>
+                                @error('id')
+                                <div>
+                                    <label class="error fail-alert  mt-1">{{$message}}<label>
+                                </div>
+                                @enderror
+                            </div>
+                            <div class="col-12  text-center">
+                                <button type="submit" class="btn btn-success font-weight-500 btn-reschedule border" id="0eaff1">Submit<i class="fas fa-savefa-sm"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -457,7 +472,7 @@
                                     <img src="{{ asset('taskfiles/' . $item) }}" class="img-thumbnail h-100 preview-images" alt="...">
                                     <a id="" href="#" data-file="{{ $item }}" class="remove-btn">Remove file</a>
                                     <div class="image-overlay  position-absolute" style="display:none;">
-                                        <a href="{{route('filedownload',['filename' => $item])}}"  data-file="{{ $item }}"><i class="fa fa-download" aria-hidden="true"></i></a>
+                                        <a href="{{route('filedownload',['filename' => $item])}}" data-file="{{ $item }}"><i class="fa fa-download" aria-hidden="true"></i></a>
                                         <a href=""><i class="fa fa-eye" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
@@ -472,7 +487,7 @@
                                     <a id="" href="#" data-file="{{ $item }}" class="remove-btn">Remove file
                                     </a>
                                     <div class="image-overlay  position-absolute" style="display:none;">
-                                        <a href="{{route('filedownload',['filename' => $item])}}" ><i class="fa fa-download" aria-hidden="true"></i></a>
+                                        <a href="{{route('filedownload',['filename' => $item])}}"><i class="fa fa-download" aria-hidden="true"></i></a>
                                         <a href="{{asset('taskfiles').'/'.$item}}" target="blank" data-file="{{ $item }}"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
@@ -512,7 +527,7 @@
                                     <img src="{{ asset('taskfiles/' . $item) }}" class="img-thumbnail h-100 preview-images" alt="...">
                                     <a id="" href="#" data-file="{{ $item }}" class="remove-btn">Remove file</a>
                                     <div class="image-overlay  position-absolute" style="display:none;">
-                                        <a href="{{route('filedownload',['filename' => $item])}}" ><i class="fa fa-download" aria-hidden="true"></i></a>
+                                        <a href="{{route('filedownload',['filename' => $item])}}"><i class="fa fa-download" aria-hidden="true"></i></a>
                                         <a href="" data-file="{{ $item }}"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
@@ -527,7 +542,7 @@
                                     <a id="" href="#" class="remove-btn">Remove file
                                     </a>
                                     <div class="image-overlay  position-absolute" style="display:none;">
-                                        <a href="{{route('filedownload',['filename' => $item])}}" ><i class="fa fa-download" aria-hidden="true"></i></a>
+                                        <a href="{{route('filedownload',['filename' => $item])}}"><i class="fa fa-download" aria-hidden="true"></i></a>
                                         <a href="{{asset('taskfiles').'/'.$item}}" target="blank" data-file="{{ $item }}"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
@@ -579,64 +594,3 @@
 </div>
 
 @endsection
-
-
-
-
-
-@push('footer_extras')
-<script>
-    $(document).ready(function() {
-        var navListItems = $('div.setup-panel div a'),
-            allWells = $('.setup-content'),
-            allNextBtn = $('.nextBtn'),
-            allPrevBtn = $('.prevBtn');
-
-        allWells.hide();
-
-        navListItems.click(function(e) {
-            e.preventDefault();
-            var $target = $($(this).attr('href')),
-                $item = $(this);
-
-            if (!$item.hasClass('disabled')) {
-                navListItems.removeClass('btn-primary').addClass('btn-default');
-                $item.addClass('btn-primary');
-                allWells.hide();
-                $target.show();
-                $target.find('input:eq(0)').focus();
-            }
-        });
-
-        allNextBtn.click(function() {
-            var curStep = $(this).closest(".setup-content"),
-                curStepBtn = curStep.attr("id"),
-                nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
-                curInputs = curStep.find("input[type='text'],input[type='url']"),
-                isValid = true;
-
-            $(".form-group").removeClass("has-error");
-            for (var i = 0; i < curInputs.length; i++) {
-                if (!curInputs[i].validity.valid) {
-                    isValid = false;
-                    $(curInputs[i]).closest(".form-group").addClass("has-error");
-                }
-            }
-
-            if (isValid)
-                nextStepWizard.removeAttr('disabled').trigger('click');
-        });
-
-        allPrevBtn.click(function() {
-            var curStep = $(this).closest(".setup-content"),
-                curStepBtn = curStep.attr("id"),
-                prevStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().prev().children("a");
-
-            $(".form-group").removeClass("has-error");
-            prevStepWizard.removeAttr('disabled').trigger('click');
-        });
-
-        $('div.setup-panel div a.btn-primary').trigger('click');
-    });
-</script>
-@endpush

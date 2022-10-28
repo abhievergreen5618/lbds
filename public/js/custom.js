@@ -307,6 +307,50 @@ $(document).ready(function () {
             };
         });
     });
+    requesttable.on('click', '.cancel', function () {
+        $('#userdetails_processing').show();
+        element = $(this);
+        var userid = $(this).attr('data-id');
+        Swal.fire({
+            title: 'Confirmation',
+            input: 'textarea',
+            inputLabel: 'Are you sure you want to cancel?',
+            inputPlaceholder: 'Please write the reason',
+            inputAttributes: {
+                'aria-label': 'Type your message here'
+              },
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ok',
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: 'request-cancel',
+                    data: {
+                        id: userid,
+                        msg : result.value,
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        toastr.success(data.msg);
+                        requesttable.ajax.reload();
+                    },
+                    error: function (data) {
+                        if (xhr.status == 422 && xhr.responseJSON.msg.length) {
+                            $('.preloader').children().hide();
+                            $('.preloader').css("height", "0");
+                            toastr.error(xhr.responseJSON.msg);
+                        }   
+                    }
+                });
+            };
+        });
+    });
 
     var inspectortable = $('#inspectortable').DataTable({
         "processing": true,

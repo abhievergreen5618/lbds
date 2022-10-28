@@ -46,6 +46,7 @@ Route::controller(RequestController::class)->group(function () {
     Route::get('/request-check','requestcheck')->name('requestcheck');
     Route::post('/inspectorassign','assign')->name('inspectorassign');
     Route::post('/request-delete','destroy')->name('request-delete');
+    Route::post('/request-cancel','cancel')->name('request-cancel');
     Route::post('/request-update','update')->name('requestupdate');
     Route::post('/requestschedule','schedule')->name('requestschedule');
     Route::get('/filedownload','filedownload')->name('filedownload');
