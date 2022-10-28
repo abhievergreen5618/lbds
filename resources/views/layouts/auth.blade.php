@@ -27,6 +27,7 @@
         </main>
     </div>
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('/plugins/jquery/jquery.min.js')}}"></script>
     @stack('footer_extras')
 </body>
 </html>

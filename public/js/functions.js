@@ -1,0 +1,98 @@
+// for getting form values 
+
+function getFormData($form) {
+
+    var unindexed_array = $form.serializeArray();
+
+    var indexed_array = {};
+
+    const posts = [];
+
+    $.each(unindexed_array, function(key, value) {
+
+        name = value.name;
+
+        val = value.value;
+
+        if (val.length) {
+
+            if (name == "sendinvoice[]") {
+
+                posts.push(val);
+
+                indexed_array["sendinvoice[]"] = posts;
+
+            }
+            if (name == "inspectiontype[]") {
+
+                posts.push(val);
+
+                indexed_array["inspectiontype[]"] = posts;
+
+            } else {
+
+                indexed_array[name] = val;
+
+            }
+
+        }
+
+    });
+
+    return indexed_array;
+
+}
+
+// submit request form
+
+function requestformsubmit() {
+    var formdata = getFormData($("#requestform"));
+    $.ajax({
+        url: "requestsubmit",
+        data: formdata,
+        type: 'Post',
+        dataType: 'json',
+        headers: {
+            'x-csrf-token': $('meta[name="csrf-token"]').attr('content'),
+        },
+        success: function(res) {
+            $('.preloader').children().hide();
+            $('.preloader').css("height", "0");
+            Swal.fire({
+                icon: 'success',
+                title: 'Good job!',
+                text: res.msg,
+                showConfirmButton: false,
+                timer: 1000,
+            }).then((result) => {
+                window.location.href = res.newlocation; 
+            });
+        },
+        error: function(xhr) {
+            $('.preloader').children().hide();
+            $('.preloader').css("height", "0");
+            if (xhr.status == 422) {
+                $('*').removeClass("is-invalid-special");
+                $.each(xhr.responseJSON.errors, function(key, value) {
+                    if (key == "agency") {
+                        $("[name='" + key + "']").next().focus();
+                        $("#error-" + key).remove();
+                        $("[name='" + key + "']").next().after("<label id='error-" + key + "' class='error fail-alert'>" + value + "</label>");
+                    } else if (key == "sendinvoice") {
+                        $("[name='sendinvoice[]']:first").focus();
+                        $("#error-" + key).remove();
+                        $("[name='sendinvoice[]']:first").parent().parent().parent().parent().append("<label id='error-" + key + "' class='error fail-alert'>" + value + "</label>");
+                    } else if (key == "inspectiontype") {
+                        $("[name='inspectiontype[]']:first").focus();
+                        $("#error-" + key).remove();
+                        $("[name='inspectiontype[]']:first").parent().parent().parent().parent().append("<label id='error-" + key + "' class='error fail-alert'>" + value + "</label>");
+                    } else {
+                        $("[name='" + key + "']").focus();
+                        $("#error-" + key).remove();
+                        $("[name='" + key + "']").after("<label id='error-" + key + "' class='error fail-alert'>" + value + "</label>");
+                    }
+                });
+            }
+        },
+    });
+}

@@ -650,10 +650,111 @@ $(document).ready(function () {
 
         ],
     });
-
-
     $("#refreshBtn").click(function () {
         location.reload();
     });
+
+    var myselect = $('#agency').select2({
+        placeholder: "Select",
+    });
 });
 
+// new dropzone code
+
+Dropzone.autoDiscover = false;
+$(document).ready(function () {
+    var myagencyfiles = new $("#agencyfiles").dropzone({
+        autoProcessQueue: false,
+        uploadMultiple: true,
+        parallelUploads: 100,
+        maxFiles: 100,
+        addRemoveLinks: true,
+        url: "fileuploadrequest",
+        headers: {
+            'x-csrf-token': $('meta[name="csrf-token"]').attr('content'),
+        },
+        maxFilesize: 500,
+        acceptedFiles: ".jpeg,.jpg,.png,.pdf",
+        removedfile: function (file) {
+            var _ref;
+            return (_ref = file.previewElement) != null ? _ref.parentNode
+                .removeChild(
+                    file.previewElement) : void 0;
+        },
+    });
+    var myreportfiles = new $("#reportfiles").dropzone({
+        autoProcessQueue: false,
+        uploadMultiple: true,
+        parallelUploads: 100,
+        maxFiles: 100,
+        addRemoveLinks: true,
+        url: "fileuploadrequest",
+        headers: {
+            'x-csrf-token': $('meta[name="csrf-token"]').attr('content'),
+        },
+        maxFilesize: 500,
+        acceptedFiles: ".jpeg,.jpg,.png,.pdf",
+        removedfile: function (file) {
+            var _ref;
+            return (_ref = file.previewElement) != null ? _ref.parentNode
+                .removeChild(
+                    file.previewElement) : void 0;
+        },
+    });
+
+    $('#submit-btn').click(function () {
+        if ($('#requestform').valid()) {
+            var myagencyfilesnew = myagencyfiles.get(0).dropzone;
+            var myreportfilesnew = myreportfiles.get(0).dropzone;
+            if (myagencyfilesnew.files.length == 0 && myreportfilesnew.files.length == 0) {
+                requestformsubmit();
+            }
+            else if (myagencyfilesnew.files.length != 0 && myreportfilesnew.files.length == 0) {
+                myagencyfilesnew.on('sending', function (file, xhr, formData) {
+                    formData.append('type', $(myagencyfiles).attr("id"));
+                });
+                myagencyfilesnew.processQueue();
+                myagencyfilesnew.on("queuecomplete", function () {
+                    $('.dz-remove').remove();
+                    requestformsubmit();
+                });
+            }
+            else if (myagencyfilesnew.files.length == 0 && myreportfilesnew.files.length != 0) {
+                myreportfilesnew.on('sending', function (file, xhr, formData) {
+                    formData.append('type', $(myreportfiles).attr("id"));
+                });
+                myreportfilesnew.processQueue();
+                myreportfilesnew.on("queuecomplete", function () {
+                    $('.dz-remove').remove();
+                    requestformsubmit();
+                });
+            }
+            else {
+                var count = 0;
+                myagencyfilesnew.on('sending', function (file, xhr, formData) {
+                    formData.append('type', $(myagencyfiles).attr("id"));
+                });
+                myreportfilesnew.on('sending', function (file, xhr, formData) {
+                    formData.append('type', $(myreportfiles).attr("id"));
+                });
+                myagencyfilesnew.processQueue();
+                myreportfilesnew.processQueue();
+                myagencyfilesnew.on("queuecomplete", function () {
+                    count++;
+                    $('.dz-remove').remove();
+                    if (count == 2) {
+                        requestformsubmit();
+                    }
+                });
+                myreportfilesnew.on("queuecomplete", function () {
+                    count++;
+                    $('.dz-remove').remove();
+                    if (count == 2) {
+                        requestformsubmit();
+                    }
+                });
+            }
+            return false;
+        }
+    });
+});

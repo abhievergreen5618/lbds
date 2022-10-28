@@ -90,7 +90,8 @@ class RequestController extends Controller
             session()->forget('taskid');
         }
         $msg = "Details Saved Successfully";
-        return response()->json(array("msg" => $msg), 200);
+        $newlocation = route('admin.request.list');
+        return response()->json(['msg'=>$msg,'newlocation'=>$newlocation], 200);
     }
 
     /**
