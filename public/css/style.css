@@ -166,3 +166,64 @@ transition: transform .3s ease-out;
 {
   min-height: 200px;
 }
+
+.section.one11 {
+  background-image: url(../images/hero-bg.jpg);
+  position: relative;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
+}
+.card {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.col-md-6.gh {
+  margin: auto;
+
+}
+a.list-group-item.list-group-item-action {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+
+.card-header.bg-green {
+  background-color: red;
+  padding-top: 19px;
+  padding-bottom: 19px;
+  font-size: 26px;
+  font-weight: 700;
+}
+button.btn.btn-green-soft.text-green.fw-500 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+@media (min-width: 300px) and (max-width: 768px){
+
+a.navbar-brand.tttt {
+  margin-left: 6%;
+}
+
+}
+
+
+@media (min-width: 912px) and (max-width: 1100px){
+
+a.navbar-brand.tttt {
+  margin-left: 6%;
+}
+
+}
+
+
+@media (max-width: 1280px) {
+
+a.navbar-brand.tttt {
+  margin-left: 3%;
+}
+
+}
+
+

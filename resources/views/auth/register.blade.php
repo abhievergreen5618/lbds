@@ -36,15 +36,14 @@
                         <div class="signup-img">
                             <div class="logooo">
                                 <a class="navbar-brand" href="#">
-                                    <img src="images/lg.png" alt="" class="d-inline-block align-text-top">
+                                    <img src="{{asset('images/lg.png')}}" alt="" class="d-inline-block align-text-top">
 
                                 </a>
                             </div>
 
                             <div class="logooo2">
                                 <a class="navbar-brand" href="#">
-                                    <img src="images/yy.png" alt="" class="d-inline-block align-text-top">
-
+                                    <img src="{{asset('images/yy.png')}}" alt="" class="d-inline-block align-text-top">
                                 </a>
                             </div>
 
