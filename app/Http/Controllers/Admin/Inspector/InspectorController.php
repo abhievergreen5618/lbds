@@ -44,7 +44,7 @@ class InspectorController extends Controller
             'area_coverage'              => 'required',
             'color_code'                 => 'required',
             'email'                      => 'required|unique:users|max:255',
-            'password'                   => 'required',
+            'password'                   => ['required','string','min:8','confirmed'],
         ]);
         $user = User::create([
             'company_name' => $request['company_name'],
@@ -90,19 +90,43 @@ class InspectorController extends Controller
     {
         if(isset($request['id']) && !empty($request['id']))
         {
-            User::where('id',decrypt($request['id']))->update([
-                "company_name" => $request->company_name,
-                "name" => $request->name,
-                "mobile_number" => $request->number,
-                "license_number" => $request->license_number,
-                "area_coverage" => $request->area_coverage,
-                "color_code" => $request->color_code,
-                "email" => $request->email,
-                "password" => Hash::make($request->password),
+            $request->validate([
+                'company_name'               => 'required',
+                'name'                       => 'required',
+                'number'                     => 'required',
+                'license_number'             => 'required',
+                'area_coverage'              => 'required',
+                'color_code'                 => 'required',
+                'email'                      => 'required',
+                'password'                   => ['nullable','min:8'],
             ]);
+            if(isset($request['password']) && !empty($request['password']))
+            {
+                User::where('id',decrypt($request['id']))->update([
+                    "company_name" => $request->company_name,
+                    "name" => $request->name,
+                    "mobile_number" => $request->number,
+                    "license_number" => $request->license_number,
+                    "area_coverage" => $request->area_coverage,
+                    "color_code" => $request->color_code,
+                    "email" => $request->email,
+                    "password" => Hash::make($request->password),
+                ]);
+            }
+            else
+            {
+                User::where('id',decrypt($request['id']))->update([
+                    "company_name" => $request->company_name,
+                    "name" => $request->name,
+                    "mobile_number" => $request->number,
+                    "license_number" => $request->license_number,
+                    "area_coverage" => $request->area_coverage,
+                    "color_code" => $request->color_code,
+                    "email" => $request->email,
+                ]);
+            }
             return redirect()->route('admin.view.inspector')->with("msg","Record Updated Successfully");
         }
-      
     }
 
     public function destroy(Request $request)
