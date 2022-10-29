@@ -20,7 +20,7 @@
             <th>City</th>
             <th>ZipCode</th>
             <th>Added At</th>
-            <th>status</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
