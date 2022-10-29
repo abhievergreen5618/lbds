@@ -53,6 +53,11 @@ Route::controller(RequestController::class)->group(function () {
     // company routes
     Route::get('/company-request-list','showcompanylist')->name('company.request.list');
     Route::post('/companyrequestdetails','displaycompanylist')->name('companyrequestdetails');
+
+    // inspector routes
+    Route::get('/inspector-request-list','showinspectorlist')->name('inspector.request.list');
+    Route::post('/inspectorrequestdetails','displayinspectorlist')->name('inspectorrequestdetails');
+
 });
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

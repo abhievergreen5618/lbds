@@ -112,6 +112,10 @@ class RequestController extends Controller
     {
         return view('admin.request.allrequest');
     }
+    public function showinspectorlist(Request $request)
+    {
+        return view('inspector.request.requestlist');
+    }
 
     public function assign(Request $request)
     {
@@ -126,30 +130,28 @@ class RequestController extends Controller
                 $msg = "OOps! Something Went Wrong";
                 return response()->json(array("msg" => $msg), 422);
             } else {
-                $this->assign_ins($request['id'],$request['reqid']);
+                $this->assign_ins($request['id'], $request['reqid']);
                 $msg = "Inspector Assigned Successfully";
                 return response()->json(array("msg" => $msg), 200);
             }
-        }
-        else
-        {
+        } else {
             $request->validate(
-            [
-               "id" => "required", 
-               "reqid" => "required", 
-            ],
-            [
-                "required" => "Field is required.",
-            ]
+                [
+                    "id" => "required",
+                    "reqid" => "required",
+                ],
+                [
+                    "required" => "Field is required.",
+                ]
             );
-            $this->assign_ins($request['id'],$request['reqid']);
+            $this->assign_ins($request['id'], $request['reqid']);
             $msg = "Inspector Assigned Successfully";
-            return redirect()->back()->with('msg',$msg);
+            return redirect()->back()->with('msg', $msg);
         }
     }
 
 
-    public function assign_ins($id,$reqid)
+    public function assign_ins($id, $reqid)
     {
         $insemail = User::role('inspector')->where("id", decrypt($id))->first('email');
         $insdetails = User::role('inspector')->where("id", decrypt($id))->first();
@@ -315,7 +317,7 @@ class RequestController extends Controller
     {
         if ($request->ajax()) {
             $GLOBALS['count'] = 0;
-            $data = RequestModel::where(["company_id"=>Auth::user()->id])->latest()->get(["id","inspectiontype","applicantname","address","city","zipcode","inspectiontype","created_at","status"]);
+            $data = RequestModel::where(["company_id" => Auth::user()->id])->latest()->get(["id", "inspectiontype", "applicantname", "address", "city", "zipcode", "inspectiontype", "created_at", "status"]);
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('inspectiontype', function ($row) {
                     $returnvalue = "";
@@ -341,8 +343,57 @@ class RequestController extends Controller
                     $statusBtn = "<div class='d-flex justify-content-center'><a href='javascript:void(0)' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Task $btntext' class='$class'>$btntext</a></div>";
                     return $statusBtn;
                 })
-                ->rawColumns(['inspectiontype','created_at','status'])
+                ->rawColumns(['inspectiontype', 'created_at', 'status'])
                 ->make(true);
+        }
+    }
+    public function displayinspectorlist(Request $request)
+    {
+        if ($request->ajax()) {
+            $GLOBALS['count'] = 0;
+            $data = RequestModel::where(["assigned_ins" => Auth::user()->id])->latest()->get(["company_id","applicantname","applicantemail","applicantmobile","address","city","state","zipcode","inspectiontype","created_at","status"]);
+            return Datatables::of($data)->addIndexColumn()
+            ->addColumn('company_id', function ($row) {
+                $heading = "<h4>Company Name</h4>";
+                $company_name = User::role('company')->where(["id" => $row->company_id])->first("company_name");
+                return (!empty($company_name['company_name'])) ?  $heading.$company_name['company_name'] : "";
+            })
+            ->addColumn('applicantinformation', function ($row) {
+                $heading = ["name" => "<h4>Name</h4>","email" => "<h4>Email Address</h4>","phone"=>"<h4>Phone</h4>"];
+                $returnvalue = $heading['name'].$row->applicantname.$heading['email'].$row->applicantemail.$heading['phone'].$row->applicantmobile;
+                return $returnvalue;
+            })
+            ->addColumn('detailedaddress', function ($row) {
+                $heading = ["city" => "<h4>City</h4>","state" => "<h4>State</h4>","zipcode"=>"<h4>Zip Code</h4>"];
+                $returnvalue = $heading['city'].$row->city.$heading['state'].$row->state.$heading['zipcode'].$row->zipcode;
+                return $returnvalue;
+            })
+            ->addColumn('otherinfo', function ($row) {
+                $heading = ["inspection" => "<h4>Inspection Type</h4>","created" => "<h4>Added At</h4>"];
+                $created_at = date('d-m-Y h:i a', strtotime($row->created_at));
+                $inpectionlist = "";
+                foreach ($row->inspectiontype as $value) {
+                    $inspectiontype = Inspectiontype::where(["id" => $value])->first("name");
+                    $inpectionlist = $inpectionlist.$inspectiontype['name'] . "<br>";
+                }
+                $returnvalue = $heading['inspection'].$inpectionlist.$heading['created'].$created_at;
+                return $returnvalue;
+            })
+            ->addColumn('status', function ($row) {
+                if ($row->status == "pending") {
+                    $class = "badge btn-warning ms-2 status";
+                } elseif ($row->status == "scheduled" || $row->status == "cancelled" || $row->status == "assigned") {
+                    $class = "badge btn-danger ms-2 status";
+                } elseif ($row->status == "completed") {
+                    $class = "badge btn-success ms-2 status";
+                }
+                $btntext = ucfirst($row->status);
+                $id = encrypt($row->id);
+                $statusBtn = "<div class='d-flex justify-content-center'><a href='javascript:void(0)' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Task $btntext' class='$class'>$btntext</a></div>";
+                return $statusBtn;
+            })
+            ->rawColumns(['company_id', 'inspectiontype', 'created_at', 'action', 'status', 'assigned_inspector'])
+            ->make(true);
         }
     }
 
@@ -414,6 +465,6 @@ class RequestController extends Controller
     }
     public function showcompanylist(Request $request)
     {
-       return view('company.request.requestlist');
+        return view('company.request.requestlist');
     }
 }
