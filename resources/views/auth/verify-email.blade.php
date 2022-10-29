@@ -41,4 +41,5 @@
                     </aside>
                 </div>
             </div>
+
             @endsection

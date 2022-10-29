@@ -354,29 +354,36 @@ class RequestController extends Controller
             $data = RequestModel::where(["assigned_ins" => Auth::user()->id])->latest()->get(["company_id","applicantname","applicantemail","applicantmobile","address","city","state","zipcode","inspectiontype","created_at","status"]);
             return Datatables::of($data)->addIndexColumn()
             ->addColumn('company_id', function ($row) {
-                $heading = "<h4>Company Name</h4>";
-                $company_name = User::role('company')->where(["id" => $row->company_id])->first("company_name");
-                return (!empty($company_name['company_name'])) ?  $heading.$company_name['company_name'] : "";
+                $heading = ["companyname"=>"<span class='font-weight-600'>Company Name</span>","companyphone"=>"<span class='font-weight-600'>Company Phone</span>","agentname"=>"<span class='font-weight-600'>Agent Name</span>"];
+                $company_name = User::role('company')->where(["id" => $row->company_id])->first(["company_name","company_phonenumber"]);
+                $companyname = (!empty($company_name['company_name'])) ?  $heading['companyname']."<hr class='my-2'><div>".$company_name['company_name']."</div>" : "";
+                $company_phone = (!empty($company_name['company_phonenumber'])) ?  $heading['companyphone']."<hr class='my-2'><div>".$company_name['company_phonenumber']."</div>" : "";
+                return $companyname."<hr class='my-2'>".$company_phone.$heading['agentname'];
             })
             ->addColumn('applicantinformation', function ($row) {
-                $heading = ["name" => "<h4>Name</h4>","email" => "<h4>Email Address</h4>","phone"=>"<h4>Phone</h4>"];
-                $returnvalue = $heading['name'].$row->applicantname.$heading['email'].$row->applicantemail.$heading['phone'].$row->applicantmobile;
+                $heading = ["name" => "<span class='font-weight-600'>Name</span>","email" => "<span class='font-weight-600'>Email Address</span>","phone"=>"<span class='font-weight-600'>Phone</span>"];
+                $returnvalue = $heading['name']."<div>".$row->applicantname."</div><hr class='my-2'>".$heading['email']."<div>".$row->applicantemail."</div><hr class='my-2'>".$heading['phone']."<div>".$row->applicantmobile."</div>";
                 return $returnvalue;
             })
             ->addColumn('detailedaddress', function ($row) {
-                $heading = ["city" => "<h4>City</h4>","state" => "<h4>State</h4>","zipcode"=>"<h4>Zip Code</h4>"];
-                $returnvalue = $heading['city'].$row->city.$heading['state'].$row->state.$heading['zipcode'].$row->zipcode;
+                $heading = ["city" => "<span class='font-weight-600'>City</span>","state" => "<span class='font-weight-600'>State</span>","zipcode"=>"<span class='font-weight-600'>Zip Code</span>"];
+                $returnvalue = $heading['city']."<div>".$row->city."</div><hr class='my-2'>".$heading['state']."<div>".$row->state."</div><hr class='my-2'>".$heading['zipcode']."<div>".$row->zipcode."</div>";
+                return $returnvalue;
+            })
+            ->addColumn('address', function ($row) {
+                $returnvalue = "<span class='font-weight-600'>Address</span><div>".$row->address."<div>";
                 return $returnvalue;
             })
             ->addColumn('otherinfo', function ($row) {
-                $heading = ["inspection" => "<h4>Inspection Type</h4>","created" => "<h4>Added At</h4>"];
+                $heading = ["inspection" => "<span class='font-weight-600'>Inspection Type</span>","created" => "<span class='font-weight-600'>Added At</span>"];
                 $created_at = date('d-m-Y h:i a', strtotime($row->created_at));
-                $inpectionlist = "";
+                $inpectionlist = "<ul>";
                 foreach ($row->inspectiontype as $value) {
                     $inspectiontype = Inspectiontype::where(["id" => $value])->first("name");
-                    $inpectionlist = $inpectionlist.$inspectiontype['name'] . "<br>";
+                    $inpectionlist = $inpectionlist."<li>".$inspectiontype['name']."</li>";
                 }
-                $returnvalue = $heading['inspection'].$inpectionlist.$heading['created'].$created_at;
+                $inpectionlist = $inpectionlist."</ul>";
+                $returnvalue = $heading['inspection']."<div>".$inpectionlist."</div><hr class='my-2'>".$heading['created']."<div>".$created_at."</div>";
                 return $returnvalue;
             })
             ->addColumn('status', function ($row) {
@@ -392,7 +399,7 @@ class RequestController extends Controller
                 $statusBtn = "<div class='d-flex justify-content-center'><a href='javascript:void(0)' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Task $btntext' class='$class'>$btntext</a></div>";
                 return $statusBtn;
             })
-            ->rawColumns(['company_id', 'inspectiontype', 'created_at', 'action', 'status', 'assigned_inspector'])
+            ->rawColumns(['company_id', 'applicantinformation', 'detailedaddress','address','otherinfo', 'status'])
             ->make(true);
         }
     }

@@ -307,7 +307,6 @@ $(document).ready(function () {
         },
         "columnDefs": [
             { "className": "dt-center", "targets": "_all" },
-            { "width": "30%", "targets": 5 }
         ],
         "columns": [
             {
