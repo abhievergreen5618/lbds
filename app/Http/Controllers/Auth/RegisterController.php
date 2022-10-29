@@ -72,7 +72,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $role = Role::findByName('company');
-         $user = User::create([
+        $user = User::create([
             'company_name' => $data['company_name'],
             'company_address' => $data['company_address'],
             'city' => $data['city'],
@@ -83,6 +83,7 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
         $user->assignRole([$role->id]);
+        $role->givePermissionTo('request-create');
         return $user;
     }
 }
