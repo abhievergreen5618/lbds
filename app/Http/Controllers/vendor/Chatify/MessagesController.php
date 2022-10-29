@@ -53,20 +53,24 @@ class MessagesController extends Controller
      * @param int $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function index( $id = null)
+    public function index($id = null)
     {
-        $routeName= FacadesRequest::route()->getName();
-        $type = in_array($routeName, ['user','group'])
+        $routeName = FacadesRequest::route()->getName();
+        $type = in_array($routeName, ['user', 'group'])
             ? $routeName
             : 'user';
-        $id = session()->get('id');
-        return view('Chatify::pages.app', [
-            'id' => $id ?? 0,
-            'type' => $type ?? 'user',
-            'messengerColor' => Auth::user()->messenger_color ?? $this->messengerFallbackColor,
-            'dark_mode' => Auth::user()->dark_mode < 1 ? 'light' : 'dark',
-        ]);
+        $validid = [1,Auth::user()->id];
+        if(Auth::user()->hasRole("admin"))
+        {
+            return view('Chatify::pages.app', ['id' => $id ?? 0,'type' => $type ?? 'user','messengerColor' => Auth::user()->messenger_color ?? $this->messengerFallbackColor,'dark_mode' => Auth::user()->dark_mode < 1 ? 'light' : 'dark',]);
+        }
+        else if(Auth::user()->hasRole("company") || Auth::user()->hasRole("inspector"))
+        {
+            return (in_array($id,$validid)) ? view('Chatify::pages.app', ['id' => $id ?? 0,'type' => $type ?? 'user','messengerColor' => Auth::user()->messenger_color ?? $this->messengerFallbackColor,'dark_mode' => Auth::user()->dark_mode < 1 ? 'light' : 'dark',]) :  view('layouts.error.errorPage');
+        }
     }
+
+
 
 
     /**

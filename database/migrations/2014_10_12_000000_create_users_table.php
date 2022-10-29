@@ -30,6 +30,7 @@ return new class extends Migration
             $table->string('area_coverage')->nullable();
             $table->string('color_code')->nullable();
             $table->string('inspector_id')->nullable();
+            $table->string('state')->nullable();
             $table->string('profile_img')->nullable();
             $table->string('status')->default("active");
             $table->rememberToken();

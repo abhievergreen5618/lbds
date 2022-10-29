@@ -14,8 +14,6 @@
       <table id="employeetable" class="table table-bordered table-striped">
         <thead>
           <tr>
-            <th>Created At</th>
-            <th>Sno</th>
             <th>Name</th>
             <th>Email</th>
             <th>Phone</th>

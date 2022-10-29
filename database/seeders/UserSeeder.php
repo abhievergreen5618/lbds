@@ -64,5 +64,6 @@ class UserSeeder extends Seeder
         $role = Role::create(['name' => 'company']);
         $role->givePermissionTo('request-create');
         $user->assignRole([$role->id]);
+        $role = Role::create(['name' => 'employee']);
     }
 }

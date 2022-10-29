@@ -1,10 +1,95 @@
 $(document).ready(function () {
-    $(".alert").delay(2000).slideUp(200, function () {
+    $(".alert").not('.cancelrequest').delay(2000).slideUp(200, function () {
         $(this).alert('close');
+    });
+    //employee-list with the DataTables
+    var employeetable = $('#employeetable').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
+            "url": "employee-details",
+            "type": "POST",
+            'beforeSend': function (request) {
+                request.setRequestHeader("X-CSRF-TOKEN", jQuery('meta[name="csrf-token"]').attr('content'));
+            },
+        },
+        "columnDefs": [
+            { "className": "dt-center", "targets": "_all" }
+        ],
+        "columns": [
+            // {
+            //     "data": "created_at",
+            // },
+            // {
+            //     "data": "id",
+            // },
+            {
+                "data": "name",
+            },
+            {
+                "data": "email",
+            },
+            {
+                "data": "company_phonenumber",
+            },
+            {
+                "data": "company_address",
+            },
+            {
+                "data": "city",
+            },
+            {
+                "data": "state",
+            },
+            {
+                "data": "zip_code",
+            },
+            {
+                "data": "action",
+            },
+
+        ],
+    });
+
+    //employee-destroy
+    employeetable.on('click', '.delete', function () {
+        $('#userdetails_processing').show();
+        element = $(this);
+        var userid = $(this).attr('data-id');
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: 'employee-delete',
+                    data: {
+                        id: userid
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        employeetable.ajax.reload();
+                    },
+                    error: function (data) {
+                        // console.log(data);
+                    }
+                });
+            };
+        });
     });
     var inspectiontable = $('#inspectiontable').DataTable({
         "processing": true,
         "serverSide": true,
+        "scrollX": true,
         "ajax": {
             "url": "inspectiontypedetails",
             "type": "POST",
@@ -39,6 +124,7 @@ $(document).ready(function () {
     var sendinvoicetable = $('#sendinvoicetable').DataTable({
         "processing": true,
         "serverSide": true,
+        "scrollX": true,
         "ajax": {
             "url": "sendinvoicedetails",
             "type": "POST",
@@ -218,6 +304,7 @@ $(document).ready(function () {
         },
         "processing": true,
         "serverSide": true,
+        "scrollX": true,
         "ajax": {
             "url": "requestdetails",
             "type": "POST",
@@ -259,6 +346,7 @@ $(document).ready(function () {
     var companyrequesttable = $('#companyrequesttable').DataTable({
         "processing": true,
         "serverSide": true,
+        "scrollX": true,
         "ajax": {
             "url": "companyrequestdetails",
             "type": "POST",
@@ -292,12 +380,13 @@ $(document).ready(function () {
             {
                 "data": "status",
             },
-           
+
         ],
     });
     var inspectorrequesttable = $('#inspectorrequesttable').DataTable({
         "processing": true,
         "serverSide": true,
+        "scrollX": true,
         "ajax": {
             "url": "inspectorrequestdetails",
             "type": "POST",
@@ -327,8 +416,66 @@ $(document).ready(function () {
             {
                 "data": "status",
             },
-           
+            {
+                "data": "action",
+            },
+
         ],
+    });
+    inspectorrequesttable.on('click', '.reschedule', function () {
+        $('#userdetails_processing').show();
+        element = $(this);
+        var userid = $(this).attr('data-id');
+        var date = $(this).attr('data-date');
+        var time = $(this).attr('data-time');
+        var CurrentDate = new Date();
+        var html = "<div class='d-flex'><input type='date' class='border p-2 form-control' id='date' value='" + date + "' name='date' min='2022-10-21'><input type='time' class='border p-2 form-control ml-2' id='time' value='" + time + "' name='time'><div>";
+        Swal.fire({
+            title: 'Reschedule Request',
+            html: html,
+            confirmButtonText: 'Submit',
+            focusConfirm: false,
+            preConfirm: () => {
+                const redate = Swal.getPopup().querySelector('#date').value
+                const retime = Swal.getPopup().querySelector('#time').value
+                GivenDate = new Date(redate);
+                if (!redate || !retime) {
+                    Swal.showValidationMessage(`Please select date and time`)
+                }
+                else if (redate == date) {
+                    Swal.showValidationMessage(`Please select some different date`)
+                }
+                else if (!(GivenDate > CurrentDate)) {
+                    Swal.showValidationMessage(`Please select date greater than today`)
+                }
+                return { date: redate, time: retime }
+            }
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: 'request-reschedule',
+                    data: {
+                        id: userid,
+                        time: result.value.time,
+                        date: result.value.date,
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        toastr.success(data.msg);
+                        inspectorrequesttable.ajax.reload();
+                    },
+                    error: function (data) {
+                        if (xhr.status == 422 && xhr.responseJSON.msg.length) {
+                            toastr.error(xhr.responseJSON.msg);
+                        }
+                    }
+                });
+            }
+        })
     });
     requesttable.on('click', '.delete', function () {
         $('#userdetails_processing').show();
@@ -375,7 +522,7 @@ $(document).ready(function () {
             inputPlaceholder: 'Please write the reason',
             inputAttributes: {
                 'aria-label': 'Type your message here'
-              },
+            },
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
@@ -390,7 +537,7 @@ $(document).ready(function () {
                     url: 'request-cancel',
                     data: {
                         id: userid,
-                        msg : result.value,
+                        msg: result.value,
                     },
                     dataType: 'json',
                     success: function (data) {
@@ -402,7 +549,7 @@ $(document).ready(function () {
                             $('.preloader').children().hide();
                             $('.preloader').css("height", "0");
                             toastr.error(xhr.responseJSON.msg);
-                        }   
+                        }
                     }
                 });
             };
@@ -412,6 +559,7 @@ $(document).ready(function () {
     var inspectortable = $('#inspectortable').DataTable({
         "processing": true,
         "serverSide": true,
+        "scrollX": true,
         "ajax": {
             "url": "inspectortabledetails",
             "type": "POST",
@@ -534,6 +682,7 @@ $(document).ready(function () {
     var usertable = $('#usertable').DataTable({
         "processing": true,
         "serverSide": true,
+        "scrollX": true,
         "ajax": {
             "url": "usertableedetails",
             "type": "POST",
@@ -695,6 +844,7 @@ $(document).ready(function () {
     var agencyMessages = $('#agencyMessages').DataTable({
         "processing": true,
         "serverSide": true,
+        "scrollX": true,
         "ajax": {
             "url": "agency-messagesdetails",
             "type": "POST",
@@ -726,6 +876,7 @@ $(document).ready(function () {
     var inspectorMessages = $('#inspectorMessages').DataTable({
         "processing": true,
         "serverSide": true,
+        "scrollX": true,
         "ajax": {
             "url": "inspector-messagesdetails",
             "type": "POST",
@@ -859,3 +1010,4 @@ $(document).ready(function () {
         }
     });
 });
+

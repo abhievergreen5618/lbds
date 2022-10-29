@@ -20,6 +20,7 @@
             <th>Detailed Address</th>
             <th>Other Info</th>
             <th>Status</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>

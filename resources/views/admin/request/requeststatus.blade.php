@@ -154,7 +154,7 @@
     <div class="container-fluid VV">
         @if($requestdetails->status == "cancelled")
         <div class="col-12">
-            <div class="alert font-weight-600 mb-3 alert-light text-black p-3 rounded-10 h6 border" style="border-left:5px solid red !important;">
+            <div class="alert cancelrequest font-weight-600 mb-3 alert-light text-black p-3 rounded-10 h6 border" style="border-left:5px solid red !important;">
                 <h5 class="text-danger font-weight-bold mb-0">{{ucfirst($requestdetails->status)}}</h5>
                 <hr class="my-2">
                 Reason : {{$requestdetails->cancel_reason}} <br>
@@ -177,17 +177,17 @@
             <div class="text-center single-timeline ">
                 <i class="{{($requestdetails->status == 'scheduled' || $requestdetails->status == 'underreview' || $requestdetails->status == 'completed') ? 'fas fa-check-circle' : 'far fa-clock'}} text-success fa-3x"></i>
                 <h5 class="font-weight-600 mt-2 text-black">Scheduled</h5>
-                <h6 class="font-weight-500 mt-2 text-secondary font-95">{{!empty($requestdetails->schedule_at) ? date('Y/m/d',strtotime($requestdetails->schedule_at)) : "----
+                <h6 class="font-weight-500 mt-2 text-secondary font-95">{{!empty($requestdetails->schedule_at) ? date('F d ,Y',strtotime($requestdetails->schedule_at)) : "----
                     ---- ------ "}}</h6>
             </div>
             <div class="text-center single-timeline opacity-50"> <i class="{{($requestdetails->status == 'underreview' || $requestdetails->status == 'completed') ? 'fas fa-check-circle' : 'far fa-clock'}} text-success fa-3x"></i>
                 <h5 class="font-weight-600 mt-2 text-black">Under Review</h5>
-                <h6 class="font-weight-500 mt-2 text-secondary font-95">{{!empty($requestdetails->underreview_at) ? date('Y/m/d',strtotime($requestdetails->schedule_at)) : "----
+                <h6 class="font-weight-500 mt-2 text-secondary font-95">{{!empty($requestdetails->underreview_at) ? date('F d ,Y',strtotime($requestdetails->schedule_at)) : "----
                     ---- ------ "}}</h6>
             </div>
             <div class="text-center single-timeline opacity-50"> <i class="{{($requestdetails->status == 'completed') ? 'fas fa-check-circle' : 'far fa-clock'}} text-success fa-3x"></i>
                 <h5 class="font-weight-600 mt-2 text-black">Completed</h5>
-                <h6 class="font-weight-500 mt-2 text-secondary font-95">{{!empty($requestdetails->completed_at) ? date('Y/m/d',strtotime($requestdetails->schedule_at)) : "----
+                <h6 class="font-weight-500 mt-2 text-secondary font-95">{{!empty($requestdetails->completed_at) ? date('F d ,Y',strtotime($requestdetails->schedule_at)) : "----
                     ---- ------ "}}</h6>
             </div>
         </div>

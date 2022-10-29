@@ -351,56 +351,66 @@ class RequestController extends Controller
     {
         if ($request->ajax()) {
             $GLOBALS['count'] = 0;
-            $data = RequestModel::where(["assigned_ins" => Auth::user()->id])->latest()->get(["company_id","applicantname","applicantemail","applicantmobile","address","city","state","zipcode","inspectiontype","created_at","status"]);
+            $data = RequestModel::where(["assigned_ins" => Auth::user()->id])->latest()->get(["id","company_id", "applicantname", "applicantemail", "applicantmobile", "address", "city", "state", "zipcode", "inspectiontype", "created_at", "status", "schedule_at", "schedule_time"]);
             return Datatables::of($data)->addIndexColumn()
-            ->addColumn('company_id', function ($row) {
-                $heading = ["companyname"=>"<span class='font-weight-600'>Company Name</span>","companyphone"=>"<span class='font-weight-600'>Company Phone</span>","agentname"=>"<span class='font-weight-600'>Agent Name</span>"];
-                $company_name = User::role('company')->where(["id" => $row->company_id])->first(["company_name","company_phonenumber"]);
-                $companyname = (!empty($company_name['company_name'])) ?  $heading['companyname']."<hr class='my-2'><div>".$company_name['company_name']."</div>" : "";
-                $company_phone = (!empty($company_name['company_phonenumber'])) ?  $heading['companyphone']."<hr class='my-2'><div>".$company_name['company_phonenumber']."</div>" : "";
-                return $companyname."<hr class='my-2'>".$company_phone.$heading['agentname'];
-            })
-            ->addColumn('applicantinformation', function ($row) {
-                $heading = ["name" => "<span class='font-weight-600'>Name</span>","email" => "<span class='font-weight-600'>Email Address</span>","phone"=>"<span class='font-weight-600'>Phone</span>"];
-                $returnvalue = $heading['name']."<div>".$row->applicantname."</div><hr class='my-2'>".$heading['email']."<div>".$row->applicantemail."</div><hr class='my-2'>".$heading['phone']."<div>".$row->applicantmobile."</div>";
-                return $returnvalue;
-            })
-            ->addColumn('detailedaddress', function ($row) {
-                $heading = ["city" => "<span class='font-weight-600'>City</span>","state" => "<span class='font-weight-600'>State</span>","zipcode"=>"<span class='font-weight-600'>Zip Code</span>"];
-                $returnvalue = $heading['city']."<div>".$row->city."</div><hr class='my-2'>".$heading['state']."<div>".$row->state."</div><hr class='my-2'>".$heading['zipcode']."<div>".$row->zipcode."</div>";
-                return $returnvalue;
-            })
-            ->addColumn('address', function ($row) {
-                $returnvalue = "<span class='font-weight-600'>Address</span><div>".$row->address."<div>";
-                return $returnvalue;
-            })
-            ->addColumn('otherinfo', function ($row) {
-                $heading = ["inspection" => "<span class='font-weight-600'>Inspection Type</span>","created" => "<span class='font-weight-600'>Added At</span>"];
-                $created_at = date('d-m-Y h:i a', strtotime($row->created_at));
-                $inpectionlist = "<ul>";
-                foreach ($row->inspectiontype as $value) {
-                    $inspectiontype = Inspectiontype::where(["id" => $value])->first("name");
-                    $inpectionlist = $inpectionlist."<li>".$inspectiontype['name']."</li>";
-                }
-                $inpectionlist = $inpectionlist."</ul>";
-                $returnvalue = $heading['inspection']."<div>".$inpectionlist."</div><hr class='my-2'>".$heading['created']."<div>".$created_at."</div>";
-                return $returnvalue;
-            })
-            ->addColumn('status', function ($row) {
-                if ($row->status == "pending") {
-                    $class = "badge btn-warning ms-2 status";
-                } elseif ($row->status == "scheduled" || $row->status == "cancelled" || $row->status == "assigned") {
-                    $class = "badge btn-danger ms-2 status";
-                } elseif ($row->status == "completed") {
-                    $class = "badge btn-success ms-2 status";
-                }
-                $btntext = ucfirst($row->status);
-                $id = encrypt($row->id);
-                $statusBtn = "<div class='d-flex justify-content-center'><a href='javascript:void(0)' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Task $btntext' class='$class'>$btntext</a></div>";
-                return $statusBtn;
-            })
-            ->rawColumns(['company_id', 'applicantinformation', 'detailedaddress','address','otherinfo', 'status'])
-            ->make(true);
+                ->addColumn('company_id', function ($row) {
+                    $heading = ["companyname" => "<span class='font-weight-600'>Company Name</span>", "companyphone" => "<span class='font-weight-600'>Company Phone</span>", "agentname" => "<span class='font-weight-600'>Agent Name</span>"];
+                    $company_name = User::role('company')->where(["id" => $row->company_id])->first(["company_name", "company_phonenumber"]);
+                    $companyname = (!empty($company_name['company_name'])) ?  $heading['companyname'] . "<div>" . $company_name['company_name'] . "</div>" : "";
+                    $company_phone = (!empty($company_name['company_phonenumber'])) ?  $heading['companyphone'] . "<div>" . $company_name['company_phonenumber'] . "</div>" : "";
+                    return $companyname . "<hr class='my-2'>" . $company_phone . "<hr class='my-2'>" . $heading['agentname'];
+                })
+                ->addColumn('applicantinformation', function ($row) {
+                    $heading = ["name" => "<span class='font-weight-600'>Name</span>", "email" => "<span class='font-weight-600'>Email Address</span>", "phone" => "<span class='font-weight-600'>Phone</span>"];
+                    $returnvalue = $heading['name'] . "<div>" . $row->applicantname . "</div><hr class='my-2'>" . $heading['email'] . "<div>" . $row->applicantemail . "</div><hr class='my-2'>" . $heading['phone'] . "<div>" . $row->applicantmobile . "</div>";
+                    return $returnvalue;
+                })
+                ->addColumn('detailedaddress', function ($row) {
+                    $heading = ["city" => "<span class='font-weight-600'>City</span>", "state" => "<span class='font-weight-600'>State</span>", "zipcode" => "<span class='font-weight-600'>Zip Code</span>"];
+                    $returnvalue = $heading['city'] . "<div>" . $row->city . "</div><hr class='my-2'>" . $heading['state'] . "<div>" . $row->state . "</div><hr class='my-2'>" . $heading['zipcode'] . "<div>" . $row->zipcode . "</div>";
+                    return $returnvalue;
+                })
+                ->addColumn('address', function ($row) {
+                    $returnvalue = "<span class='font-weight-600'>Address</span><div>" . $row->address . "<div>";
+                    return $returnvalue;
+                })
+                ->addColumn('otherinfo', function ($row) {
+                    $heading = ["inspection" => "<span class='font-weight-600'>Inspection Type</span>", "created" => "<span class='font-weight-600'>Added At</span>"];
+                    $created_at = date('F d ,Y h:i a', strtotime($row->created_at));
+                    $inpectionlist = "<ul>";
+                    foreach ($row->inspectiontype as $value) {
+                        $inspectiontype = Inspectiontype::where(["id" => $value])->first("name");
+                        $inpectionlist = $inpectionlist . "<li>" . $inspectiontype['name'] . "</li>";
+                    }
+                    $inpectionlist = $inpectionlist . "</ul>";
+                    $returnvalue = $heading['inspection'] . "<div>" . $inpectionlist . "</div><hr class='my-2'>" . $heading['created'] . "<div>" . $created_at . "</div>";
+                    return $returnvalue;
+                })
+                ->addColumn('status', function ($row) {
+                    if ($row->status == "pending") {
+                        $class = "btn btn-warning ml-2 status";
+                    } elseif ($row->status == "scheduled" || $row->status == "cancelled" || $row->status == "assigned") {
+                        $class = "btn btn-danger ml-2 status";
+                    } elseif ($row->status == "completed") {
+                        $class = "btn btn-success ml-2 status";
+                    }
+                    $btntext = ucfirst($row->status);
+                    $id = encrypt($row->id);
+                    $statusBtn = "<div class='d-flex justify-content-center'><a href='javascript:void(0)' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Task $btntext' class='$class'>$btntext</a></div>";
+                    return $statusBtn;
+                })
+                ->addColumn('action', function ($row) {
+                    $id = encrypt($row->id);
+                    $editlink = route('requestcheck', ['id' => $id]);
+                    $time = (!empty($row->schedule_at && $row->schedule_time)) ? $row->schedule_time   : "";
+                    $date = (!empty($row->schedule_at && $row->schedule_time)) ?  $row->schedule_at : "";
+                    $link = (!empty($row->schedule_at && $row->schedule_time)) ? "https://calendar.google.com/calendar/r/eventedit?text=Inspection&details=test&location=&dates=".$row->schedule_at."T".$row->schedule_time."ctz=(GMT+5:30)" : "#";
+                    $schedule = (!empty($row->schedule_at && $row->schedule_time)) ? "<hr class='my-2'><span class='font-weight-600'>Scheduled For</span><div class='scheduledhistoryae9e83'><div class='font-weight-500'><i class='far fa-clock fa-sm pr-1'></i>" . date('F d ,Y h:i a', strtotime($row->schedule_at . $row->schedule_time)) . "</div></div><div class='mt-2 formsae9e83'><div class='mt-2'><button id='ae9e83' class='btn btn-sm btn-success col-12 shadow-sm font-weight-500 pointer btn-submit-review'>Submit for Review <i class='fas fa-check-double fa-sm'></i></button></div></div>" : "";
+                    $btn = "<div class='d-flex justify-content-around'><a href='javascript:void(0)' data-id='$id' data-time='$time' data-date='$date' class='ml-2 reschedule btn red-btn btn-danger'  data-bs-toggle='tooltip' data-bs-placement='top' title='Reschedule'>Reschedule</a><a href='$link' data-id='$id' target='blank' class='d-flex align-items-center ml-2  btn red-btn btn-warning'  data-bs-toggle='tooltip' data-bs-placement='top' title='Calendar'><i class='fas fa-calendar'></i><span class='ml-2'>Calendar<span></a></div>" . $schedule;
+                    return $btn;
+                })
+                ->rawColumns(['company_id', 'applicantinformation', 'detailedaddress', 'address', 'otherinfo', 'status', 'action'])
+                ->make(true);
         }
     }
 
@@ -473,5 +483,26 @@ class RequestController extends Controller
     public function showcompanylist(Request $request)
     {
         return view('company.request.requestlist');
+    }
+    public function reschedule(Request $request)
+    {
+        if ($request->ajax()) {
+            $validator = Validator::make($request->all(), [
+                "id" => 'required',
+                "date" => 'required',
+                "time" => 'required',
+            ]);
+            if ($validator->fails()) {
+                $msg = "OOps! Something Went Wrong";
+                return response()->json(array("msg" => $msg), 422);
+            } else {
+                RequestModel::where('id', decrypt($request['id']))->update([
+                    "schedule_at" => $request->date,
+                    "schedule_time" => $request->time,
+                ]);
+                $msg = "Request Rescheduled Successfully";
+                return response()->json(array("msg" => $msg), 200);
+            }
+        }
     }
 }

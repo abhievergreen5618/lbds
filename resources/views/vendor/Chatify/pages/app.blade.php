@@ -13,13 +13,15 @@
                 </nav>
             </nav>
             {{-- Search input --}}
+            @role('admin')
             <input type="text" class="messenger-search" placeholder="Search" />
+            @endrole
             {{-- Tabs --}}
             <div class="messenger-listView-tabs">
                 <a href="#" @if($type == 'user') class="active-tab" @endif data-view="users">
                     <span class="far fa-user"></span> People</a>
-                <a href="#" @if($type == 'group') class="active-tab" @endif data-view="groups">
-                    <span class="fas fa-users"></span> Groups</a>
+                {{-- <a href="#" @if($type == 'group') class="active-tab" @endif data-view="groups">
+                    <span class="fas fa-users"></span> Groups</a> --}}
             </div>
         </div>
         {{-- tabs and lists --}}
@@ -75,9 +77,12 @@
                 </div>
                 {{-- header buttons --}}
                 <nav class="m-header-right">
+                    {{-- <a href="" id="backBtn"><i class="fas fa-regular fa-arrow-left"></i></a> --}}
                     <a href="#" class="add-to-favorite"><i class="fas fa-star"></i></a>
-                    <a href="/"><i class="fas fa-home"></i></a>
+                    <a href="{{ route('home') }}"><i class="fas fa-home"></i></a>
                     <a href="#" class="show-infoSide"><i class="fas fa-info-circle"></i></a>
+                    <a href="" id="refreshBtn"><i class="fa fa-redo-alt"></i></a>
+
                 </nav>
             </nav>
         </div>

@@ -79,13 +79,14 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="" class="nav-link">
+                    <a href="{{ route('chatify-index') }}" class="nav-link">
                         <i class="nav-icon fas fa-comments"></i>
                         <p>
-                           Messages
+                            Messages
                         </p>
                     </a>
                 </li>
+
 
                 <li class="nav-item">
                     <a href="{{route('profile.show')}}" class="nav-link">

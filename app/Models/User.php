@@ -34,6 +34,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'license_number',
         'mobile_number',
         'profile_img',
+        'state',
     ];
 
     /**

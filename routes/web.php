@@ -57,6 +57,7 @@ Route::controller(RequestController::class)->group(function () {
     // inspector routes
     Route::get('/inspector-request-list','showinspectorlist')->name('inspector.request.list');
     Route::post('/inspectorrequestdetails','displayinspectorlist')->name('inspectorrequestdetails');
+    Route::post('/request-reschedule','reschedule')->name('request-reschedule');
 
 });
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -84,14 +85,13 @@ Route::controller(SendInvoiceController::class)->group(function () {
     Route::post('/send-invoice-delete','destroy')->name('send-invoice-delete');
 });
 Route::controller(EmployeeController::class)->group(function () {
-    Route::get('/add-employee','index')->name('admin.employee.create');
-    Route::post('/add-employee','create')->name('admin.employee.create');
-    // Route::get('/request-list','show')->name('admin.request.list');
-    // Route::post('/requestsubmit','create')->name('requestsubmit');
-    // Route::post('/fileuploadrequest','upload')->name('fileuploadrequest');
-    // Route::post('/requestdetails','display')->name('requestdetails');
-    // Route::post('/request-status-update','status')->name('request-status-update');
-    // Route::post('/request-delete','destroy')->name('request-delete');
+    Route::get('/add-employee', 'index')->name('admin.employee.create');
+    Route::post('/add-employee', 'create')->name('admin.employee.create');
+    Route::get('/employee-list','show')->name('admin.employee.view');
+    Route::post('/employee-details','display')->name('employee-details');
+    Route::get('/employee-update', 'update')->name('admin.show.employee');
+    Route::post('/submit/update-employee/','submitUpdate')->name('admin.employee.update');
+    Route::post('/employee-delete','destroy')->name('employee-delete');
 });
 
 
@@ -140,7 +140,7 @@ Route::controller(UserController::class)->group(function () {
         Route::post('/inspector-messagesdetails','inspectorDisplay')->name('inspector-messagesdetails');
     });
     Route::controller(MessagesController::class)->group(function () {
-        Route::get('/message','usersession')->name('usersession');
+        Route::get('/chatify/1', 'index')->name('chatify-index');
     });
 });
 
