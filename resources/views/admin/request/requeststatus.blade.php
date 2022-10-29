@@ -182,7 +182,7 @@
             </div>
             <div class="text-center single-timeline opacity-50"> <i class="{{($requestdetails->status == 'underreview' || $requestdetails->status == 'completed') ? 'fas fa-check-circle' : 'far fa-clock'}} text-success fa-3x"></i>
                 <h5 class="font-weight-600 mt-2 text-black">Under Review</h5>
-                <h6 class="font-weight-500 mt-2 text-secondary font-95">{{!empty($requestdetails->underreview_at) ? date('F d ,Y',strtotime($requestdetails->schedule_at)) : "----
+                <h6 class="font-weight-500 mt-2 text-secondary font-95">{{!empty($requestdetails->review_at) ? date('F d ,Y',strtotime($requestdetails->review_at)) : "----
                     ---- ------ "}}</h6>
             </div>
             <div class="text-center single-timeline opacity-50"> <i class="{{($requestdetails->status == 'completed') ? 'fas fa-check-circle' : 'far fa-clock'}} text-success fa-3x"></i>

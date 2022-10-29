@@ -468,7 +468,7 @@ $(document).ready(function () {
                         toastr.success(data.msg);
                         inspectorrequesttable.ajax.reload();
                     },
-                    error: function (data) {
+                    error: function (xhr) {
                         if (xhr.status == 422 && xhr.responseJSON.msg.length) {
                             toastr.error(xhr.responseJSON.msg);
                         }
@@ -476,6 +476,43 @@ $(document).ready(function () {
                 });
             }
         })
+    });
+    inspectorrequesttable.on('click', '.submitreview', function () {
+        $('#userdetails_processing').show();
+        element = $(this);
+        var userid = $(this).attr('data-id');
+        Swal.fire({
+            title: 'Are you sure to Submit for Review to Admin?',
+            text: "You will not be able to update the forms once you submit it!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: 'request-submit-review',
+                    data: {
+                        id: userid
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        toastr.success(data.msg);
+                        inspectorrequesttable.ajax.reload();
+                    },
+                    error: function (xhr) {
+                        if (xhr.status == 422 && xhr.responseJSON.msg.length) {
+                            toastr.error(xhr.responseJSON.msg);
+                        }
+                    }
+                });
+            };
+        });
     });
     requesttable.on('click', '.delete', function () {
         $('#userdetails_processing').show();
@@ -544,7 +581,7 @@ $(document).ready(function () {
                         toastr.success(data.msg);
                         requesttable.ajax.reload();
                     },
-                    error: function (data) {
+                    error: function (xhr) {
                         if (xhr.status == 422 && xhr.responseJSON.msg.length) {
                             $('.preloader').children().hide();
                             $('.preloader').css("height", "0");

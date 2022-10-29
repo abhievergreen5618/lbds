@@ -297,7 +297,7 @@ class RequestController extends Controller
                     return date('d-m-Y h:i a', strtotime($row->created_at));
                 })
                 ->addColumn('status', function ($row) {
-                    if ($row->status == "pending") {
+                    if ($row->status == "pending" || $row->status == "underreview") {
                         $class = "badge btn-warning ms-2 status";
                     } elseif ($row->status == "scheduled" || $row->status == "cancelled" || $row->status == "assigned") {
                         $class = "badge btn-danger ms-2 status";
@@ -317,7 +317,7 @@ class RequestController extends Controller
     {
         if ($request->ajax()) {
             $GLOBALS['count'] = 0;
-            $data = RequestModel::where(["company_id" => Auth::user()->id])->latest()->get(["id", "inspectiontype", "applicantname", "address", "city", "zipcode", "inspectiontype", "created_at", "status"]);
+            $data = RequestModel::where(["company_id" => Auth::user()->id])->latest()->get(["id", "inspectiontype", "applicantname", "address", "city", "zipcode", "inspectiontype", "created_at", "status","cancel_reason"]);
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('inspectiontype', function ($row) {
                     $returnvalue = "";
@@ -331,16 +331,17 @@ class RequestController extends Controller
                     return date('d-m-Y h:i a', strtotime($row->created_at));
                 })
                 ->addColumn('status', function ($row) {
-                    if ($row->status == "pending") {
+                    if ($row->status == "pending" || $row->status == "underreview") {
                         $class = "badge btn-warning ms-2 status";
                     } elseif ($row->status == "scheduled" || $row->status == "cancelled" || $row->status == "assigned") {
                         $class = "badge btn-danger ms-2 status";
                     } elseif ($row->status == "completed") {
                         $class = "badge btn-success ms-2 status";
                     }
+                    $cancelreason = (!empty($row->status == "cancelled")) ? "<hr class='my-2'><span class='font-weight-600'>Reason</span><div>".$row->cancel_reason."</div>" : "";
                     $btntext = ucfirst($row->status);
                     $id = encrypt($row->id);
-                    $statusBtn = "<div class='d-flex justify-content-center'><a href='javascript:void(0)' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Task $btntext' class='$class'>$btntext</a></div>";
+                    $statusBtn = "<div class='d-flex justify-content-center'><a href='javascript:void(0)' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Task $btntext' class='$class'>$btntext</a></div>".$cancelreason;
                     return $statusBtn;
                 })
                 ->rawColumns(['inspectiontype', 'created_at', 'status'])
@@ -351,7 +352,7 @@ class RequestController extends Controller
     {
         if ($request->ajax()) {
             $GLOBALS['count'] = 0;
-            $data = RequestModel::where(["assigned_ins" => Auth::user()->id])->latest()->get(["id","company_id", "applicantname", "applicantemail", "applicantmobile", "address", "city", "state", "zipcode", "inspectiontype", "created_at", "status", "schedule_at", "schedule_time"]);
+            $data = RequestModel::where(["assigned_ins" => Auth::user()->id])->latest()->get(["id","company_id", "applicantname", "applicantemail", "applicantmobile", "address", "city", "state", "zipcode", "inspectiontype", "created_at", "status", "schedule_at", "schedule_time","review_at"]);
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('company_id', function ($row) {
                     $heading = ["companyname" => "<span class='font-weight-600'>Company Name</span>", "companyphone" => "<span class='font-weight-600'>Company Phone</span>", "agentname" => "<span class='font-weight-600'>Agent Name</span>"];
@@ -387,7 +388,7 @@ class RequestController extends Controller
                     return $returnvalue;
                 })
                 ->addColumn('status', function ($row) {
-                    if ($row->status == "pending") {
+                    if ($row->status == "pending" || $row->status == "underreview") {
                         $class = "btn btn-warning ml-2 status";
                     } elseif ($row->status == "scheduled" || $row->status == "cancelled" || $row->status == "assigned") {
                         $class = "btn btn-danger ml-2 status";
@@ -401,12 +402,30 @@ class RequestController extends Controller
                 })
                 ->addColumn('action', function ($row) {
                     $id = encrypt($row->id);
-                    $editlink = route('requestcheck', ['id' => $id]);
-                    $time = (!empty($row->schedule_at && $row->schedule_time)) ? $row->schedule_time   : "";
-                    $date = (!empty($row->schedule_at && $row->schedule_time)) ?  $row->schedule_at : "";
-                    $link = (!empty($row->schedule_at && $row->schedule_time)) ? "https://calendar.google.com/calendar/r/eventedit?text=Inspection&details=test&location=&dates=".$row->schedule_at."T".$row->schedule_time."ctz=(GMT+5:30)" : "#";
-                    $schedule = (!empty($row->schedule_at && $row->schedule_time)) ? "<hr class='my-2'><span class='font-weight-600'>Scheduled For</span><div class='scheduledhistoryae9e83'><div class='font-weight-500'><i class='far fa-clock fa-sm pr-1'></i>" . date('F d ,Y h:i a', strtotime($row->schedule_at . $row->schedule_time)) . "</div></div><div class='mt-2 formsae9e83'><div class='mt-2'><button id='ae9e83' class='btn btn-sm btn-success col-12 shadow-sm font-weight-500 pointer btn-submit-review'>Submit for Review <i class='fas fa-check-double fa-sm'></i></button></div></div>" : "";
-                    $btn = "<div class='d-flex justify-content-around'><a href='javascript:void(0)' data-id='$id' data-time='$time' data-date='$date' class='ml-2 reschedule btn red-btn btn-danger'  data-bs-toggle='tooltip' data-bs-placement='top' title='Reschedule'>Reschedule</a><a href='$link' data-id='$id' target='blank' class='d-flex align-items-center ml-2  btn red-btn btn-warning'  data-bs-toggle='tooltip' data-bs-placement='top' title='Calendar'><i class='fas fa-calendar'></i><span class='ml-2'>Calendar<span></a></div>" . $schedule;
+                        $time = (!empty($row->schedule_at && $row->schedule_time)) ? $row->schedule_time   : "";
+                        $date = (!empty($row->schedule_at && $row->schedule_time)) ?  $row->schedule_at : "";
+                        $link = (!empty($row->schedule_at && $row->schedule_time)) ? "https://calendar.google.com/calendar/r/eventedit?text=Inspection&details=test&location=&dates=".$row->schedule_at."T".$row->schedule_time."ctz=(GMT+5:30)" : "#";
+                        $schedule = (!empty($row->schedule_at && $row->schedule_time)) ? "<hr class='my-2'><span class='font-weight-600'>Scheduled For</span><div class='scheduledhistoryae9e83'><div class='font-weight-500'><i class='far fa-clock fa-sm pr-1'></i>" . date('F d ,Y h:i a', strtotime($row->schedule_at . $row->schedule_time)): "";
+                    if($row->status == "scheduled")
+                    {   
+                        $btn = "<div class='d-flex justify-content-around'><a href='javascript:void(0)' data-id='$id' data-time='$time' data-date='$date' class='ml-2 reschedule btn red-btn btn-danger'  data-bs-toggle='tooltip' data-bs-placement='top' title='Reschedule'>Reschedule</a><a href='$link' data-id='$id' target='blank' class='d-flex align-items-center ml-2  btn red-btn btn-warning'  data-bs-toggle='tooltip' data-bs-placement='top' title='Calendar'><i class='fas fa-calendar'></i><span class='ml-2'>Calendar<span></a></div>".$schedule."</div></div><div class='mt-2 formsae9e83'><div class='mt-2'><button id='ae9e83' data-id='$id' class='btn btn-sm btn-success col-12 shadow-sm font-weight-500 pointer btn-submit-review submitreview'>Submit for Review <i class='fas fa-check-double fa-sm'></i></button></div></div>" ;
+                    }
+                    if($row->status == "underreview")
+                    {
+                        $schedulestatus = "<span class='btn btn-sm btn-warning text-black font-weight-500 py-0'>Submitted for Review</span>";
+                        $review = "<span class='font-weight-600'>Submitted for Review at</span><div>". date('F d ,Y h:i a', strtotime($row->review_at))."</div>";
+                        $btn = $schedulestatus."<hr class='my-2'><div>".$schedule."</div><hr class='my-2'><div>".$review."</div>";
+                    }
+                    else if($row->status == "assigned")
+                    {
+                        $btn = "<span>Soon it will be scheduled by admin.</span>";
+                    }
+                    else if($row->status == "completed")
+                    {
+                        $schedulestatus = "<span class='btn btn-sm btn-warning text-black font-weight-500 py-0'>Completed</span>";
+                        $review = "<span class='font-weight-600'>Completed At</span><div>". date('F d ,Y h:i a', strtotime($row->completed_at))."</div>";
+                        $btn = $schedulestatus."<hr class='my-2'><div>".$schedule."</div><hr class='my-2'><div>".$review."</div>";
+                    }
                     return $btn;
                 })
                 ->rawColumns(['company_id', 'applicantinformation', 'detailedaddress', 'address', 'otherinfo', 'status', 'action'])
@@ -483,6 +502,26 @@ class RequestController extends Controller
     public function showcompanylist(Request $request)
     {
         return view('company.request.requestlist');
+    }
+    public function submitreview(Request $request)
+    {
+        if($request->ajax()) {
+            $validator = Validator::make($request->all(), [
+                "id" => 'required',
+            ]);
+            if ($validator->fails()) {
+                $msg = "OOps! Something Went Wrong";
+                return response()->json(array("msg" => $msg), 422);
+            } else {
+                $current_date_time = Carbon::now()->toDateTimeString();
+                RequestModel::where('id', decrypt($request['id']))->update([
+                    "status" => "underreview",
+                    "review_at" => $current_date_time,
+                ]);
+                $msg = "Review Submitted Successfully";
+                return response()->json(array("msg" => $msg), 200);
+            }
+        }
     }
     public function reschedule(Request $request)
     {
