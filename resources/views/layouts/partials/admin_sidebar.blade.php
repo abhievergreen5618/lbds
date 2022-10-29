@@ -42,34 +42,34 @@
                     </a>
                 </li>
 
-                <li class="nav-item {{ (Route::currentRouteName() == 
-                    'admin.create.addinspectiontype' || Route::currentRouteName() == 
+                <li class="nav-item {{ (Route::currentRouteName() ==
+                    'admin.create.addinspectiontype' || Route::currentRouteName() ==
                     'admin.allinspectiontype') ? 'menu-open menu-is-opening' : '' }}">
 
-                    <a href="#" class="nav-link {{ (Route::currentRouteName() == 'admin.create.addinspectiontype'|| 
+                    <a href="#" class="nav-link {{ (Route::currentRouteName() == 'admin.create.addinspectiontype'||
                     Route::currentRouteName() == 'admin.allinspectiontype') ? 'active' : ''}}">
-                        <i class="nav-icon fas fa-user-circle"></i>
+                        <i class="nav-icon fa fa-sharp fa-solid fa-bars"></i>
                         <p>
                             Inspection
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
 
-                    <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() == 
-                    'admin.create.addinspectiontype'|| 
+                    <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() ==
+                    'admin.create.addinspectiontype'||
                     Route::currentRouteName() == 'admin.allinspectiontype') ? 'display: block;' : ''}}">
 
                         <li class="nav-item">
-                            <a href="{{route('admin.create.addinspectiontype')}}" class="nav-link {{str_contains(request()->path(), 'addinspectiontype') ? 'active' : ''}}">
-                                <i class="nav-icon fas fa-user-plus"></i>
+                            <a href="{{route('admin.create.addinspectiontype')}}" class="nav-link">
+                                <i class="nav-icon fa  fa-file-invoice fa-thin fas"></i>
                                 <p>
                                     Add Inspection Type
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('admin.allinspectiontype')}}" class="nav-link {{str_contains(request()->path(), 'allinspectiontype') ? 'active' : ''}}">
-                                <i class="nav-icon fas fa-users"></i>
+                            <a href="{{route('admin.allinspectiontype')}}" class="nav-link">
+                                <i class="nav-icon fa fa-sharp fa-solid fa-bookmark"></i>
                                 <p>
                                     View All Inspection Type
                                 </p>
@@ -77,32 +77,32 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item {{ (Route::currentRouteName() == 
-                    'admin.create.addsendinvoice' || Route::currentRouteName() == 
+                <li class="nav-item {{ (Route::currentRouteName() ==
+                    'admin.create.addsendinvoice' || Route::currentRouteName() ==
                     'admin.allsendinvoice') ? 'menu-open menu-is-opening' : '' }}">
 
-                    <a href="#" class="nav-link {{ (Route::currentRouteName() == 'admin.create.addsendinvoice'|| 
+                    <a href="#" class="nav-link {{ (Route::currentRouteName() == 'admin.create.addsendinvoice'||
                     Route::currentRouteName() == 'admin.allsendinvoice') ? 'active' : ''}}">
-                        <i class="nav-icon fas fa-user-circle"></i>
+                        <i class="nav-icon fa fa-edit"></i>
                         <p>
                             SendInvoice
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() == 
-                    'admin.create.addsendinvoice'|| 
+                    <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() ==
+                    'admin.create.addsendinvoice'||
                     Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}">
                         <li class="nav-item">
-                            <a href="{{route('admin.create.addsendinvoice')}}" class="nav-link {{str_contains(request()->path(), 'admin.create.addsendinvoice') ? 'active' : ''}}">
-                                <i class="nav-icon fas fa-user-plus"></i>
+                            <a href="{{route('admin.create.addsendinvoice')}}" class="nav-link">
+                                <i class="nav-icon fa  fa-file-invoice fa-thin fas"></i>
                                 <p>
                                     Add Send Invoice
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('admin.allsendinvoice')}}" class="nav-link {{str_contains(request()->path(), 'admin.allsendinvoice') ? 'active' : ''}}">
-                                <i class="nav-icon fas fa-users"></i>
+                            <a href="{{route('admin.allsendinvoice')}}" class="nav-link">
+                                <i class="nav-icon fa fa-solid fa-file-contract"></i>
                                 <p>
                                     View All SendInvoice
                                 </p>
@@ -110,23 +110,24 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item {{ (Route::currentRouteName() == 
-                    'admin.request.create' ) ? 'menu-open menu-is-opening ' : ''}}">
+                <li class="nav-item {{ (Route::currentRouteName() ==
+                    'admin.request.create' || Route::currentRouteName() ==
+                    'admin.request.list') ? 'menu-open menu-is-opening ' : ''}}">
 
-                    <a href="#" class="nav-link {{ (Route::currentRouteName() == 
-                    'admin.request.create') ? 'active' : ''}}">
-                        <i class="nav-icon fas fa-user-circle"></i>
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fa fa-sharp fa-solid fa-file"></i>
                         <p>
                             Requests
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() == 
-                        'admin.request.create') ? 'display: block;' : ''}}">
+                    <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() ==
+                        'admin.request.create' || Route::currentRouteName() ==
+                        'admin.request.list' ) ? 'display: block;' : ''}}">
 
                         <li class="nav-item">
-                            <a href="{{route('admin.request.create')}}" class="nav-link {{str_contains(request()->path(), 'admin.request.create') ? 'active' : ''}}">
-                                <i class="nav-icon fas fa-user-plus"></i>
+                            <a href="{{route('admin.request.create')}}" class="nav-link">
+                                <i class="nav-icon fa fa-file-signature"></i>
                                 <p>
                                     Add new Request
                                 </p>
@@ -134,7 +135,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="{{route('admin.request.list')}}" class="nav-link">
-                                <i class="nav-icon fas fa-users"></i>
+                                <i class="nav-icon fa fa-file-alt"></i>
                                 <p>
                                     View All Requests
                                 </p>
@@ -142,12 +143,12 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item {{ (Route::currentRouteName() == 
-                    'users.create') || 
+                <li class="nav-item {{ (Route::currentRouteName() ==
+                    'users.create') ||
                     (Route::currentRouteName() == 'users.index') ? 'menu-open menu-is-opening ' : ''}}">
 
-                    <a href="#" class="nav-link {{ (Route::currentRouteName() == 
-                    'users.create') || 
+                    <a href="#" class="nav-link {{ (Route::currentRouteName() ==
+                    'users.create') ||
                     (Route::currentRouteName() == 'users.index') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-user-circle"></i>
                         <p>
@@ -155,12 +156,12 @@
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() == 
-                        'users.create') || 
+                    <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() ==
+                        'users.create') ||
                     (Route::currentRouteName() == 'users.index') ? 'display: block;' : ''}}">
 
                         <li class="nav-item">
-                            <a href="{{ route('users.create') }}" class="nav-link {{str_contains(request()->path(), 'admin.request.create') ? 'active' : ''}}">
+                            <a href="{{ route('users.create') }}" class="nav-link">
                                 <i class="nav-icon fas fa-user-plus"></i>
                                 <p>
                                     Add new User
@@ -177,24 +178,22 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item {{ (Route::currentRouteName() == 
-                        'roles.index') || 
-                    (Route::currentRouteName() == 'roles.create') ? 'menu-open menu-is-opening ' : ''}}">
+                <li class="nav-item {{ (Route::currentRouteName() ==
+                        'roles.index') || (Route::currentRouteName() == 'roles.create') ? 'menu-open menu-is-opening ' : ''}}">
 
-                    <a href="#" class="nav-link {{ (Route::currentRouteName() == 
-                        'roles.index') || 
-                    Route::currentRouteName() == 'roles.create' ? 'active' : ''}}">
-                        <i class="nav-icon fas fa-user-circle"></i>
+                    <a href="#" class="nav-link {{ (Route::currentRouteName() ==
+                        'roles.index') || Route::currentRouteName() == 'roles.create' ? 'active' : ''}}">
+                        <i class="nav-icon fa fa-cog"></i>
                         <p>
                             Roles & Permission
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() == 'roles.index') || 
+                    <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() == 'roles.index') ||
                     (Route::currentRouteName() == 'roles.create') ? 'display: block;' : ''}}">
 
                         <li class="nav-item">
-                            <a href="{{ route('roles.index') }}" class="nav-link {{str_contains(request()->path(), 'admin.request.create') ? 'active' : ''}}">
+                            <a href="{{ route('roles.index') }}" class="nav-link">
                                 <i class="nav-icon fas fa-user-plus"></i>
                                 <p>
                                     Manage Role
@@ -243,12 +242,12 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item {{ (Route::currentRouteName() == 
-                    'admin.create.addinspector' || Route::currentRouteName() == 
+                <li class="nav-item {{ (Route::currentRouteName() ==
+                    'admin.create.addinspector' || Route::currentRouteName() ==
                     'admin.view.inspector') ? 'menu-open menu-is-opening' : ''}}">
 
-                    <a href="javascript:void(0);" class="nav-link {{ (Route::currentRouteName() == 
-                        'admin.create.addinspector' || Route::currentRouteName() == 
+                    <a href="javascript:void(0);" class="nav-link {{ (Route::currentRouteName() ==
+                        'admin.create.addinspector' || Route::currentRouteName() ==
                         'admin.view.inspector')? 'active ' : ''}}">
                         <i class="nav-icon fas fa-user-circle"></i>
                         <p>
@@ -256,11 +255,13 @@
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() == 
-                        'admin.request.create') ? 'display: block;' : ''}}">
+                    <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() ==
+                        'admin.create.addinspector' || Route::currentRouteName() ==
+                        'admin.view.inspector' || Route::currentRouteName() ==
+                        'admin.inspector.message') ? 'display: block;' : ''}}">
 
                         <li class="nav-item">
-                            <a href="{{ route('admin.create.addinspector') }}" class="nav-link {{str_contains(request()->path(), 'admin.create.addinspector') ? 'active' : ''}}">
+                            <a href="{{ route('admin.create.addinspector') }}" class="nav-link">
                                 <i class="nav-icon fas fa-user-plus"></i>
                                 <p>
                                     Add new Inspector
@@ -268,7 +269,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('admin.view.inspector') }}" class="nav-link {{str_contains(request()->path(), 'admin.view.inspector') ? 'active' : ''}}">
+                            <a href="{{ route('admin.view.inspector') }}" class="nav-link">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>
                                     View All Inspectors
@@ -276,7 +277,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('admin.inspector.message') }}" class="nav-link {{str_contains(request()->path(), 'admin.inspector.message') ? 'active' : ''}}">
+                            <a href="{{ route('admin.inspector.message') }}" class="nav-link">
                                 <i class="nav-icon fas fa-comments"></i>
                                 <p>
                                     Inspector Messages
@@ -284,40 +285,40 @@
                             </a>
                         </li>
                     </ul>
-                </li>
-                <li class="nav-item">
-                    <a href="{{route('profile.show')}}" class="nav-link">
+            </li>
+            <li class="nav-item">
+                    <a href="{{route('profile.show')}}" class="nav-link {{  (Route::currentRouteName() == 'profile.show') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-user-cog"></i>
                         <p>
                             Profile
                         </p>
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-cogs"></i>
-                        <p>
-                            Cronfigurations
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="" class="nav-link">
-                                <i class="nav-icon fas fa-cogs"></i>
-                                <p>
-                                    Portal Setup
-                                </p>
-                            </a>
-                        </li>
-                        {{-- <li class="nav-item">
-                    <a href="{{ route('logout') }}" class="nav-link" >
-                        <i class="nav-icon fas fa-sign-out-alt"></i>
-                        <p>
-                            Logout
-                        </p>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-cogs"></i>
+                    <p>
+                        Cronfigurations
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="" class="nav-link">
+                            <i class="nav-icon fas fa-cogs"></i>
+                            <p>
+                                Portal Setup
+                            </p>
                         </a>
-                </li> --}}
+                    </li>
+                    {{-- <li class="nav-item">
+                    <a href="{{ route('logout') }}" class="nav-link" >
+                    <i class="nav-icon fas fa-sign-out-alt"></i>
+                    <p>
+                        Logout
+                    </p>
+                    </a>
+            </li> --}}
             </ul>
             </li>
             </ul>
