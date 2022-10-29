@@ -114,12 +114,11 @@
                     'admin.request.create' || Route::currentRouteName() ==
                     'admin.request.list') ? 'menu-open menu-is-opening ' : ''}}">
 
-                    <a href="#" class="nav-link">
+                    <a href="#" class="nav-link {{ (Route::currentRouteName() ==
+                    'admin.request.create' || Route::currentRouteName() ==
+                    'admin.request.list') ? 'active' : ''}}">
                         <i class="nav-icon fa fa-sharp fa-solid fa-file"></i>
-                        <p>
-                            Requests
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
+                        <p>Requests<i class="fas fa-angle-left right"></i></p>
                     </a>
                     <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() ==
                         'admin.request.create' || Route::currentRouteName() ==

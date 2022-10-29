@@ -2,23 +2,6 @@ $(document).ready(function () {
     $(".alert").delay(2000).slideUp(200, function () {
         $(this).alert('close');
     });
-    var session = (sessionStorage.length != 0) ? sessionStorage.getItem("activetab") : 0;
-    if (session != 0) {
-        $('.nav li a').removeClass("active");
-        $('.card-div').hide();
-        $("[data-childid=" + session + "]").addClass("active");
-        $('#' + session).show();
-    }
-    $(document).on('click', '.nav li a', function () {
-        childid = $(this).attr("data-childid");
-        if (childid != "undefined") {
-            $('.nav li a').removeClass("active");
-            $(this).addClass("active");
-            $('.card-div').hide();
-            $('#' + childid).show();
-            sessionStorage.setItem("activetab", childid);
-        }
-    });
     var inspectiontable = $('#inspectiontable').DataTable({
         "processing": true,
         "serverSide": true,
