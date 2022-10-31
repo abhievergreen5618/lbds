@@ -65,8 +65,8 @@
                     url: 'admininspectorevents',
                     dataType: 'json',
                     data: {
-                        start: start.moment().format(),
-                        end: end.moment().format(),
+                        // start: start.moment().format(),
+                        // end: end.moment().format(),
                     },
                     success: function(doc) {
                         var events = [];
