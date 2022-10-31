@@ -30,7 +30,11 @@ class AgencyController extends Controller
             'zip_code'                    => 'required',
             'company_phonenumber'         => 'required',
             'direct_number'               => 'required',
-        ]);
+        ],
+        [
+            "required" => "Field is required."
+        ]
+    );
         $user = User::create([
             'name' => $request['name'],
             'email' => $request['email'],
