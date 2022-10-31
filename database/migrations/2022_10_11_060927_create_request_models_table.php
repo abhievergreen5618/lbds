@@ -32,6 +32,7 @@ return new class extends Migration
             $table->date('schedule_at')->nullable();
             $table->time('schedule_time')->nullable();
             $table->timestamp('review_at')->nullable();
+            $table->timestamp('completed_at')->nullable();
             $table->string('status')->default("pending");
             $table->string('cancel_reason')->nullable();
             $table->string('agency_related_files')->nullable();

@@ -27,6 +27,11 @@ class RequestModel extends Model
         'assigned_ins',
         'assigned_at',
         'ins_fee',
+        'schedule_at',
+        'schedule_time',
+        'review_at',
+        'cancel_reason',
+        'completed_at',
     ];
 
     protected $casts = [

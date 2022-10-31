@@ -142,8 +142,7 @@
 
                     </div>
 
-
-                    <h4 class="mb-1 font-weight-bold text-danger">{{ucfirst($requestdetails->status)}}</h4>
+                    <h4 class="mb-1 font-weight-bold text-right {{($requestdetails->status == 'completed') ? 'text-success' : 'text-danger' }}">{{ucfirst($requestdetails->status)}} @if($requestdetails->status == 'completed') <i class='fas fa-check-double fa-sm'></i> @endif</h4>
                     <h6 class="mb-0 font-95 float-end col-6 px-2 p-1 bg-dark font-weight-600 text-white"><span class="font-weight-500">Assigned To:</span>{{!empty($requestdetails->assigned_ins) ? $inspectordetails->name : "" }} </h6>
                 </div>
             </div>
@@ -177,7 +176,7 @@
             <div class="text-center single-timeline ">
                 <i class="{{($requestdetails->status == 'scheduled' || $requestdetails->status == 'underreview' || $requestdetails->status == 'completed') ? 'fas fa-check-circle' : 'far fa-clock'}} text-success fa-3x"></i>
                 <h5 class="font-weight-600 mt-2 text-black">Scheduled</h5>
-                <h6 class="font-weight-500 mt-2 text-secondary font-95">{{!empty($requestdetails->schedule_at) ? date('F d ,Y',strtotime($requestdetails->schedule_at)) : "----
+                <h6 class="font-weight-500 mt-2 text-secondary font-95">{{!empty($requestdetails->schedule_at) ? date('F d ,Y h:i a',strtotime($requestdetails->schedule_at.$requestdetails->schedule_time)) : "----
                     ---- ------ "}}</h6>
             </div>
             <div class="text-center single-timeline opacity-50"> <i class="{{($requestdetails->status == 'underreview' || $requestdetails->status == 'completed') ? 'fas fa-check-circle' : 'far fa-clock'}} text-success fa-3x"></i>

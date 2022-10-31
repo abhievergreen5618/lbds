@@ -12,6 +12,10 @@ use App\Http\Controllers\Admin\Role\RoleController;
 use App\Http\Controllers\Common\ProfileController;
 use App\Http\Controllers\vendor\Chatify\MessagesListController;
 use App\Http\Controllers\vendor\Chatify\MessagesController;
+use App\Http\Controllers\Common\JobCalenderController;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Request;
+use App\Http\Controllers\Admin\AgencyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +54,8 @@ Route::controller(RequestController::class)->group(function () {
     Route::post('/request-update','update')->name('requestupdate');
     Route::post('/requestschedule','schedule')->name('requestschedule');
     Route::get('/filedownload','filedownload')->name('filedownload');
+    Route::post('/requestcomplete','complete')->name('requestcomplete');
+    
     // company routes
     Route::get('/company-request-list','showcompanylist')->name('company.request.list');
     Route::post('/companyrequestdetails','displaycompanylist')->name('companyrequestdetails');
@@ -141,6 +147,21 @@ Route::controller(UserController::class)->group(function () {
     });
     Route::controller(MessagesController::class)->group(function () {
         Route::get('/chatify/1', 'index')->name('chatify-index');
+    });
+    Route::controller(JobCalenderController::class)->group(function () {
+        Route::get('/admin/jobcalender/show', 'index')->name('admin.job.show');
+        Route::post('/admin/jobcalender/admininspectorevents','adminevents')->name('admininspectorevents');
+    });
+
+    Route::controller(AgencyController::class)->group(function(){
+        Route::get('/agency-create','index')->name('admin.agency.agency-register');
+        Route::post('/agency-insert','store')->name('admin.agency.agency-insert');
+        Route::get('/agency-view','show')->name('admin.agency.agency-view');
+        Route::post('/agency-details','display')->name('admin.agency.agency-details');
+        Route::get('/agency-update','update')->name('admin.agency.agency-show');
+        Route::post('submit/update-agency','submitUpdate')->name('admin.agency.update-agency');
+        Route::post('/agency-status-update','status')->name('agency-status-update');
+        Route::post('/agency-delete','destroy')->name('admin.agency-delete');
     });
 });
 

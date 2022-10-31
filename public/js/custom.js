@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $(".alert").not('.cancelrequest').delay(2000).slideUp(200, function () {
+    $(".alert").not('.cancelrequest').delay(4000).slideUp(200, function () {
         $(this).alert('close');
     });
     //employee-list with the DataTables
@@ -314,9 +314,13 @@ $(document).ready(function () {
         },
         "columnDefs": [
             { "className": "dt-center", "targets": "_all" },
-            { "width": "30%", "targets": 5 }
+            { "width": "70%", "targets": 5 }
         ],
+        "order": [ 0, 'desc' ],
         "columns": [
+            {
+                "data": "id",
+            },
             {
                 "data": "company_id",
             },
@@ -422,12 +426,13 @@ $(document).ready(function () {
 
         ],
     });
-    inspectorrequesttable.on('click', '.reschedule', function () {
+    inspectorrequesttable.on('click', '.schedule,.reschedule', function () {
         $('#userdetails_processing').show();
         element = $(this);
-        var userid = $(this).attr('data-id');
-        var date = $(this).attr('data-date');
-        var time = $(this).attr('data-time');
+        var userid = element.attr('data-id');
+        var date = element.attr('data-date');
+        var time = element.attr('data-time');
+        var status = (element.hasClass("schedule")) ? "schedule" : "reschedule";
         var CurrentDate = new Date();
         var html = "<div class='d-flex'><input type='date' class='border p-2 form-control' id='date' value='" + date + "' name='date' min='2022-10-21'><input type='time' class='border p-2 form-control ml-2' id='time' value='" + time + "' name='time'><div>";
         Swal.fire({
@@ -462,6 +467,7 @@ $(document).ready(function () {
                         id: userid,
                         time: result.value.time,
                         date: result.value.date,
+                        status : status,
                     },
                     dataType: 'json',
                     success: function (data) {
@@ -534,6 +540,40 @@ $(document).ready(function () {
                         'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
                     },
                     url: 'request-delete',
+                    data: {
+                        id: userid
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        requesttable.ajax.reload();
+                    },
+                    error: function (data) {
+                        // console.log(data);
+                    }
+                });
+            };
+        });
+    });
+    requesttable.on('click', '.complete', function () {
+        $('#userdetails_processing').show();
+        element = $(this);
+        var userid = $(this).attr('data-id');
+        Swal.fire({
+            title: 'Are you sure to Mark it as Completed?',
+            text: "You will not be able to revert this action!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: 'requestcomplete',
                     data: {
                         id: userid
                     },
@@ -828,13 +868,13 @@ $(document).ready(function () {
             var reqid = $(this).attr('data-req-id');
             if (insid.length && reqid.length) {
                 Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You will be able to revert this!",
+                    title: 'Are you sure want to assign Test Inspector?',
+                    text: "Agency and inspector will be immediately notified!",
                     type: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes!'
+                    confirmButtonText: 'OK'
                 }).then((result) => {
                     if (result.value) {
                         $('.preloader').children().show();
@@ -946,6 +986,127 @@ $(document).ready(function () {
     var myselect = $('#agency').select2({
         placeholder: "Select",
     });
+    var jobins = $('#jobins').select2({
+        placeholder: "Select",
+    });
+
+    //agency-module
+var agencytable = $('#agencytable').DataTable({
+    "processing": true,
+    "serverSide": true,
+    "scrollX": true,
+    "ajax": {
+        "url": "/agency-details",
+        "type": "POST",
+        'beforeSend': function(request) {
+            request.setRequestHeader("X-CSRF-TOKEN", jQuery('meta[name="csrf-token"]').attr('content'));
+        },
+    },
+    "columnDefs": [
+        { "className": "dt-center", "targets": "_all" }
+    ],
+    "columns": [{
+            "data": "company_name",
+        },
+        {
+            "data": "name",
+        },
+        {
+            "data": "email",
+        },
+        {
+            "data": "company_address",
+        },
+        {
+            "data": "direct_number",
+        },
+        {
+            "data": "company_phonenumber",
+        },
+        {
+            "data": "zip_code",
+        },
+        {
+            "data": "status",
+        },
+        {
+            "data": "action",
+        },
+
+    ],
+});
+
+
+agencytable.on('click', '.delete', function() {
+    $('#userdetails_processing').show();
+    element = $(this);
+    var userid = $(this).attr('data-id');
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                },
+                url: 'agency-delete',
+                data: {
+                    id: userid
+                },
+                dataType: 'json',
+                success: function(data) {
+                    agencytable.ajax.reload();
+                },
+                error: function(data) {
+                    // console.log(data);
+                }
+            });
+        };
+    });
+});
+
+agencytable.on('click', '.status', function() {
+    element = $(this);
+    var userid = $(this).attr('data-id');
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You will be able to revert this!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes!'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                },
+                url: 'inspector-status-update',
+                data: {
+                    id: userid
+                },
+                dataType: 'json',
+                success: function(data) {
+                    agencytable.ajax.reload();
+                },
+                error: function(data) {
+                    // console.log(data);
+                }
+            });
+        };
+    });
+});
+
+
 });
 
 // new dropzone code

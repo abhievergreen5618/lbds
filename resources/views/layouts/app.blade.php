@@ -25,6 +25,8 @@
   <link rel="stylesheet" href="{{asset('/plugins/daterangepicker/daterangepicker.css')}}">
   <!-- summernote -->
   <link rel="stylesheet" href="{{asset('/plugins/summernote/summernote-bs4.min.css')}}">
+   <!-- fullCalendar -->
+   <link rel="stylesheet" href="{{asset('/plugins/fullcalendar/main.css')}}">
   <link rel="stylesheet" href="{{asset('/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
   <link rel="stylesheet" href="{{asset('/css/sweetalert.min.css')}}">
   <link rel="stylesheet" href="{{asset('/css/dropzone.min.css')}}">
@@ -43,6 +45,9 @@
           @include('layouts.partials.inspector_sidebar')
     @endrole
     @role('company')
+          @include('layouts.partials.company_sidebar')
+    @endrole
+    @role('employee')
           @include('layouts.partials.company_sidebar')
     @endrole
     <div class="content-wrapper" style="min-height: 214px;">
@@ -96,6 +101,8 @@
 <script src="{{asset('/dist/js/pages/dashboard.js')}}"></script>
 <script src="{{asset('/js/validation.min.js')}}"></script>
 <script src="{{asset('/js/validate.js')}}"></script>
+<script src="{{asset('/plugins/moment/moment.min.js')}}"></script>
+<script src="{{asset('/plugins/fullcalendar/main.js')}}"></script>
 <script src="{{asset('/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('/js/dropzone.min.js')}}"></script>
 <script src="{{asset('/js/select2.min.js')}}"></script>

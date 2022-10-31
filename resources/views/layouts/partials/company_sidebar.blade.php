@@ -19,19 +19,7 @@
             </div>
         </div>
 
-        <!-- SidebarSearch Form -->
-        {{-- <div class="form-inline">
-            <div class="input-group" data-widget="sidebar-search">
-                <input class="form-control form-control-sidebar" type="search" placeholder="Search"
-                    aria-label="Search">
-                <div class="input-group-append">
-                    <button class="btn btn-sidebar">
-                        <i class="fas fa-search fa-fw"></i>
-                    </button>
-                </div>
-            </div>
-        </div> --}}
-
+    
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
@@ -56,7 +44,8 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-
+                         
+                        @can('employee-create')
                         <li class="nav-item">
                             <a href="{{route('admin.employee.create')}}" class="nav-link">
                                 <i class="nav-icon fas fa-user-plus"></i>
@@ -65,6 +54,9 @@
                                 </p>
                             </a>
                         </li>
+                        @endcan
+
+                        @can('employee-list')
                         <li class="nav-item">
                             <a href="" class="nav-link">
                                 <i class="nav-icon fas fa-users"></i>
@@ -73,6 +65,9 @@
                                 </p>
                             </a>
                         </li>
+                        @endcan
+
+                        {{-- @can('') --}}
                         <li class="nav-item">
                             <a href="" class="nav-link">
                                 <i class="nav-icon fas fa-comments"></i>
@@ -81,9 +76,12 @@
                                 </p>
                             </a>
                         </li>
+                        {{-- @endcan --}}
+
                     </ul>
                 </li>
-                <li class="nav-item {{ (Route::currentRouteName() == 
+                {{-- @role('company') --}}
+                {{-- <li class="nav-item {{ (Route::currentRouteName() == 
                     'admin.request.create' ) ? 'menu-open menu-is-opening ' : ''}}">
 
                     <a href="#"  class="nav-link {{ (Route::currentRouteName() == 
@@ -97,6 +95,7 @@
                     <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() == 
                         'admin.request.create') ? 'display: block;' : ''}}">
 
+                        @can('role-list')
                         <li class="nav-item">
                             <a href="{{ route('roles.index') }}" class="nav-link {{str_contains(request()->path(), 'admin.request.create') ? 'active' : ''}}">
                                 <i class="nav-icon fas fa-user-plus"></i>
@@ -105,6 +104,9 @@
                                 </p>
                             </a>
                         </li>
+                        @endcan
+
+                        @can('role-create')
                         <li class="nav-item">
                             <a href="{{ route('roles.create') }}" class="nav-link">
                                 <i class="nav-icon fas fa-users"></i>
@@ -113,8 +115,12 @@
                                 </p>
                             </a>
                         </li>
+                        @endcan
+
                     </ul>
-                </li>
+                </li> --}}
+                {{-- @endrole --}}
+
                 <li class="nav-item {{ (Route::currentRouteName() == 
                     'admin.request.create' ) ? 'menu-open menu-is-opening ' : ''}}">
 
@@ -128,7 +134,8 @@
                     </a>
                     <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() == 
                         'admin.request.create') ? 'display: block;' : ''}}">
-
+                        
+                        @can('request-create')
                         <li class="nav-item">
                             <a href="{{route('admin.request.create')}}" class="nav-link {{str_contains(request()->path(), 'admin.request.create') ? 'active' : ''}}">
                                 <i class="nav-icon fas fa-user-plus"></i>
@@ -137,6 +144,9 @@
                                 </p>
                             </a>
                         </li>
+                        @endcan
+
+                        @can('request-list')
                         <li class="nav-item">
                             <a href="{{route('company.request.list')}}" class="nav-link">
                                 <i class="nav-icon fas fa-users"></i>
@@ -145,8 +155,11 @@
                                 </p>
                             </a>
                         </li>
+                        @endcan
                     </ul>
                 </li>
+                
+                {{-- @can('') --}}
                 <li class="nav-item">
                     <a href="" class="nav-link">
                         <i class="nav-icon fas fa-calendar"></i>
@@ -155,6 +168,9 @@
                         </p>
                     </a>
                 </li>
+                {{-- @endcan --}}
+
+                {{-- @can('') --}}
                 <li class="nav-item">
                     <a href="" class="nav-link">
                         <i class="nav-icon fas fa-file-alt"></i>
@@ -163,6 +179,9 @@
                         </p>
                     </a>
                 </li>
+                {{-- @endcan --}}
+
+                {{-- @can('') --}}
                 <li class="nav-item">
                     <a href="{{ route('chatify-index') }}" class="nav-link">
                         <i class="nav-icon fas fa-comments"></i>
@@ -171,8 +190,9 @@
                         </p>
                     </a>
                 </li>
+                {{-- @endcan --}}
 
-
+                {{-- @can('') --}}
                 <li class="nav-item">
                     <a href="{{route('profile.show')}}" class="nav-link">
                         <i class="nav-icon fas fa-user-cog"></i>
@@ -181,14 +201,7 @@
                         </p>
                     </a>
                 </li>
-                  {{-- <li class="nav-item">
-                    <a href="{{ route('logout') }}" class="nav-link" >
-                        <i class="nav-icon fas fa-sign-out-alt" ></i>
-                        <p>
-                          Logout
-                        </p>
-                    </a>
-                </li> --}}
+                 {{-- @endcan --}}
 
             </ul>
         </nav>

@@ -19,18 +19,7 @@
             </div>
         </div>
 
-        <!-- SidebarSearch Form -->
-        {{-- <div class="form-inline">
-            <div class="input-group" data-widget="sidebar-search">
-                <input class="form-control form-control-sidebar" type="search" placeholder="Search"
-                    aria-label="Search">
-                <div class="input-group-append">
-                    <button class="btn btn-sidebar">
-                        <i class="fas fa-search fa-fw"></i>
-                    </button>
-                </div>
-            </div>
-        </div> --}}
+    
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
@@ -38,6 +27,8 @@
                 data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
+
+             
                 <li class="nav-item menu-open">
                     <a href="#" class="nav-link active">
                         <i class="nav-icon fas fa-home"></i>
@@ -46,6 +37,9 @@
                         </p>
                     </a>
                 </li>
+    
+
+                @can('request-list')
                 <li class="nav-item">
                     <a href="{{route('inspector.request.list')}}" class="nav-link">
                         <i class="nav-icon fas fa-align-left"></i>
@@ -54,6 +48,9 @@
                         </p>
                     </a>
                 </li>
+                @endcan
+
+                {{-- @can('') --}}
                 <li class="nav-item">
                     <a href="" class="nav-link">
                         <i class="nav-icon fas fa-calendar"></i>
@@ -62,6 +59,9 @@
                         </p>
                     </a>
                 </li>
+                {{-- @endcan --}}
+
+                  {{-- @can('') --}}
                 <li class="nav-item">
                     <a href="" class="nav-link">
                         <i class="nav-icon fas fa-align-left"></i>
@@ -70,6 +70,9 @@
                         </p>
                     </a>
                 </li>
+                {{-- @endcan --}}
+
+                {{-- @can('') --}}
                 <li class="nav-item">
                     <a href="" class="nav-link">
                         <i class="nav-icon fas fa-file-alt"></i>
@@ -78,6 +81,9 @@
                         </p>
                     </a>
                 </li>
+                {{-- @endcan --}}
+
+                {{-- @can('') --}}
                 <li class="nav-item">
                     <a href="{{ route('chatify-index') }}" class="nav-link">
                         <i class="nav-icon fas fa-comments"></i>
@@ -86,8 +92,10 @@
                         </p>
                     </a>
                 </li>
+                {{-- @endcan --}}
 
 
+                {{-- @can('') --}}
                 <li class="nav-item">
                     <a href="{{route('profile.show')}}" class="nav-link">
                         <i class="nav-icon fas fa-user-cog"></i>
@@ -96,6 +104,9 @@
                         </p>
                     </a>
                 </li>
+                {{-- @endcan --}}
+
+                  {{-- @can('') --}}
                 <li class="nav-item">
                     <a href="" class="nav-link">
                         <i class="nav-icon fas fa-key"></i>
@@ -104,6 +115,8 @@
                         </p>
                     </a>
                 </li>
+                {{-- @endcan --}}
+
                   {{-- <li class="nav-item">
                     <a href="{{ route('logout') }}" class="nav-link" >
                         <i class="nav-icon fas fa-sign-out-alt" ></i>

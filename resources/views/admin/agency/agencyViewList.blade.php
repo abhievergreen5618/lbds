@@ -4,25 +4,25 @@
 <div class="col-lg-12">
     <div class="card">
         <div class="card-body">
-          <h3 class="card-title">Request Details</h3>
+          <h3 class="card-title">All Agency Details</h3>
         </div>
     </div>
 </div>
 <div class="col-lg-12">
   <div class="card">
     <div class="card-body pt-2">
-      <table id="requesttable" class="table table-bordered table-striped">
+      <table id="agencytable" class="table table-bordered table-striped">
         <thead>
           <tr>
-            <th>Request ID</th>
-            <th>Agency</th>
-            <th>Applicant</th>
-            <th>Location</th>
-            <th>Inspection Type</th>
-            <th>Added At</th>
-            <th>Assigned Inspector</th>
+            <th>Company</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Phone</th>  
+            <th>Company Phone No.</th>
+            <th>Zip Code</th>
             <th>Status</th>
-            <th>Action</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>

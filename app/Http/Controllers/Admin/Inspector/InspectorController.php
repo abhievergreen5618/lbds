@@ -44,7 +44,7 @@ class InspectorController extends Controller
             'area_coverage'              => 'required',
             'color_code'                 => 'required',
             'email'                      => 'required|unique:users|max:255',
-            'password'                   => ['required','string','min:8','confirmed'],
+            'password'                   => ['required','string','min:8'],
         ]);
         $user = User::create([
             'company_name' => $request['company_name'],
