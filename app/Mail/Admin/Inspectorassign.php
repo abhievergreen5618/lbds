@@ -17,11 +17,12 @@ class Inspectorassign extends Mailable
     public $companydetails;
     public $requestdetails;
 
-    public function __construct($insdetails,$companydetails,$requestdetails)
+    public function __construct($insdetails,$companydetails,$requestdetails,$subject)
     {
         $this->insdetails = $insdetails;
         $this->companydetails = $companydetails;
         $this->requestdetails = $requestdetails;
+        $this->subject = $subject;
     }
 
     /**
@@ -32,7 +33,7 @@ class Inspectorassign extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Inspectorassign',
+            subject: $this->subject,
         );
     }
 

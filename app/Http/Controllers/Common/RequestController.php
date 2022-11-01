@@ -163,8 +163,9 @@ class RequestController extends Controller
         //     'requestdetails' => $requestdetails,
         //     'companydetails' => $companydetails,
         // ]);  
-        Mail::to($insemail['email'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails));
-        Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails));
+        $subject = "Inspectorassign";
+        Mail::to($insemail['email'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails,$subject));
+        Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails,$subject));
         $current_date_time = Carbon::now()->toDateTimeString();
         RequestModel::where(["id" => decrypt($reqid)])->update([
             "assigned_ins" => decrypt($id),
@@ -470,7 +471,7 @@ class RequestController extends Controller
                 "required" => "Field is required.",
             ]
         );
-        $this->send_email($request['id']);
+        $this->send_email($request['id'],"scheduled");
         RequestModel::where('id', decrypt($request['id']))->update([
             "status" => "scheduled",
             "schedule_at" => $request->date,
@@ -494,7 +495,7 @@ class RequestController extends Controller
                 return response()->json(array("msg" => $msg), 422);
             }
             else {
-                $this->send_email($request['id']);
+                $this->send_email($request['id'],"scheduled");
                 RequestModel::where('id', decrypt($request['id']))->update([
                     "status" => "scheduled",
                     "schedule_at" => $request->date,
@@ -518,7 +519,7 @@ class RequestController extends Controller
                 return response()->json(array("msg" => $msg), 422);
             } else {
                 $current_date_time = Carbon::now()->toDateTimeString();
-                $this->send_email($request['id']);
+                $this->send_email($request['id'],"underreview");
                 RequestModel::where('id', decrypt($request['id']))->update([
                     "status" => "underreview",
                     "review_at" => $current_date_time,
@@ -537,6 +538,7 @@ class RequestController extends Controller
                 "id" => 'required',
             ]
         );
+        $this->send_email($request['id'],"cancelled");
         RequestModel::where('id', decrypt($request['id']))->update([
             "status" => "cancelled",
             "cancel_reason" => $request['msg'],
@@ -558,7 +560,7 @@ class RequestController extends Controller
                 return response()->json(array("msg" => $msg), 422);
             } else {
                 $current_date_time = Carbon::now()->toDateTimeString();
-                $this->send_email($request['id']);
+                $this->send_email($request['id'],"completed");
                 RequestModel::where('id', decrypt($request['id']))->update([
                     "status" => "completed",
                     "completed_at" => $current_date_time,
@@ -569,16 +571,36 @@ class RequestController extends Controller
         }
     }
 
-    public function send_email($id)
+    public function send_email($id,$status)
     {
         // $data = RequestModel::leftJoin('users  AS inspector','inspector.id', '=', 'request_models.assigned_ins')
         // ->leftJoin('users AS company','company.id', '=', 'request_models.company_id')
         // ->where("request_models.id",decrypt($id))->get();
+        if($status == "scheduled")
+        {
+            $subject = "Request Scheduled";
+        }
+        else if($status == "rescheduled")
+        {
+            $subject = "Request Rescheduled";
+        }
+        else if($status == "cancelled")
+        {
+            $subject = "Request Cancelled";
+        }
+        else if($status == "underreview")
+        {
+            $subject = "Request Underreview";
+        }
+        else if($status == "completed")
+        {
+            $subject = "Request Completed";
+        }
         $requestdetails = RequestModel::where("id", decrypt($id))->first();
         $insdetails = User::where("id",$requestdetails['assigned_ins'])->first();
         $companydetails = User::where("id", $requestdetails['company_id'])->first();
-        Mail::to($insdetails['email'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails));
-        Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails));
+        Mail::to($insdetails['email'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails,$subject));
+        Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails,$subject));
     }
 
 

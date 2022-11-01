@@ -1,15 +1,18 @@
 @push('header_extras')
 <style>
-  .popover-header
-  {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .close-pop
-  {
-    font-size:35px;
-  }
+    .popover-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .close-pop {
+        font-size: 35px;
+    }
+    .fc-daygrid-event.fc-daygrid-dot-event.fc-event.fc-event-start.fc-event-end.fc-event-future
+    {
+        background: palegoldenrod !important;
+    }
 </style>
 @endpush
 @extends('layouts.app')
@@ -20,7 +23,7 @@
             <h3 class="card-title">{{ __('Job Calender') }}</h3>
         </div>
         <div class="card-body p-0" id="maincalender" data-id="{{(Auth::user()->hasRole('admin')) ? 'all' : encrypt(Auth::user()->id) }}">
-        @role('admin')
+            @role('admin')
             <div class="row">
                 <div class="col-lg-6 offset-lg-6">
                     <div class="my-2 px-2 ml-auto">
@@ -40,7 +43,7 @@
                     </div>
                 </div>
             </div>
-        @endrole
+            @endrole
             <div id="calendar"></div>
         </div>
         <!-- /.card-body -->
@@ -104,7 +107,7 @@
                                     end: end,
                                     extendedProps: {
                                         inspectorname: r.name,
-                                        link: "<a href='"+r.link+"' target='blank'>View Request</a>",
+                                        link: "<a href='" + r.link + "' target='blank'>View Request</a>",
                                     },
                                     description: "at " + r.address + "<br>" + r.city + ", " + r.state + ", " + r.zipcode,
                                 });
@@ -118,7 +121,7 @@
                 element = $(info.el);
                 element.popover({
                     html: true,
-                    title: "<h3>" + info.event.title + "</h3>"+ "<a class='ml-2 close close-pop'>&times;</a>",
+                    title: "<h3>" + info.event.title + "</h3>" + "<a class='ml-2 close close-pop'>&times;</a>",
                     content: info.event.extendedProps.description + "<br>" + "Inspector: " + info.event.extendedProps.inspectorname + "<br>" + info.event.extendedProps.link,
                 });
             }
@@ -140,9 +143,9 @@
                 }
             });
         });
-        $(document).on('click','.close-pop',function(){
+        $(document).on('click', '.close-pop', function() {
             var id = $(this).parent().parent().attr("id");
-            $("[aria-describedby='"+id+"']").click();
+            $("[aria-describedby='" + id + "']").click();
             $(this).parent().parent().remove();
         });
     })
