@@ -227,4 +227,115 @@ $(document).ready(function () {
       }
     }
   });
+
+    //
+    $('#agencyaddform').validate({
+      errorClass: "error fail-alert",
+      validClass: "valid success-alert",
+      rules: {
+          company_name: {
+              required: true,
+          },
+          city: {
+              required: true,
+          },
+          company_address: {
+              required: true,
+          },
+          company_phonenumber: {
+              required: true,
+              minlength: 10,
+              maxlength: 10,
+          },
+          name: {
+              required: true,
+          },
+          direct_number: {
+              required: true,
+              minlength: 10,
+              maxlength: 10,
+          },
+          zip_code: {
+              required: true,
+          },
+          email: {
+              required: true,
+              email: true,
+          },
+          password: {
+              required: true,
+              minlength: 8
+          },
+          password_confirmation: {
+              required: true,
+              minlength: 8,
+              equalTo: '#password',
+          }
+      },
+      errorPlacement: function(error, element) {
+          if (element.attr("type") == "checkbox" || element.attr("type") == "radio") {
+              $(element).parent().parent().append(error);
+          } else if (element.attr("name") == "password") {
+              $(element).parent().append(error);
+          } else {
+              element.after(error);
+          }
+      }
+  });
+
+
+  $('#agencyupdateform').validate({
+      errorClass: "error fail-alert",
+      validClass: "valid success-alert",
+      rules: {
+          company_name: {
+              required: true,
+          },
+          city: {
+              required: true,
+          },
+          company_address: {
+              required: true,
+          },
+          company_phonenumber: {
+              required: true,
+              minlength: 10,
+              maxlength: 10,
+          },
+          name: {
+              required: true,
+          },
+          direct_number: {
+              required: true,
+              minlength: 10,
+              maxlength: 10,
+          },
+          zip_code: {
+              required: true,
+          },
+          email: {
+              required: true,
+              email: true,
+          },
+          password: {
+              required: false,
+              minlength: 8
+          },
+          password_confirmation: {
+              required: false,
+              minlength: 8,
+              equalTo: '#password',
+          }
+      },
+      errorPlacement: function(error, element) {
+          if (element.attr("type") == "checkbox" || element.attr("type") == "radio") {
+              $(element).parent().parent().append(error);
+          } else if (element.attr("name") == "password") {
+              $(element).parent().append(error);
+          } else {
+              element.after(error);
+          }
+      }
+  });
+
 });

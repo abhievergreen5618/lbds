@@ -34,15 +34,20 @@
                     </a>
                 </li>
                 
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
+                <li class="nav-item {{ (Route::currentRouteName() ==
+                    'admin.employee.create' || Route::currentRouteName() ==
+                    'admin.employee.view') ? 'menu-open menu-is-opening' : '' }}">
+                    <a href="#" class="nav-link {{ (Route::currentRouteName() == 'admin.employee.create'||
+                    Route::currentRouteName() == 'admin.employee.view') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-user-circle"></i>
                         <p>
                             Employee
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
+                    <ul class="nav nav-treeview" {{ (Route::currentRouteName() ==
+                        'admin.employee.create'||
+                        Route::currentRouteName() == 'admin.employee.view') ? 'display: block;' : ''}}>
                          
                         @can('employee-create')
                         <li class="nav-item">
@@ -57,7 +62,7 @@
 
                         @can('employee-list')
                         <li class="nav-item">
-                            <a href="" class="nav-link">
+                            <a href="{{ route('admin.employee.view') }}" class="nav-link">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>
                                     View All Employees
@@ -136,7 +141,7 @@
                         
                         @can('request-create')
                         <li class="nav-item">
-                            <a href="{{route('admin.request.create')}}" class="nav-link {{str_contains(request()->path(), 'admin.request.create') ? 'active' : ''}}">
+                            <a href="{{route('admin.request.create')}}" class="nav-link">
                                 <i class="nav-icon fas fa-user-plus"></i>
                                 <p>
                                     Add new Request
@@ -160,7 +165,7 @@
                 
                 {{-- @can('') --}}
                 <li class="nav-item">
-                    <a href="" class="nav-link">
+                    <a href="{{route('job.show')}}" class="nav-link  {{ Route::currentRouteName() == 'job.show' ? 'active' : ''}}">
                         <i class="nav-icon fas fa-calendar"></i>
                         <p>
                             Job Calender
@@ -182,7 +187,7 @@
 
                 {{-- @can('') --}}
                 <li class="nav-item">
-                    <a href="{{ route('chatify-index') }}" class="nav-link">
+                    <a href="{{ route('chatify-index') }}" class="nav-link {{  (Route::currentRouteName() == 'chatify-index') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-comments"></i>
                         <p>
                             Messages
@@ -193,7 +198,7 @@
 
                 {{-- @can('') --}}
                 <li class="nav-item">
-                    <a href="{{route('profile.show')}}" class="nav-link">
+                    <a href="{{route('profile.show')}}" class="nav-link {{  (Route::currentRouteName() == 'profile.show') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-user-cog"></i>
                         <p>
                             Profile

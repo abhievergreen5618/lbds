@@ -8,10 +8,19 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
 use App\Models\User;
 use DataTables;
+use Illuminate\Support\Carbon;
 
 class AgencyController extends Controller
 {
-    //
+    function __construct()
+    {
+        //  $this->middleware('permission:agency-list & agency-create|agency-edit|agency-delete', ['only' => ['show','display']]);
+         $this->middleware('permission:agency-list', ['only' => ['show','display']]);
+         $this->middleware('permission:agency-create', ['only' => ['index','store']]);
+         $this->middleware('permission:agency-edit', ['only' => ['update','submitUpdate']]);
+         $this->middleware('permission:agency-delete', ['only' => ['destroy']]);
+    }
+
     public function index()
     {
         return view('admin.agency.create-agency');
@@ -45,6 +54,7 @@ class AgencyController extends Controller
             'zip_code' => $request['zip_code'],
             'company_phonenumber' => $request['company_phonenumber'],
             'direct_number' => $request['direct_number'],
+            'email_verified_at'=>Carbon::now()->timestamp,
         ]);
         $user->save();
         $role = Role::findByName('company');

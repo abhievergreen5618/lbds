@@ -11,7 +11,8 @@ class SendInvoiceController extends Controller
 {
     function __construct()
     {
-         $this->middleware('permission:sendinvoice-list|sendinvoice-create|sendinvoice-edit|sendinvoice-delete', ['only' => ['index','show']]);
+        //  $this->middleware('permission:sendinvoice-list|sendinvoice-create|sendinvoice-edit|sendinvoice-delete', ['only' => ['index','show']]);
+         $this->middleware('permission:sendinvoice-list', ['only' => ['index','show']]);
          $this->middleware('permission:sendinvoice-create', ['only' => ['create','store']]);
          $this->middleware('permission:sendinvoice-edit', ['only' => ['edit','update']]);
          $this->middleware('permission:sendinvoice-delete', ['only' => ['destroy']]);

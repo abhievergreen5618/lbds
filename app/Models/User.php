@@ -9,10 +9,12 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles,SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -36,6 +38,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'mobile_number',
         'profile_img',
         'state',
+        'email_verified_at',
     ];
 
     /**

@@ -9,9 +9,19 @@ use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use DataTables;
+use Illuminate\Support\Carbon;
 
 class EmployeeController extends Controller
 {
+    function __construct()
+    {
+        //  $this->middleware('permission:employee-list|employee-create|employee-edit|employee-delete', ['only' => ['show','display']]);
+         $this->middleware('permission:employee-list', ['only' => ['show','display']]);
+         $this->middleware('permission:employee-create', ['only' => ['index','create']]);
+         $this->middleware('permission:employee-edit', ['only' => ['update','submitUpdate']]);
+         $this->middleware('permission:employee-delete', ['only' => ['destroy']]);
+    }
+
     public function index()
     {
         return view('company.employee.employee-create');
@@ -48,6 +58,7 @@ class EmployeeController extends Controller
             "zip_code" => $request['employeezipcode'],
             "state" => $request['employeestate'],
             "password" => Hash::make($request['password']),
+            'email_verified_at'=>Carbon::now()->timestamp,
             // "role" => "4",
         ]);
         $user->assignRole([$role->id]);

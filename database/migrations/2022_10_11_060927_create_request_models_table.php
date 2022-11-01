@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 return new class extends Migration
 {
@@ -38,6 +39,7 @@ return new class extends Migration
             $table->string('agency_related_files')->nullable();
             $table->string('reports_related_files')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

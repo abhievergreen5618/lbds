@@ -29,7 +29,7 @@
 
              
                 <li class="nav-item menu-open">
-                    <a href="#" class="nav-link active">
+                    <a href="{{ route('home') }}" class="nav-link {{ Route::currentRouteName() == 'home' ? 'active' : ''}}">
                         <i class="nav-icon fas fa-home"></i>
                         <p>
                             Dashboard
@@ -40,7 +40,7 @@
 
                 @can('request-list')
                 <li class="nav-item">
-                    <a href="{{route('inspector.request.list')}}" class="nav-link">
+                    <a href="{{route('inspector.request.list')}}" class="nav-link {{ Route::currentRouteName() == 'inspector.request.list' ? 'active' : ''}}">
                         <i class="nav-icon fas fa-align-left"></i>
                         <p>
                             Requests
@@ -51,7 +51,7 @@
 
                 {{-- @can('') --}}
                 <li class="nav-item">
-                    <a href="{{route('job.show')}}" class="nav-link">
+                    <a href="" class="nav-link">
                         <i class="nav-icon fas fa-calendar"></i>
                         <p>
                             Job Calender
@@ -84,7 +84,7 @@
 
                 {{-- @can('') --}}
                 <li class="nav-item">
-                    <a href="{{ route('chatify-index') }}" class="nav-link">
+                    <a href="{{ route('chatify-index') }}" class="nav-link {{ Route::currentRouteName() == 'chatify-index' ? 'active' : ''}}">
                         <i class="nav-icon fas fa-comments"></i>
                         <p>
                             Messages
@@ -96,7 +96,7 @@
 
                 {{-- @can('') --}}
                 <li class="nav-item">
-                    <a href="{{route('profile.show')}}" class="nav-link">
+                    <a href="{{route('profile.show')}}" class="nav-link {{ Route::currentRouteName() == 'profile.show' ? 'active' : ''}}">
                         <i class="nav-icon fas fa-user-cog"></i>
                         <p>
                             Profile

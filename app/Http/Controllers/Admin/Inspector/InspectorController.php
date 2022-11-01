@@ -9,15 +9,17 @@ use Illuminate\Support\Facades\Hash;
 use DataTables;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Carbon;
 
 class InspectorController extends Controller
 {
 
     function __construct()
     {
-         $this->middleware('permission:inspector-list|inspector-create|inspector-edit|inspector-delete', ['only' => ['index','show']]);
+        //  $this->middleware('permission:inspector-list|inspector-create|inspector-edit|inspector-delete', ['only' => ['index','show']]);
+         $this->middleware('permission:inspector-list', ['only' => ['index','display']]);
          $this->middleware('permission:inspector-create', ['only' => ['create','store']]);
-         $this->middleware('permission:inspector-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:inspector-edit', ['only' => ['update','submitUpdate']]);
          $this->middleware('permission:inspector-delete', ['only' => ['destroy']]);
     }
 
@@ -56,6 +58,7 @@ class InspectorController extends Controller
             'color_code' => $request['color_code'],
             'password' => Hash::make($request['password']),
             'inspector_id' => 'INS'.time().rand(1,100),
+            'email_verified_at'=>Carbon::now()->timestamp,
         ]);
         $user->save();
         $role = Role::findByName('inspector');

@@ -4,20 +4,13 @@
 <div class="col-lg-12">
     <div class="card">
         <div class="card-body">
+          <div class="float-lg-left">
           <h3 class="card-title">All Agency Messages</h3>
+          </div>
+          <div class="float-lg-right">
+            <a class="btn btn-success" href="{{ route('chatify') }}">Chat</a>
+          </div>
         </div>
-    </div>
-</div>
-<div class="col-lg-12">
-    {{-- <div class="row">
-        <div class="form-group">
-           <label for="status">Status:</label>
-           <select id="status" class="form-control">
-               <option disabled>--Select Status--</option>
-               <option value="active">Active</option>
-               <option value="deactive">Deactive</option>
-           </select>
-        </div> --}}
     </div>
 </div>
 <div class="col-lg-12">
