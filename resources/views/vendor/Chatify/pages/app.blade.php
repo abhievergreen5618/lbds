@@ -72,7 +72,7 @@
                 <div class="chatify-d-flex chatify-justify-content-between chatify-align-items-center">
                     <a href="#" class="show-listView"><i class="fas fa-arrow-left"></i></a>
                     @php $imglink = (!empty(Auth::user()->profile_img)) ? Auth::user()->profile_img : asset('images/profile/profile.jpg'); @endphp
-                    <div class="avatar av-s header-avatar" style="margin: 0px 10px; margin-top: -5px; margin-bottom: -5px; background-image:url('asset('$imglink')')">
+                    <div class="avatar av-s header-avatar" style="margin: 0px 10px; margin-top: -5px; margin-bottom: -5px; background-image:url('{{asset($imglink)}}')">
                     </div>
                     <a href="#" class="user-name">{{ config('chatify.name') }}</a>
                 </div>
