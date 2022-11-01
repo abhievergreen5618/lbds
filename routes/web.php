@@ -69,7 +69,7 @@ Route::controller(RequestController::class)->group(function () {
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Route::get('/agency-register',[App\Http\Controllers\UserController::class, 'create'])->name('agency-user');
-Route::post('/agency-user/insert',[App\Http\Controllers\UserController::class, 'store'])->name('agency-insert');
+// Route::post('/agency-user/insert',[App\Http\Controllers\UserController::class, 'store'])->name('agency-insert');
 
 Route::group(['middleware' => 'auth'], function () {
 Route::controller(InspectionController::class)->group(function () {
@@ -191,5 +191,4 @@ Route::post('/email/verification-notification', function (Request $request) {
 Route::group(['middleware' => ['auth']], function() {
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
-    Route::resource('products', ProductController::class);
 });

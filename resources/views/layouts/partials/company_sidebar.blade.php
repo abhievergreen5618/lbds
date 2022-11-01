@@ -164,14 +164,14 @@
                 </li>
                 
                 {{-- @can('') --}}
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a href="{{route('job.show')}}" class="nav-link  {{ Route::currentRouteName() == 'job.show' ? 'active' : ''}}">
                         <i class="nav-icon fas fa-calendar"></i>
                         <p>
                             Job Calender
                         </p>
                     </a>
-                </li>
+                </li> -->
                 {{-- @endcan --}}
 
                 {{-- @can('') --}}
