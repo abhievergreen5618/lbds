@@ -305,6 +305,7 @@ $(document).ready(function () {
         "processing": true,
         "serverSide": true,
         "scrollX": true,
+        autoWidth: false,
         "ajax": {
             "url": "requestdetails",
             "type": "POST",
@@ -314,7 +315,6 @@ $(document).ready(function () {
         },
         "columnDefs": [
             { "className": "dt-center", "targets": "_all" },
-            { "width": "70%", "targets": 5 }
         ],
         "order": [ 0, 'desc' ],
         "columns": [
@@ -338,6 +338,7 @@ $(document).ready(function () {
             },
             {
                 "data": "assigned_inspector",
+                "width":'100px',
             },
             {
                 "data": "status",

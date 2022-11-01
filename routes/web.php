@@ -149,8 +149,8 @@ Route::controller(UserController::class)->group(function () {
         Route::get('/chatify/1', 'index')->name('chatify-index');
     });
     Route::controller(JobCalenderController::class)->group(function () {
-        Route::get('/admin/jobcalender/show', 'index')->name('admin.job.show');
-        Route::post('/admin/jobcalender/admininspectorevents','adminevents')->name('admininspectorevents');
+        Route::get('/jobcalender/show', 'index')->name('job.show');
+        Route::post('/jobcalender/admininspectorevents','adminevents')->name('admininspectorevents');
     });
 
     Route::controller(AgencyController::class)->group(function(){

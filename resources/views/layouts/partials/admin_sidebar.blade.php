@@ -230,7 +230,7 @@
 
                 {{-- @can('') --}}
                 <li class="nav-item">
-                    <a href="{{route('admin.job.show')}}" class="nav-link">
+                    <a href="{{route('job.show')}}" class="nav-link">
                         <i class="nav-icon fas fa-calendar"></i>
                         <p>
                             Job Calender

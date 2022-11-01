@@ -52,6 +52,7 @@ class UserSeeder extends Seeder
             "email_verified_at" => Carbon::now()->timestamp,
         ]);
         $role = Role::create(['name' => 'inspector']);
+        $role->givePermissionTo('request-list');
         $user->assignRole([$role->id]);
         
         $user = User::create([
