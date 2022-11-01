@@ -40,7 +40,8 @@ class JobCalenderController extends Controller
                     $returnarr[$key]['city'] = $value->city;
                     $returnarr[$key]['zipcode'] = $value->zipcode;
                     $returnarr[$key]['name'] = $value->name;
-                    $returnarr[$key]['link'] = Auth::user()->hasRole("admin") ? route('requestcheck',["id"=>encrypt($value->id)]) : "#";
+                    // $returnarr[$key]['link'] = Auth::user()->hasRole("admin") ? route('requestcheck',["id"=>encrypt($value->id)]) : "#";
+                    // $returnarr[$key]['link'] = route('requestcheck',["id"=>encrypt($value->id)]);
                 }
                 $req = $returnarr;
             }
