@@ -362,7 +362,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    @if($requestdetails->status != "underreview" || $requestdetails->status != "completed")
+                    @if($requestdetails->status != "underreview" && $requestdetails->status != "completed")
                         @if(!empty($requestdetails->assigned_at))
                         <div class="mt-3 mb-3 scheduled0eaff1"> <span class="btn
                             btn-danger col-12 shadow-sm font-weight-600 btn-sm
