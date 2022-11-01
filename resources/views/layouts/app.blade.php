@@ -101,6 +101,8 @@
 <script src="{{asset('/dist/js/pages/dashboard.js')}}"></script>
 <script src="{{asset('/js/validation.min.js')}}"></script>
 <script src="{{asset('/js/validate.js')}}"></script>
+<script src="{{asset('/js/popper.min.js')}}"></script>
+<script src="{{asset('/js/tooltip.min.js')}}"></script>
 <script src="{{asset('/plugins/moment/moment.min.js')}}"></script>
 <script src="{{asset('/plugins/fullcalendar/main.js')}}"></script>
 <script src="{{asset('/js/sweetalert.min.js')}}"></script>

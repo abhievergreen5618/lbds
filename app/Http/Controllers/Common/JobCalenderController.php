@@ -19,8 +19,11 @@ class JobCalenderController extends Controller
     public function adminevents(Request $request)
     {
         if($request->ajax()) {
-            $requests = RequestModel::whereNotNull("company_id", "")->get();
-            dd($requests);
+            $start = $request['start']; 
+            $end = $request['end'];
+            $filter = $request['filter'];
+            $req = ($request['filter'] == "all") ? RequestModel::leftjoin("users","users.id","=","request_models.assigned_ins")->whereBetween('request_models.schedule_at', [$start,$end])->get(["request_models.id","request_models.assigned_ins","request_models.applicantname","request_models.applicantemail","request_models.applicantmobile","request_models.schedule_at","request_models.schedule_time","request_models.status","request_models.address","request_models.state","request_models.city","request_models.zipcode","users.name"]) : RequestModel::leftjoin("users","users.id","=","request_models.assigned_ins")->where('assigned_ins',decrypt($filter))->whereBetween('request_models.schedule_at', [$start,$end])->get(["request_models.id","request_models.assigned_ins","request_models.applicantname","request_models.applicantemail","request_models.applicantmobile","request_models.schedule_at","request_models.schedule_time","request_models.status","request_models.address","request_models.state","request_models.city","request_models.zipcode","users.name"]);
+            return response()->json(["events"=>$req]);
         }
     }
 }

@@ -986,9 +986,7 @@ $(document).ready(function () {
     var myselect = $('#agency').select2({
         placeholder: "Select",
     });
-    var jobins = $('#jobins').select2({
-        placeholder: "Select",
-    });
+    
 
     //agency-module
 var agencytable = $('#agencytable').DataTable({

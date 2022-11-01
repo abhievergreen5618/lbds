@@ -37,7 +37,7 @@ class MessagesListController extends Controller
 
             ->addColumn('message', function($row){
                 $id = $row->id;
-                $chatlink = route('usersession', ['id' => $id]);
+                $chatlink = route('chatify', ['id' => $id]);
                 $btn = "<div class='d-flex justify-content-around'>
                 <a href='$chatlink' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top'
                  title='Open Chat' class='btn limegreen btn-primary  edit'>Open Chat &nbsp;<i class='fas fa-edit'></i></a>
@@ -75,7 +75,7 @@ class MessagesListController extends Controller
               return Datatables::of($data)->addIndexColumn()
               ->addColumn('message', function($row){
                   $id = $row->id;
-                  $chatlink = route('usersession',["id"=>$id]);
+                  $chatlink = route('chatify',["id"=>$id]);
                   $btn = "<div class='d-flex justify-content-around'>
                   <a href='$chatlink' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top'
                    title='Open Chat' class='btn limegreen btn-primary  edit'>Open Chat &nbsp;<i class='fas fa-edit'></i></a>
