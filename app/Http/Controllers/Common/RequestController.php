@@ -20,7 +20,7 @@ class RequestController extends Controller
     function __construct()
     {
         // $this->middleware('permission:request-list|request-create|request-edit|request-delete', ['only' => ['index', 'show']]);
-        $this->middleware('permission:request-list', ['only' => ['index', 'show']]);
+        $this->middleware('permission:request-list', ['only' => ['show', 'display']]);
         $this->middleware('permission:request-create', ['only' => ['create', 'index']]);
         $this->middleware('permission:request-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:request-delete', ['only' => ['destroy']]);
