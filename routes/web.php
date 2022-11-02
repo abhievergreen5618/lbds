@@ -16,6 +16,7 @@ use App\Http\Controllers\Common\JobCalenderController;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Request;
 use App\Http\Controllers\Admin\AgencyController;
+use App\Http\Controllers\Admin\Portal\ProtalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -111,16 +112,16 @@ Route::controller(InspectorController::class)->group(function () {
     Route::post('/inspector-delete','destroy')->name('inspector-delete');
     Route::post('/inspector-status-update','status')->name('inspector-status-update');
 });
-Route::controller(InspectorController::class)->group(function () {
-    Route::get('/view-inspector','index')->name('admin.view.inspector');
-    Route::post('/inspectortabledetails','display')->name('inspectortabledetails');
-    Route::get('/update-inspector','update')->name('admin.show.inspector');
-    Route::post('submit/update-inspector/','submitUpdate')->name('admin.update.inspector');
-    Route::get('/add-inspector','create')->name('admin.create.addinspector');
-    Route::post('/insert-inspector','store')->name('admin.insert.insertinspector');
-    Route::post('/inspector-delete','destroy')->name('inspector-delete');
-    Route::post('/inspector-status-update','status')->name('inspector-status-update');
-});
+// Route::controller(InspectorController::class)->group(function () {
+//     Route::get('/view-inspector','index')->name('admin.view.inspector');
+//     Route::post('/inspectortabledetails','display')->name('inspectortabledetails');
+//     Route::get('/update-inspector','update')->name('admin.show.inspector');
+//     Route::post('submit/update-inspector/','submitUpdate')->name('admin.update.inspector');
+//     Route::get('/add-inspector','create')->name('admin.create.addinspector');
+//     Route::post('/insert-inspector','store')->name('admin.insert.insertinspector');
+//     Route::post('/inspector-delete','destroy')->name('inspector-delete');
+//     Route::post('/inspector-status-update','status')->name('inspector-status-update');
+// });
 Route::controller(UserController::class)->group(function () {
     // Route::get('/view-inspector','index')->name('admin.view.inspector');
     Route::post('/usertableedetails','display')->name('usertableedetails');
@@ -162,6 +163,13 @@ Route::controller(UserController::class)->group(function () {
         Route::post('submit/update-agency','submitUpdate')->name('admin.agency.update-agency');
         Route::post('/agency-status-update','status')->name('agency-status-update');
         Route::post('/agency-delete','destroy')->name('admin.agency-delete');
+    });
+
+    Route::controller(ProtalController::class)->group(function () {
+        Route::get('/portalsetup/show', 'index')->name('admin.portal.setup');
+        Route::get('/portalsetup/mail', 'index')->name('admin.portal.mail');
+        Route::post('/portalsetup/update/website','update')->name('portal.update.website');
+        Route::post('/portalsetup/update/mail', 'updatemail')->name('portal.update.mail');
     });
 });
 

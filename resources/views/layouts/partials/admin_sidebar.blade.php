@@ -1,3 +1,26 @@
+@php
+$menuoptions =
+[
+"Dashboard" => ["route" => route('home'),"submenu" => 0,"iconclass" => "nav-icon fas fa-home","routename" => ["home"],"permission" => ""],
+"Inspection" => [
+"route" => "#",
+"routename" => ["admin.create.addinspectiontype","admin.allinspectiontype"],
+"submenu" => 1,
+"iconclass" => "nav-icon fa fa-sharp fa-solid fa-bars",
+"permission"=>"",
+"submenulist" => [
+"Add Inspection Type" => ["route"=>route('admin.create.addinspectiontype'),"permission"=>"inspection-create","iconclass" => "nav-icon fa fa-sharp fa-solid fa-bars"],
+"View All Inspection Type" => ["route"=>route('admin.allinspectiontype'),"permission"=>"inspection-create","iconclass" => "nav-icon fa fa-sharp fa-solid fa-bookmark"],
+]
+],
+];
+@endphp
+
+
+
+
+
+
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
@@ -10,9 +33,6 @@
     <div class="sidebar">
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            {{-- <div class="image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-        </div> --}}
             <div class="info">
                 <a href="#" class="d-block">{{ ucfirst(Auth::user()->name) }}</a>
             </div>
@@ -31,11 +51,11 @@
                 </li>
 
                 <li class="nav-item {{ (Route::currentRouteName() ==
-                    'admin.create.addinspectiontype' || Route::currentRouteName() ==
-                    'admin.allinspectiontype') ? 'menu-open menu-is-opening' : '' }}">
+'admin.create.addinspectiontype' || Route::currentRouteName() ==
+'admin.allinspectiontype') ? 'menu-open menu-is-opening' : '' }}">
 
                     <a href="#" class="nav-link {{ (Route::currentRouteName() == 'admin.create.addinspectiontype'||
-                    Route::currentRouteName() == 'admin.allinspectiontype') ? 'active' : ''}}">
+Route::currentRouteName() == 'admin.allinspectiontype') ? 'active' : ''}}">
                         <i class="nav-icon fa fa-sharp fa-solid fa-bars"></i>
                         <p>
                             Inspection
@@ -44,8 +64,8 @@
                     </a>
 
                     <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() ==
-                    'admin.create.addinspectiontype'||
-                    Route::currentRouteName() == 'admin.allinspectiontype') ? 'display: block;' : ''}}">
+'admin.create.addinspectiontype'||
+Route::currentRouteName() == 'admin.allinspectiontype') ? 'display: block;' : ''}}">
 
                         @can('inspection-create')
                         <li class="nav-item">
@@ -72,11 +92,11 @@
                     </ul>
                 </li>
                 <li class="nav-item {{ (Route::currentRouteName() ==
-                    'admin.create.addsendinvoice' || Route::currentRouteName() ==
-                    'admin.allsendinvoice') ? 'menu-open menu-is-opening' : '' }}">
+'admin.create.addsendinvoice' || Route::currentRouteName() ==
+'admin.allsendinvoice') ? 'menu-open menu-is-opening' : '' }}">
 
                     <a href="#" class="nav-link {{ (Route::currentRouteName() == 'admin.create.addsendinvoice'||
-                    Route::currentRouteName() == 'admin.allsendinvoice') ? 'active' : ''}}">
+Route::currentRouteName() == 'admin.allsendinvoice') ? 'active' : ''}}">
                         <i class="nav-icon fa fa-edit"></i>
                         <p>
                             SendInvoice
@@ -84,8 +104,8 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() ==
-                    'admin.create.addsendinvoice'||
-                    Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}">
+'admin.create.addsendinvoice'||
+Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}">
 
                         @can('sendinvoice-create')
                         <li class="nav-item">
@@ -112,18 +132,18 @@
                     </ul>
                 </li>
                 <li class="nav-item {{ (Route::currentRouteName() ==
-                    'admin.request.create' || Route::currentRouteName() ==
-                    'admin.request.list') ? 'menu-open menu-is-opening ' : ''}}">
+'admin.request.create' || Route::currentRouteName() ==
+'admin.request.list') ? 'menu-open menu-is-opening ' : ''}}">
 
                     <a href="#" class="nav-link {{ (Route::currentRouteName() ==
-                    'admin.request.create' || Route::currentRouteName() ==
-                    'admin.request.list') ? 'active' : ''}}">
+'admin.request.create' || Route::currentRouteName() ==
+'admin.request.list') ? 'active' : ''}}">
                         <i class="nav-icon fa fa-sharp fa-solid fa-file"></i>
                         <p>Requests<i class="fas fa-angle-left right"></i></p>
                     </a>
                     <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() ==
-                        'admin.request.create' || Route::currentRouteName() ==
-                        'admin.request.list' ) ? 'display: block;' : ''}}">
+    'admin.request.create' || Route::currentRouteName() ==
+    'admin.request.list' ) ? 'display: block;' : ''}}">
 
                         @can('request-create')
                         <li class="nav-item">
@@ -150,12 +170,12 @@
                     </ul>
                 </li>
                 <li class="nav-item {{ (Route::currentRouteName() ==
-                    'users.create') ||
-                    (Route::currentRouteName() == 'users.index') ? 'menu-open menu-is-opening ' : ''}}">
+'users.create') ||
+(Route::currentRouteName() == 'users.index') ? 'menu-open menu-is-opening ' : ''}}">
 
                     <a href="#" class="nav-link {{ (Route::currentRouteName() ==
-                    'users.create') ||
-                    (Route::currentRouteName() == 'users.index') ? 'active' : ''}}">
+'users.create') ||
+(Route::currentRouteName() == 'users.index') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-user-circle"></i>
                         <p>
                             Users
@@ -163,7 +183,7 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() ==
-                        'users.create') || (Route::currentRouteName() == 'users.index') ? 'display: block;' : ''}}">
+    'users.create') || (Route::currentRouteName() == 'users.index') ? 'display: block;' : ''}}">
 
                         @can('user-create')
                         <li class="nav-item">
@@ -190,10 +210,10 @@
                     </ul>
                 </li>
                 <li class="nav-item {{ (Route::currentRouteName() ==
-                        'roles.index') || (Route::currentRouteName() == 'roles.create') ? 'menu-open menu-is-opening ' : ''}}">
+    'roles.index') || (Route::currentRouteName() == 'roles.create') ? 'menu-open menu-is-opening ' : ''}}">
 
                     <a href="#" class="nav-link {{ (Route::currentRouteName() ==
-                        'roles.index') || Route::currentRouteName() == 'roles.create' ? 'active' : ''}}">
+    'roles.index') || Route::currentRouteName() == 'roles.create' ? 'active' : ''}}">
                         <i class="nav-icon fa fa-cog"></i>
                         <p>
                             Roles & Permission
@@ -201,7 +221,7 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() == 'roles.index') ||
-                    (Route::currentRouteName() == 'roles.create') ? 'display: block;' : ''}}">
+(Route::currentRouteName() == 'roles.create') ? 'display: block;' : ''}}">
 
                         @can('role-list')
                         <li class="nav-item">
@@ -251,21 +271,21 @@
                 {{-- @endcan --}}
 
                 {{-- <li class="nav-item">
-                    <a href="" class="nav-link">
-                        <i class="nav-icon fas fa-users"></i>
-                        <p>
-                            View All Agencies
-                        </p>
-                    </a>
-                </li> --}}
+<a href="" class="nav-link">
+    <i class="nav-icon fas fa-users"></i>
+    <p>
+        View All Agencies
+    </p>
+</a>
+</li> --}}
 
                 <li class="nav-item {{ (Route::currentRouteName() ==
-                    'admin.create.addinspector' || Route::currentRouteName() ==
-                    'admin.view.inspector') ? 'menu-open menu-is-opening' : ''}}">
+'admin.create.addinspector' || Route::currentRouteName() ==
+'admin.view.inspector') ? 'menu-open menu-is-opening' : ''}}">
 
                     <a href="javascript:void(0);" class="nav-link {{ (Route::currentRouteName() ==
-                        'admin.create.addinspector' || Route::currentRouteName() ==
-                        'admin.view.inspector')? 'active ' : ''}}">
+    'admin.create.addinspector' || Route::currentRouteName() ==
+    'admin.view.inspector')? 'active ' : ''}}">
                         <i class="nav-icon fas fa-user-circle"></i>
                         <p>
                             Inspectors
@@ -273,9 +293,9 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() ==
-                        'admin.create.addinspector' || Route::currentRouteName() ==
-                        'admin.view.inspector' || Route::currentRouteName() ==
-                        'admin.inspector.message') ? 'display: block;' : ''}}">
+    'admin.create.addinspector' || Route::currentRouteName() ==
+    'admin.view.inspector' || Route::currentRouteName() ==
+    'admin.inspector.message') ? 'display: block;' : ''}}">
 
                         @can('inspector-create')
                         <li class="nav-item">
@@ -312,10 +332,10 @@
                     </ul>
                 </li>
                 <li class="nav-item {{ (Route::currentRouteName() ==
-                'admin.agency.agency-register') ? 'menu-open menu-is-opening' : ''}}">
+'admin.agency.agency-register') ? 'menu-open menu-is-opening' : ''}}">
 
                     <a href="javascript:void(0);" class="nav-link {{ (Route::currentRouteName() ==
-                    'admin.agency.agency-register')? 'active ' : ''}}">
+'admin.agency.agency-register')? 'active ' : ''}}">
                         <i class="nav-icon fas fa-building"></i>
                         <p>
                             Agency
@@ -323,7 +343,7 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() ==
-                    'admin.agency.agency-register') ? 'display: block;' : ''}}">
+'admin.agency.agency-register') ? 'display: block;' : ''}}">
 
                         @can('agency-create')
                         <li class="nav-item">
@@ -379,7 +399,7 @@
 
                         {{-- @can('') --}}
                         <li class="nav-item">
-                            <a href="" class="nav-link">
+                            <a href="{{route('admin.portal.setup')}}" class="nav-link">
                                 <i class="nav-icon fas fa-cogs"></i>
                                 <p>
                                     Portal Setup
@@ -388,8 +408,19 @@
                         </li>
                         {{-- @endcan --}}
 
+                        {{-- @can('') --}}
+                        <li class="nav-item">
+                            <a href="{{route('admin.portal.mail')}}" class="nav-link">
+                                <i class="nav-icon fas fa-cogs"></i>
+                                <p>
+                                    Mail Setup
+                                </p>
+                            </a>
+                        </li>
+                        {{-- @endcan --}}
+
                         {{-- <li class="nav-item">
-                    <a href="{{ route('logout') }}" class="nav-link" >
+<a href="{{ route('logout') }}" class="nav-link" >
                         <i class="nav-icon fas fa-sign-out-alt"></i>
                         <p>
                             Logout

@@ -67,10 +67,10 @@ class MessagesListController extends Controller
          //   })->where('role', '2')-> get(['users.id','name','email','seen']);
 
                 $data = DB::table('ch_messages')
-                ->join('users', 'users.id', '=', 'ch_messages.from_id')
-                ->join('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
-                ->where('model_has_roles.role_id', '=', 2)->get();
-
+                ->leftjoin('users', 'users.id', '=', 'ch_messages.from_id')
+                ->leftjoin('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
+                ->where('model_has_roles.role_id', '=', 2)->groupBy('ch_messages.from_id')->toSql();
+                
 
               return Datatables::of($data)->addIndexColumn()
               ->addColumn('message', function($row){

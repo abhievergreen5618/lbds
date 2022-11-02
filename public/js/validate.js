@@ -337,5 +337,43 @@ $(document).ready(function () {
           }
       }
   });
+  $('#websiteconfigurationform').validate({
+      errorClass: "error fail-alert",
+      validClass: "valid success-alert",
+      rules: {
+          name: {
+              required: true,
+          },
+          email: {
+              required: true,
+              email:true,
+          },
+      },
+  });
+  $('#emailconfiguration').validate({
+      errorClass: "error fail-alert",
+      validClass: "valid success-alert",
+      rules: {
+          mail_host: {
+                required: true,
+            },
+          mail_port: {
+              required: true,
+          },
+          mail_username: {
+              required: true,
+          },
+          mail_password: {
+              required: true,
+          },
+          mail_address: {
+              required: true,
+              email:true,
+          },
+          mail_encryption: {
+              required: true,
+          },
+      },
+  });
 
 });

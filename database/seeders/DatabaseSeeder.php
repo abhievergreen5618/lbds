@@ -8,6 +8,7 @@ use Database\Seeders\CreateAdminUserSeeder;
 use Database\Seeders\PermissionTableSeeder;
 use Database\Seeders\InspectionSeeder;
 use Database\Seeders\SendInvoiceSeeder;
+use Database\Seeders\OptionsSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -23,6 +24,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             InspectionSeeder::class,
             SendInvoiceSeeder::class,
+            SendInvoiceSeeder::class,
+            OptionsSeeder::class,
         ]);
     }
 }
