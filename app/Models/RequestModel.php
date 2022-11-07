@@ -34,6 +34,8 @@ class RequestModel extends Model
         'review_at',
         'cancel_reason',
         'completed_at',
+        'inspectorcomments',
+        'agencycomments',
     ];
 
     protected $casts = [

@@ -23,21 +23,13 @@ class MessagesListController extends Controller
         //    dd($request->all());
         if ($request->ajax()) {
             $GLOBALS['count'] = 0;
-            // $data = ChMessage::join('users',  function ($join) {
-            //     $join->on('ch_messages.from_id', '=', 'users.id')
-            //         ->orOn('ch_messages.to_id', '=', 'users.id');
-            // })->where('role', '3')->get(['users.id','name','email','seen']);
-            $data = DB::table('ch_messages')
-            ->join('users', 'users.id', '=', 'ch_messages.from_id')
-            ->join('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
-            ->where('model_has_roles.role_id', '=', 3)->get();
-
+        
+            $data=DB::table('ch_messages')->join('users', 'users.id', '=', 'ch_messages.from_id')->where('type','company')->groupBy('ch_messages.from_id')->get();
             // dd($data);
             return Datatables::of($data)->addIndexColumn()
-
             ->addColumn('message', function($row){
                 $id = $row->id;
-                $chatlink = route('chatify')."/".$id;
+                $chatlink =route('chatify') . '/' . $id;
                 $btn = "<div class='d-flex justify-content-around'>
                 <a href='$chatlink' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top'
                  title='Open Chat' class='btn limegreen btn-primary  edit'>Open Chat &nbsp;<i class='fas fa-edit'></i></a>
@@ -61,21 +53,14 @@ class MessagesListController extends Controller
             //  dd($request->all());
           if ($request->ajax()) {
               $GLOBALS['count'] = 0;
-            //   $data = ChMessage::join('users',  function ($join) {
-           //       $join->on('ch_messages.from_id', '=', 'users.id')
-          //           ->orOn('ch_messages.to_id', '=', 'users.id');
-         //   })->where('role', '2')-> get(['users.id','name','email','seen']);
-
-                $data = DB::table('ch_messages')
-                ->leftjoin('users', 'users.id', '=', 'ch_messages.from_id')
-                ->leftjoin('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
-                ->where('model_has_roles.role_id', '=', 2)->groupBy('ch_messages.from_id')->toSql();
-                
-
+     
+            
+            $data=DB::table('ch_messages')->join('users', 'users.id', '=', 'ch_messages.from_id')->where('type','inspector')->groupBy('ch_messages.from_id')->get();
+             
               return Datatables::of($data)->addIndexColumn()
               ->addColumn('message', function($row){
                   $id = $row->id;
-                  $chatlink = route('chatify')."/".$id;
+                  $chatlink =route('chatify') . '/' . $id;
                   $btn = "<div class='d-flex justify-content-around'>
                   <a href='$chatlink' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top'
                    title='Open Chat' class='btn limegreen btn-primary  edit'>Open Chat &nbsp;<i class='fas fa-edit'></i></a>

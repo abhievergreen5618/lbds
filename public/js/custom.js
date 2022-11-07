@@ -316,7 +316,7 @@ $(document).ready(function () {
         "columnDefs": [
             { "className": "dt-center", "targets": "_all" },
         ],
-        "order": [ 0, 'desc' ],
+        "order": [0, 'desc'],
         "columns": [
             {
                 "data": "id",
@@ -338,7 +338,7 @@ $(document).ready(function () {
             },
             {
                 "data": "assigned_inspector",
-                "width":'100px',
+                "width": '100px',
             },
             {
                 "data": "status",
@@ -468,7 +468,7 @@ $(document).ready(function () {
                         id: userid,
                         time: result.value.time,
                         date: result.value.date,
-                        status : status,
+                        status: status,
                     },
                     dataType: 'json',
                     success: function (data) {
@@ -987,24 +987,24 @@ $(document).ready(function () {
     var myselect = $('#agency').select2({
         placeholder: "Select",
     });
-    
+
 
     //agency-module
-var agencytable = $('#agencytable').DataTable({
-    "processing": true,
-    "serverSide": true,
-    "scrollX": true,
-    "ajax": {
-        "url": "/agency-details",
-        "type": "POST",
-        'beforeSend': function(request) {
-            request.setRequestHeader("X-CSRF-TOKEN", jQuery('meta[name="csrf-token"]').attr('content'));
+    var agencytable = $('#agencytable').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "scrollX": true,
+        "ajax": {
+            "url": "/agency-details",
+            "type": "POST",
+            'beforeSend': function (request) {
+                request.setRequestHeader("X-CSRF-TOKEN", jQuery('meta[name="csrf-token"]').attr('content'));
+            },
         },
-    },
-    "columnDefs": [
-        { "className": "dt-center", "targets": "_all" }
-    ],
-    "columns": [{
+        "columnDefs": [
+            { "className": "dt-center", "targets": "_all" }
+        ],
+        "columns": [{
             "data": "company_name",
         },
         {
@@ -1032,78 +1032,78 @@ var agencytable = $('#agencytable').DataTable({
             "data": "action",
         },
 
-    ],
-});
-
-
-agencytable.on('click', '.delete', function() {
-    $('#userdetails_processing').show();
-    element = $(this);
-    var userid = $(this).attr('data-id');
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-        if (result.value) {
-            $.ajax({
-                type: "POST",
-                headers: {
-                    'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-                },
-                url: 'agency-delete',
-                data: {
-                    id: userid
-                },
-                dataType: 'json',
-                success: function(data) {
-                    agencytable.ajax.reload();
-                },
-                error: function(data) {
-                    // console.log(data);
-                }
-            });
-        };
+        ],
     });
-});
 
-agencytable.on('click', '.status', function() {
-    element = $(this);
-    var userid = $(this).attr('data-id');
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "You will be able to revert this!",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes!'
-    }).then((result) => {
-        if (result.value) {
-            $.ajax({
-                type: "POST",
-                headers: {
-                    'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-                },
-                url: 'inspector-status-update',
-                data: {
-                    id: userid
-                },
-                dataType: 'json',
-                success: function(data) {
-                    agencytable.ajax.reload();
-                },
-                error: function(data) {
-                    // console.log(data);
-                }
-            });
-        };
+
+    agencytable.on('click', '.delete', function () {
+        $('#userdetails_processing').show();
+        element = $(this);
+        var userid = $(this).attr('data-id');
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: 'agency-delete',
+                    data: {
+                        id: userid
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        agencytable.ajax.reload();
+                    },
+                    error: function (data) {
+                        // console.log(data);
+                    }
+                });
+            };
+        });
     });
-});
+
+    agencytable.on('click', '.status', function () {
+        element = $(this);
+        var userid = $(this).attr('data-id');
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You will be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: 'inspector-status-update',
+                    data: {
+                        id: userid
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        agencytable.ajax.reload();
+                    },
+                    error: function (data) {
+                        // console.log(data);
+                    }
+                });
+            };
+        });
+    });
 
 
 });
@@ -1151,57 +1151,78 @@ $(document).ready(function () {
         },
     });
 
+
     $('#submit-btn').click(function () {
         if ($('#requestform').valid()) {
-            var myagencyfilesnew = myagencyfiles.get(0).dropzone;
-            var myreportfilesnew = myreportfiles.get(0).dropzone;
-            if (myagencyfilesnew.files.length == 0 && myreportfilesnew.files.length == 0) {
-                requestformsubmit();
-            }
-            else if (myagencyfilesnew.files.length != 0 && myreportfilesnew.files.length == 0) {
-                myagencyfilesnew.on('sending', function (file, xhr, formData) {
-                    formData.append('type', $(myagencyfiles).attr("id"));
-                });
-                myagencyfilesnew.processQueue();
-                myagencyfilesnew.on("queuecomplete", function () {
-                    $('.dz-remove').remove();
+            if (myreportfiles.length != 0) {
+                var myagencyfilesnew = myagencyfiles.get(0).dropzone;
+                var myreportfilesnew = myreportfiles.get(0).dropzone;
+                if (myagencyfilesnew.files.length == 0 && myreportfilesnew.files.length == 0) {
                     requestformsubmit();
-                });
+                }
+                else if (myagencyfilesnew.files.length != 0 && myreportfilesnew.files.length == 0) {
+                    myagencyfilesnew.on('sending', function (file, xhr, formData) {
+                        formData.append('type', $(myagencyfiles).attr("id"));
+                    });
+                    myagencyfilesnew.processQueue();
+                    myagencyfilesnew.on("queuecomplete", function () {
+                        $('.dz-remove').remove();
+                        requestformsubmit();
+                    });
+                }
+                else if (myagencyfilesnew.files.length == 0 && myreportfilesnew.files.length != 0) {
+                    myreportfilesnew.on('sending', function (file, xhr, formData) {
+                        formData.append('type', $(myreportfiles).attr("id"));
+                    });
+                    myreportfilesnew.processQueue();
+                    myreportfilesnew.on("queuecomplete", function () {
+                        $('.dz-remove').remove();
+                        requestformsubmit();
+                    });
+                }
+                else {
+                    var count = 0;
+                    myagencyfilesnew.on('sending', function (file, xhr, formData) {
+                        formData.append('type', $(myagencyfiles).attr("id"));
+                    });
+                    myreportfilesnew.on('sending', function (file, xhr, formData) {
+                        formData.append('type', $(myreportfiles).attr("id"));
+                    });
+                    myagencyfilesnew.processQueue();
+                    myreportfilesnew.processQueue();
+                    myagencyfilesnew.on("queuecomplete", function () {
+                        count++;
+                        $('.dz-remove').remove();
+                        if (count == 2) {
+                            requestformsubmit();
+                        }
+                    });
+                    myreportfilesnew.on("queuecomplete", function () {
+                        count++;
+                        $('.dz-remove').remove();
+                        if (count == 2) {
+                            requestformsubmit();
+                        }
+                    });
+                }
             }
-            else if (myagencyfilesnew.files.length == 0 && myreportfilesnew.files.length != 0) {
-                myreportfilesnew.on('sending', function (file, xhr, formData) {
-                    formData.append('type', $(myreportfiles).attr("id"));
-                });
-                myreportfilesnew.processQueue();
-                myreportfilesnew.on("queuecomplete", function () {
-                    $('.dz-remove').remove();
+            else
+            {
+                var myagencyfilesnew = myagencyfiles.get(0).dropzone;
+                if (myagencyfilesnew.files.length == 0) {
                     requestformsubmit();
-                });
-            }
-            else {
-                var count = 0;
-                myagencyfilesnew.on('sending', function (file, xhr, formData) {
-                    formData.append('type', $(myagencyfiles).attr("id"));
-                });
-                myreportfilesnew.on('sending', function (file, xhr, formData) {
-                    formData.append('type', $(myreportfiles).attr("id"));
-                });
-                myagencyfilesnew.processQueue();
-                myreportfilesnew.processQueue();
-                myagencyfilesnew.on("queuecomplete", function () {
-                    count++;
-                    $('.dz-remove').remove();
-                    if (count == 2) {
+                }
+                else 
+                {
+                    myagencyfilesnew.on('sending', function (file, xhr, formData) {
+                        formData.append('type', $(myagencyfiles).attr("id"));
+                    });
+                    myagencyfilesnew.processQueue();
+                    myagencyfilesnew.on("queuecomplete", function () {
+                        $('.dz-remove').remove();
                         requestformsubmit();
-                    }
-                });
-                myreportfilesnew.on("queuecomplete", function () {
-                    count++;
-                    $('.dz-remove').remove();
-                    if (count == 2) {
-                        requestformsubmit();
-                    }
-                });
+                    });
+                }
             }
             return false;
         }

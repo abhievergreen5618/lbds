@@ -6,24 +6,26 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Inspectiontype;
 use DataTables;
+use Spatie\Permission\Models\Role;
+use App\Models\User;
+use Illuminate\Support\Facades\Validator;
+use App\Models\Options;
 
 class InspectionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    function __construct()
+    {
+         $this->middleware('permission:inspection-list', ['only' => ['show','display']]);
+         $this->middleware('permission:inspection-create', ['only' => ['index','store']]);
+         $this->middleware('permission:inspection-edit', ['only' => ['index','update']]);
+         $this->middleware('permission:inspection-delete', ['only' => ['destroy']]);
+    }
+    
     public function index()
     {
         return view('admin.inspection.addinspectiontype');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create(Request $request)
     {
         $request->validate([
@@ -68,9 +70,18 @@ class InspectionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show(Options $option)
     {
-        return view('admin.inspection.allinspectiontype');
+        $roles = Role::orderBy('id','DESC')->pluck('name','id');
+        $user = User::role('company')->orderBy('id','DESC')->pluck('name','id');
+        $disableinspectionroles = $option->get_option("disableinspectionroles");
+        $disableinspectionusers = $option->get_option("disableinspectionusers");
+        return view('admin.inspection.allinspectiontype')->with([
+            "roles" => $roles,
+            "user" => $user,
+            "disableinspectionroles" => $disableinspectionroles,
+            "disableinspectionusers" => $disableinspectionusers,
+        ]);
     }
 
     /**
@@ -79,9 +90,22 @@ class InspectionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function disableshow(Request $request,Options $option)
     {
-        //
+        if ($request->ajax()) {
+            $validator = Validator::make($request->all(), [
+                "id" => 'required',
+                "show" => 'required',
+            ]);
+            if ($validator->fails()) {
+                $msg = "OOps! Something Went Wrong";
+                return response()->json(array("msg" => $msg), 422);
+            } else {
+                $option->updatedisableinspection($request['show'],decrypt($request['id']),$request['action']);
+                $msg = "Inspection Type Disabled Successfully";
+                return response()->json(array("msg" => $msg), 200);
+            }
+        }
     }
 
     /**

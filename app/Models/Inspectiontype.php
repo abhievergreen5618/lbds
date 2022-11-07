@@ -14,6 +14,12 @@ class Inspectiontype extends Model
     protected $fillable = [
         'name',
         'description',
+        'showroles',
+        'showusers',
         'status',
+    ];
+    protected $casts = [
+        "showroles" => "array",
+        "showusers" => "array",
     ];
 }

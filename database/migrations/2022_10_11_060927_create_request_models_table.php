@@ -26,6 +26,8 @@ return new class extends Migration
             $table->string('state')->nullable();
             $table->string('zipcode')->nullable();
             $table->string('comments')->nullable();
+            $table->string('inspectorcomments')->nullable();
+            $table->string('agencycomments')->nullable();
             $table->string('sendinvoice')->nullable();
             $table->string('assigned_ins')->nullable();
             $table->string('ins_fee')->nullable();

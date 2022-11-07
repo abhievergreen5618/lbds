@@ -81,6 +81,7 @@ Route::controller(InspectionController::class)->group(function () {
     Route::post('/inspectiontypedetails','display')->name('inspectiontypedetails');
     Route::post('/inspection-type-status-update','status')->name('inspection-type-status-update');
     Route::post('/inspection-type-delete','destroy')->name('inspection-type-delete');
+    Route::post('/disableshow','disableshow')->name('disableshow'); 
 });
 Route::controller(SendInvoiceController::class)->group(function () {
     Route::get('/add-send-invoice', 'index')->name('admin.create.addsendinvoice');

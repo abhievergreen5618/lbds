@@ -291,7 +291,7 @@
                                     <td>Inspection Fee</td>
                                     <td><input type="number" name="ins_fee" id="ins_fee" placeholder="Inspection Fee" value="{{old('ins_fee',$requestdetails->ins_fee)}}"></td>
                                 </tr>
-                                @if(!empty($data) && count($data) != 0)
+                                @if(!empty($data) && count($data) != 0 && !empty($requestdetails['inspectiontype']))
                                 <tr>
                                     <td>Inspection Type</td>
                                     <td>
@@ -315,6 +315,14 @@
                                 <tr>
                                     <td>Comments:</td>
                                     <td><textarea class="form-control" rows="3" placeholder="Enter Comments" name="comments" id="comments">{{old('comments',$requestdetails->comments)}}</textarea></td>
+                                </tr>
+                                <tr>
+                                    <td>Agency Comment:</td>
+                                    <td><textarea class="form-control" rows="3" placeholder="Enter Agency Comment" name="agencycomments" id="agencycomments">{{old('agencycomments',$requestdetails->agencycomments)}}</textarea></td>
+                                </tr>
+                                <tr>
+                                    <td>Inspector Comment:</td>
+                                    <td><textarea class="form-control" rows="3" placeholder="Enter Inspector Comment" name="inspectorcomments" id="inspectorcomments">{{old('inspectorcomments',$requestdetails->inspectorcomments)}}</textarea></td>
                                 </tr>
                             </tbody>
                             <tfoot>

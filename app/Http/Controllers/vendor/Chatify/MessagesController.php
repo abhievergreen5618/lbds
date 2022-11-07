@@ -64,7 +64,7 @@ class MessagesController extends Controller
         {
             return view('Chatify::pages.app', ['id' => $id ?? 0,'type' => $type ?? 'user','messengerColor' => Auth::user()->messenger_color ?? $this->messengerFallbackColor,'dark_mode' => Auth::user()->dark_mode < 1 ? 'light' : 'dark',]);
         }
-        else if(Auth::user()->hasRole("company") || Auth::user()->hasRole("inspector"))
+        else if(Auth::user()->hasRole("company") || Auth::user()->hasRole("inspector") )
         {
             return (in_array($id,$validid)) ? view('Chatify::pages.app', ['id' => $id ?? 0,'type' => $type ?? 'user','messengerColor' => Auth::user()->messenger_color ?? $this->messengerFallbackColor,'dark_mode' => Auth::user()->dark_mode < 1 ? 'light' : 'dark',]) :  view('layouts.error.errorPage');
         }
@@ -81,6 +81,7 @@ class MessagesController extends Controller
      */
     public function idFetchData(Request $request)
     {
+       
         // Favorite
         $favorite = Chatify::inFavorite($request['id']);
 
@@ -91,6 +92,7 @@ class MessagesController extends Controller
             //     $userAvatar = Chatify::getUserWithAvatar($fetch)->avatar;
             // }
             $userAvatar = asset('images/profile/profile.jpg');
+            
         }
 
         // send the response
@@ -125,6 +127,7 @@ class MessagesController extends Controller
      */
     public function send(Request $request)
     {
+        // dd($request);
         // default variables
         $error = (object)[
             'status' => 0,
@@ -158,13 +161,17 @@ class MessagesController extends Controller
                 $error->message = "File size you are trying to upload is too large!";
             }
         }
-
+        $userrole = Auth::user();
+        // $userrole->getRoleNames()->pluck('name')->implode(',');
+        // dd('am here ',$userrole->getRoleNames()->implode(','));
+       
+     
         if (!$error->status) {
             // send to database
             $messageID = mt_rand(9, 999999999) + time();
             Chatify::newMessage([
                 'id' => $messageID,
-                'type' => $request['type'],
+                'type' =>$userrole->getRoleNames()->implode(','),
                 'from_id' => Auth::user()->id,
                 'to_id' => $request['id'],
                 'body' => htmlentities(trim($request['message']), ENT_QUOTES, 'UTF-8'),
@@ -256,6 +263,7 @@ class MessagesController extends Controller
      */
     public function getContacts(Request $request)
     {
+     
         // get all users that received/sent message from/to [Auth user]
         $users = Message::join('users',  function ($join) {
             $join->on('ch_messages.from_id', '=', 'users.id')
@@ -272,7 +280,7 @@ class MessagesController extends Controller
         ->paginate($request->per_page ?? $this->perPage);
 
         $usersList = $users->items();
-
+// dd($usersList);
         if (count($usersList) > 0) {
             $contacts = '';
             foreach ($usersList as $user) {
@@ -298,13 +306,16 @@ class MessagesController extends Controller
     public function updateContactItem(Request $request)
     {
         // Get user data
+// dd($request->all());
         $user = User::where('id', $request['user_id'])->first();
+        dd($user);
         if(!$user){
             return Response::json([
                 'message' => 'User not found!',
             ], 401);
         }
         $contactItem = Chatify::getContactItem($user);
+        // dd($contactItem);
 
         // send the response
         return Response::json([
@@ -371,6 +382,7 @@ class MessagesController extends Controller
      */
     public function search(Request $request)
     {
+        // dd( Auth::user()->getRoleNames()->implode(','),);
         $getRecords = null;
         $input = trim(filter_var($request['input']));
         $records = User::where('id','!=',Auth::user()->id)
@@ -379,7 +391,7 @@ class MessagesController extends Controller
         foreach ($records->items() as $record) {
             $getRecords .= view('Chatify::layouts.listItem', [
                 'get' => 'search_item',
-                'type' => 'user',
+                'type' => Auth::user()->getRoleNames()->implode(','),
                 'user' => Chatify::getUserWithAvatar($record),
             ])->render();
         }

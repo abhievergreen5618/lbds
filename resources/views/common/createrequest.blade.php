@@ -129,6 +129,13 @@
                         <label for="comments">{{ __('Comments') }}</label>
                         <textarea class="form-control" rows="3" placeholder="Enter Comments" name="comments" id="comments"></textarea>
                     </div>
+                    @role('company')
+                    <div class="col-md-12 my-2">
+                        <label for="relatedfiles">{{ __('Agency Related Files') }}</label>
+                        <div class="dropzone" id="agencyfiles"></div>
+                    </div>
+                    @endrole
+                    @role('admin')
                     <div class="col-md-6 my-2">
                         <label for="relatedfiles">{{ __('Agency Related Files') }}</label>
                         <div class="dropzone" id="agencyfiles"></div>
@@ -137,6 +144,7 @@
                         <label for="relatedfiles">{{ __('Reports Related Files') }}</label>
                         <div class="dropzone" id="reportfiles"></div>
                     </div>
+                    @endrole
                 </div>
             </div>
             <div class="card-footer">

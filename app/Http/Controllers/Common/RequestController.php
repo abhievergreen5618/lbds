@@ -13,10 +13,12 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use App\Mail\Admin\Inspectorassign;
+use App\Models\Options;
 use Illuminate\Support\Facades\Mail;
+use Spatie\Permission\Models\Role;
 
 class RequestController extends Controller
-{ 
+{
     function __construct()
     {
         // $this->middleware('permission:request-list|request-create|request-edit|request-delete', ['only' => ['index', 'show']]);
@@ -25,9 +27,9 @@ class RequestController extends Controller
         $this->middleware('permission:request-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:request-delete', ['only' => ['destroy']]);
     }
-    public function index()
+    public function index(Options $option)
     {
-        $data = Inspectiontype::where("status", "active")->pluck("name", "id");
+
         $invoicedata = SendInvoice::where("status", "active")->pluck("name", "id");
         if (!session()->has('taskid')) {
             $id = RequestModel::create(["agency_related_files" => []]);
@@ -35,6 +37,24 @@ class RequestController extends Controller
             session()->put('taskid', $id);
         } else {
             $id = session()->get('taskid');
+        }
+        $disableinspectionroles = $option->get_option("disableinspectionroles");
+        $disableinspectionusers = $option->get_option("disableinspectionusers");
+        if(!empty($disableinspectionroles) || !empty($disableinspectionroles))
+        {
+            $roleid = Role::where("name", Auth::user()->roles->pluck('name')[0])->first("id");
+            if(!in_array($roleid['id'], json_decode($disableinspectionroles, true)) || !in_array(Auth::user()->id, json_decode($disableinspectionusers, true)))
+            {
+                $data = Inspectiontype::where("status", "active")->pluck("name", "id");
+            } 
+            else 
+            {
+                $data = "";
+            }
+        }
+        else
+        {
+            $data = Inspectiontype::where("status", "active")->pluck("name", "id");
         }
         // session()->forget('taskid');
         if (Auth::user()->hasRole("admin")) {
@@ -56,7 +76,7 @@ class RequestController extends Controller
         $request->validate(
             [
                 "agency" => "required",
-                "inspectiontype" => "required",
+                // "inspectiontype" => "required",
                 "applicantname" => "required",
                 "applicantemail" => "required",
                 "applicantmobile" => "required",
@@ -164,8 +184,8 @@ class RequestController extends Controller
         //     'companydetails' => $companydetails,
         // ]);  
         $subject = "Inspectorassign";
-        Mail::to($insemail['email'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails,$subject));
-        Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails,$subject));
+        Mail::to($insemail['email'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
+        Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
         $current_date_time = Carbon::now()->toDateTimeString();
         RequestModel::where(["id" => decrypt($reqid)])->update([
             "assigned_ins" => decrypt($id),
@@ -219,6 +239,8 @@ class RequestController extends Controller
             "sendinvoice" => $request['sendinvoice'],
             "comments" => $request['comments'],
             "ins_fee" => $request['ins_fee'],
+            "agencycomments" => $request['agencycomments'],
+            "inspectorcomments" => $request['inspectorcomments'],
         ]);
         return redirect()->back()->with('msg', 'Request Updated Successfully');
     }
@@ -235,9 +257,13 @@ class RequestController extends Controller
                 })
                 ->addColumn('inspectiontype', function ($row) {
                     $returnvalue = "";
-                    foreach ($row->inspectiontype as $value) {
-                        $inspectiontype = Inspectiontype::where(["id" => $value])->first("name");
-                        $returnvalue = $returnvalue . $inspectiontype['name'] . "<br>";
+                    if (!empty($row->inspectiontype)) {
+                        foreach ($row->inspectiontype as $value) {
+                            $inspectiontype = Inspectiontype::where(["id" => $value])->first("name");
+                            $returnvalue = $returnvalue . $inspectiontype['name'] . "<br>";
+                        }
+                    } else {
+                        $returnvalue = "Inspection Type Not Applicable";
                     }
                     return $returnvalue;
                 })
@@ -287,9 +313,13 @@ class RequestController extends Controller
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('inspectiontype', function ($row) {
                     $returnvalue = "";
-                    foreach ($row->inspectiontype as $value) {
-                        $inspectiontype = Inspectiontype::where(["id" => $value])->first("name");
-                        $returnvalue = $returnvalue . $inspectiontype['name'] . "<br>";
+                    if (!empty($row->inspectiontype)) {
+                        foreach ($row->inspectiontype as $value) {
+                            $inspectiontype = Inspectiontype::where(["id" => $value])->first("name");
+                            $returnvalue = $returnvalue . $inspectiontype['name'] . "<br>";
+                        }
+                    } else {
+                        $returnvalue = "Inspection Type Not Applicable";
                     }
                     return $returnvalue;
                 })
@@ -471,7 +501,7 @@ class RequestController extends Controller
                 "required" => "Field is required.",
             ]
         );
-        $this->send_email($request['id'],"scheduled");
+        $this->send_email($request['id'], "scheduled");
         RequestModel::where('id', decrypt($request['id']))->update([
             "status" => "scheduled",
             "schedule_at" => $request->date,
@@ -493,9 +523,8 @@ class RequestController extends Controller
             if ($validator->fails()) {
                 $msg = "OOps! Something Went Wrong";
                 return response()->json(array("msg" => $msg), 422);
-            }
-            else {
-                $this->send_email($request['id'],"scheduled");
+            } else {
+                $this->send_email($request['id'], "scheduled");
                 RequestModel::where('id', decrypt($request['id']))->update([
                     "status" => "scheduled",
                     "schedule_at" => $request->date,
@@ -519,7 +548,7 @@ class RequestController extends Controller
                 return response()->json(array("msg" => $msg), 422);
             } else {
                 $current_date_time = Carbon::now()->toDateTimeString();
-                $this->send_email($request['id'],"underreview");
+                $this->send_email($request['id'], "underreview");
                 RequestModel::where('id', decrypt($request['id']))->update([
                     "status" => "underreview",
                     "review_at" => $current_date_time,
@@ -538,7 +567,7 @@ class RequestController extends Controller
                 "id" => 'required',
             ]
         );
-        $this->send_email($request['id'],"cancelled");
+        $this->send_email($request['id'], "cancelled");
         RequestModel::where('id', decrypt($request['id']))->update([
             "status" => "cancelled",
             "cancel_reason" => $request['msg'],
@@ -560,7 +589,7 @@ class RequestController extends Controller
                 return response()->json(array("msg" => $msg), 422);
             } else {
                 $current_date_time = Carbon::now()->toDateTimeString();
-                $this->send_email($request['id'],"completed");
+                $this->send_email($request['id'], "completed");
                 RequestModel::where('id', decrypt($request['id']))->update([
                     "status" => "completed",
                     "completed_at" => $current_date_time,
@@ -571,36 +600,27 @@ class RequestController extends Controller
         }
     }
 
-    public function send_email($id,$status)
+    public function send_email($id, $status)
     {
         // $data = RequestModel::leftJoin('users  AS inspector','inspector.id', '=', 'request_models.assigned_ins')
         // ->leftJoin('users AS company','company.id', '=', 'request_models.company_id')
         // ->where("request_models.id",decrypt($id))->get();
-        if($status == "scheduled")
-        {
+        if ($status == "scheduled") {
             $subject = "Request Scheduled";
-        }
-        else if($status == "rescheduled")
-        {
+        } else if ($status == "rescheduled") {
             $subject = "Request Rescheduled";
-        }
-        else if($status == "cancelled")
-        {
+        } else if ($status == "cancelled") {
             $subject = "Request Cancelled";
-        }
-        else if($status == "underreview")
-        {
+        } else if ($status == "underreview") {
             $subject = "Request Underreview";
-        }
-        else if($status == "completed")
-        {
+        } else if ($status == "completed") {
             $subject = "Request Completed";
         }
         $requestdetails = RequestModel::where("id", decrypt($id))->first();
-        $insdetails = User::where("id",$requestdetails['assigned_ins'])->first();
+        $insdetails = User::where("id", $requestdetails['assigned_ins'])->first();
         $companydetails = User::where("id", $requestdetails['company_id'])->first();
-        Mail::to($insdetails['email'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails,$subject));
-        Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails,$subject));
+        Mail::to($insdetails['email'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
+        Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
     }
 
 
