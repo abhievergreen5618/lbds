@@ -18,7 +18,6 @@ class Options extends Model
     {
         $option = Options::where("option_name",$optionname)->first();
         return (!empty($option)) ? $option["option_value"] : "";
-
     }
     public function option_exist($optionname)
     {

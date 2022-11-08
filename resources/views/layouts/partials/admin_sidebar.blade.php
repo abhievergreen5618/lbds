@@ -14,10 +14,12 @@ $menuoptions =
 ]
 ],
 ];
+
+
+use Illuminate\Support\Facades\DB;
+$pendingCount= DB::table('users')->where('approved','Pending')->count();
+$disapprovedCount= DB::table('users')->where('approved','Disapproved')->count();
 @endphp
-
-
-
 
 
 
@@ -366,6 +368,26 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                             </a>
                         </li>
                         @endcan
+
+                        <li class="nav-item">
+                            <a href="{{ route('admin.adminlist.view') }}" class="nav-link">
+                                <i class="nav-icon fas fa-times"></i>
+                                <p>
+                                  Pending Agencies 
+                                  <span class="right badge badge-warning">{{ $pendingCount }}</span>
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('admin.disapproved.view') }}" class="nav-link">
+                                <i class="nav-icon fas fa-times"></i>
+                                <p>
+                                 Disapproved Agencies 
+                                  <span class="right badge badge-danger">{{ $disapprovedCount }}</span>
+                                </p>
+                            </a>
+                        </li>
 
                         {{-- @can('') --}}
                         <li class="nav-item">

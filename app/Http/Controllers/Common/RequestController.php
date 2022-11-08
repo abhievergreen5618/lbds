@@ -40,21 +40,24 @@ class RequestController extends Controller
         }
         $disableinspectionroles = $option->get_option("disableinspectionroles");
         $disableinspectionusers = $option->get_option("disableinspectionusers");
-        if(!empty($disableinspectionroles) || !empty($disableinspectionroles))
+        $roledisable = false;
+        if(!empty($disableinspectionroles))
         {
             $roleid = Role::where("name", Auth::user()->roles->pluck('name')[0])->first("id");
-            if(!in_array($roleid['id'], json_decode($disableinspectionroles, true)) || !in_array(Auth::user()->id, json_decode($disableinspectionusers, true)))
-            {
-                $data = Inspectiontype::where("status", "active")->pluck("name", "id");
-            } 
-            else 
-            {
-                $data = "";
-            }
+            $roledisable = (in_array($roleid['id'], json_decode($disableinspectionroles, true))) ? true : false;
+        }
+
+        if($roledisable == false && !empty($disableinspectionusers))
+        {
+            $data = (!in_array(Auth::user()->id, json_decode($disableinspectionusers, true))) ? Inspectiontype::where("status", "active")->pluck("name", "id") : "";
+        }
+        else if($roledisable == false)
+        {
+            $data = Inspectiontype::where("status", "active")->pluck("name", "id");
         }
         else
         {
-            $data = Inspectiontype::where("status", "active")->pluck("name", "id");
+            $data = "";
         }
         // session()->forget('taskid');
         if (Auth::user()->hasRole("admin")) {

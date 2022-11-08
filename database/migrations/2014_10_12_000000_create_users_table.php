@@ -34,6 +34,7 @@ return new class extends Migration
             $table->string('state')->nullable();
             $table->string('profile_img')->nullable();
             $table->string('status')->default("active");
+            $table->string('approved')->default("Pending");
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

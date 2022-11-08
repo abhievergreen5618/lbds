@@ -13,7 +13,7 @@
             <div class="card-header">
                 <h3 class="card-title">{{ __('Add New Agency') }}</h3>
             </div>
-                <form method="post" action="@if(isset($data)) {{route('admin.agency.update-agency')}} 
+                <form id="{{ (isset($data)) ? 'agencyupdateform' : 'agencyaddform' }}" method="post" action="@if(isset($data)) {{route('admin.agency.update-agency')}} 
                 @else{{ route('admin.agency.agency-insert') }} @endif" class="agency-register-form" id="agency-register-form">
                     @csrf
                     @isset($data)
@@ -121,7 +121,8 @@
                                     </div>
                                 @enderror
                             </div>
-
+                            
+                            @if(empty($data->id))
                             <div class="col-md-6 form-group">
                                 <label for="password" class="form-label">{{ __('Password') }}</label>
                                 <input id="password" type="password"
@@ -150,6 +151,12 @@
                                     </div>
                                 @enderror
                             </div>
+                        @else
+                        <a href="{{ route('admin.agency.passwordReset',['id'=>encrypt($data->id)]) }}" class="btn btn-primary" id="reset-password">Reset Password</a>
+                          
+                           
+                            @endif
+
                         </div>
 
                     </div>

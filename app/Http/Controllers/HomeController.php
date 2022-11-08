@@ -14,7 +14,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth','verified']);
+        $this->middleware(['auth', 'verified']);
     }
 
     /**
@@ -24,17 +24,23 @@ class HomeController extends Controller
      */
     public function index()
     {
-        switch(Auth::user()->role)
-        {
-            case 1:
-                return view('admin.dashboard');
-                break;
-            case 2:
-                return view('inspector.dashboard');
-                break;
-            default:
-                return view('company.dashboard');
-                break;
+        if (Auth::user()->approved == "Pending" || Auth::user()->approved == "Disapproved") {
+            Auth::logout();
+            return view('admin.agency.approval');
+        } else {
+            // return redirect('/home');
+
+            switch (Auth::user()->role) {
+                case 1:
+                    return view('admin.dashboard');
+                    break;
+                case 2:
+                    return view('inspector.dashboard');
+                    break;
+                default:
+                    return view('company.dashboard');
+                    break;
+            }
         }
     }
 }

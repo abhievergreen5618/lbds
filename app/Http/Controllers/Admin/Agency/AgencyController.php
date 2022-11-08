@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Agency;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use DataTables;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class AgencyController extends Controller
 {
@@ -59,6 +60,7 @@ class AgencyController extends Controller
         $user->save();
         $role = Role::findByName('company');
         $user->assignRole([$role->id]);
+        DB::table('users')->where('id', $user->id)->update(['approved' => "Approved"]);
         return redirect()->route('admin.agency.agency-view')->with('msg','Record Save Successfully.');
       
     }
@@ -176,4 +178,25 @@ class AgencyController extends Controller
         $msg = "Deleted Successfully";
         return response()->json(array("msg" => $msg), 200);
     }
+
+    public function passwordReset(Request $request)
+    {
+
+        $data = User::where('id', decrypt($request['id']))->first();
+        return view('admin.agency.passwordReset')->with(["data" => $data]);
+    }
+
+    public function updatepassword(Request $request, User $agency)
+    {
+
+        $request->validate([
+            'password'                   =>  ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+        User::where('id', decrypt($request['id']))->update([
+            "password" => Hash::make($request->password),
+        ]);
+
+        return redirect()->route('admin.agency.agency-view')->with("msg", "Record Updated Successfully");
+    }
+
 }

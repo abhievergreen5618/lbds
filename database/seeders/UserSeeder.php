@@ -24,6 +24,7 @@ class UserSeeder extends Seeder
             "email" => "testadmin@gmail.com",
             "password" => Hash::make("12345678"),
             "email_verified_at" => Carbon::now()->timestamp,
+            "approved"    => "Approved",
         ]);
         $role = Role::create(['name' => 'admin']);
         
@@ -38,6 +39,7 @@ class UserSeeder extends Seeder
             "email" => "bishoples@gmail.com",
             "password" => Hash::make("12345678"),
             "email_verified_at" => Carbon::now()->timestamp,
+             "approved"    => "Approved",
         ]);
         
         // $permissions = Permission::pluck('id','id')->all();
@@ -50,9 +52,9 @@ class UserSeeder extends Seeder
             "email" => "testinspector@gmail.com",
             "password" => Hash::make("12345678"),
             "email_verified_at" => Carbon::now()->timestamp,
+            "approved"    => "Approved",
         ]);
         $role = Role::create(['name' => 'inspector']);
-        $role->givePermissionTo('request-list');
         $user->assignRole([$role->id]);
         
         $user = User::create([
@@ -61,6 +63,7 @@ class UserSeeder extends Seeder
             "company_name" => "Wind Mitigation",
             "email_verified_at" => Carbon::now()->timestamp,
             "password" => Hash::make("12345678"),
+            "approved"    => "Approved",
         ]);
         $role = Role::create(['name' => 'company']);
         $role->givePermissionTo('request-create');

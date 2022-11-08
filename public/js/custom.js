@@ -995,7 +995,7 @@ $(document).ready(function () {
         "serverSide": true,
         "scrollX": true,
         "ajax": {
-            "url": "/agency-details",
+            "url": "agency-details",
             "type": "POST",
             'beforeSend': function (request) {
                 request.setRequestHeader("X-CSRF-TOKEN", jQuery('meta[name="csrf-token"]').attr('content'));
@@ -1105,7 +1105,147 @@ $(document).ready(function () {
         });
     });
 
-
+    var agencyApprovaltable = $('#agencyApprovaltable').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "scrollX": true,
+        "ajax": {
+            "url": "agency-list/details",
+            "type": "POST",
+            'beforeSend': function(request) {
+                request.setRequestHeader("X-CSRF-TOKEN", jQuery('meta[name="csrf-token"]').attr('content'));
+            },
+        },
+        "columnDefs": [
+            { "className": "dt-center", "targets": "_all" }
+        ],
+        "columns": [{
+                "data": "company_name",
+            },
+            {
+                "data": "name",
+            },
+            {
+                "data": "email",
+            },
+            {
+                "data": "zip_code",
+            },
+            {
+                "data": "approved",
+            },
+        ],
+    });
+    
+    
+    agencyApprovaltable.on('change', '.approved', function() {
+        element = $(this);
+        var userid = $(this).find(':selected').attr('data-id');
+        var status = $(this).find(':selected').val();
+    
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You will be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: 'agency-approval/status/update',
+                    data: {
+                        id: userid,
+                        "status": status,
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        agencyApprovaltable.ajax.reload();
+                    },
+                    error: function(data) {
+                        // console.log(data);
+                    }
+                });
+            };
+        });
+    });
+    
+    
+    
+    var agencydisapprovedtable = $('#agencydisapprovedtable').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "scrollX": true,
+        "ajax": {
+            "url": "details",
+            "type": "POST",
+            'beforeSend': function(request) {
+                request.setRequestHeader("X-CSRF-TOKEN", jQuery('meta[name="csrf-token"]').attr('content'));
+            },
+        },
+        "columnDefs": [
+            { "className": "dt-center", "targets": "_all" }
+        ],
+        "columns": [{
+                "data": "company_name",
+            },
+            {
+                "data": "name",
+            },
+            {
+                "data": "email",
+            },
+            {
+                "data": "zip_code",
+            },
+            {
+                "data": "approved",
+            },
+        ],
+    });
+    
+    
+    agencydisapprovedtable.on('change', '.approved', function() {
+        element = $(this);
+        var userid = $(this).find(':selected').attr('data-id');
+        var status = $(this).find(':selected').val();
+    
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You will be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: 'agency-approval/status/update',
+                    data: {
+                        id: userid,
+                        "status": status,
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        agencydisapprovedtable.ajax.reload();
+                    },
+                    error: function(data) {
+                        // console.log(data);
+                    }
+                });
+            };
+        });
+    });
 });
 
 // new dropzone code

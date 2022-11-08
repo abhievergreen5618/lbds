@@ -63,7 +63,7 @@
                                 </div>
                                 @enderror
                             </div>
-                        
+
                             <div class="col-lg-6 my-2">
                                 <label for="email">{{ __('Login Email') }}</label>
                                 <input type="email"  value="{{@old('email',$data->email)}}" class="form-control  @error('email') {{ 'is-invalid' }} @enderror" id="email" name="email" placeholder="Email Address">
@@ -73,15 +73,8 @@
                                 </div>
                                 @enderror
                             </div>
-                            <div class="col-lg-6 my-2">
-                                <label for="password">{{ __('Login Password') }}</label>
-                                <input type="password"  class="form-control @error('password') {{ 'is-invalid' }} @enderror" id="password" name="password" placeholder="Password">
-                                @error('password')
-                                <div>
-                                    <label class="error fail-alert  mt-1">{{ $message }}</label>
-                                </div>
-                                @enderror
-                            </div>
+
+                           
                         
                             <div class="col-lg-6  my-2">
                                 <label for="area_coverage">{{ __('Area of Coverage') }}</label>
@@ -101,6 +94,22 @@
                                 </div>
                                 @enderror
                             </div>
+                            
+                            @if(empty($data->id))
+                            <div class="col-lg-6 my-2">
+                                <label for="password">{{ __('Login Password') }}</label>
+                                <input type="password"  class="form-control @error('password') {{ 'is-invalid' }} @enderror" id="password" name="password" placeholder="Password">
+                                @error('password')
+                                <div>
+                                    <label class="error fail-alert  mt-1">{{ $message }}</label>
+                                </div>
+                                @enderror
+                            </div>
+                            @else
+                            <div class="col-lg-12 my-2">
+                            <a href="{{ route('admin.inspector.passwordReset',['id'=>encrypt($data->id)]) }}" class="btn btn-primary" id="reset-password">Reset Password</a>
+                            </div>
+                            @endif
                        
                         <!-- <p class="border-bottom mt-5"></p> -->
                             <!-- <h3>Custom Links</h3> -->

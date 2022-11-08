@@ -63,6 +63,7 @@ class InspectorController extends Controller
         $user->save();
         $role = Role::findByName('inspector');
         $user->assignRole([$role->id]);
+        DB::table('users')->where('id', $user->id)->update(['approved' => "Approved"]);
         return redirect()->route('admin.view.inspector')->with('msg','Record Save Successfully.');
       
     }
@@ -189,5 +190,28 @@ class InspectorController extends Controller
                 ->rawColumns(['id','action','status'])
                 ->make(true);
         }
+    }
+
+    public function passwordReset(Request $request)
+    {
+        $data = User::where('id', decrypt($request['id']))->first();
+        return view('admin.inspector.passwordReset')->with(["data" => $data]);
+    }
+    public function updatepassword(Request $request, User $agency)
+    {
+
+        $request->validate(
+            [
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
+            ],
+            [
+            "confirmed"  => "The password confirmation does not match.",
+            "required"   => "Field is required.",
+        ]);
+        User::where('id', decrypt($request['id']))->update([
+            "password" => Hash::make($request->password),
+        ]);
+
+        return redirect()->route('admin.view.inspector')->with("msg", "Record Updated Successfully");
     }
 }
