@@ -115,7 +115,7 @@
       if (insid.length) {
         Swal.fire({
           title: 'Are you sure want to assign Test Inspector?',
-          text: "Agency and inspector will be immediately notified!",
+          text: "You will be able to revert this!",
           showCancelButton: true,
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',

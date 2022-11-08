@@ -295,17 +295,20 @@ $(document).ready(function () {
             placeholder: "Assign Inspector",
             tags: true,
         });
+        // $('.statusdropdown').select2({
+        //     placeholder: "Select Status",
+        //     tags: true,
+        // });
     }
     var requesttable = $('#requesttable').DataTable({
         "preDrawCallback": function (settings) {
             setTimeout(function () {
                 select2call();
-            }, 1000);
+            }, 2000);
         },
         "processing": true,
         "serverSide": true,
         "scrollX": true,
-        autoWidth: false,
         "ajax": {
             "url": "requestdetails",
             "type": "POST",
@@ -384,6 +387,9 @@ $(document).ready(function () {
             },
             {
                 "data": "status",
+            },
+            {
+                "data": "action",
             },
 
         ],
@@ -866,10 +872,11 @@ $(document).ready(function () {
         $(this).find("option[value=" + sel.params.args.data.id + "]").each(function (e) {
             element = $(this);
             var insid = $(this).val();
+            var insname = $(this).text();
             var reqid = $(this).attr('data-req-id');
             if (insid.length && reqid.length) {
                 Swal.fire({
-                    title: 'Are you sure want to assign Test Inspector?',
+                    title: 'Are you sure want to assign '+ucfirst(insname)+'?',
                     text: "Agency and inspector will be immediately notified!",
                     type: 'warning',
                     showCancelButton: true,
@@ -905,7 +912,63 @@ $(document).ready(function () {
                                 }
                             }
                         });
-                    };
+                    }
+                    else
+                    {
+                        $(".inspectorlist option[value='" + insid + "']").prop('selected', false).trigger('change.select2');
+                    }
+                });
+            }
+        });
+    });
+    requesttable.on('select2:selecting', '.statusdropdown', function (sel) {
+        $(this).find("option[value=" + sel.params.args.data.id + "]").each(function (e) {
+            element = $(this);
+            var status = $(this).val();
+            var insid = $(".statusdropdown").attr('data-req-id');
+            if (insid.length && status.length) {
+                Swal.fire({
+                    title: 'Are you sure want to change status to '+ucfirst(status)+'?',
+                    text: "You will able to revert!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.value) {
+                        $('.preloader').children().show();
+                        $('.preloader').css("height", "100vh");
+                        $.ajax({
+                            type: "POST",
+                            headers: {
+                                'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                            },
+                            url: 'statusupdate',
+                            data: {
+                                id: insid,
+                                status: status,
+                            },
+                            dataType: 'json',
+                            success: function (data) {
+                                $('.preloader').children().hide();
+                                $('.preloader').css("height", "0");
+                                toastr.success(data.msg);
+                                requesttable.ajax.reload();
+                            },
+                            error: function (xhr) {
+                                if (xhr.status == 422 && xhr.responseJSON.msg.length) {
+                                    $('.preloader').children().hide();
+                                    $('.preloader').css("height", "0");
+                                    toastr.error(xhr.responseJSON.msg);
+                                }
+                            }
+                        });
+                    }
+                    else
+                    {
+                        $(".inspectorlist option[value='" + insid + "']").prop('selected', false).trigger('change.select2');
+                    }
                 });
             }
         });

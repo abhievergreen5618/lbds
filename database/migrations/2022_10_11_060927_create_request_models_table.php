@@ -32,9 +32,9 @@ return new class extends Migration
             $table->string('assigned_ins')->nullable();
             $table->string('ins_fee')->nullable();
             $table->timestamp('assigned_at')->nullable();
-            $table->date('schedule_at')->nullable();
+            $table->date('scheduled_at')->nullable();
             $table->time('schedule_time')->nullable();
-            $table->timestamp('review_at')->nullable();
+            $table->timestamp('underreview_at')->nullable();
             $table->timestamp('completed_at')->nullable();
             $table->string('status')->default("pending");
             $table->string('cancel_reason')->nullable();

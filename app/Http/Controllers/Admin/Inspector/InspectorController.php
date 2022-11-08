@@ -10,6 +10,7 @@ use DataTables;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class InspectorController extends Controller
 {

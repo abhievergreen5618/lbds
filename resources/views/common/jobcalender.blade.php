@@ -9,8 +9,8 @@
     .close-pop {
         font-size: 35px;
     }
-    .fc-daygrid-event.fc-daygrid-dot-event.fc-event.fc-event-start.fc-event-end.fc-event-future
-    {
+
+    .fc-daygrid-event.fc-daygrid-dot-event.fc-event.fc-event-start.fc-event-end.fc-event-future {
         background: palegoldenrod !important;
     }
 </style>
@@ -25,21 +25,30 @@
         <div class="card-body p-0" id="maincalender" data-id="{{(Auth::user()->hasRole('admin')) ? 'all' : encrypt(Auth::user()->id) }}">
             @role('admin')
             <div class="row">
-                <div class="col-lg-6 offset-lg-6">
+                <div class="col-lg-6">
                     <div class="my-2 px-2 ml-auto">
-                        <div class="d-flex justify-content-around align-items-center">
-                            <label for="jobins">{{ __('Select Inspector') }}</label>
-                            <div class="w-75">
-                                <select class="form-control" name="jobins" id="jobins">
-                                    <option value="all">All</option>
-                                    @forelse($inslist as $key=>$value)
-                                    <option value="{{encrypt($key)}}">{{__($value)}}</option>
-                                    @empty
-                                    <option value="">No Inspector Founded</option>
-                                    @endforelse
-                                </select>
-                            </div>
-                        </div>
+                        <label for="jobins">{{ __('Select Agency') }}</label>
+                        <select class="form-control" name="jobagency" id="jobagency">
+                            <option value="all">All</option>
+                            @forelse($agencylist as $key=>$value)
+                            <option value="{{encrypt($key)}}">{{__($value)}}</option>
+                            @empty
+                            <option value="">No Agency Founded</option>
+                            @endforelse
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="my-2 px-2 ml-auto">
+                        <label for="jobins">{{ __('Select Inspector') }}</label>
+                        <select class="form-control" name="jobins" id="jobins">
+                            <option value="all">All</option>
+                            @forelse($inslist as $key=>$value)
+                            <option value="{{encrypt($key)}}">{{__($value)}}</option>
+                            @empty
+                            <option value="">No Inspector Founded</option>
+                            @endforelse
+                        </select>
                     </div>
                 </div>
             </div>
@@ -98,8 +107,8 @@
                         var events = [];
                         if (!!doc.events) {
                             $.map(doc.events, function(r) {
-                                start = new Date(r.schedule_at + ' ' + r.schedule_time);
-                                end = new Date(r.schedule_at + ' ' + r.schedule_time);
+                                start = new Date(r.scheduled_at + ' ' + r.schedule_time);
+                                end = new Date(r.scheduled_at + ' ' + r.schedule_time);
                                 events.push({
                                     id: r.id,
                                     title: r.applicantname,
@@ -129,20 +138,24 @@
 
         calendar.render();
 
-        var jobins = $('#jobins').select2({
+        var jobins = $('#jobins,#jobagency').select2({
             placeholder: "Select",
         });
 
         jobins.on('select2:selecting', function(sel) {
+            var name = $(this).attr("name");
             $(this).find("option[value=" + sel.params.args.data.id + "]").each(function(e) {
                 element = $(this);
                 var id = $(this).val();
                 if (id.length) {
+                    var selectid = (name == "jobagency") ? "jobins" : "jobagency";
+                    $('#'+selectid).val("all").trigger('change');
                     currentoption = id;
                     calendar.refetchEvents();
                 }
             });
         });
+
         $(document).on('click', '.close-pop', function() {
             var id = $(this).parent().parent().attr("id");
             $("[aria-describedby='" + id + "']").click();

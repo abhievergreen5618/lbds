@@ -176,17 +176,17 @@
             <div class="text-center single-timeline ">
                 <i class="{{($requestdetails->status == 'scheduled' || $requestdetails->status == 'underreview' || $requestdetails->status == 'completed') ? 'fas fa-check-circle' : 'far fa-clock'}} text-success fa-3x"></i>
                 <h5 class="font-weight-600 mt-2 text-black">Scheduled</h5>
-                <h6 class="font-weight-500 mt-2 text-secondary font-95">{{!empty($requestdetails->schedule_at) ? date('F d ,Y h:i a',strtotime($requestdetails->schedule_at.$requestdetails->schedule_time)) : "----
+                <h6 class="font-weight-500 mt-2 text-secondary font-95">{{!empty($requestdetails->scheduled_at) ? date('F d ,Y h:i a',strtotime($requestdetails->scheduled_at.$requestdetails->schedule_time)) : "----
                     ---- ------ "}}</h6>
             </div>
             <div class="text-center single-timeline opacity-50"> <i class="{{($requestdetails->status == 'underreview' || $requestdetails->status == 'completed') ? 'fas fa-check-circle' : 'far fa-clock'}} text-success fa-3x"></i>
                 <h5 class="font-weight-600 mt-2 text-black">Under Review</h5>
-                <h6 class="font-weight-500 mt-2 text-secondary font-95">{{!empty($requestdetails->review_at) ? date('F d ,Y',strtotime($requestdetails->review_at)) : "----
+                <h6 class="font-weight-500 mt-2 text-secondary font-95">{{!empty($requestdetails->underreview_at) ? date('F d ,Y',strtotime($requestdetails->underreview_at)) : "----
                     ---- ------ "}}</h6>
             </div>
             <div class="text-center single-timeline opacity-50"> <i class="{{($requestdetails->status == 'completed') ? 'fas fa-check-circle' : 'far fa-clock'}} text-success fa-3x"></i>
                 <h5 class="font-weight-600 mt-2 text-black">Completed</h5>
-                <h6 class="font-weight-500 mt-2 text-secondary font-95">{{!empty($requestdetails->completed_at) ? date('F d ,Y',strtotime($requestdetails->schedule_at)) : "----
+                <h6 class="font-weight-500 mt-2 text-secondary font-95">{{!empty($requestdetails->completed_at) ? date('F d ,Y',strtotime($requestdetails->scheduled_at)) : "----
                     ---- ------ "}}</h6>
             </div>
         </div>
@@ -287,10 +287,12 @@
                                     </td>
                                 </tr>
                                 @endif
+                                @role('admin')
                                 <tr>
                                     <td>Inspection Fee</td>
                                     <td><input type="number" name="ins_fee" id="ins_fee" placeholder="Inspection Fee" value="{{old('ins_fee',$requestdetails->ins_fee)}}"></td>
                                 </tr>
+                                @endrole
                                 @if(!empty($data) && count($data) != 0 && !empty($requestdetails['inspectiontype']))
                                 <tr>
                                     <td>Inspection Type</td>
@@ -316,14 +318,18 @@
                                     <td>Comments:</td>
                                     <td><textarea class="form-control" rows="3" placeholder="Enter Comments" name="comments" id="comments">{{old('comments',$requestdetails->comments)}}</textarea></td>
                                 </tr>
+                                @if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('company'))
                                 <tr>
                                     <td>Agency Comment:</td>
                                     <td><textarea class="form-control" rows="3" placeholder="Enter Agency Comment" name="agencycomments" id="agencycomments">{{old('agencycomments',$requestdetails->agencycomments)}}</textarea></td>
                                 </tr>
+                                @endif
+                                @if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('inspector'))
                                 <tr>
                                     <td>Inspector Comment:</td>
                                     <td><textarea class="form-control" rows="3" placeholder="Enter Inspector Comment" name="inspectorcomments" id="inspectorcomments">{{old('inspectorcomments',$requestdetails->inspectorcomments)}}</textarea></td>
                                 </tr>
+                                @endif
                             </tbody>
                             <tfoot>
                                 <tr>
@@ -380,7 +386,7 @@
                                 @csrf
                                 <input type="hidden" name="id" value="{{encrypt($requestdetails->id)}}">
                                 <div class="my-2">
-                                    <input type="date" class="border p-2 form-control" id="date" name="date" min="2022-10-21" value="{{old('date',$requestdetails->schedule_at)}}">
+                                    <input type="date" class="border p-2 form-control" id="date" name="date" min="2022-10-21" value="{{old('date',$requestdetails->scheduled_at)}}">
                                     @error('date')
                                     <div>
                                         <label class="error fail-alert  mt-1">{{$message}}<label>
@@ -403,9 +409,9 @@
                         <div class="status-label mt-2">
                             <span id="btn-calendar" class="btn btn-sm btn-dark
                             font-weight-500 py-0 shadow pointer">
-                                @if(!empty($requestdetails->schedule_at))
+                                @if(!empty($requestdetails->scheduled_at))
                                 @php
-                                $link = "https://calendar.google.com/calendar/r/eventedit?text=Inspection&details=test&location=&dates=".$requestdetails->schedule_at."T".$requestdetails->time."ctz=(GMT+5:30)";
+                                $link = "https://calendar.google.com/calendar/r/eventedit?text=Inspection&details=test&location=&dates=".$requestdetails->scheduled_at."T".$requestdetails->time."ctz=(GMT+5:30)";
                                 @endphp
                                 @else
                                 @php

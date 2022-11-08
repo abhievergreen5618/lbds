@@ -13,8 +13,10 @@ class JobCalenderController extends Controller
     public function index(Request $request)
     {
         $inslist = User::role('inspector')->pluck("name", "id");
+        $agencylist = User::role('company')->pluck("name", "id");
         return view('common.jobcalender')->with([
             "inslist" => $inslist,
+            "agencylist" => $agencylist,
         ]);
     }
     public function adminevents(Request $request)
@@ -24,7 +26,8 @@ class JobCalenderController extends Controller
             $start = $request['start'];
             $end = $request['end'];
             $filter = $request['filter'];
-            $req = ($request['filter'] == "all") ? RequestModel::leftjoin("users", "users.id", "=", "request_models.assigned_ins")->whereBetween('request_models.schedule_at', [$start, $end])->get(["request_models.id", "request_models.assigned_ins", "request_models.applicantname", "request_models.applicantemail", "request_models.applicantmobile", "request_models.schedule_at", "request_models.schedule_time", "request_models.status", "request_models.address", "request_models.state", "request_models.city", "request_models.zipcode", "users.name"]) : RequestModel::leftjoin("users", "users.id", "=", "request_models.assigned_ins")->where('assigned_ins', decrypt($filter))->whereBetween('request_models.schedule_at', [$start, $end])->get(["request_models.id", "request_models.assigned_ins", "request_models.applicantname", "request_models.applicantemail", "request_models.applicantmobile", "request_models.schedule_at", "request_models.schedule_time", "request_models.status", "request_models.address", "request_models.state", "request_models.city", "request_models.zipcode", "users.name"]);
+            // $req = ($request['filter'] == "all") ? RequestModel::leftjoin("users", "users.id", "=", "request_models.assigned_ins")->whereBetween('request_models.scheduled_at', [$start, $end])->get(["request_models.id", "request_models.assigned_ins", "request_models.applicantname", "request_models.applicantemail", "request_models.applicantmobile", "request_models.scheduled_at", "request_models.schedule_time", "request_models.status", "request_models.address", "request_models.state", "request_models.city", "request_models.zipcode", "users.name"]) : RequestModel::leftjoin("users", "users.id", "=", "request_models.assigned_ins")->where('assigned_ins', decrypt($filter))->whereBetween('request_models.scheduled_at', [$start, $end])->get(["request_models.id", "request_models.assigned_ins", "request_models.applicantname", "request_models.applicantemail", "request_models.applicantmobile", "request_models.scheduled_at", "request_models.schedule_time", "request_models.status", "request_models.address", "request_models.state", "request_models.city", "request_models.zipcode", "users.name"]);
+            $req = ($request['filter'] == "all") ? RequestModel::leftjoin("users", "users.id", "=", "request_models.assigned_ins")->whereBetween('request_models.scheduled_at', [$start, $end])->get(["request_models.id", "request_models.assigned_ins", "request_models.applicantname", "request_models.applicantemail", "request_models.applicantmobile", "request_models.scheduled_at", "request_models.schedule_time", "request_models.status", "request_models.address", "request_models.state", "request_models.city", "request_models.zipcode", "users.name"]) : RequestModel::leftjoin("users", "users.id", "=", "request_models.assigned_ins")->orWhere('assigned_ins', '=',  decrypt($filter))->orWhere('company_id', '=',  decrypt($filter))->whereBetween('request_models.scheduled_at', [$start, $end])->get(["request_models.id", "request_models.assigned_ins", "request_models.applicantname", "request_models.applicantemail", "request_models.applicantmobile", "request_models.scheduled_at", "request_models.schedule_time", "request_models.status", "request_models.address", "request_models.state", "request_models.city", "request_models.zipcode", "users.name"]);
             if (!empty($req) && count($req) != 0) {
                 foreach ($req as $key=>$value) {
                     $returnarr[$key]['id'] = $value->id;
@@ -32,7 +35,7 @@ class JobCalenderController extends Controller
                     $returnarr[$key]['applicantname'] = $value->applicantname;
                     $returnarr[$key]['applicantemail'] = $value->applicantemail;
                     $returnarr[$key]['applicantmobile'] = $value->applicantmobile;
-                    $returnarr[$key]['schedule_at'] = $value->schedule_at;
+                    $returnarr[$key]['scheduled_at'] = $value->scheduled_at;
                     $returnarr[$key]['schedule_time'] = $value->schedule_time;
                     $returnarr[$key]['status'] = $value->status;
                     $returnarr[$key]['address'] = $value->address;

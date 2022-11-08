@@ -57,7 +57,7 @@ Route::controller(RequestController::class)->group(function () {
     Route::post('/request-update', 'update')->name('requestupdate');
     Route::post('/requestschedule', 'schedule')->name('requestschedule');
     Route::get('/filedownload', 'filedownload')->name('filedownload');
-    Route::post('/requestcomplete', 'complete')->name('requestcomplete');
+    Route::post('/statusupdate', 'statusupdate')->name('statusupdate');
 
     // company routes
     Route::get('/company-request-list', 'showcompanylist')->name('company.request.list');
@@ -187,8 +187,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/agency/status-update', 'approvalUpdate')->name('admin.status-update');
         Route::post('/status/submit', 'approvalUpdateSubmit')->name('admin.approvalUpdateSubmit');
         Route::post('/agency/agency-approval/status/update', 'approvalStatusUpdate')->name('approvalStatusUpdate');
-
-
         Route::get('/agency/disapproved-list', 'disApprovedList')->name('admin.disapproved.view');
         Route::post('/agency/details', 'statusDisApprovedList')->name('admin.disapproved.details');
     });
