@@ -19,7 +19,7 @@
                 text-white fw-500">{{ __('Verify Your Email Address') }}</div>
                 </div>
                 <div class="list-group list-group-flush
-              small mb-0 border-bottom"><a class="list-group-item list-group-item-action" data-cy="recentGuideLink-0" href="/guides/bootstrap-form-setup-guide">
+              small mb-0 border-bottom"><a class="list-group-item list-group-item-action">
                         {{ __('Before proceeding, please check your email for a verification link.') }}
                         <br>{{ __('If you did not receive the email') }},
                     </a>
