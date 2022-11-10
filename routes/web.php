@@ -84,6 +84,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/inspection-type-status-update', 'status')->name('inspection-type-status-update');
         Route::post('/inspection-type-delete', 'destroy')->name('inspection-type-delete');
         Route::post('/disableshow', 'disableshow')->name('disableshow');
+        Route::post('/inspectiontypedisablelist', 'disablelist')->name('inspectiontypedisablelist');
     });
     Route::controller(SendInvoiceController::class)->group(function () {
         Route::get('/add-send-invoice', 'index')->name('admin.create.addsendinvoice');

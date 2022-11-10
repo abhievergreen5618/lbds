@@ -29,7 +29,6 @@ class RequestController extends Controller
     }
     public function index(Options $option)
     {
-
         $invoicedata = SendInvoice::where("status", "active")->pluck("name", "id");
         if (!session()->has('taskid')) {
             $id = RequestModel::create(["agency_related_files" => []]);
@@ -38,33 +37,14 @@ class RequestController extends Controller
         } else {
             $id = session()->get('taskid');
         }
-        $disableinspectionroles = $option->get_option("disableinspectionroles");
-        $disableinspectionusers = $option->get_option("disableinspectionusers");
-        $roledisable = false;
-        if(!empty($disableinspectionroles))
-        {
-            $roleid = Role::where("name", Auth::user()->roles->pluck('name')[0])->first("id");
-            $roledisable = (in_array($roleid['id'], json_decode($disableinspectionroles, true))) ? true : false;
-        }
-
-        if($roledisable == false && !empty($disableinspectionusers))
-        {
-            $data = (!in_array(Auth::user()->id, json_decode($disableinspectionusers, true))) ? Inspectiontype::where("status", "active")->pluck("name", "id") : "";
-        }
-        else if($roledisable == false)
-        {
-            $data = Inspectiontype::where("status", "active")->pluck("name", "id");
-        }
-        else
-        {
-            $data = "";
-        }
+        $data = Inspectiontype::where("status", "active")->pluck("name", "id");
+        $roleid = Role::where("name", Auth::user()->roles->pluck('name')[0])->first("id");
         // session()->forget('taskid');
         if (Auth::user()->hasRole("admin")) {
             $companydetails = User::role('company')->where(["status" => "active"])->pluck("company_name", "id");
-            return view('common.createrequest')->with(["data" => $data, "invoicedata" => $invoicedata, "companydetails" => $companydetails, "id" => $id]);
+            return view('common.createrequest')->with(["data" => $data, "roleid" => $roleid, "invoicedata" => $invoicedata, "companydetails" => $companydetails, "id" => $id, "option" => $option]);
         } else {
-            return view('common.createrequest')->with(["data" => $data, "invoicedata" => $invoicedata, "id" => $id]);
+            return view('common.createrequest')->with(["data" => $data, "roleid" => $roleid, "invoicedata" => $invoicedata, "id" => $id, "option" => $option]);
         }
     }
 
@@ -212,7 +192,7 @@ class RequestController extends Controller
      */
     public function update(Request $request)
     {
-        
+
         $request->validate(
             [
                 "id" => "required",
@@ -279,7 +259,7 @@ class RequestController extends Controller
                     return $btn;
                 })
                 ->addColumn('assigned_inspector', function ($row) {
-                    $returnvalue = "<select class='form-control inspectorlist' name='inspector' id='inspector'><option value=''></option>";
+                    $returnvalue = "<select class='form-control inspectorlist'  name='inspectorlist'><option value=''></option>";
                     $inspectors = User::role('inspector')->pluck("name", "id");
                     foreach ($inspectors as $key => $value) {
                         $select = ((!empty($row->assigned_ins)) && $row->assigned_ins == $key) ? "selected" : "";
@@ -303,11 +283,11 @@ class RequestController extends Controller
                     $id = encrypt($row->id);
                     // $markcompleted = ($row->status == "underreview") ? "<a href='javascript:void(0)' data-id='$id' class='ml-2 d-flex complete btn align-items-center btn-success'  data-bs-toggle='tooltip' data-bs-placement='top' title='Complete'><i class='fas fa-check-double fa-sm'></i><span class='ml-1'>Mark Completed</span></a>" : "";
                     // $statusBtn = "<div class='d-flex justify-content-center align-items-center'><a href='javascript:void(0)' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Task $btntext' class='$class'>$btntext</a>" . $markcompleted . "</div>";
-                    $arr = ["assigned","scheduled","underreview","completed"];
-                    $returnvalue = "<select class='form-control statusdropdown' name='status' id='status' data-req-id='".encrypt($row->id)."'><option value=''></option>";
+                    $arr = ["pending", "assigned", "scheduled", "underreview", "completed"];
+                    $returnvalue = "<select class='form-control statusdropdown' name='status' data-req-id='" . encrypt($row->id) . "'><option value=''></option>";
                     foreach ($arr as $key => $value) {
                         $select = ((!empty($row->status)) && $row->status === $value) ? "selected" : "";
-                        $returnvalue = $returnvalue . "<option value='" .$value. "' $select>" . $value . "</option>";
+                        $returnvalue = $returnvalue . "<option value='" . $value . "' $select>" . $value . "</option>";
                     }
                     $returnvalue = $returnvalue . "</select>";
                     return $returnvalue;
@@ -357,7 +337,7 @@ class RequestController extends Controller
                     $btn = "<div class='d-flex justify-content-around'><a href='$editlink' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Edit' class='btn limegreen btn-primary  edit'>View</a></div>";
                     return $btn;
                 })
-                ->rawColumns(['action','inspectiontype', 'created_at', 'status'])
+                ->rawColumns(['action', 'inspectiontype', 'created_at', 'status'])
                 ->make(true);
         }
     }
@@ -450,6 +430,21 @@ class RequestController extends Controller
             if (session()->has('taskid')) {
                 $id = $request->session()->get('taskid');
                 $filearray = array();
+                foreach ($request->file('file') as $key => $value) {
+                    $rand = rand(10, 5000);
+                    $fileName = time() . $rand . '.' . $value->getClientOriginalExtension();
+                    $value->move(public_path('taskfiles'), $fileName);
+                    array_push($filearray, $fileName);
+                }
+                ($request['type'] == "agencyfiles") ? RequestModel::where('id', $id)->update(["agency_related_files" => $filearray]) : RequestModel::where('id', $id)->update(["reports_related_files" => $filearray]);
+                return response()->json(array("msg" => "Added Successfully"), 200);
+            }
+            else
+            {
+                $id = decrypt($request['taskid']);
+                $type = ($request['type'] == "agencyfiles") ? "agency_related_files" : "reports_related_files";
+                $files = RequestModel::where('id', $id)->first($type);
+                $filearray = (!empty($files[$type]) && count($files[$type]) !=0) ? $files[$type] : array();
                 foreach ($request->file('file') as $key => $value) {
                     $rand = rand(10, 5000);
                     $fileName = time() . $rand . '.' . $value->getClientOriginalExtension();
@@ -609,11 +604,42 @@ class RequestController extends Controller
             } else {
                 $current_date_time = Carbon::now()->toDateTimeString();
                 // $this->send_email($request['id'], "completed");
-                $status = $request['status']."_at";
-                RequestModel::where('id', decrypt($request['id']))->update([
-                    "status" => $request['status'],
-                    $status => $current_date_time,
-                ]);
+                $status = $request['status'] . "_at";
+                if ($request['status'] == "pending") {
+                    RequestModel::where('id', decrypt($request['id']))->update([
+                        "status" => $request['status'],
+                        "assigned_at" => NULL,
+                        "scheduled_at" => NULL,
+                        "schedule_time" => NULL,
+                        "underreview_at" => NULL,
+                        "completed_at" => NULL,
+                        "assigned_ins" => NULL,
+                    ]);
+                } elseif ($request['status'] == "assigned") {
+                    RequestModel::where('id', decrypt($request['id']))->update([
+                        "status" => $request['status'],
+                        "schedule_time" => NULL,
+                        "underreview_at" => NULL,
+                        "completed_at" => NULL,
+                        $status => $current_date_time,
+                    ]);
+                } elseif ($request['status'] == "scheduled") {
+                    RequestModel::where('id', decrypt($request['id']))->update([
+                        "status" => $request['status'],
+                        $status => $current_date_time,
+                    ]);
+                } elseif ($request['status'] == "underreview") {
+                    RequestModel::where('id', decrypt($request['id']))->update([
+                        "status" => $request['status'],
+                        "completed_at" => NULL,
+                        $status => $current_date_time,
+                    ]);
+                } elseif ($request['status'] == "completed") {
+                    RequestModel::where('id', decrypt($request['id']))->update([
+                        "status" => $request['status'],
+                        $status => $current_date_time,
+                    ]);
+                }
                 $msg = "Request Status Updated Successfully";
                 return response()->json(array("msg" => $msg), 200);
             }

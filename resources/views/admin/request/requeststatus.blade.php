@@ -377,89 +377,86 @@
                         </tbody>
                     </table>
                     @if($requestdetails->status != "underreview" && $requestdetails->status != "completed")
-                        @if(!empty($requestdetails->assigned_at))
-                        <div class="mt-3 mb-3 scheduled0eaff1"> <span class="btn
+                    @if(!empty($requestdetails->assigned_at))
+                    <div class="mt-3 mb-3 scheduled0eaff1"> <span class="btn
                             btn-danger col-12 shadow-sm font-weight-600 btn-sm
                             pointer"> Schedule Inspection &nbsp; <i class="fas
                                 fa-arrow-down fa-sm"></i></span> <br>
-                            <form method="post" action="{{route('requestschedule')}}">
-                                @csrf
-                                <input type="hidden" name="id" value="{{encrypt($requestdetails->id)}}">
-                                <div class="my-2">
-                                    <input type="date" class="border p-2 form-control" id="date" name="date" min="2022-10-21" value="{{old('date',$requestdetails->scheduled_at)}}">
-                                    @error('date')
-                                    <div>
-                                        <label class="error fail-alert  mt-1">{{$message}}<label>
-                                    </div>
-                                    @enderror
+                        <form method="post" action="{{route('requestschedule')}}">
+                            @csrf
+                            <input type="hidden" name="id" value="{{encrypt($requestdetails->id)}}">
+                            <div class="my-2">
+                                <input type="date" class="border p-2 form-control" id="date" name="date" min="2022-10-21" value="{{old('date',$requestdetails->scheduled_at)}}">
+                                @error('date')
+                                <div>
+                                    <label class="error fail-alert  mt-1">{{$message}}<label>
                                 </div>
-                                <div class="mb-2">
-                                    <input type="time" class="border p-2 form-control" id="time" name="time" value="{{old('time',$requestdetails->schedule_time)}}">
-                                    @error('time')
-                                    <div>
-                                        <label class="error fail-alert  mt-1">{{$message}}<label>
-                                    </div>
-                                    @enderror
+                                @enderror
+                            </div>
+                            <div class="mb-2">
+                                <input type="time" class="border p-2 form-control" id="time" name="time" value="{{old('time',$requestdetails->schedule_time)}}">
+                                @error('time')
+                                <div>
+                                    <label class="error fail-alert  mt-1">{{$message}}<label>
                                 </div>
-                                <div class="col-12  text-center">
-                                    <button type="submit" class="btn btn-success font-weight-500 btn-reschedule border" id="0eaff1">Submit<i class="fas fa-savefa-sm"></i></button>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="status-label mt-2">
-                            <span id="btn-calendar" class="btn btn-sm btn-dark
+                                @enderror
+                            </div>
+                            <div class="col-12  text-center">
+                                <button type="submit" class="btn btn-success font-weight-500 btn-reschedule border" id="0eaff1">Submit<i class="fas fa-savefa-sm"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="status-label mt-2">
+                        <span id="btn-calendar" class="btn btn-sm btn-dark
                             font-weight-500 py-0 shadow pointer">
-                                @if(!empty($requestdetails->scheduled_at))
-                                @php
-                                $link = "https://calendar.google.com/calendar/r/eventedit?text=Inspection&details=test&location=&dates=".$requestdetails->scheduled_at."T".$requestdetails->time."ctz=(GMT+5:30)";
-                                @endphp
-                                @else
-                                @php
-                                $link = "#";
-                                @endphp
-                                @endif
-                                <a href="{{$link}}" class="text-light"><i class="fas
+                            @if(!empty($requestdetails->scheduled_at))
+                            @php
+                            $link = "https://calendar.google.com/calendar/r/eventedit?text=Inspection&details=test&location=&dates=".$requestdetails->scheduled_at."T".$requestdetails->time."ctz=(GMT+5:30)";
+                            @endphp
+                            @else
+                            @php
+                            $link = "#";
+                            @endphp
+                            @endif
+                            <a href="{{$link}}" class="text-light"><i class="fas
                                 fa-calendar"></i> Add to Calendar </span> </a>
-                            <span id="btn-calendar-google" class="btn btn-sm btn-info
+                        <span id="btn-calendar-google" class="btn btn-sm btn-info
                             font-weight-500 py-0 shadow pointer"> <i class="fas
                                 fa-calendar"></i> Add to Google WorkSpace </span>
-                        </div>
-                        @else
-                        <div class="mt-3 mb-3 scheduled0eaff1"> <span class="btn
+                    </div>
+                    @else
+                    <div class="mt-3 mb-3 scheduled0eaff1"> <span class="btn
                             btn-danger col-12 shadow-sm font-weight-600 btn-sm
                             pointer">Assign Inspector &nbsp; <i class="fas
                                 fa-arrow-down fa-sm"></i></span> <br>
-                            <form method="post" action="{{route('inspectorassign')}}">
-                                @csrf
-                                <input type="hidden" name="reqid" value="{{encrypt($requestdetails->id)}}">
-                                <div class="my-2">
-                                    <select class="form-control" name="id" id="agency">
-                                        <option value="">Select Inspector</option>
-                                        @forelse($inslist as $key=>$value)
-                                        <option value="{{encrypt($key)}}">{{__($value)}}</option>
-                                        @empty
-                                        <option value="">No Inspector Founded</option>
-                                        @endforelse
-                                    </select>
-                                    @error('id')
-                                    <div>
-                                        <label class="error fail-alert  mt-1">{{$message}}<label>
-                                    </div>
-                                    @enderror
+                        <form method="post" action="{{route('inspectorassign')}}">
+                            @csrf
+                            <input type="hidden" name="reqid" value="{{encrypt($requestdetails->id)}}">
+                            <div class="my-2">
+                                <select class="form-control" name="id" id="agency">
+                                    <option value="">Select Inspector</option>
+                                    @forelse($inslist as $key=>$value)
+                                    <option value="{{encrypt($key)}}">{{__($value)}}</option>
+                                    @empty
+                                    <option value="">No Inspector Founded</option>
+                                    @endforelse
+                                </select>
+                                @error('id')
+                                <div>
+                                    <label class="error fail-alert  mt-1">{{$message}}<label>
                                 </div>
-                                <div class="col-12  text-center">
-                                    <button type="submit" class="btn btn-success font-weight-500 btn-reschedule border" id="0eaff1">Submit<i class="fas fa-savefa-sm"></i></button>
-                                </div>
-                            </form>
-                        </div>
-                        @endif
+                                @enderror
+                            </div>
+                            <div class="col-12  text-center">
+                                <button type="submit" class="btn btn-success font-weight-500 btn-reschedule border" id="0eaff1">Submit<i class="fas fa-savefa-sm"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                    @endif
                     @endif
                 </div>
             </div>
         </div>
-
-
-
 
         <div class="col-md-12">
             <div id="accordion">
@@ -473,8 +470,17 @@
                     </div>
                     <div id="collapseOne" class="collapse" data-parent="#accordion">
                         <div class="card-body">
-                            @if(!empty($reportfiles) && count($reportfiles) != 0)
                             <div class="row">
+                                @role('admin')
+                                <div class="col-md-12 my-2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <label for="reportfiles">{{ __('Reports Related Files') }}</label>
+                                        <button class="btn bg-gradient-primary my-2 uploadfiles" data-id="{{encrypt($requestdetails->id)}}">Upload</button>
+                                    </div>
+                                    <div class="dropzone" id="reportfiles"></div>
+                                </div>
+                                @endrole
+                                @if(!empty($reportfiles) && count($reportfiles) != 0)
                                 @php $i = 1; @endphp
                                 @foreach ($reportfiles as $key => $item)
                                 @php
@@ -511,10 +517,12 @@
                                 $i++;
                                 @endphp
                                 @endforeach
+                                @else
+                                <div class="col-md-12 my-2">
+                                    <p>No Files Founded</p>
+                                </div>
+                                @endif
                             </div>
-                            @else
-                            <p>No Files Founded</p>
-                            @endif
                         </div>
                     </div>
                 </div>
@@ -528,8 +536,17 @@
                     </div>
                     <div id="collapseTwo" class="collapse" data-parent="#accordion">
                         <div class="card-body">
-                            @if(!empty($agencyfiles) && count($agencyfiles) != 0)
                             <div class="row">
+                                @role('admin')
+                                <div class="col-md-12 my-2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <label for="relatedfiles">{{ __('Agency Related Files') }}</label>
+                                        <button class="btn bg-gradient-primary my-2 uploadfiles" data-id="{{encrypt($requestdetails->id)}}">Upload</button>
+                                    </div>
+                                    <div class="dropzone" id="agencyfiles"></div>
+                                </div>
+                                @endrole
+                                @if(!empty($agencyfiles) && count($agencyfiles) != 0)
                                 @php $i = 1; @endphp
                                 @foreach ($agencyfiles as $key => $item)
                                 @php
@@ -566,10 +583,12 @@
                                 $i++;
                                 @endphp
                                 @endforeach
+                                @else
+                                <div class="col-md-12 my-2">
+                                    <p>No Files Founded</p>
+                                </div>
+                                @endif
                             </div>
-                            @else
-                            <p>No Files Founded</p>
-                            @endif
                         </div>
                     </div>
                 </div>
@@ -597,12 +616,6 @@
                         </div>
                     </div>
                 </div>
-
-
-
-
-
-
             </div>
         </div>
     </div>

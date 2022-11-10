@@ -31,11 +31,11 @@ return new class extends Migration
             $table->string('sendinvoice')->nullable();
             $table->string('assigned_ins')->nullable();
             $table->string('ins_fee')->nullable();
-            $table->timestamp('assigned_at')->nullable();
-            $table->date('scheduled_at')->nullable();
-            $table->time('schedule_time')->nullable();
-            $table->timestamp('underreview_at')->nullable();
-            $table->timestamp('completed_at')->nullable();
+            $table->timestamp('assigned_at')->nullable()->default(null);
+            $table->date('scheduled_at')->nullable()->default(null);
+            $table->time('schedule_time')->nullable()->default(null);
+            $table->timestamp('underreview_at')->nullable()->default(null);
+            $table->timestamp('completed_at')->nullable()->default(null);
             $table->string('status')->default("pending");
             $table->string('cancel_reason')->nullable();
             $table->string('agency_related_files')->nullable();

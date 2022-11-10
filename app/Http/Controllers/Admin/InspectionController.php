@@ -15,12 +15,12 @@ class InspectionController extends Controller
 {
     function __construct()
     {
-         $this->middleware('permission:inspection-list', ['only' => ['show','display']]);
-         $this->middleware('permission:inspection-create', ['only' => ['index','store']]);
-         $this->middleware('permission:inspection-edit', ['only' => ['index','update']]);
-         $this->middleware('permission:inspection-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:inspection-list', ['only' => ['show', 'display']]);
+        $this->middleware('permission:inspection-create', ['only' => ['index', 'store']]);
+        $this->middleware('permission:inspection-edit', ['only' => ['index', 'update']]);
+        $this->middleware('permission:inspection-delete', ['only' => ['destroy']]);
     }
-    
+
     public function index()
     {
         return view('admin.inspection.addinspectiontype');
@@ -29,27 +29,24 @@ class InspectionController extends Controller
     public function create(Request $request)
     {
         $request->validate([
-            "name"=>"required",
-            "description"=>"required",
-            "status"=>"required",
+            "name" => "required",
+            "description" => "required",
+            "status" => "required",
         ]);
-        if(isset($request['id']) && !empty($request['id']))
-        {
-            Inspectiontype::where('id',decrypt($request['id']))->update([
+        if (isset($request['id']) && !empty($request['id'])) {
+            Inspectiontype::where('id', decrypt($request['id']))->update([
                 "name" => $request->name,
                 "description" => $request->description,
                 "status" => $request->status,
             ]);
-            return redirect()->route('admin.allinspectiontype')->with("msg","Record Updated Successfully");
-        }
-        else
-        {
+            return redirect()->route('admin.allinspectiontype')->with("msg", "Record Updated Successfully");
+        } else {
             Inspectiontype::create([
                 "name" => $request->name,
                 "description" => $request->description,
                 "status" => $request->status,
             ]);
-            return redirect()->route('admin.allinspectiontype')->with("msg","Record Created Successfully");
+            return redirect()->route('admin.allinspectiontype')->with("msg", "Record Created Successfully");
         }
     }
 
@@ -72,8 +69,8 @@ class InspectionController extends Controller
      */
     public function show(Options $option)
     {
-        $roles = Role::orderBy('id','DESC')->pluck('name','id');
-        $user = User::role('company')->orderBy('id','DESC')->pluck('name','id');
+        $roles = Role::orderBy('id', 'DESC')->pluck('name', 'id');
+        $user = User::role('company')->orderBy('id', 'DESC')->pluck('name', 'id');
         $disableinspectionroles = $option->get_option("disableinspectionroles");
         $disableinspectionusers = $option->get_option("disableinspectionusers");
         return view('admin.inspection.allinspectiontype')->with([
@@ -90,7 +87,7 @@ class InspectionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function disableshow(Request $request,Options $option)
+    public function disableshow(Request $request, Options $option)
     {
         if ($request->ajax()) {
             $validator = Validator::make($request->all(), [
@@ -101,11 +98,41 @@ class InspectionController extends Controller
                 $msg = "OOps! Something Went Wrong";
                 return response()->json(array("msg" => $msg), 422);
             } else {
-                $option->updatedisableinspection($request['show'],decrypt($request['id']),$request['action']);
+                $optionname = $request['show']."_".decrypt($request['inspectionid']);
+                $option->updatedisableinspection($optionname, decrypt($request['id']), $request['action']);
                 $msg = "Inspection Type Disabled Successfully";
                 return response()->json(array("msg" => $msg), 200);
             }
         }
+    }
+
+    public function disablelist(Request $request, Options $option)
+    {
+        $roles = Role::orderBy('id', 'DESC')->pluck('name', 'id');
+        $user = User::role('company')->orderBy('id', 'DESC')->pluck('name', 'id');
+        $returnroles = $returnusers = "";
+        $disableinspectionroles = $option->get_option("disableinspectionroles_" . decrypt($request['id']));
+        $disableinspectionusers = $option->get_option("disableinspectionusers_" . decrypt($request['id']));
+        if (!empty($roles) && count($roles) != 0) {
+            foreach ($roles as $key => $value) {
+                $selected = (!empty($disableinspectionroles)) ? (in_array($key,json_decode($disableinspectionroles,true))) ? 'selected' : '' : '' ;
+                $returnroles = $returnroles."<option value='".encrypt($key)."' $selected>$value<option>";
+            }
+        }
+        else
+        {
+            $returnroles = "<option>No Roles Foundeds</option>";
+        }
+        if (!empty($user) && count($user) != 0) {
+            foreach ($user as $key => $value) {
+                $selected = (!empty($disableinspectionusers)) ? (in_array($key,json_decode($disableinspectionusers,true))) ? 'selected' : '' : '' ;
+                $returnusers = $returnusers."<option value='".encrypt($key)."' $selected>$value<option>";
+            }
+        } else {
+            $returnusers = "<option>No Users Foundeds</option>";
+        }
+        $msg = "Inspection Type Disabled List Successfully";
+        return response()->json(array("msg" => $msg,"role"=>$returnroles,"user"=>$returnusers), 200);
     }
 
     /**
@@ -117,14 +144,11 @@ class InspectionController extends Controller
      */
     public function update(Request $request)
     {
-        if(isset($request['id']) && !empty($request['id']))
-        {   
+        if (isset($request['id']) && !empty($request['id'])) {
             $data = Inspectiontype::where('id', decrypt($request['id']))->first();
-            return view('admin.inspection.addinspectiontype')->with(["data"=>$data]);
-        }
-        else
-        {
-            return redirect()->back()->with("msg","Record Created Successfully");
+            return view('admin.inspection.addinspectiontype')->with(["data" => $data]);
+        } else {
+            return redirect()->back()->with("msg", "Record Created Successfully");
         }
     }
 
@@ -155,7 +179,7 @@ class InspectionController extends Controller
             ]
         );
         $status = Inspectiontype::where('id', decrypt($request['id']))->first('status');
-        $status= ($status['status'] == "active") ? "inactive" : "active";
+        $status = ($status['status'] == "active") ? "inactive" : "active";
         Inspectiontype::where('id', decrypt($request['id']))->Update([
             "status" => $status,
         ]);
@@ -169,14 +193,14 @@ class InspectionController extends Controller
             $GLOBALS['count'] = 0;
             $data = Inspectiontype::all();
             return Datatables::of($data)->addIndexColumn()
-                ->addColumn('sno', function($row){
+                ->addColumn('sno', function ($row) {
                     $GLOBALS['count']++;
                     return $GLOBALS['count'];
                 })
-                ->addColumn('action', function($row){
+                ->addColumn('action', function ($row) {
                     $id = encrypt($row->id);
                     $editlink = route('admin.update.inspectiontype', ['id' => $id]);
-                    $btn = "<div class='d-flex justify-content-around'><a href='$editlink' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Edit' class='btn limegreen btn-primary  edit'><i class='fas fa-edit'></i></a><a href='javascript:void(0)' data-id='$id' class='delete btn red-btn btn-danger  '  data-bs-toggle='tooltip' data-bs-placement='top' title='Delete'><i class='fa fa-trash' aria-hidden='true'></i></a></div>";
+                    $btn = "<div class='d-flex justify-content-around'><a href='$editlink' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Edit' class='btn limegreen btn-primary  edit'><i class='fas fa-edit'></i></a><a href='javascript:void(0)' data-id='$id' class='delete btn red-btn btn-danger'  data-bs-toggle='tooltip' data-bs-placement='top' title='Delete'><i class='fa fa-trash' aria-hidden='true'></i></a><a href='javascript:void(0)' data-id='$id' class='hide btn red-btn btn-info' data-inspectionname='$row->name' data-bs-toggle='tooltip' data-bs-placement='top' title='Hide'><i class='fa fa-eye-slash' aria-hidden='true'></i></a></div>";
                     return $btn;
                 })
                 ->addColumn('created_at', function ($row) {
@@ -194,7 +218,7 @@ class InspectionController extends Controller
                     $statusBtn = "<div class='d-flex justify-content-center'><a href='javascript:void(0)' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Task $btntext' class='$class'>$btntext</a></div>";
                     return $statusBtn;
                 })
-                ->rawColumns(['sno','created_at','action','status'])
+                ->rawColumns(['sno', 'created_at', 'action', 'status'])
                 ->make(true);
         }
     }

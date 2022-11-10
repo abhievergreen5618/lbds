@@ -45,12 +45,36 @@
                                 <label for="">{{ __('Select Inspection Type') }}</label>
                             </div>
                             @foreach($data as $key=>$value)
+                            @php
+                            $disableinspectionroles = $option->get_option("disableinspectionroles_".$key);
+                            $disableinspectionusers = $option->get_option("disableinspectionusers_".$key);
+                            $roledisable = false;
+                            if(!empty($disableinspectionroles))
+                            {
+                            $roledisable = (in_array($roleid['id'], json_decode($disableinspectionroles, true))) ? true : false;
+                            }
+                            @endphp
+                            @if($roledisable == false && !empty($disableinspectionusers))
+                            @if(!in_array(Auth::user()->id, json_decode($disableinspectionusers, true)))
                             <div class="col-lg-4 my-2">
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" id="inspection-type-{{$key}}" type="checkbox" name="inspectiontype[]" value="{{$key}}">
                                     <label class="form-check-label" for="inspection-type-{{$key}}">{{__($value)}}</label>
                                 </div>
                             </div>
+                            @else
+                            @php
+                            $roledisable == false;
+                            @endphp
+                            @endif
+                            @elseif($roledisable == false)
+                                <div class="col-lg-4 my-2">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" id="inspection-type-{{$key}}" type="checkbox" name="inspectiontype[]" value="{{$key}}">
+                                        <label class="form-check-label" for="inspection-type-{{$key}}">{{__($value)}}</label>
+                                    </div>
+                                </div>  
+                            @endif
                             @endforeach
                         </div>
                     </div>

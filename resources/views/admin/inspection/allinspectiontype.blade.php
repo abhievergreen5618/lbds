@@ -11,32 +11,6 @@
 <div class="col-lg-12">
   <div class="card">
     <div class="card-body pt-2">
-      <div class="row">
-        <div class="col-md-6 my-2">
-          <label for="report">{{ __('Show Roles') }}</label>
-          <div class="select2-purple">
-            <select class="form-control disableinspection" name="roles" id="roles" multiple="multiple" data-dropdown-css-class="select2-purple">
-              @if(!empty($roles) && count($roles) != 0)
-              @foreach($roles as $key=>$value)
-              <option value="{{encrypt($key)}}" {{(!empty($disableinspectionroles)) ? (in_array($key,json_decode($disableinspectionroles,true))) ? 'selected' : '' : '' }}>{{__($value)}}</option>
-              @endforeach
-              @endif
-            </select>
-          </div>
-        </div>
-        <div class="col-md-6 my-2">
-          <label for="report">{{ __('Show User') }}</label>
-          <div class="select2-purple">
-            <select class="form-control disableinspection" name="users" id="users" multiple="multiple" data-dropdown-css-class="select2-purple">
-              @if(!empty($user) && count($user) != 0)
-              @foreach($user as $key=>$value)
-              <option value="{{encrypt($key)}}" {{(!empty($disableinspectionusers)) ? (in_array($key,json_decode($disableinspectionusers,true))) ? 'selected' : '' : ''  }}>{{__($value)}}</option>
-              @endforeach
-              @endif
-            </select>
-          </div>
-        </div>
-      </div>
       <table id="inspectiontable" class="table table-bordered table-striped">
         <thead>
           <tr>
@@ -54,6 +28,41 @@
     </div>
   </div>
 </div>
+<div class="modal fade" id="modal-overlay">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="overlay">
+        <i class="fas fa-2x fa-sync fa-spin"></i>
+      </div>
+      <div class="modal-header">
+        <h4 class="modal-title"></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12 my-2">
+            <label for="report">{{ __('Hide Roles') }}</label>
+            <div class="select2-purple">
+              <select class="form-control disableinspection" name="roles" id="roles" multiple="multiple" data-dropdown-css-class="select2-purple">
+              </select>
+            </div>
+          </div>
+          <div class="col-md-12 my-2">
+            <label for="report">{{ __('Hide User') }}</label>
+            <div class="select2-purple">
+              <select class="form-control disableinspection" name="users" id="users" multiple="multiple" data-dropdown-css-class="select2-purple">
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
 @endsection
 
 @push('footer_extras')
@@ -64,6 +73,7 @@
   });
   disableinspection.on('select2:selecting', function(sel) {
     var show = "disableinspection" + $(this).attr("id");
+    var inspectionid = $(this).attr("data-id");
     $(this).find("option[value=" + sel.params.args.data.id + "]").each(function(e) {
       element = $(this);
       var insid = element.val();
@@ -86,7 +96,8 @@
               data: {
                 id: insid,
                 show: show,
-                action : "add",
+                inspectionid : inspectionid,
+                action: "add",
               },
               dataType: 'json',
               success: function(data) {
@@ -109,6 +120,7 @@
 
   disableinspection.on('select2:unselecting', function(sel) {
     var show = "disableinspection" + $(this).attr("id");
+    var inspectionid = $(this).attr("data-id");
     $(this).find("option[value=" + sel.params.args.data.id + "]").each(function(e) {
       element = $(this);
       var insid = element.val();
@@ -131,7 +143,8 @@
               data: {
                 id: insid,
                 show: show,
-                action : "remove",
+                action: "remove",
+                inspectionid : inspectionid,
               },
               dataType: 'json',
               success: function(data) {
@@ -144,8 +157,7 @@
                 }
               }
             });
-          }
-          else {
+          } else {
             $(".disableinspection option[value='" + insid + "']").prop('selected', false).trigger('change.select2');
           }
         });

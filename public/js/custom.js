@@ -98,8 +98,13 @@ $(document).ready(function () {
             },
         },
         "columnDefs": [
-            { "className": "dt-center", "targets": "_all" }
+            { "className": "dt-center", "targets": "_all", "orderable": false, "className": 'select-checkbox', "targets": 0 },
         ],
+        "select": {
+            style: 'os',
+            selector: 'td:first-child'
+        },
+        "order": [[1, 'asc']],
         "columns": [
             {
                 "data": "created_at",
@@ -155,6 +160,33 @@ $(document).ready(function () {
                 "data": "action",
             },
         ],
+    });
+    inspectiontable.on('click', '.hide', function () {
+        var userid = $(this).attr('data-id');
+        var inspectiontitle = "Disable Inspection (" + $(this).attr('data-inspectionname') + ")";
+        $.ajax({
+            type: "POST",
+            headers: {
+                'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+            },
+            url: 'inspectiontypedisablelist',
+            data: {
+                id: userid
+            },
+            dataType: 'json',
+            success: function (data) {
+                $("#roles").html(data.role).trigger("change");
+                $("#roles").attr("data-id", userid);
+                $("#users").html(data.user).trigger("change");
+                $("#users").attr("data-id", userid);
+                $("#modal-overlay .modal-title").html(inspectiontitle);
+                $("#modal-overlay").modal("show");
+                $("#modal-overlay").find(".overlay").hide();
+            },
+            error: function (data) {
+                // console.log(data);
+            }
+        });
     });
     inspectiontable.on('click', '.delete', function () {
         $('#userdetails_processing').show();
@@ -295,16 +327,16 @@ $(document).ready(function () {
             placeholder: "Assign Inspector",
             tags: true,
         });
-        // $('.statusdropdown').select2({
-        //     placeholder: "Select Status",
-        //     tags: true,
-        // });
+        $('.statusdropdown').select2({
+            placeholder: "Select Status",
+            tags: true,
+        });
     }
     var requesttable = $('#requesttable').DataTable({
         "preDrawCallback": function (settings) {
             setTimeout(function () {
                 select2call();
-            }, 2000);
+            }, 1000);
         },
         "processing": true,
         "serverSide": true,
@@ -876,7 +908,7 @@ $(document).ready(function () {
             var reqid = $(this).attr('data-req-id');
             if (insid.length && reqid.length) {
                 Swal.fire({
-                    title: 'Are you sure want to assign '+ucfirst(insname)+'?',
+                    title: 'Are you sure want to assign ' + ucfirst(insname) + '?',
                     text: "Agency and inspector will be immediately notified!",
                     type: 'warning',
                     showCancelButton: true,
@@ -913,8 +945,7 @@ $(document).ready(function () {
                             }
                         });
                     }
-                    else
-                    {
+                    else {
                         $(".inspectorlist option[value='" + insid + "']").prop('selected', false).trigger('change.select2');
                     }
                 });
@@ -928,7 +959,7 @@ $(document).ready(function () {
             var insid = $(".statusdropdown").attr('data-req-id');
             if (insid.length && status.length) {
                 Swal.fire({
-                    title: 'Are you sure want to change status to '+ucfirst(status)+'?',
+                    title: 'Are you sure want to change status to ' + ucfirst(status) + '?',
                     text: "You will able to revert!",
                     type: 'warning',
                     showCancelButton: true,
@@ -965,8 +996,7 @@ $(document).ready(function () {
                             }
                         });
                     }
-                    else
-                    {
+                    else {
                         $(".inspectorlist option[value='" + insid + "']").prop('selected', false).trigger('change.select2');
                     }
                 });
@@ -1175,7 +1205,7 @@ $(document).ready(function () {
         "ajax": {
             "url": "agency-list/details",
             "type": "POST",
-            'beforeSend': function(request) {
+            'beforeSend': function (request) {
                 request.setRequestHeader("X-CSRF-TOKEN", jQuery('meta[name="csrf-token"]').attr('content'));
             },
         },
@@ -1183,29 +1213,29 @@ $(document).ready(function () {
             { "className": "dt-center", "targets": "_all" }
         ],
         "columns": [{
-                "data": "company_name",
-            },
-            {
-                "data": "name",
-            },
-            {
-                "data": "email",
-            },
-            {
-                "data": "zip_code",
-            },
-            {
-                "data": "approved",
-            },
+            "data": "company_name",
+        },
+        {
+            "data": "name",
+        },
+        {
+            "data": "email",
+        },
+        {
+            "data": "zip_code",
+        },
+        {
+            "data": "approved",
+        },
         ],
     });
-    
-    
-    agencyApprovaltable.on('change', '.approved', function() {
+
+
+    agencyApprovaltable.on('change', '.approved', function () {
         element = $(this);
         var userid = $(this).find(':selected').attr('data-id');
         var status = $(this).find(':selected').val();
-    
+
         Swal.fire({
             title: 'Are you sure?',
             text: "You will be able to revert this!",
@@ -1227,19 +1257,19 @@ $(document).ready(function () {
                         "status": status,
                     },
                     dataType: 'json',
-                    success: function(data) {
+                    success: function (data) {
                         agencyApprovaltable.ajax.reload();
                     },
-                    error: function(data) {
+                    error: function (data) {
                         // console.log(data);
                     }
                 });
             };
         });
     });
-    
-    
-    
+
+
+
     var agencydisapprovedtable = $('#agencydisapprovedtable').DataTable({
         "processing": true,
         "serverSide": true,
@@ -1247,7 +1277,7 @@ $(document).ready(function () {
         "ajax": {
             "url": "details",
             "type": "POST",
-            'beforeSend': function(request) {
+            'beforeSend': function (request) {
                 request.setRequestHeader("X-CSRF-TOKEN", jQuery('meta[name="csrf-token"]').attr('content'));
             },
         },
@@ -1255,29 +1285,29 @@ $(document).ready(function () {
             { "className": "dt-center", "targets": "_all" }
         ],
         "columns": [{
-                "data": "company_name",
-            },
-            {
-                "data": "name",
-            },
-            {
-                "data": "email",
-            },
-            {
-                "data": "zip_code",
-            },
-            {
-                "data": "approved",
-            },
+            "data": "company_name",
+        },
+        {
+            "data": "name",
+        },
+        {
+            "data": "email",
+        },
+        {
+            "data": "zip_code",
+        },
+        {
+            "data": "approved",
+        },
         ],
     });
-    
-    
-    agencydisapprovedtable.on('change', '.approved', function() {
+
+
+    agencydisapprovedtable.on('change', '.approved', function () {
         element = $(this);
         var userid = $(this).find(':selected').attr('data-id');
         var status = $(this).find(':selected').val();
-    
+
         Swal.fire({
             title: 'Are you sure?',
             text: "You will be able to revert this!",
@@ -1299,10 +1329,10 @@ $(document).ready(function () {
                         "status": status,
                     },
                     dataType: 'json',
-                    success: function(data) {
+                    success: function (data) {
                         agencydisapprovedtable.ajax.reload();
                     },
-                    error: function(data) {
+                    error: function (data) {
                         // console.log(data);
                     }
                 });
@@ -1409,14 +1439,12 @@ $(document).ready(function () {
                     });
                 }
             }
-            else
-            {
+            else {
                 var myagencyfilesnew = myagencyfiles.get(0).dropzone;
                 if (myagencyfilesnew.files.length == 0) {
                     requestformsubmit();
                 }
-                else 
-                {
+                else {
                     myagencyfilesnew.on('sending', function (file, xhr, formData) {
                         formData.append('type', $(myagencyfiles).attr("id"));
                     });
@@ -1428,6 +1456,40 @@ $(document).ready(function () {
                 }
             }
             return false;
+        }
+    });
+
+
+    $('.uploadfiles').click(function () {
+        var id = $(this).attr("data-id");
+        var newdropzone = $(this).parent().parent().find('.dropzone');
+        if ($(newdropzone).attr("id") == "reportfiles") {
+            var myreportfilesnew = myreportfiles.get(0).dropzone;
+            if (myreportfilesnew.files.length != 0) {
+                myreportfilesnew.on('sending', function (file, xhr, formData) {
+                    formData.append('taskid', id);
+                    formData.append('type', $(myreportfiles).attr("id"));
+                });
+                myreportfilesnew.processQueue();
+                myreportfilesnew.on("queuecomplete", function () {
+                    location.reload();
+                    $('.dz-remove').remove();
+                });
+            }
+        }
+        else {
+            var myagencyfilesnew = myagencyfiles.get(0).dropzone;
+            if (myagencyfilesnew.files.length != 0) {
+                myagencyfilesnew.on('sending', function (file, xhr, formData) {
+                    formData.append('taskid', id);
+                    formData.append('type', $(myagencyfiles).attr("id"));
+                });
+                myagencyfilesnew.processQueue();
+                myagencyfilesnew.on("queuecomplete", function () {
+                    location.reload();
+                    $('.dz-remove').remove();
+                });
+            }
         }
     });
 });
