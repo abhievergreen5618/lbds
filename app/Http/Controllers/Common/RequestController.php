@@ -467,6 +467,8 @@ class RequestController extends Controller
         $data = Inspectiontype::where("status", "active")->pluck("name", "id");
         $invoicedata = SendInvoice::where("status", "active")->pluck("name", "id");
         $inslist = User::role('inspector')->pluck("name", "id");
+        $maillist = [$requestdetails['applicantemail'],$companydetails['email']];
+        $attachments = $this->get_merged_files($agencyfiles['agency_related_files'],$reportfiles['reports_related_files']);
         return view('admin.request.requeststatus')->with(
             [
                 "companydetails" => $companydetails,
@@ -477,9 +479,32 @@ class RequestController extends Controller
                 "inspectordetails" => $inspectordetails,
                 "data" => $data,
                 "inslist" => $inslist,
+                "maillist" => $maillist,
+                "attachments" => $attachments,
             ]
         );
     }
+
+    public function get_merged_files($agencyfiles,$reportfiles)
+    {
+        if($agencyfiles != NULL && $reportfiles != NULL)
+        {
+            return array_merge($agencyfiles,$reportfiles);
+        }
+        elseif($agencyfiles == NULL)
+        {
+            return $reportfiles;
+        }
+        elseif($reportfiles == NULL)
+        {
+            return $agencyfiles;
+        }
+        else
+        {
+            return array();
+        }
+    }
+
     public function filedownload(Request $request)
     {
         $request->validate([

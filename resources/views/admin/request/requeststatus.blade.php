@@ -119,6 +119,49 @@
     h6.mb-0.font-95.float-end.col-6.px-2.p-1.bg-dark.font-weight-600.text-white {
         float: right !important;
     }
+
+    .custom-control.image-checkbox {
+        position: relative;
+        padding-left: 0;
+    }
+
+    .custom-control.image-checkbox .custom-control-input:checked~.custom-control-label:after,
+    .custom-control.image-checkbox .custom-control-input:checked~.custom-control-label:before {
+        opacity: 1;
+    }
+
+    .custom-control.image-checkbox label {
+        cursor: pointer;
+    }
+
+    .custom-control.image-checkbox label:before {
+        border-color: #007bff;
+        background-color: #007bff;
+    }
+
+    .custom-control.image-checkbox label:after,
+    .custom-control.image-checkbox label:before {
+        transition: opacity .3s ease;
+        opacity: 0;
+        left: .25rem;
+    }
+
+    .custom-control.image-checkbox label:focus,
+    .custom-control.image-checkbox label:hover {
+        opacity: .8;
+    }
+
+    .custom-control.image-checkbox label img {
+        border-radius: 2.5px;
+    }
+
+    .form-group-image-checkbox.is-invalid label {
+        color: #dc3545;
+    }
+
+    .form-group-image-checkbox.is-invalid .invalid-feedback {
+        display: block;
+    }
 </style>
 @endpush
 @extends('layouts.app')
@@ -376,6 +419,7 @@
                             </tr>
                         </tbody>
                     </table>
+                    @role('admin')
                     @if($requestdetails->status != "underreview" && $requestdetails->status != "completed")
                     @if(!empty($requestdetails->assigned_at))
                     <div class="mt-3 mb-3 scheduled0eaff1"> <span class="btn
@@ -454,6 +498,7 @@
                     </div>
                     @endif
                     @endif
+                    @endrole
                 </div>
             </div>
         </div>
@@ -592,6 +637,7 @@
                         </div>
                     </div>
                 </div>
+                @role('admin')
                 <div class="card card-success">
                     <div class="card-header">
                         <h4 class="card-title w-100">
@@ -602,19 +648,125 @@
                     </div>
                     <div id="collapseThree" class="collapse" data-parent="#accordion">
                         <div class="card-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
-                            3
-                            wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt
-                            laborum
-                            eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee
-                            nulla
-                            assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred
-                            nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft
-                            beer
-                            farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
-                            labore sustainable VHS.
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card card-primary card-outline">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Compose New Message</h3>
+                                        </div>
+                                        <!-- /.card-header -->
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <select class="form-control" name="reportmailto" id="reportmailto">
+                                                    <option value="">Select Mail</option>
+                                                    @if(!empty($maillist) && count($maillist) != 0)
+                                                    @foreach($maillist as $key=>$value)
+                                                    <option value="{{encrypt($key)}}">{{__($value)}}</option>
+                                                    @endforeach
+                                                    @endif
+                                                </select>
+                                                <!-- <input class="form-control" placeholder="To:"> -->
+                                            </div>
+                                            <div class="form-group">
+                                                <input class="form-control" placeholder="Subject:">
+                                            </div>
+                                            <div class="form-group">
+                                                <textarea id="compose-textarea" class="form-control" style="height: 700px">
+                                                    <!-- <h1><u>Heading Of Message</u></h1>
+                                                    <h4>Subheading</h4>
+                                                    <p>But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain
+                                                        was born and I will give you a complete account of the system, and expound the actual teachings
+                                                        of the great explorer of the truth, the master-builder of human happiness. No one rejects,
+                                                        dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know
+                                                        how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again
+                                                        is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain,
+                                                        but because occasionally circumstances occur in which toil and pain can procure him some great
+                                                        pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise,
+                                                        except to obtain some advantage from it? But who has any right to find fault with a man who
+                                                        chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that
+                                                        produces no resultant pleasure? On the other hand, we denounce with righteous indignation and
+                                                        dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so
+                                                        blinded by desire, that they cannot foresee</p>
+                                                    <ul>
+                                                        <li>List item one</li>
+                                                        <li>List item two</li>
+                                                        <li>List item three</li>
+                                                        <li>List item four</li>
+                                                    </ul>
+                                                    <p>Thank you,</p>
+                                                    <p>John Doe</p> -->
+                                                </textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="card card-primary card-outline">
+                                                    <div class="card-header">
+                                                        <h3 class="card-title">Select Attachments</h3>
+                                                    </div>
+                                                    <!-- /.card-header -->
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            @if(!empty($attachments) && count($attachments) != 0)
+                                                            @php $i = 1; @endphp
+                                                            @foreach ($attachments as $key => $item)
+                                                            @php
+                                                            $info = pathinfo(public_path('taskfiles') . $item);
+                                                            $ext = $info['extension'];
+                                                            @endphp
+                                                            @if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg')
+                                                            <div class="col-md-3 @if ($i >= 5) {{ 'mt-3' }} @endif">
+                                                                <div class="custom-control custom-checkbox image-checkbox">
+                                                                    <input type="checkbox" class="custom-control-input" id="ck_.{{$key}}" checked>
+                                                                    <label class="custom-control-label" for="ck_.{{$key}}">
+                                                                        <img src="{{ asset('taskfiles/' . $item) }}" alt="#" class="img-fluid">
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            @else
+                                                            <div class="col-md-3 @if ($i >= 5) {{ 'mt-3' }} @endif">
+                                                                <div class="custom-control custom-checkbox image-checkbox">
+                                                                    <input type="checkbox" class="custom-control-input" id="ck_.{{$key}}" checked>
+                                                                    <label class="custom-control-label" for="ck_.{{$key}}">
+                                                                        <div class="taskpdf h-100" data-file="{{ asset('taskfiles/' . $item) }}">
+                                                                            <span class="h-100 w-100 d-flex justify-content-center align-items-center flex-column" style=" overflow: hidden;
+                                                                                                        text-overflow: ellipsis; word-break: break-all;">
+                                                                                {{ $item }}
+                                                                            </span>
+                                                                        </div>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            @endif
+                                                            @php
+                                                            $i++;
+                                                            @endphp
+                                                            @endforeach
+                                                            @endif
+                                                        </div>
+                                                        <!-- <div class="btn btn-default btn-file">
+                                                    <i class="fas fa-paperclip"></i> Attachment
+                                                    <input type="file" name="attachment">
+                                                </div> -->
+                                                        <!-- <p class="help-block">Max. 32MB</p> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.card-body -->
+                                        <div class="card-footer">
+                                            <div class="float-right">
+                                                <!-- <button type="button" class="btn btn-default"><i class="fas fa-pencil-alt"></i> Draft</button> -->
+                                                <button type="submit" class="btn btn-primary"><i class="far fa-envelope"></i> Send</button>
+                                            </div>
+                                            <!-- <button type="reset" class="btn btn-default"><i class="fas fa-times"></i> Discard</button> -->
+                                        </div>
+                                        <!-- /.card-footer -->
+                                    </div>
+                                    <!-- /.card -->
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    @endrole
                 </div>
             </div>
         </div>
@@ -622,3 +774,63 @@
 </div>
 
 @endsection
+
+@push('footer_extras')
+<script>
+    $(document).ready(function() {
+        $("#reportmailto").select2({
+            tags: true
+        });
+        $('#compose-textarea').summernote();
+        let els = document.querySelectorAll('.source-code')
+
+        for (let el of els) {
+            let text = el.innerHTML
+
+            // let fix the source code
+            let lines = text.split("\n");
+            let rows = [];
+            let tabSize = 1000;
+
+            for (let i = 0; i < lines.length; i++) {
+                let line = lines[i];
+
+
+                // - remove empty first and last line.
+                if (!i || i == (lines.length - 1)) {
+                    if (!line.trim())
+                        continue;
+                }
+
+                // - find the correct tab size
+                line = line.replace(/ +$/, '');
+                if (line) {
+                    let prefSpace = line.length - (line.trim()).length;
+                    if (prefSpace < tabSize)
+                        tabSize = prefSpace;
+                }
+
+                rows.push(line);
+            }
+
+            // - trim all rows by the shortest tab size
+            for (let i = 0; i < rows.length; i++)
+                rows[i] = rows[i].substr(tabSize)
+
+            text = rows.join("\n");
+
+            let parent = el.parentNode;
+            let pre = document.createElement('pre');
+            let code = document.createElement('code');
+            code.classList.add('language-' + el.dataset.hl);
+            pre.appendChild(code);
+            parent.appendChild(pre);
+
+            text = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            code.innerHTML = text;
+
+            Prism.highlightElement(code);
+        }
+    });
+</script>
+@endpush

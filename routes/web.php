@@ -207,7 +207,7 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
     {
         Auth::logout();
     //    return view('admin.approval')->with("msg",Auth::user()->approved);
-    return redirect()->route('admin.agency.approval');
+        return view('admin.agency.approval');
     }
     else{
         return redirect('/home');
