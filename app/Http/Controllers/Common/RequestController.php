@@ -694,6 +694,7 @@ class RequestController extends Controller
     }
     public function sendmailreport(Request $request)
     {
+        ini_set('display_errors', 1);
         $data = $request->all();
         $request->validate(
             [
