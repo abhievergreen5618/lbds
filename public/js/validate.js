@@ -72,8 +72,7 @@ $(document).ready(function () {
       if (element.attr("type") == "checkbox" || element.attr("type") == "radio") {
         $(element).parent().parent().parent().parent().append(error);
       }
-      else if(element.attr("name") == "agency" )
-      {
+      else if (element.attr("name") == "agency") {
         $(element).parent().append(error);
       }
       else {
@@ -136,50 +135,50 @@ $(document).ready(function () {
     errorClass: "error fail-alert",
     validClass: "valid success-alert",
     rules: {
-        employeename: {
-            required: true,
-        },
-        employeeemail: {
-            email: true,
-            required: true,
-        },
-        employeemobile: {
-            required: true,
-            minlength: 10,
-            maxlength: 10,
-        },
-        employeeaddress: {
-            required: true,
-        },
-        employeecity: {
-            required: true,
-        },
-        employeestate: {
-            required: true,
-        },
-        employeezipcode: {
-            required: true,
-        },
-        employeepassword: {
-            required: false,
-            minlength: 8
-        },
-        password_confirmation: {
-            required: false,
-            minlength: 8,
-            equalTo: '#password',
-        }
+      employeename: {
+        required: true,
+      },
+      employeeemail: {
+        email: true,
+        required: true,
+      },
+      employeemobile: {
+        required: true,
+        minlength: 10,
+        maxlength: 10,
+      },
+      employeeaddress: {
+        required: true,
+      },
+      employeecity: {
+        required: true,
+      },
+      employeestate: {
+        required: true,
+      },
+      employeezipcode: {
+        required: true,
+      },
+      employeepassword: {
+        required: false,
+        minlength: 8
+      },
+      password_confirmation: {
+        required: false,
+        minlength: 8,
+        equalTo: '#password',
+      }
     },
-    errorPlacement: function(error, element) {
-        if (element.attr("type") == "checkbox" || element.attr("type") == "radio") {
-            $(element).parent().parent().append(error);
-        } else if (element.attr("name") == "password") {
-            $(element).parent().append(error);
-        } else {
-            element.after(error);
-        }
+    errorPlacement: function (error, element) {
+      if (element.attr("type") == "checkbox" || element.attr("type") == "radio") {
+        $(element).parent().parent().append(error);
+      } else if (element.attr("name") == "password") {
+        $(element).parent().append(error);
+      } else {
+        element.after(error);
+      }
     }
-});
+  });
   $('#profile-form').validate({
     errorClass: "error fail-alert",
     validClass: "valid success-alert",
@@ -228,152 +227,185 @@ $(document).ready(function () {
     }
   });
 
-    //
-    $('#agencyaddform').validate({
-      errorClass: "error fail-alert",
-      validClass: "valid success-alert",
-      rules: {
-          company_name: {
-              required: true,
-          },
-          city: {
-              required: true,
-          },
-          company_address: {
-              required: true,
-          },
-          company_phonenumber: {
-              required: true,
-              minlength: 10,
-              maxlength: 10,
-          },
-          name: {
-              required: true,
-          },
-          direct_number: {
-              required: true,
-              minlength: 10,
-              maxlength: 10,
-          },
-          zip_code: {
-              required: true,
-          },
-          email: {
-              required: true,
-              email: true,
-          },
-          password: {
-              required: true,
-              minlength: 8
-          },
-          password_confirmation: {
-              required: true,
-              minlength: 8,
-              equalTo: '#password',
-          }
+  //
+  $('#agencyaddform').validate({
+    errorClass: "error fail-alert",
+    validClass: "valid success-alert",
+    rules: {
+      company_name: {
+        required: true,
       },
-      errorPlacement: function(error, element) {
-          if (element.attr("type") == "checkbox" || element.attr("type") == "radio") {
-              $(element).parent().parent().append(error);
-          } else if (element.attr("name") == "password") {
-              $(element).parent().append(error);
-          } else {
-              element.after(error);
-          }
+      city: {
+        required: true,
+      },
+      company_address: {
+        required: true,
+      },
+      company_phonenumber: {
+        required: true,
+        minlength: 10,
+        maxlength: 10,
+      },
+      name: {
+        required: true,
+      },
+      direct_number: {
+        required: true,
+        minlength: 10,
+        maxlength: 10,
+      },
+      zip_code: {
+        required: true,
+      },
+      email: {
+        required: true,
+        email: true,
+      },
+      password: {
+        required: true,
+        minlength: 8
+      },
+      password_confirmation: {
+        required: true,
+        minlength: 8,
+        equalTo: '#password',
       }
+    },
+    errorPlacement: function (error, element) {
+      if (element.attr("type") == "checkbox" || element.attr("type") == "radio") {
+        $(element).parent().parent().append(error);
+      } else if (element.attr("name") == "password") {
+        $(element).parent().append(error);
+      } else {
+        element.after(error);
+      }
+    }
   });
 
 
   $('#agencyupdateform').validate({
-      errorClass: "error fail-alert",
-      validClass: "valid success-alert",
-      rules: {
-          company_name: {
-              required: true,
-          },
-          city: {
-              required: true,
-          },
-          company_address: {
-              required: true,
-          },
-          company_phonenumber: {
-              required: true,
-              minlength: 10,
-              maxlength: 10,
-          },
-          name: {
-              required: true,
-          },
-          direct_number: {
-              required: true,
-              minlength: 10,
-              maxlength: 10,
-          },
-          zip_code: {
-              required: true,
-          },
-          email: {
-              required: true,
-              email: true,
-          },
-          password: {
-              required: false,
-              minlength: 8
-          },
-          password_confirmation: {
-              required: false,
-              minlength: 8,
-              equalTo: '#password',
-          }
+    errorClass: "error fail-alert",
+    validClass: "valid success-alert",
+    rules: {
+      company_name: {
+        required: true,
       },
-      errorPlacement: function(error, element) {
-          if (element.attr("type") == "checkbox" || element.attr("type") == "radio") {
-              $(element).parent().parent().append(error);
-          } else if (element.attr("name") == "password") {
-              $(element).parent().append(error);
-          } else {
-              element.after(error);
-          }
+      city: {
+        required: true,
+      },
+      company_address: {
+        required: true,
+      },
+      company_phonenumber: {
+        required: true,
+        minlength: 10,
+        maxlength: 10,
+      },
+      name: {
+        required: true,
+      },
+      direct_number: {
+        required: true,
+        minlength: 10,
+        maxlength: 10,
+      },
+      zip_code: {
+        required: true,
+      },
+      email: {
+        required: true,
+        email: true,
+      },
+      password: {
+        required: false,
+        minlength: 8
+      },
+      password_confirmation: {
+        required: false,
+        minlength: 8,
+        equalTo: '#password',
       }
+    },
+    errorPlacement: function (error, element) {
+      if (element.attr("type") == "checkbox" || element.attr("type") == "radio") {
+        $(element).parent().parent().append(error);
+      } else if (element.attr("name") == "password") {
+        $(element).parent().append(error);
+      } else {
+        element.after(error);
+      }
+    }
   });
   $('#websiteconfigurationform').validate({
-      errorClass: "error fail-alert",
-      validClass: "valid success-alert",
-      rules: {
-          name: {
-              required: true,
-          },
-          email: {
-              required: true,
-              email:true,
-          },
+    errorClass: "error fail-alert",
+    validClass: "valid success-alert",
+    rules: {
+      name: {
+        required: true,
       },
+      email: {
+        required: true,
+        email: true,
+      },
+    },
   });
   $('#emailconfiguration').validate({
-      errorClass: "error fail-alert",
-      validClass: "valid success-alert",
-      rules: {
-          mail_host: {
-                required: true,
-            },
-          mail_port: {
-              required: true,
-          },
-          mail_username: {
-              required: true,
-          },
-          mail_password: {
-              required: true,
-          },
-          mail_address: {
-              required: true,
-              email:true,
-          },
-          mail_encryption: {
-              required: true,
-          },
+    errorClass: "error fail-alert",
+    validClass: "valid success-alert",
+    rules: {
+      mail_host: {
+        required: true,
       },
+      mail_port: {
+        required: true,
+      },
+      mail_username: {
+        required: true,
+      },
+      mail_password: {
+        required: true,
+      },
+      mail_address: {
+        required: true,
+        email: true,
+      },
+      mail_encryption: {
+        required: true,
+      },
+    },
   });
-
+  $('#reportmailform').validate({
+    errorClass: "error fail-alert",
+    validClass: "valid success-alert",
+    ignore: ':hidden:not(.summernote),.note-editable.card-block',
+    rules: {
+      reportmailto: {
+        required: true,
+      },
+      subject: {
+        required: true,
+      },
+      message: {
+        required: true,
+      },
+      "attachments[]": {
+        required: true,
+      },
+    },
+    errorPlacement: function (error, element) {
+      console.log(element);
+      if (element.attr("name") == "reportmailto") {
+        $(element).parent().parent().append(error);
+      }
+      else if (element.hasClass("summernote")) {
+        error.insertAfter(element.siblings(".note-editor"));
+      }
+      else if (element.attr("type") == "checkbox" || element.attr("type") == "radio") {
+        $(element).parent().parent().parent().parent().append(error);
+      }
+      else {
+        element.after(error);
+      }
+    }
+  });
 });

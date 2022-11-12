@@ -162,6 +162,17 @@
     .form-group-image-checkbox.is-invalid .invalid-feedback {
         display: block;
     }
+
+    .note-editor {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+
+    input.valid.success-alert
+    {
+        background-image: none !important;
+    }
 </style>
 @endpush
 @extends('layouts.app')
@@ -651,27 +662,45 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="card card-primary card-outline">
-                                        <div class="card-header">
-                                            <h3 class="card-title">Compose New Message</h3>
-                                        </div>
-                                        <!-- /.card-header -->
-                                        <div class="card-body">
-                                            <div class="form-group">
-                                                <select class="form-control" name="reportmailto" id="reportmailto">
-                                                    <option value="">Select Mail</option>
-                                                    @if(!empty($maillist) && count($maillist) != 0)
-                                                    @foreach($maillist as $key=>$value)
-                                                    <option value="{{encrypt($key)}}">{{__($value)}}</option>
-                                                    @endforeach
-                                                    @endif
-                                                </select>
-                                                <!-- <input class="form-control" placeholder="To:"> -->
+                                        <form action="{{route('sendmailreport')}}" id="reportmailform" method="post">
+                                            @csrf
+                                            <div class="card-header">
+                                                <h3 class="card-title">Compose New Message</h3>
                                             </div>
-                                            <div class="form-group">
-                                                <input class="form-control" placeholder="Subject:">
-                                            </div>
-                                            <div class="form-group">
-                                                <textarea id="compose-textarea" class="form-control" style="height: 700px">
+                                            <!-- /.card-header -->
+                                            <div class="card-body">
+                                                <div class="form-group">
+                                                    <div class="select2-purple">
+                                                        <select class="form-control" name="reportmailto[]" id="reportmailto">
+                                                            @if(!empty($maillist) && count($maillist) != 0)
+                                                            @foreach($maillist as $key=>$value)
+                                                            <option value="{{$value}}">{{__($value)}}</option>
+                                                            @endforeach
+                                                            @endif
+                                                        </select>
+                                                        @error('reportmailto')
+                                                        <div>
+                                                            <label class="error fail-alert  mt-1">{{$message}}<label>
+                                                        </div>
+                                                        @enderror
+                                                        <!-- <input class="form-control" placeholder="To:"> -->
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input class="form-control" placeholder="Subject:" name="subject" value="{{ old('subject') }}">
+                                                    @error('subject')
+                                                    <div>
+                                                        <label class="error fail-alert  mt-1">{{$message}}<label>
+                                                    </div>
+                                                    @enderror
+                                                </div>
+                                                <div class="form-group">
+                                                    <textarea id="compose-textarea" class="form-control summernote" style="height: 700px" name="message">{{ old('message') }}</textarea>
+                                                    @error('message')
+                                                    <div>
+                                                        <label class="error fail-alert  mt-1">{{$message}}<label>
+                                                    </div>
+                                                    @enderror
                                                     <!-- <h1><u>Heading Of Message</u></h1>
                                                     <h4>Subheading</h4>
                                                     <p>But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain
@@ -695,70 +724,77 @@
                                                     </ul>
                                                     <p>Thank you,</p>
                                                     <p>John Doe</p> -->
-                                                </textarea>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="card card-primary card-outline">
-                                                    <div class="card-header">
-                                                        <h3 class="card-title">Select Attachments</h3>
-                                                    </div>
-                                                    <!-- /.card-header -->
-                                                    <div class="card-body">
-                                                        <div class="row">
-                                                            @if(!empty($attachments) && count($attachments) != 0)
-                                                            @php $i = 1; @endphp
-                                                            @foreach ($attachments as $key => $item)
-                                                            @php
-                                                            $info = pathinfo(public_path('taskfiles') . $item);
-                                                            $ext = $info['extension'];
-                                                            @endphp
-                                                            @if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg')
-                                                            <div class="col-md-3 @if ($i >= 5) {{ 'mt-3' }} @endif">
-                                                                <div class="custom-control custom-checkbox image-checkbox">
-                                                                    <input type="checkbox" class="custom-control-input" id="ck_.{{$key}}" checked>
-                                                                    <label class="custom-control-label" for="ck_.{{$key}}">
-                                                                        <img src="{{ asset('taskfiles/' . $item) }}" alt="#" class="img-fluid">
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                            @else
-                                                            <div class="col-md-3 @if ($i >= 5) {{ 'mt-3' }} @endif">
-                                                                <div class="custom-control custom-checkbox image-checkbox">
-                                                                    <input type="checkbox" class="custom-control-input" id="ck_.{{$key}}" checked>
-                                                                    <label class="custom-control-label" for="ck_.{{$key}}">
-                                                                        <div class="taskpdf h-100" data-file="{{ asset('taskfiles/' . $item) }}">
-                                                                            <span class="h-100 w-100 d-flex justify-content-center align-items-center flex-column" style=" overflow: hidden;
-                                                                                                        text-overflow: ellipsis; word-break: break-all;">
-                                                                                {{ $item }}
-                                                                            </span>
-                                                                        </div>
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                            @endif
-                                                            @php
-                                                            $i++;
-                                                            @endphp
-                                                            @endforeach
-                                                            @endif
+
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="card card-primary card-outline">
+                                                        <div class="card-header">
+                                                            <h3 class="card-title">Select Attachments</h3>
                                                         </div>
-                                                        <!-- <div class="btn btn-default btn-file">
+                                                        <!-- /.card-header -->
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                @if(!empty($attachments) && count($attachments) != 0)
+                                                                @php $i = 1; @endphp
+                                                                @foreach ($attachments as $key => $item)
+                                                                @php
+                                                                $info = pathinfo(public_path('taskfiles') . $item);
+                                                                $ext = $info['extension'];
+                                                                @endphp
+                                                                @if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg')
+                                                                <div class="col-md-3 @if ($i >= 5) {{ 'mt-3' }} @endif">
+                                                                    <div class="custom-control custom-checkbox image-checkbox">
+                                                                        <input type="checkbox" class="custom-control-input" name="attachments[]" value="{{ asset('taskfiles/' . $item) }}" id="ck_.{{$key}}" checked>
+                                                                        <label class="custom-control-label" for="ck_.{{$key}}">
+                                                                            <img src="{{ asset('taskfiles/' . $item) }}" alt="#" class="img-fluid">
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                @else
+                                                                <div class="col-md-3 @if ($i >= 5) {{ 'mt-3' }} @endif">
+                                                                    <div class="custom-control custom-checkbox image-checkbox">
+                                                                        <input type="checkbox" class="custom-control-input" name="attachments[]" value="{{ asset('taskfiles/' . $item) }}" id="ck_.{{$key}}" checked>
+                                                                        <label class="custom-control-label" for="ck_.{{$key}}">
+                                                                            <div class="taskpdf h-100" data-file="{{ asset('taskfiles/' . $item) }}">
+                                                                                <span class="h-100 w-100 d-flex justify-content-center align-items-center flex-column" style=" overflow: hidden;
+                                                                                                        text-overflow: ellipsis; word-break: break-all;">
+                                                                                    {{ $item }}
+                                                                                </span>
+                                                                            </div>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                @endif
+                                                                @php
+                                                                $i++;
+                                                                @endphp
+                                                                @endforeach
+                                                                @endif
+                                                            </div>
+                                                            <!-- <div class="btn btn-default btn-file">
                                                     <i class="fas fa-paperclip"></i> Attachment
                                                     <input type="file" name="attachment">
                                                 </div> -->
-                                                        <!-- <p class="help-block">Max. 32MB</p> -->
+                                                            <!-- <p class="help-block">Max. 32MB</p> -->
+                                                            @error('attachments')
+                                                            <div>
+                                                                <label class="error fail-alert  mt-1">{{$message}}<label>
+                                                            </div>
+                                                            @enderror
+                                                        </div>
                                                     </div>
                                                 </div>
+
                                             </div>
-                                        </div>
-                                        <!-- /.card-body -->
-                                        <div class="card-footer">
-                                            <div class="float-right">
-                                                <!-- <button type="button" class="btn btn-default"><i class="fas fa-pencil-alt"></i> Draft</button> -->
-                                                <button type="submit" class="btn btn-primary"><i class="far fa-envelope"></i> Send</button>
+                                            <!-- /.card-body -->
+                                            <div class="card-footer">
+                                                <div class="float-right">
+                                                    <!-- <button type="button" class="btn btn-default"><i class="fas fa-pencil-alt"></i> Draft</button> -->
+                                                    <button type="submit" class="btn btn-primary"><i class="far fa-envelope"></i> Send</button>
+                                                </div>
+                                                <!-- <button type="reset" class="btn btn-default"><i class="fas fa-times"></i> Discard</button> -->
                                             </div>
-                                            <!-- <button type="reset" class="btn btn-default"><i class="fas fa-times"></i> Discard</button> -->
-                                        </div>
+                                        </form>
                                         <!-- /.card-footer -->
                                     </div>
                                     <!-- /.card -->
@@ -779,7 +815,8 @@
 <script>
     $(document).ready(function() {
         $("#reportmailto").select2({
-            tags: true
+            tags: true,
+            multiple: true,
         });
         $('#compose-textarea').summernote();
         let els = document.querySelectorAll('.source-code')

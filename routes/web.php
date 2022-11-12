@@ -57,7 +57,7 @@ Route::controller(RequestController::class)->group(function () {
     Route::post('/request-update', 'update')->name('requestupdate');
     Route::post('/requestschedule', 'schedule')->name('requestschedule');
     Route::get('/filedownload', 'filedownload')->name('filedownload');
-    Route::post('/statusupdate', 'statusupdate')->name('statusupdate');
+    Route::post('/sendmailreport', 'sendmailreport')->name('sendmailreport');
 
     // company routes
     Route::get('/company-request-list', 'showcompanylist')->name('company.request.list');

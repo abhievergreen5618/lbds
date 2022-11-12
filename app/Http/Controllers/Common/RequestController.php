@@ -16,6 +16,8 @@ use App\Mail\Admin\Inspectorassign;
 use App\Models\Options;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Role;
+use App\Mail\Admin\Report;
+use Mockery\Expectation;
 
 class RequestController extends Controller
 {
@@ -438,13 +440,11 @@ class RequestController extends Controller
                 }
                 ($request['type'] == "agencyfiles") ? RequestModel::where('id', $id)->update(["agency_related_files" => $filearray]) : RequestModel::where('id', $id)->update(["reports_related_files" => $filearray]);
                 return response()->json(array("msg" => "Added Successfully"), 200);
-            }
-            else
-            {
+            } else {
                 $id = decrypt($request['taskid']);
                 $type = ($request['type'] == "agencyfiles") ? "agency_related_files" : "reports_related_files";
                 $files = RequestModel::where('id', $id)->first($type);
-                $filearray = (!empty($files[$type]) && count($files[$type]) !=0) ? $files[$type] : array();
+                $filearray = (!empty($files[$type]) && count($files[$type]) != 0) ? $files[$type] : array();
                 foreach ($request->file('file') as $key => $value) {
                     $rand = rand(10, 5000);
                     $fileName = time() . $rand . '.' . $value->getClientOriginalExtension();
@@ -467,8 +467,8 @@ class RequestController extends Controller
         $data = Inspectiontype::where("status", "active")->pluck("name", "id");
         $invoicedata = SendInvoice::where("status", "active")->pluck("name", "id");
         $inslist = User::role('inspector')->pluck("name", "id");
-        $maillist = [$requestdetails['applicantemail'],$companydetails['email']];
-        $attachments = $this->get_merged_files($agencyfiles['agency_related_files'],$reportfiles['reports_related_files']);
+        $maillist = [$requestdetails['applicantemail'], $companydetails['email']];
+        $attachments = $this->get_merged_files($agencyfiles['agency_related_files'], $reportfiles['reports_related_files']);
         return view('admin.request.requeststatus')->with(
             [
                 "companydetails" => $companydetails,
@@ -485,22 +485,15 @@ class RequestController extends Controller
         );
     }
 
-    public function get_merged_files($agencyfiles,$reportfiles)
+    public function get_merged_files($agencyfiles, $reportfiles)
     {
-        if($agencyfiles != NULL && $reportfiles != NULL)
-        {
-            return array_merge($agencyfiles,$reportfiles);
-        }
-        elseif($agencyfiles == NULL)
-        {
+        if ($agencyfiles != NULL && $reportfiles != NULL) {
+            return array_merge($agencyfiles, $reportfiles);
+        } elseif ($agencyfiles == NULL) {
             return $reportfiles;
-        }
-        elseif($reportfiles == NULL)
-        {
+        } elseif ($reportfiles == NULL) {
             return $agencyfiles;
-        }
-        else
-        {
+        } else {
             return array();
         }
     }
@@ -698,5 +691,33 @@ class RequestController extends Controller
     public function showcompanylist(Request $request)
     {
         return view('company.request.requestlist');
+    }
+    public function sendmailreport(Request $request)
+    {
+        $data = $request->all();
+        $request->validate(
+            [
+                "reportmailto" => "required",
+                "subject" => "required",
+                "message" => "required",
+                "attachments" => "required",
+            ],
+            [
+                "required" => "This field is required.",
+            ]
+        );
+        foreach($request['reportmailto'] as $key=>$value)
+        {
+            try
+            {
+                Mail::to($value)->send(new Report($data));
+            }
+            catch(Expectation $e)
+            {
+                return redirect()->back()->with('error', 'Failed to Send Report Mail');
+            }
+            
+        }
+        return redirect()->back()->with('msg', 'Report Mail Send Successfully');
     }
 }
