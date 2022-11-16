@@ -183,7 +183,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::controller(MailBoxController::class)->group(function () {
         Route::get('/mailbox/sent','index')->name('mailbox.sent');
-        Route::get('/mailbox/draft','index')->name('mailbox.draft');
+        Route::get('/mailbox/draft','draft')->name('mailbox.draft');
         Route::get('/mailbox/read-mail','show')->name('mailbox.readmail');
     });
 

@@ -89,9 +89,9 @@
                         </div>
                       </td>
                       <td class="mailbox-star"><a href="#"><i class="fas fa-star text-warning"></i></a></td>
-                      <td class="mailbox-name"><a href="{{route('mailbox.readmail')}}">Alexander Pierce</a></td>
+                      <td class="mailbox-name"><a href="{{route('mailbox.readmail',['id'=>encrypt($value->id)])}}">Alexander Pierce</a></td>
                       <td class="mailbox-subject">{{$value->subject}}</td>
-                      <td class="mailbox-attachment"></td>
+                      <td class="mailbox-attachment">@if(!empty($value->attachments))<i class="fas fa-paperclip"></i>@endif</td>
                       <td class="mailbox-date">{{$value->updated_at->diffForHumans()}}</td>
                     </tr>
                 @empty

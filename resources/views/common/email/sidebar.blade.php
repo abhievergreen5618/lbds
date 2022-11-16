@@ -21,13 +21,13 @@
             <li class="nav-item">
                 <a href="{{route('mailbox.sent')}}" class="nav-link">
                     <i class="far fa-envelope"></i> Sent
-                    <span class="badge bg-primary float-right">12</span>
+                    <span class="badge bg-primary float-right">{{$sentmailcount}}</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a href="{{route('mailbox.draft')}}" class="nav-link">
                     <i class="far fa-file-alt"></i> Drafts
-                    <span class="badge bg-primary float-right">12</span>
+                    <span class="badge bg-primary float-right">{{$draftmailcount}}</span>
                 </a>
             </li>
             <!-- <li class="nav-item">

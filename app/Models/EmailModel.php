@@ -27,12 +27,9 @@ class EmailModel extends Model
 
     public function saveemail($data,$status)
     {
-        EmailModel::updateOrCreate(
+        EmailModel::Create(
             [
                 "requestid"=>$data['requestid'],
-                "status" => "draft",
-            ],
-            [
                 "mailto"=>$data['reportmailto'],
                 "subject"=>$data['subject'],
                 "message"=>$data['message'],
