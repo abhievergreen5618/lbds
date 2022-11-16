@@ -1,7 +1,7 @@
 $(document).ready(function () {
-    // $(".alert").not('.cancelrequest').delay(4000).slideUp(200, function () {
-    //     $(this).alert('close');
-    // });
+    $(".alert").not('.cancelrequest').delay(4000).slideUp(200, function () {
+        $(this).alert('close');
+    });
     //employee-list with the DataTables
     var employeetable = $('#employeetable').DataTable({
         "processing": true,
