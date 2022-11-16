@@ -17,7 +17,7 @@ use App\Models\Options;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Role;
 use App\Mail\Admin\Report;
-use Mockery\Expectation;
+use Exception;
 
 class RequestController extends Controller
 {
@@ -713,7 +713,7 @@ class RequestController extends Controller
             {
                 Mail::to($value)->send(new Report($data));
             }
-            catch(Expectation $e)
+            catch(Exception $e)
             {
                 return redirect()->back()->with('error', 'Failed to Send Report Mail');
             }
