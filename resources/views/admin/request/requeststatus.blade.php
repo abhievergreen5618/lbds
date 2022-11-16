@@ -169,8 +169,7 @@
     }
 
 
-    input.valid.success-alert
-    {
+    input.valid.success-alert {
         background-image: none !important;
     }
 </style>
@@ -730,6 +729,11 @@
                                                     <div class="card card-primary card-outline">
                                                         <div class="card-header">
                                                             <h3 class="card-title">Select Attachments</h3>
+                                                            <div class="card-tools">
+                                                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                                    <i class="fas fa-minus"></i>
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                         <!-- /.card-header -->
                                                         <div class="card-body">
@@ -743,18 +747,18 @@
                                                                 @endphp
                                                                 @if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg')
                                                                 <div class="col-md-3 @if ($i >= 5) {{ 'mt-3' }} @endif">
-                                                                    <div class="custom-control custom-checkbox image-checkbox">
+                                                                    <div class="custom-control custom-checkbox image-checkbox h-100">
                                                                         <input type="checkbox" class="custom-control-input" name="attachments[]" value="{{ asset('taskfiles/' . $item) }}" id="ck_.{{$key}}" checked>
-                                                                        <label class="custom-control-label" for="ck_.{{$key}}">
-                                                                            <img src="{{ asset('taskfiles/' . $item) }}" alt="#" class="img-fluid">
+                                                                        <label class="custom-control-label h-100" for="ck_.{{$key}}">
+                                                                            <img src="{{ asset('taskfiles/' . $item) }}" alt="#" class="img-fluid h-100">
                                                                         </label>
                                                                     </div>
                                                                 </div>
                                                                 @else
-                                                                <div class="col-md-3 @if ($i >= 5) {{ 'mt-3' }} @endif">
-                                                                    <div class="custom-control custom-checkbox image-checkbox">
+                                                                <div class="col-md-3 @if ($i >= 5) {{ 'mt-3' }} @endif ">
+                                                                    <div class="custom-control custom-checkbox image-checkbox h-100" style="min-height: 120px;">
                                                                         <input type="checkbox" class="custom-control-input" name="attachments[]" value="{{ asset('taskfiles/' . $item) }}" id="ck_.{{$key}}" checked>
-                                                                        <label class="custom-control-label" for="ck_.{{$key}}">
+                                                                        <label class="custom-control-label h-100 w-100" for="ck_.{{$key}}">
                                                                             <div class="taskpdf h-100" data-file="{{ asset('taskfiles/' . $item) }}">
                                                                                 <span class="h-100 w-100 d-flex justify-content-center align-items-center flex-column" style=" overflow: hidden;
                                                                                                         text-overflow: ellipsis; word-break: break-all;">

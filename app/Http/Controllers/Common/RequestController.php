@@ -715,9 +715,8 @@ class RequestController extends Controller
             }
             catch(Exception $e)
             {
-                return redirect()->back()->with('error', 'Failed to Send Report Mail');
+                return redirect()->back()->with('error', 'Failed To Send Report Mail');
             }
-            
         }
         return redirect()->back()->with('msg', 'Report Mail Send Successfully');
     }
