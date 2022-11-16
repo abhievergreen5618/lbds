@@ -379,7 +379,7 @@ $(document).ready(function () {
     validClass: "valid success-alert",
     ignore: ':hidden:not(.summernote),.note-editable.card-block',
     rules: {
-      reportmailto: {
+      "reportmailto[]": {
         required: true,
       },
       subject: {
@@ -394,7 +394,7 @@ $(document).ready(function () {
     },
     errorPlacement: function (error, element) {
       console.log(element);
-      if (element.attr("name") == "reportmailto") {
+      if (element.attr("id") === "reportmailto") {
         $(element).parent().parent().append(error);
       }
       else if (element.hasClass("summernote")) {

@@ -62,6 +62,7 @@ class Report extends Mailable
         $data = [];
         foreach($this->files as $key=>$value)
         {
+            $value = asset('taskfiles/'.$value);
             $data[] = Attachment::fromPath($value);
         }
         return $data;

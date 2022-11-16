@@ -373,8 +373,8 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                             <a href="{{ route('admin.adminlist.view') }}" class="nav-link">
                                 <i class="nav-icon fas fa-times"></i>
                                 <p>
-                                  Pending Agencies 
-                                  <span class="right badge badge-warning">{{ $pendingCount }}</span>
+                                    Pending Agencies
+                                    <span class="right badge badge-warning">{{ $pendingCount }}</span>
                                 </p>
                             </a>
                         </li>
@@ -383,8 +383,8 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                             <a href="{{ route('admin.disapproved.view') }}" class="nav-link">
                                 <i class="nav-icon fas fa-times"></i>
                                 <p>
-                                 Disapproved Agencies 
-                                  <span class="right badge badge-danger">{{ $disapprovedCount }}</span>
+                                    Disapproved Agencies
+                                    <span class="right badge badge-danger">{{ $disapprovedCount }}</span>
                                 </p>
                             </a>
                         </li>
@@ -400,6 +400,35 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                         </li>
                         {{-- @endcan --}}
                     </ul>
+                </li>
+                <li class="nav-item menu-open">
+                    <a href="{{route('mailbox.sent')}}" class="nav-link active">
+                        <i class="nav-icon far fa-envelope"></i>
+                        <p>
+                            Mailbox
+                            <!-- <i class="fas fa-angle-left right"></i> -->
+                        </p>
+                    </a>
+                    <!-- <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="../mailbox/mailbox.html" class="nav-link active">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Inbox</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="../mailbox/compose.html" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Compose</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="../mailbox/read-mail.html" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Read</p>
+                            </a>
+                        </li>
+                    </ul> -->
                 </li>
                 <li class="nav-item">
                     <a href="{{route('profile.show')}}" class="nav-link {{  (Route::currentRouteName() == 'profile.show') ? 'active' : '' }}">

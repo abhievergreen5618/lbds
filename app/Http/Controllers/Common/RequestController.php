@@ -17,6 +17,7 @@ use App\Models\Options;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Role;
 use App\Mail\Admin\Report;
+use App\Models\EmailModel;
 use Exception;
 
 class RequestController extends Controller
@@ -157,7 +158,7 @@ class RequestController extends Controller
     }
 
 
-    public function assign_ins($id, $reqid)
+    public function assign_ins($id,$reqid)
     {
         $insemail = User::role('inspector')->where("id", decrypt($id))->first('email');
         $insdetails = User::role('inspector')->where("id", decrypt($id))->first();
@@ -461,6 +462,7 @@ class RequestController extends Controller
         $company = RequestModel::where("id", decrypt($request->id))->first('company_id');
         $companydetails = User::where("id", $company['company_id'])->first();
         $requestdetails = RequestModel::where("id", decrypt($request->id))->first();
+        $maildraft = EmailModel::where(["requestid"=>decrypt($request->id),"status"=>"draft"])->first();
         $inspectordetails = User::where("id", $requestdetails['assigned_ins'])->first();
         $agencyfiles = RequestModel::where("id", decrypt($request->id))->first("agency_related_files");
         $reportfiles = RequestModel::where("id", decrypt($request->id))->first("reports_related_files");
@@ -468,6 +470,11 @@ class RequestController extends Controller
         $invoicedata = SendInvoice::where("status", "active")->pluck("name", "id");
         $inslist = User::role('inspector')->pluck("name", "id");
         $maillist = [$requestdetails['applicantemail'], $companydetails['email']];
+        if(!empty($maildraft['mailto']) && count($maildraft['mailto']) != 0)
+        {
+            $result = array_diff($maildraft['mailto'],$maillist);
+            $maillist = (!empty($result) && count($result) != 0) ? array_merge($maillist,$result) : $maillist;
+        }
         $attachments = $this->get_merged_files($agencyfiles['agency_related_files'], $reportfiles['reports_related_files']);
         return view('admin.request.requeststatus')->with(
             [
@@ -481,6 +488,7 @@ class RequestController extends Controller
                 "inslist" => $inslist,
                 "maillist" => $maillist,
                 "attachments" => $attachments,
+                "maildraft" => $maildraft,
             ]
         );
     }
@@ -664,11 +672,14 @@ class RequestController extends Controller
         }
     }
 
-    public function send_email($id, $status)
+    public function send_email($id,$status)
     {
         // $data = RequestModel::leftJoin('users  AS inspector','inspector.id', '=', 'request_models.assigned_ins')
         // ->leftJoin('users AS company','company.id', '=', 'request_models.company_id')
         // ->where("request_models.id",decrypt($id))->get();
+        $requestdetails = RequestModel::where("id", decrypt($id))->first();
+        $insdetails = User::where("id", $requestdetails['assigned_ins'])->first();
+        $companydetails = User::where("id", $requestdetails['company_id'])->first();
         if ($status == "scheduled") {
             $subject = "Request Scheduled";
         } else if ($status == "rescheduled") {
@@ -680,9 +691,6 @@ class RequestController extends Controller
         } else if ($status == "completed") {
             $subject = "Request Completed";
         }
-        $requestdetails = RequestModel::where("id", decrypt($id))->first();
-        $insdetails = User::where("id", $requestdetails['assigned_ins'])->first();
-        $companydetails = User::where("id", $requestdetails['company_id'])->first();
         Mail::to($insdetails['email'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
         Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
     }
@@ -692,32 +700,39 @@ class RequestController extends Controller
     {
         return view('company.request.requestlist');
     }
-    public function sendmailreport(Request $request)
+    public function sendmailreport(Request $request,EmailModel $reportemail)
     {
-        ini_set('display_errors', 1);
         $data = $request->all();
         $request->validate(
             [
-                "reportmailto" => "required",
-                "subject" => "required",
-                "message" => "required",
-                "attachments" => "required",
+                "reportmailto" => "required_if:btn,send",
+                "subject" => "required_if:btn,send",
+                "message" => "required_if:btn,send",
+                "attachments" => "required_if:btn,send",
             ],
             [
-                "required" => "This field is required.",
+                "required_if" => "This field is required.",
             ]
         );
-        foreach($request['reportmailto'] as $key=>$value)
-        {
-            try
-            {
-                Mail::to($value)->send(new Report($data));
+        $data['requestid'] = decrypt($data['requestid']);
+        if($request['btn'] == "send") {
+            foreach ($request['reportmailto'] as $key => $value) {
+                try {
+                    Mail::to($value)->send(new Report($data));
+                    $reportemail->saveemail($data,"sent");
+                } catch (Exception $e) {
+                    return redirect()->back()->with('error', 'Failed To Send Report Mail');
+                }
             }
-            catch(Exception $e)
-            {
-                return redirect()->back()->with('error', 'Failed To Send Report Mail');
-            }
+            return redirect()->back()->with('msg', 'Report Mail Send Successfully');
         }
-        return redirect()->back()->with('msg', 'Report Mail Send Successfully');
+        else
+        {
+            $data['reportmailto'] = isset($data['reportmailto']) ? $data['reportmailto'] : NULL;
+            $reportemail->saveemaildraft($data,"draft");
+            return redirect()->back()->with('msg', 'Report Draft Saved Successfully');
+        }
     }
 }
+
+

@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Http\Controllers\Admin\Agency\AgencyController;
 use App\Http\Controllers\Admin\Portal\ProtalController;
 use App\Http\Controllers\Admin\Agency\AgencyApprovalController;
+use App\Http\Controllers\Common\Mail\MailBoxController;
 
 /*
 |--------------------------------------------------------------------------
@@ -178,6 +179,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/portalsetup/mail', 'index')->name('admin.portal.mail');
         Route::post('/portalsetup/update/website', 'update')->name('portal.update.website');
         Route::post('/portalsetup/update/mail', 'updatemail')->name('portal.update.mail');
+    });
+
+    Route::controller(MailBoxController::class)->group(function () {
+        Route::get('/mailbox/sent','index')->name('mailbox.sent');
+        Route::get('/mailbox/draft','index')->name('mailbox.draft');
+        Route::get('/mailbox/read-mail','show')->name('mailbox.readmail');
     });
 
     Route::controller(AgencyApprovalController::class)->group(function () {

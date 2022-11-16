@@ -542,7 +542,6 @@
                                 $info = pathinfo(public_path('taskfiles') . $item);
                                 $ext = $info['extension'];
                                 @endphp
-
                                 @if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg')
                                 <div class="col-lg-4 preview  @if ($i >= 4) {{ 'mt-3' }} @endif" style="cursor: pointer;" data-file="{{ asset('taskfiles/' . $item) }}">
                                     <img src="{{ asset('taskfiles/' . $item) }}" class="img-thumbnail h-100 preview-images" alt="...">
@@ -662,6 +661,7 @@
                                 <div class="col-md-12">
                                     <div class="card card-primary card-outline">
                                         <form action="{{route('sendmailreport')}}" id="reportmailform" method="post">
+                                            <input type="hidden" name="requestid" value="{{encrypt($requestdetails['id'])}}">
                                             @csrf
                                             <div class="card-header">
                                                 <h3 class="card-title">Compose New Message</h3>
@@ -670,10 +670,10 @@
                                             <div class="card-body">
                                                 <div class="form-group">
                                                     <div class="select2-purple">
-                                                        <select class="form-control" name="reportmailto[]" id="reportmailto">
+                                                        <select class="form-control" name="reportmailto[]" id="reportmailto" multiple>
                                                             @if(!empty($maillist) && count($maillist) != 0)
                                                             @foreach($maillist as $key=>$value)
-                                                            <option value="{{$value}}">{{__($value)}}</option>
+                                                            <option value="{{$value}}" {{(!empty($maildraft['mailto']) && count($maildraft['mailto']) != 0) ? (in_array($value,$maildraft['mailto'])) ? 'selected' : '' : ''}}>{{__($value)}}</option>
                                                             @endforeach
                                                             @endif
                                                         </select>
@@ -686,7 +686,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <input class="form-control" placeholder="Subject:" name="subject" value="{{ old('subject') }}">
+                                                    <input class="form-control" placeholder="Subject:" name="subject" value="{{ @old('subject',$maildraft['subject']) }}">
                                                     @error('subject')
                                                     <div>
                                                         <label class="error fail-alert  mt-1">{{$message}}<label>
@@ -694,7 +694,7 @@
                                                     @enderror
                                                 </div>
                                                 <div class="form-group">
-                                                    <textarea id="compose-textarea" class="form-control summernote" style="height: 700px" name="message">{{ old('message') }}</textarea>
+                                                    <textarea id="compose-textarea" class="form-control summernote" style="height: 700px" name="message">{{ @old('message',$maildraft['message']) }}</textarea>
                                                     @error('message')
                                                     <div>
                                                         <label class="error fail-alert  mt-1">{{$message}}<label>
@@ -726,7 +726,7 @@
 
                                                 </div>
                                                 <div class="form-group">
-                                                    <div class="card card-primary card-outline">
+                                                    <div class="card card-primary card-outline m-0">
                                                         <div class="card-header">
                                                             <h3 class="card-title">Select Attachments</h3>
                                                             <div class="card-tools">
@@ -748,7 +748,7 @@
                                                                 @if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg')
                                                                 <div class="col-md-3 @if ($i >= 5) {{ 'mt-3' }} @endif">
                                                                     <div class="custom-control custom-checkbox image-checkbox h-100">
-                                                                        <input type="checkbox" class="custom-control-input" name="attachments[]" value="{{ asset('taskfiles/' . $item) }}" id="ck_.{{$key}}" checked>
+                                                                        <input type="checkbox" class="custom-control-input" name="attachments[]" value="{{ $item }}" id="ck_.{{$key}}" {{(!empty($maildraft['attachments']) && count($maildraft['attachments']) != 0) ? (in_array($item,$maildraft['attachments'])) ? 'checked' : '' : 'checked'}}>
                                                                         <label class="custom-control-label h-100" for="ck_.{{$key}}">
                                                                             <img src="{{ asset('taskfiles/' . $item) }}" alt="#" class="img-fluid h-100">
                                                                         </label>
@@ -757,7 +757,7 @@
                                                                 @else
                                                                 <div class="col-md-3 @if ($i >= 5) {{ 'mt-3' }} @endif ">
                                                                     <div class="custom-control custom-checkbox image-checkbox h-100" style="min-height: 120px;">
-                                                                        <input type="checkbox" class="custom-control-input" name="attachments[]" value="{{ asset('taskfiles/' . $item) }}" id="ck_.{{$key}}" checked>
+                                                                        <input type="checkbox" class="custom-control-input" name="attachments[]" value="{{ $item }}" id="ck_.{{$key}}" {{(!empty($maildraft['attachments']) && count($maildraft['attachments']) != 0) ? (in_array($item,$maildraft['attachments'])) ? 'checked' : '' : 'checked'}}>
                                                                         <label class="custom-control-label h-100 w-100" for="ck_.{{$key}}">
                                                                             <div class="taskpdf h-100" data-file="{{ asset('taskfiles/' . $item) }}">
                                                                                 <span class="h-100 w-100 d-flex justify-content-center align-items-center flex-column" style=" overflow: hidden;
@@ -773,6 +773,10 @@
                                                                 $i++;
                                                                 @endphp
                                                                 @endforeach
+                                                                @else
+                                                                <div class="col-md-12 my-2">
+                                                                    <p>No Attachments Founded</p>
+                                                                </div>
                                                                 @endif
                                                             </div>
                                                             <!-- <div class="btn btn-default btn-file">
@@ -793,8 +797,8 @@
                                             <!-- /.card-body -->
                                             <div class="card-footer">
                                                 <div class="float-right">
-                                                    <!-- <button type="button" class="btn btn-default"><i class="fas fa-pencil-alt"></i> Draft</button> -->
-                                                    <button type="submit" class="btn btn-primary"><i class="far fa-envelope"></i> Send</button>
+                                                    <button type="submit" class="btn btn-default" name="btn" formnovalidate="formnovalidate" value="draft"><i class="fas fa-pencil-alt"></i>Draft</button>
+                                                    <button type="submit" class="btn btn-primary" name="btn"  value="send"><i class="far fa-envelope"></i>Send</button>
                                                 </div>
                                                 <!-- <button type="reset" class="btn btn-default"><i class="fas fa-times"></i> Discard</button> -->
                                             </div>
