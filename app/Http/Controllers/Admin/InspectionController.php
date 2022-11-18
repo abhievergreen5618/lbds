@@ -100,7 +100,7 @@ class InspectionController extends Controller
             } else {
                 $optionname = $request['show']."_".decrypt($request['inspectionid']);
                 $option->updatedisableinspection($optionname, decrypt($request['id']), $request['action']);
-                $msg = "Inspection Type Disabled Successfully";
+                $msg = ($request['action'] == "remove") ?  "Inspection Type Enabled Successfully" : "Inspection Type Disabled Successfully";
                 return response()->json(array("msg" => $msg), 200);
             }
         }
@@ -131,7 +131,7 @@ class InspectionController extends Controller
         } else {
             $returnusers = "<option>No Users Foundeds</option>";
         }
-        $msg = ($request['action'] == "remove") ?  "Inspection Type Enabled Successfully" : "Inspection Type Disabled Successfully";
+        $msg = "Inspection Type Disabled List Successfully";
         return response()->json(array("msg" => $msg,"role"=>$returnroles,"user"=>$returnusers), 200);
     }
 
