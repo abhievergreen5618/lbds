@@ -78,6 +78,8 @@
               @php
               $info = pathinfo(public_path('taskfiles') . $item);
               $ext = $info['extension'];
+              $fileSize =Storage::disk('taskfiles')->size($item);
+              $fileSize = $mailhelper->formatBytes( $fileSize );
               @endphp
               @if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg')
                 <li>
@@ -86,7 +88,7 @@
                   <div class="mailbox-attachment-info">
                     <a href="#" class="mailbox-attachment-name"><i class="fas fa-camera"></i>{{$item}}</a>
                     <span class="mailbox-attachment-size clearfix mt-1">
-                      <span>2.67 MB</span>
+                      <span>{{$fileSize}}</span>
                       <a href="{{route('filedownload',['filename' => $item])}}" class="btn btn-default btn-sm float-right"><i class="fas fa-cloud-download-alt"></i></a>
                     </span>
                   </div>
@@ -97,7 +99,7 @@
                   <div class="mailbox-attachment-info">
                     <a href="{{asset('taskfiles').'/'.$item}}" target="blank" class="mailbox-attachment-name"><i class="fas fa-paperclip"></i>{{$item}}</a>
                     <span class="mailbox-attachment-size clearfix mt-1">
-                      <span>1,245 KB</span>
+                      <span>{{$fileSize}}</span>
                       <a href="{{route('filedownload',['filename' => $item])}}" class="btn btn-default btn-sm float-right"><i class="fas fa-cloud-download-alt"></i></a>
                     </span>
                   </div>

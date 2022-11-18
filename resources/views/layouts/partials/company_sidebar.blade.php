@@ -1,8 +1,13 @@
+@php
+use App\Models\Options;
+$options = new Options();
+@endphp
+
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="{{route('home')}}" class="brand-link">
-        <img src="{{ asset('public/images/logo.png') }}" alt="Logo" class="elevation-3" style="max-height: 28px !important;">
+        <img src="{{ asset('public/images').'/'.$options->get_option('website_logo') }}" alt="Logo" class="elevation-3" style="max-height: 28px !important;">
         {{-- <span class="brand-text font-weight-light">WINDMITIGATION</span> --}}
     </a>
 
@@ -34,6 +39,7 @@
                     </a>
                 </li>
                 
+                @if(Gate::check('employee-create') || Gate::check('employee-list'))
                 <li class="nav-item {{ (Route::currentRouteName() ==
                     'admin.employee.create' || Route::currentRouteName() ==
                     'admin.employee.view') ? 'menu-open menu-is-opening' : '' }}">
@@ -72,18 +78,19 @@
                         @endcan
 
                         {{-- @can('') --}}
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a href="" class="nav-link">
                                 <i class="nav-icon fas fa-comments"></i>
                                 <p>
                                     Employees Messages
                                 </p>
                             </a>
-                        </li>
+                        </li> --}}
                         {{-- @endcan --}}
 
                     </ul>
                 </li>
+                @endif
                 {{-- @role('company') --}}
                 {{-- <li class="nav-item {{ (Route::currentRouteName() == 
                     'admin.request.create' ) ? 'menu-open menu-is-opening ' : ''}}">
@@ -125,6 +132,7 @@
                 </li> --}}
                 {{-- @endrole --}}
 
+                @if(Gate::check('request-create') || Gate::check('request-list'))
                 <li class="nav-item {{ (Route::currentRouteName() == 
                     'admin.request.create' ) ? 'menu-open menu-is-opening ' : ''}}">
 
@@ -162,7 +170,7 @@
                         @endcan
                     </ul>
                 </li>
-                
+                @endif
                 {{-- @can('') --}}
                 <!-- <li class="nav-item">
                     <a href="{{route('job.show')}}" class="nav-link  {{ Route::currentRouteName() == 'job.show' ? 'active' : ''}}">

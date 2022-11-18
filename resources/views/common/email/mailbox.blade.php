@@ -64,7 +64,7 @@
               <i class="fas fa-sync-alt"></i>
             </button>
             <div class="float-right">
-              1-50/200
+              1-{{isset($sent) ? $sentmailcount : $draftmailcount}}/{{isset($sent) ? $sentmailcount : $draftmailcount}}
               <div class="btn-group">
                 <button type="button" class="btn btn-default btn-sm">
                   <i class="fas fa-chevron-left"></i>
@@ -139,7 +139,7 @@
               <i class="fas fa-sync-alt"></i>
             </button>
             <div class="float-right">
-              1-50/200
+                1-{{isset($sent) ? $sentmailcount : $draftmailcount}}/{{isset($sent) ? $sentmailcount : $draftmailcount}}
               <div class="btn-group">
                 <button type="button" class="btn btn-default btn-sm">
                   <i class="fas fa-chevron-left"></i>

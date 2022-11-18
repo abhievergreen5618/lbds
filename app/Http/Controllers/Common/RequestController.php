@@ -20,13 +20,13 @@ use App\Mail\Admin\Report;
 use App\Models\EmailModel;
 use Exception;
 use Illuminate\Validation\Rule;
+use App\Http\Controllers\Common\Mail\MailBoxController;
 
 class RequestController extends Controller
 {
     function __construct()
     {
-        // $this->middleware('permission:request-list|request-create|request-edit|request-delete', ['only' => ['index', 'show']]);
-        $this->middleware('permission:request-list', ['only' => ['show', 'display']]);
+        $this->middleware('permission:request-list', ['only' => ['show', 'display','showcompanylist','displaycompanylist','showinspectorlist','displayinspectorlist']]);
         $this->middleware('permission:request-create', ['only' => ['create', 'index']]);
         $this->middleware('permission:request-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:request-delete', ['only' => ['destroy']]);
@@ -468,7 +468,7 @@ class RequestController extends Controller
             }
         }
     }
-    public function requestcheck(Request $request)
+    public function requestcheck(Request $request,MailBoxController $mailhelper)
     {
         if(isset($_REQUEST['id']))
         {
@@ -518,6 +518,7 @@ class RequestController extends Controller
                     "maillist" => $maillist,
                     "attachments" => $attachments,
                     "maildraft" => $maildraft,
+                    "mailhelper" => $mailhelper,
                 ]
             );
         }

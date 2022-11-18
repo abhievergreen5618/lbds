@@ -1,4 +1,4 @@
-<a href="compose.html" class="btn btn-primary btn-block mb-3">Compose</a>
+<!-- <a href="compose.html" class="btn btn-primary btn-block mb-3">Compose</a> -->
 
 <div class="card">
     <div class="card-header">

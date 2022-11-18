@@ -263,6 +263,27 @@ use Illuminate\Support\Facades\Storage;
     input.valid.success-alert {
         background-image: none !important;
     }
+
+    .overlay {
+        position: absolute;
+        bottom: 0;
+        background: rgb(0, 0, 0) !important;
+        background: rgba(0, 0, 0, 0.5);
+        /* Black see-through */
+        color: #f1f1f1;
+        width: 100%;
+        transition: .5s ease;
+        opacity: 0;
+        color: white;
+        font-size: 20px;
+        padding: 20px;
+        text-align: center;
+    }
+
+    /* When you mouse over the container, fade in the overlay title */
+    .custom-control-label:hover .overlay {
+        opacity: 1;
+    }
 </style>
 @endpush
 @extends('layouts.app')
@@ -866,6 +887,7 @@ use Illuminate\Support\Facades\Storage;
                                                                 $info = pathinfo(public_path('taskfiles') . $item);
                                                                 $ext = $info['extension'];
                                                                 $fileSize =Storage::disk('taskfiles')->size($item);
+                                                                $exactfilesize = $mailhelper->formatBytes( $fileSize );
                                                                 $fileSize = intval(abs(number_format($fileSize / 1048576,2)));
                                                                 @endphp
                                                                 @if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg')
@@ -874,6 +896,7 @@ use Illuminate\Support\Facades\Storage;
                                                                         <input type="checkbox" class="custom-control-input checkattachments" data-file="{{ asset('taskfiles/' . $item) }}" name="attachments[]" data-size='{{$fileSize}}' value="{{ ($fileSize < 32 ? $item  : '')}}" id="ck_.{{$key}}" {{(!empty($maildraft['attachments']) && count($maildraft['attachments']) != 0) ? (in_array($item,$maildraft['attachments'])) ? 'checked' : '' : ($fileSize < 32 ? 'checked' : '')}}>
                                                                         <label class="custom-control-label h-100" for="ck_.{{$key}}">
                                                                             <img src="{{ asset('taskfiles/' . $item) }}" alt="#" class="img-fluid h-100">
+                                                                            <div class="overlay">{{$exactfilesize}}</div>
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -887,57 +910,59 @@ use Illuminate\Support\Facades\Storage;
                                                                                                         text-overflow: ellipsis; word-break: break-all;">
                                                                                     {{ $item }}
                                                                                 </span>
+                                                                                <div class="overlay">{{$exactfilesize}}</div>
                                                                             </div>
-                                                                        </label>
                                                                     </div>
+                                                                    </label>
                                                                 </div>
-                                                                @endif
-                                                                @php
-                                                                $i++;
-                                                                @endphp
-                                                                @endforeach
-                                                                @else
-                                                                <div class="col-md-12 my-2">
-                                                                    <p>No Attachments Founded</p>
-                                                                </div>
-                                                                @endif
                                                             </div>
-                                                            <!-- <div class="btn btn-default btn-file">
+                                                            @endif
+                                                            @php
+                                                            $i++;
+                                                            @endphp
+                                                            @endforeach
+                                                            @else
+                                                            <div class="col-md-12 my-2">
+                                                                <p>No Attachments Founded</p>
+                                                            </div>
+                                                            @endif
+                                                        </div>
+                                                        <!-- <div class="btn btn-default btn-file">
                                                     <i class="fas fa-paperclip"></i> Attachment
                                                     <input type="file" name="attachment">
                                                 </div> -->
-                                                            <!-- <p class="help-block">Max. 32MB</p> -->
-                                                            @error('attachments')
-                                                            <div>
-                                                                <label class="error fail-alert  mt-1">{{$message}}<label>
-                                                            </div>
-                                                            @enderror
+                                                        <!-- <p class="help-block">Max. 32MB</p> -->
+                                                        @error('attachments')
+                                                        <div>
+                                                            <label class="error fail-alert  mt-1">{{$message}}<label>
                                                         </div>
+                                                        @enderror
                                                     </div>
                                                 </div>
+                                            </div>
 
-                                            </div>
-                                            <!-- /.card-body -->
-                                            <div class="card-footer">
-                                                <div class="float-right">
-                                                    <button type="submit" class="btn btn-default" name="btn" formnovalidate="formnovalidate" value="draft"><i class="fas fa-pencil-alt"></i>Draft</button>
-                                                    <button type="submit" class="btn btn-primary" name="btn" value="send"><i class="far fa-envelope"></i>Send</button>
-                                                </div>
-                                                <!-- <button type="reset" class="btn btn-default"><i class="fas fa-times"></i> Discard</button> -->
-                                            </div>
-                                        </form>
-                                        <!-- /.card-footer -->
                                     </div>
-                                    <!-- /.card -->
+                                    <!-- /.card-body -->
+                                    <div class="card-footer">
+                                        <div class="float-right">
+                                            <button type="submit" class="btn btn-default" name="btn" formnovalidate="formnovalidate" value="draft"><i class="fas fa-pencil-alt"></i>Draft</button>
+                                            <button type="submit" class="btn btn-primary" name="btn" value="send"><i class="far fa-envelope"></i>Send</button>
+                                        </div>
+                                        <!-- <button type="reset" class="btn btn-default"><i class="fas fa-times"></i> Discard</button> -->
+                                    </div>
+                                    </form>
+                                    <!-- /.card-footer -->
                                 </div>
+                                <!-- /.card -->
                             </div>
                         </div>
                     </div>
-                    @endrole
                 </div>
+                @endrole
             </div>
         </div>
     </div>
+</div>
 </div>
 
 <div id="myModal" class="modal">
