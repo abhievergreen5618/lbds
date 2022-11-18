@@ -167,8 +167,7 @@
 
 
     function playAudio() {
-      var sound = new Audio('{{ asset('
-        audio / sound.mp3 ') }}');
+      var sound = new Audio('{{ asset('audio/sound.mp3')}}');
       var playPromise = sound.play();
       if (playPromise !== undefined) {
         playPromise.then(_ => {
