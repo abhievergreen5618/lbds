@@ -165,7 +165,7 @@
         '</div></div></a><div class="dropdown-divider"></div>');
           $(document).Toasts('create', {
             body: data.message.message,
-            title: data.name,
+            title: "<a href='/chatify/'"+data.from_id+"'>"+data.name+"</a>",
             icon: 'fas fa-envelope fa-lg',
           });
     });
