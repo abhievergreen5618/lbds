@@ -21,16 +21,15 @@ class UserController extends Controller
         //  $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index','show']]);
          $this->middleware('permission:user-list', ['only' => ['showRoles','display']]);
          $this->middleware('permission:user-create', ['only' => ['create','store']]);
-         $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:user-edit', ['only' => ['editRole','update']]);
          $this->middleware('permission:user-delete', ['only' => ['destroy']]);
     }
-    
-    public function index(Request $request)
-    {
-        $data = User::orderBy('id','DESC')->paginate(5);
-        return view('admin.users.index',compact('data'))
-            ->with('i', ($request->input('page', 1) - 1) * 5);
-    }
+    // public function index(Request $request)
+    // {
+    //     $data = User::orderBy('id','DESC')->paginate(5);
+    //     return view('admin.users.index',compact('data'))
+    //         ->with('i', ($request->input('page', 1) - 1) * 5);
+    // }
     
     /**
      * Show the form for creating a new resource.
