@@ -237,7 +237,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                             </a>
                         </li>
                         @endcan
-                        @can(role-create'')
+                        @can('role-create')
                         <li class="nav-item">
                             <a href="{{ route('roles.create') }}" class="nav-link">
                                 <i class="nav-icon fas fa-users"></i>
