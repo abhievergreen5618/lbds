@@ -10,6 +10,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use DataTables;
 use Illuminate\Support\Carbon;
+use DB;
 
 class EmployeeController extends Controller
 {
@@ -62,7 +63,7 @@ class EmployeeController extends Controller
             // "role" => "4",
         ]);
         $user->assignRole([$role->id]);
-
+        DB::table('users')->where('id',$user->id)->update(['approved'=>"Approved"]);
         return  redirect()->route('admin.employee.view')->with("msg", "Record Created Successfully");
     }
 

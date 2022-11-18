@@ -160,6 +160,7 @@
         '</div></div></a><div class="dropdown-divider"></div>');
         $(document).Toasts('create', {
           body: data.message.message,
+          subtitle: 'Message',
           title: data.name,
           icon: 'fas fa-envelope fa-lg',
         });
