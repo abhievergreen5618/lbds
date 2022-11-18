@@ -470,14 +470,21 @@ class RequestController extends Controller
     }
     public function requestcheck(Request $request)
     {
-        $data = $request->all();
-        $data['id'] = decrypt($data['id']);
-        $validator = Validator::make($data, [
-            'id' => [
-                'required',
-                'exists:request_models,id',
-            ],
-        ]);
+        if(isset($_REQUEST['id']))
+        {
+            $data = $request->all();
+            $data['id'] = decrypt($data['id']);
+            $validator = Validator::make($data, [
+                'id' => [
+                    'required',
+                    'exists:request_models,id',
+                ],
+            ]);
+        }
+        else
+        {
+            return redirect()->route('home')->with('error', '!Oops Something Went Wrong');
+        }
         if ($validator->fails()) {
             return redirect()->route('home')->with('error', '!Oops Request Details Not Found');
         } else {

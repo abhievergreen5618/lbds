@@ -4,6 +4,93 @@ use Illuminate\Support\Facades\Storage;
 @push('header_extras')
 <link rel="stylesheet" href="{{asset('/css/all.css')}}">
 <style>
+    /* The Modal (background) */
+    .modal {
+        display: none;
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0, 0, 0);
+        background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    /* Modal Content (Image) */
+    .modal-content {
+        margin: auto;
+        display: block;
+        width: 100%;
+        max-width: 900px;
+    }
+
+    /* Caption of Modal Image (Image Text) - Same Width as the Image */
+    #caption {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
+        text-align: center;
+        color: #ccc;
+        padding: 10px 0;
+        height: 150px;
+    }
+
+    /* Add Animation - Zoom in the Modal */
+    .modal-content,
+    #caption {
+        -webkit-animation-name: zoom;
+        -webkit-animation-duration: 0.6s;
+        animation-name: zoom;
+        animation-duration: 0.6s;
+    }
+
+    @-webkit-keyframes zoom {
+        from {
+            -webkit-transform: scale(0)
+        }
+
+        to {
+            -webkit-transform: scale(1)
+        }
+    }
+
+    @keyframes zoom {
+        from {
+            transform: scale(0)
+        }
+
+        to {
+            transform: scale(1)
+        }
+    }
+
+    /* The Close Button */
+    .close {
+        position: absolute;
+        top: 15px;
+        right: 35px;
+        color: #f1f1f1;
+        font-size: 40px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #bbb;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    /* 100% Image Width on Smaller Screens */
+    @media only screen and (max-width: 700px) {
+        .modal-content {
+            width: 100%;
+        }
+    }
+
     .stepwizard-step p {
         margin-top: 10px;
     }
@@ -551,7 +638,7 @@ use Illuminate\Support\Facades\Storage;
                                     <a id="" href="#" data-file="{{ $item }}" class="remove-btn">Remove file</a>
                                     <div class="image-overlay  position-absolute" style="display:none;">
                                         <a href="{{route('filedownload',['filename' => $item])}}" data-file="{{ $item }}"><i class="fa fa-download" aria-hidden="true"></i></a>
-                                        <a href=""><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                        <a href=""  class="myImg" data-file="{{asset('taskfiles').'/'.$item}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
                                 @else
@@ -617,7 +704,7 @@ use Illuminate\Support\Facades\Storage;
                                     <a id="" href="#" data-file="{{ $item }}" class="remove-btn">Remove file</a>
                                     <div class="image-overlay  position-absolute" style="display:none;">
                                         <a href="{{route('filedownload',['filename' => $item])}}"><i class="fa fa-download" aria-hidden="true"></i></a>
-                                        <a href="" data-file="{{ $item }}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                        <a href="#" class="myImg" data-file="{{asset('taskfiles').'/'.$item}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
                                 @else
@@ -852,11 +939,27 @@ use Illuminate\Support\Facades\Storage;
     </div>
 </div>
 
+<div id="myModal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="img01">
+</div>
+
 @endsection
 
 @push('footer_extras')
 <script>
     $(document).ready(function() {
+        var modal = document.getElementById('myModal');
+        var modalImg = document.getElementById("img01");
+        $(document).on('click','.myImg',function (event) {
+            event.preventDefault();
+            modal.style.display = "block";
+            modalImg.src = $(this).attr('data-file');
+        });
+        var span = document.getElementsByClassName("close")[0];
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
         function validateEmail(email) {
             var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return re.test(email);
@@ -963,7 +1066,7 @@ use Illuminate\Support\Facades\Storage;
                 if (size > 32) {
                     Swal.fire({
                         title: 'Are you sure?',
-                        html: "<h6>File size is greater than 32mb you need to attach file <br> link as below in message.</h6><br><div class='row'><div class='col-md-12 text-center'><button id='copy' class='btn btn-primary' data-clipboard-text='"+link+"'>Copy to clipboard<i class='my-2 fas fa-copy'></i></button></div><div class='col-md-12'><b><a href='"+link+"' target='_blank'>"+link+"</a></b></div></div>",
+                        html: "<h6>File size is greater than 32mb you need to attach file <br> link as below in message.</h6><br><div class='row'><div class='col-md-12 text-center'><button id='copy' class='btn btn-primary' data-clipboard-text='" + link + "'>Copy to clipboard<i class='my-2 fas fa-copy'></i></button></div><div class='col-md-12'><b><a href='" + link + "' target='_blank'>" + link + "</a></b></div></div>",
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
@@ -971,11 +1074,9 @@ use Illuminate\Support\Facades\Storage;
                         confirmButtonText: 'OK',
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            $(this).prop('checked',false);
-                        }
-                        else
-                        {
-                            $(this).prop('checked',false);
+                            $(this).prop('checked', false);
+                        } else {
+                            $(this).prop('checked', false);
                         }
                     })
                 }

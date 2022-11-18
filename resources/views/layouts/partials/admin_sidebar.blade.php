@@ -171,46 +171,50 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
 
                     </ul>
                 </li>
-                <li class="nav-item {{ (Route::currentRouteName() ==
-'users.create') ||
-(Route::currentRouteName() == 'users.index') ? 'menu-open menu-is-opening ' : ''}}">
+                {{-- @can('user-create','user-list') --}}
+                @if(Gate::check('user-create') && Gate::check('user-list'))
+                    <li class="nav-item {{ (Route::currentRouteName() ==
+                        'users.create') ||
+                        (Route::currentRouteName() == 'admin.users.view') ? 'menu-open menu-is-opening ' : ''}}">
 
-                    <a href="#" class="nav-link {{ (Route::currentRouteName() ==
-'users.create') ||
-(Route::currentRouteName() == 'users.index') ? 'active' : ''}}">
-                        <i class="nav-icon fas fa-user-circle"></i>
-                        <p>
-                            Users
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() ==
-    'users.create') || (Route::currentRouteName() == 'users.index') ? 'display: block;' : ''}}">
+                        <a href="#" class="nav-link {{ (Route::currentRouteName() ==
+                        'users.create') ||
+                        (Route::currentRouteName() == 'admin.users.view') ? 'active' : ''}}">
+                            <i class="nav-icon fas fa-user-circle"></i>
+                            <p>
+                                Users
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() ==
+                            'users.create') || (Route::currentRouteName() == 'admin.users.view') ? 'display: block;' : ''}}">
 
-                        @can('user-create')
-                        <li class="nav-item">
-                            <a href="{{ route('users.create') }}" class="nav-link">
-                                <i class="nav-icon fas fa-user-plus"></i>
-                                <p>
-                                    Add new User
-                                </p>
-                            </a>
-                        </li>
-                        @endcan
+                            @can('user-create')
+                            <li class="nav-item">
+                                <a href="{{ route('users.create') }}" class="nav-link">
+                                    <i class="nav-icon fas fa-user-plus"></i>
+                                    <p>
+                                        Add new User
+                                    </p>
+                                </a>
+                            </li>
+                            @endcan
 
-                        @can('user-list')
-                        <li class="nav-item">
-                            <a href="{{ route('users.index') }}" class="nav-link">
-                                <i class="nav-icon fas fa-users"></i>
-                                <p>
-                                    View All Users
-                                </p>
-                            </a>
-                        </li>
-                        @endcan
+                            @can('user-list')
+                            <li class="nav-item">
+                                <a href="{{ route('admin.users.view') }}" class="nav-link">
+                                    <i class="nav-icon fas fa-users"></i>
+                                    <p>
+                                        View All Users
+                                    </p>
+                                </a>
+                            </li>
+                            @endcan
 
-                    </ul>
-                </li>
+                        </ul>
+                    </li>
+                @endif
+                {{-- @endcan --}}
                 <li class="nav-item {{ (Route::currentRouteName() ==
     'roles.index') || (Route::currentRouteName() == 'roles.create') ? 'menu-open menu-is-opening ' : ''}}">
 
@@ -334,9 +338,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                     </ul>
                 </li>
                 <li class="nav-item {{ (Route::currentRouteName() == 'admin.agency.agency-register' || Route::currentRouteName() == 'admin.agency.agency-view' || Route::currentRouteName() == 'admin.adminlist.view' || Route::currentRouteName() == 'admin.adminlist.view' || Route::currentRouteName() == 'admin.disapproved.view') ? 'menu-open menu-is-opening' : ''}}">
-
-                    <a href="javascript:void(0);" class="nav-link {{ (Route::currentRouteName() ==
-'admin.agency.agency-register')? 'active ' : ''}}">
+                    <a href="javascript:void(0);" class="nav-link {{ (Route::currentRouteName() == 'admin.agency.agency-register')? 'active ' : ''}}">
                         <i class="nav-icon fas fa-building"></i>
                         <p>
                             Agency
