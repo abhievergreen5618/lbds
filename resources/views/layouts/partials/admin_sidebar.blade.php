@@ -20,17 +20,20 @@ use Illuminate\Support\Facades\DB;
 $pendingCount= DB::table('users')->where('approved','Pending')->count();
 $disapprovedCount= DB::table('users')->where('approved','Disapproved')->count();
 @endphp
-
-
-
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="{{route('home')}}" class="brand-link">
-        <img src="{{ asset('public/images/logo.png') }}" alt="Logo" class="elevation-3" style="max-height: 28px !important;">
-        {{-- <span class="brand-text font-weight-light">WINDMITIGATION</span> --}}
+        <img
+            src="{{ asset('public/images/logo.png') }}"
+            alt="Logo"
+            class="elevation-3"
+            style="max-height: 28px !important;"
+        >
+        {{--
+        <span class="brand-text font-weight-light">WINDMITIGATION</span>
+        --}}
     </a>
-
     <!-- Sidebar -->
     <div class="sidebar">
         <!-- Sidebar user panel (optional) -->
@@ -39,10 +42,14 @@ $disapprovedCount= DB::table('users')->where('approved','Disapproved')->count();
                 <a href="#" class="d-block">{{ ucfirst(Auth::user()->name) }}</a>
             </div>
         </div>
-
         {{-- sidebar --}}
         <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <ul
+                class="nav nav-pills nav-sidebar flex-column"
+                data-widget="treeview"
+                role="menu"
+                data-accordion="false"
+            >
                 <li class="nav-item">
                     <a href="{{route('home')}}" class="nav-link {{  (Route::currentRouteName() == 'home') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-home"></i>
@@ -51,11 +58,10 @@ $disapprovedCount= DB::table('users')->where('approved','Disapproved')->count();
                         </p>
                     </a>
                 </li>
-
+                @if(Gate::check('inspection-create') || Gate::check('inspection-list'))
                 <li class="nav-item {{ (Route::currentRouteName() ==
 'admin.create.addinspectiontype' || Route::currentRouteName() ==
 'admin.allinspectiontype') ? 'menu-open menu-is-opening' : '' }}">
-
                     <a href="#" class="nav-link {{ (Route::currentRouteName() == 'admin.create.addinspectiontype'||
 Route::currentRouteName() == 'admin.allinspectiontype') ? 'active' : ''}}">
                         <i class="nav-icon fa fa-sharp fa-solid fa-bars"></i>
@@ -64,11 +70,9 @@ Route::currentRouteName() == 'admin.allinspectiontype') ? 'active' : ''}}">
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
-
                     <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() ==
 'admin.create.addinspectiontype'||
 Route::currentRouteName() == 'admin.allinspectiontype') ? 'display: block;' : ''}}">
-
                         @can('inspection-create')
                         <li class="nav-item">
                             <a href="{{route('admin.create.addinspectiontype')}}" class="nav-link">
@@ -90,13 +94,13 @@ Route::currentRouteName() == 'admin.allinspectiontype') ? 'display: block;' : ''
                             </a>
                         </li>
                         @endcan
-
                     </ul>
                 </li>
+                @endif
+                @if(Gate::check('sendinvoice-create') || Gate::check('sendinvoice-list'))
                 <li class="nav-item {{ (Route::currentRouteName() ==
 'admin.create.addsendinvoice' || Route::currentRouteName() ==
 'admin.allsendinvoice') ? 'menu-open menu-is-opening' : '' }}">
-
                     <a href="#" class="nav-link {{ (Route::currentRouteName() == 'admin.create.addsendinvoice'||
 Route::currentRouteName() == 'admin.allsendinvoice') ? 'active' : ''}}">
                         <i class="nav-icon fa fa-edit"></i>
@@ -108,7 +112,6 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'active' : ''}}">
                     <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() ==
 'admin.create.addsendinvoice'||
 Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}">
-
                         @can('sendinvoice-create')
                         <li class="nav-item">
                             <a href="{{route('admin.create.addsendinvoice')}}" class="nav-link">
@@ -130,23 +133,24 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                             </a>
                         </li>
                         @endcan
-
                     </ul>
                 </li>
+                @endif
+                @if(Gate::check('request-create') || Gate::check('request-list'))
                 <li class="nav-item {{ (Route::currentRouteName() ==
 'admin.request.create' || Route::currentRouteName() ==
 'admin.request.list') ? 'menu-open menu-is-opening ' : ''}}">
-
                     <a href="#" class="nav-link {{ (Route::currentRouteName() ==
 'admin.request.create' || Route::currentRouteName() ==
 'admin.request.list') ? 'active' : ''}}">
                         <i class="nav-icon fa fa-sharp fa-solid fa-file"></i>
-                        <p>Requests<i class="fas fa-angle-left right"></i></p>
+                        <p>Requests
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
                     </a>
                     <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() ==
     'admin.request.create' || Route::currentRouteName() ==
     'admin.request.list' ) ? 'display: block;' : ''}}">
-
                         @can('request-create')
                         <li class="nav-item">
                             <a href="{{route('admin.request.create')}}" class="nav-link">
@@ -168,56 +172,51 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                             </a>
                         </li>
                         @endcan
-
                     </ul>
                 </li>
-                {{-- @can('user-create','user-list') --}}
+                @endif
                 @if(Gate::check('user-create') || Gate::check('user-list'))
-                    <li class="nav-item {{ (Route::currentRouteName() ==
+                <li class="nav-item {{ (Route::currentRouteName() ==
                         'users.create') ||
                         (Route::currentRouteName() == 'admin.users.view') ? 'menu-open menu-is-opening ' : ''}}">
-
-                        <a href="#" class="nav-link {{ (Route::currentRouteName() ==
+                    <a href="#" class="nav-link {{ (Route::currentRouteName() ==
                         'users.create') ||
                         (Route::currentRouteName() == 'admin.users.view') ? 'active' : ''}}">
-                            <i class="nav-icon fas fa-user-circle"></i>
-                            <p>
-                                Users
-                                <i class="fas fa-angle-left right"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() ==
+                        <i class="nav-icon fas fa-user-circle"></i>
+                        <p>
+                            Users
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() ==
                             'users.create') || (Route::currentRouteName() == 'admin.users.view') ? 'display: block;' : ''}}">
-
-                            @can('user-create')
-                            <li class="nav-item">
-                                <a href="{{ route('users.create') }}" class="nav-link">
-                                    <i class="nav-icon fas fa-user-plus"></i>
-                                    <p>
-                                        Add new User
-                                    </p>
-                                </a>
-                            </li>
-                            @endcan
+                        @can('user-create')
+                        <li class="nav-item">
+                            <a href="{{ route('users.create') }}" class="nav-link">
+                                <i class="nav-icon fas fa-user-plus"></i>
+                                <p>
+                                    Add new User
+                                </p>
+                            </a>
+                        </li>
+                        @endcan
 
                             @can('user-list')
-                            <li class="nav-item">
-                                <a href="{{ route('admin.users.view') }}" class="nav-link">
-                                    <i class="nav-icon fas fa-users"></i>
-                                    <p>
-                                        View All Users
-                                    </p>
-                                </a>
-                            </li>
-                            @endcan
-
-                        </ul>
-                    </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.users.view') }}" class="nav-link">
+                                <i class="nav-icon fas fa-users"></i>
+                                <p>
+                                    View All Users
+                                </p>
+                            </a>
+                        </li>
+                        @endcan
+                    </ul>
+                </li>
                 @endif
-                {{-- @endcan --}}
+                @if(Gate::check('role-list') || Gate::check('role-create'))
                 <li class="nav-item {{ (Route::currentRouteName() ==
     'roles.index') || (Route::currentRouteName() == 'roles.create') ? 'menu-open menu-is-opening ' : ''}}">
-
                     <a href="#" class="nav-link {{ (Route::currentRouteName() ==
     'roles.index') || Route::currentRouteName() == 'roles.create' ? 'active' : ''}}">
                         <i class="nav-icon fa fa-cog"></i>
@@ -228,7 +227,6 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                     </a>
                     <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() == 'roles.index') ||
 (Route::currentRouteName() == 'roles.create') ? 'display: block;' : ''}}">
-
                         @can('role-list')
                         <li class="nav-item">
                             <a href="{{ route('roles.index') }}" class="nav-link">
@@ -239,8 +237,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                             </a>
                         </li>
                         @endcan
-
-                        @can('role-create')
+                        @can(role-create'')
                         <li class="nav-item">
                             <a href="{{ route('roles.create') }}" class="nav-link">
                                 <i class="nav-icon fas fa-users"></i>
@@ -250,10 +247,9 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                             </a>
                         </li>
                         @endcan
-
                     </ul>
                 </li>
-
+                @endif
                 {{-- @can('') --}}
                 <li class="nav-item">
                     <a href="{{route('job.show')}}" class="nav-link">
@@ -276,19 +272,20 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                 </li>
                 {{-- @endcan --}}
 
-                {{-- <li class="nav-item">
-<a href="" class="nav-link">
-    <i class="nav-icon fas fa-users"></i>
-    <p>
-        View All Agencies
-    </p>
-</a>
-</li> --}}
-
+                {{--
+                <li class="nav-item">
+                    <a href="" class="nav-link">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            View All Agencies
+                        </p>
+                    </a>
+                </li>
+                --}}
+                @if(Gate::check('inspector-create') || Gate::check('inspector-list'))
                 <li class="nav-item {{ (Route::currentRouteName() ==
 'admin.create.addinspector' || Route::currentRouteName() ==
 'admin.view.inspector') ? 'menu-open menu-is-opening' : ''}}">
-
                     <a href="javascript:void(0);" class="nav-link {{ (Route::currentRouteName() ==
     'admin.create.addinspector' || Route::currentRouteName() ==
     'admin.view.inspector')? 'active ' : ''}}">
@@ -302,7 +299,6 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
     'admin.create.addinspector' || Route::currentRouteName() ==
     'admin.view.inspector' || Route::currentRouteName() ==
     'admin.inspector.message') ? 'display: block;' : ''}}">
-
                         @can('inspector-create')
                         <li class="nav-item">
                             <a href="{{ route('admin.create.addinspector') }}" class="nav-link">
@@ -337,6 +333,8 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                         {{-- @endcan --}}
                     </ul>
                 </li>
+                @endif
+                <!-- @if(Gate::check('agency-create') || Gate::check('agency-list')) -->
                 <li class="nav-item {{ (Route::currentRouteName() == 'admin.agency.agency-register' || Route::currentRouteName() == 'admin.agency.agency-view' || Route::currentRouteName() == 'admin.adminlist.view' || Route::currentRouteName() == 'admin.adminlist.view' || Route::currentRouteName() == 'admin.disapproved.view') ? 'menu-open menu-is-opening' : ''}}">
                     <a href="javascript:void(0);" class="nav-link {{ (Route::currentRouteName() == 'admin.agency.agency-register')? 'active ' : ''}}">
                         <i class="nav-icon fas fa-building"></i>
@@ -346,7 +344,6 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                         </p>
                     </a>
                     <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() == 'admin.agency.agency-register') ? 'display: block;' : ''}}">
-
                         @can('agency-create')
                         <li class="nav-item">
                             <a href="{{ route('admin.agency.agency-register') }}" class="nav-link">
@@ -368,7 +365,6 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                             </a>
                         </li>
                         @endcan
-
                         <li class="nav-item">
                             <a href="{{ route('admin.adminlist.view') }}" class="nav-link">
                                 <i class="nav-icon fas fa-times"></i>
@@ -378,7 +374,6 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                                 </p>
                             </a>
                         </li>
-
                         <li class="nav-item">
                             <a href="{{ route('admin.disapproved.view') }}" class="nav-link">
                                 <i class="nav-icon fas fa-times"></i>
@@ -388,7 +383,6 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                                 </p>
                             </a>
                         </li>
-
                         {{-- @can('') --}}
                         <li class="nav-item">
                             <a href="{{ route('admin.agency.message') }}" class="nav-link">
@@ -401,6 +395,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                         {{-- @endcan --}}
                     </ul>
                 </li>
+                <!-- @endif -->
                 <li class="nav-item">
                     <a href="{{route('mailbox.sent')}}" class="nav-link {{  (Route::currentRouteName() == 'mailbox.sent' || Route::currentRouteName() == 'mailbox.draft' || Route::currentRouteName() == 'mailbox.readmail') ? 'active' : '' }}">
                         <i class="nav-icon far fa-envelope"></i>
@@ -447,7 +442,6 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-
                         {{-- @can('') --}}
                         <li class="nav-item">
                             <a href="{{route('admin.portal.setup')}}" class="nav-link">
@@ -470,16 +464,18 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                         </li>
                         {{-- @endcan --}}
 
-                        {{-- <li class="nav-item">
-<a href="{{ route('logout') }}" class="nav-link" >
-                        <i class="nav-icon fas fa-sign-out-alt"></i>
-                        <p>
-                            Logout
-                        </p>
-                        </a>
-                </li> --}}
-            </ul>
-            </li>
+                        {{--
+                        <li class="nav-item">
+                            <a href="{{ route('logout') }}" class="nav-link">
+                                <i class="nav-icon fas fa-sign-out-alt"></i>
+                                <p>
+                                    Logout
+                                </p>
+                            </a>
+                        </li>
+                        --}}
+                    </ul>
+                </li>
             </ul>
         </nav>
     </div>

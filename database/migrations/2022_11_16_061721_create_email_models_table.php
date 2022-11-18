@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string("mailcc")->nullable();
             $table->string("mailbcc")->nullable();
             $table->string("subject")->nullable();
-            $table->string("message")->nullable();
+            $table->longText("message")->nullable();
             $table->longText("files")->nullable();
             $table->longText("attachments")->nullable();
             $table->string("status");

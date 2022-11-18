@@ -48,7 +48,10 @@ class EmailModel extends Model
     public function saveemaildraft($data,$status)
     {
         EmailModel::updateOrCreate(
-            ["requestid"=>$data['requestid']],
+            [
+                "requestid"=>$data['requestid'],
+                "status" => "draft",
+            ],
             [
                 "mailto"      =>  (isset($data['reportmailto']) ? $data['reportmailto'] : NULL),
                 "mailcc"      =>  (isset($data['reportmailcc']) ? $data['reportmailcc'] : NULL),

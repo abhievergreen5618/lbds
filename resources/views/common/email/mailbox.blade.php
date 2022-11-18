@@ -81,23 +81,34 @@
             <table class="table table-hover table-striped">
               <tbody>
                 @forelse($sentmail as $value)
-                    <tr>
-                      <td>
-                        <div class="icheck-primary">
-                          <input type="checkbox" value="" id="check1">
-                          <label for="check1"></label>
-                        </div>
-                      </td>
-                      <!-- <td class="mailbox-star"><a href="#"><i class="fas fa-star text-warning"></i></a></td> -->
-                      <td class="mailbox-name"><a href="{{route('mailbox.readmail',['id'=>encrypt($value->id)])}}">Alexander Pierce</a></td>
-                      <td class="mailbox-subject">{{(!empty($value->subject) ? $value->subject : 'No Subject' )}}</td>
-                      <td class="mailbox-attachment">@if(!empty($value->attachments))<i class="fas fa-paperclip"></i>@endif</td>
-                      <td class="mailbox-date">{{$value->updated_at->diffForHumans()}}</td>
-                    </tr>
+                <tr>
+                  <td>
+                    <div class="icheck-primary">
+                      <input type="checkbox" value="" id="check1">
+                      <label for="check1"></label>
+                    </div>
+                  </td>
+                  <!-- <td class="mailbox-star"><a href="#"><i class="fas fa-star text-warning"></i></a></td> -->
+                  <td class="mailbox-name"><a href="{{route('mailbox.readmail',['id'=>encrypt($value->id)])}}">
+                    @php
+                    if(!empty($value->mailto))
+                    {
+                      echo implode(',',$value->mailto);
+                    }
+                    else
+                    {
+                       echo "empty";
+                    }
+                    @endphp
+                  </a></td>
+                  <td class="mailbox-subject">{{(!empty($value->subject) ? $value->subject : 'No Subject' )}}</td>
+                  <td class="mailbox-attachment">@if(!empty($value->attachments))<i class="fas fa-paperclip"></i>@endif</td>
+                  <td class="mailbox-date">{{$value->updated_at->diffForHumans()}}</td>
+                </tr>
                 @empty
-                    <tr>
-                      <td class="text-center"><b class="fs-5">No Mail Founded</b></td>
-                    </tr>
+                <tr>
+                  <td class="text-center"><b class="fs-5">No Mail Founded</b></td>
+                </tr>
                 @endforelse
               </tbody>
             </table>

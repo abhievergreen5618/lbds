@@ -474,7 +474,8 @@ class RequestController extends Controller
         {
             $data = $request->all();
             $data['id'] = decrypt($data['id']);
-            $validator = Validator::make($data, [
+            $validator = Validator::make($data,
+            [
                 'id' => [
                     'required',
                     'exists:request_models,id',
@@ -782,12 +783,13 @@ class RequestController extends Controller
                 Mail::to($request['reportmailto'])->cc($request['reportmailcc'])->bcc($request['reportmailbcc'])->send(new Report($data));
                 $reportemail->saveemail($data, "sent");
             } catch (Exception $e) {
-                dd($e->getMessage());
                 $reportemail->saveemaildraft($data, "draft");
                 return redirect()->back()->with('error', 'Failed To Send Report Mail');
             }
             return redirect()->back()->with('msg', 'Report Mail Send Successfully');
-        } else {
+        } 
+        else 
+        {
             $data['reportmailto'] = isset($data['reportmailto']) ? $data['reportmailto'] : NULL;
             $reportemail->saveemaildraft($data, "draft");
             return redirect()->back()->with('msg', 'Report Draft Saved Successfully');
