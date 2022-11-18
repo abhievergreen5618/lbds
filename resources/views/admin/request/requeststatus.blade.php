@@ -7,14 +7,15 @@ use Illuminate\Support\Facades\Storage;
     /* The Modal (background) */
     .modal {
         display: none;
-        position: absolute;
-        left: 0;
-        top: 50%;
+        position: fixed;
+        left: 0%;
+        top: 0%;
         width: 100%;
         height: 100%;
         overflow: auto;
         background-color: rgb(0, 0, 0);
         background-color: rgba(0, 0, 0, 0.9);
+        z-index: 1055;
     }
 
     /* Modal Content (Image) */
@@ -638,7 +639,7 @@ use Illuminate\Support\Facades\Storage;
                                     <a id="" href="#" data-file="{{ $item }}" class="remove-btn">Remove file</a>
                                     <div class="image-overlay  position-absolute" style="display:none;">
                                         <a href="{{route('filedownload',['filename' => $item])}}" data-file="{{ $item }}"><i class="fa fa-download" aria-hidden="true"></i></a>
-                                        <a href=""  class="myImg" data-file="{{asset('taskfiles').'/'.$item}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                        <a href="" class="myImg" data-file="{{asset('taskfiles').'/'.$item}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
                                 @else
@@ -941,7 +942,9 @@ use Illuminate\Support\Facades\Storage;
 
 <div id="myModal" class="modal">
     <span class="close">&times;</span>
-    <img class="modal-content" id="img01">
+    <div class="modal-dialog modal-dialog-centered">
+        <img class="modal-content" id="img01">
+    </div>
 </div>
 
 @endsection
@@ -951,7 +954,7 @@ use Illuminate\Support\Facades\Storage;
     $(document).ready(function() {
         var modal = document.getElementById('myModal');
         var modalImg = document.getElementById("img01");
-        $(document).on('click','.myImg',function (event) {
+        $(document).on('click', '.myImg', function(event) {
             event.preventDefault();
             modal.style.display = "block";
             modalImg.src = $(this).attr('data-file');
@@ -960,6 +963,7 @@ use Illuminate\Support\Facades\Storage;
         span.onclick = function() {
             modal.style.display = "none";
         }
+
         function validateEmail(email) {
             var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return re.test(email);
