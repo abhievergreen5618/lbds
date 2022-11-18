@@ -163,9 +163,10 @@
         '</p><span class="text-center text-danger">' +
         data.unreadmessages + '&nbsp;Unread</span> ' +
         '</div></div></a><div class="dropdown-divider"></div>');
+        var link = "/chatify/"+data.from_id;
           $(document).Toasts('create', {
             body: data.message.message,
-            title: "<a href='/chatify/"+data.from_id+"'>"+data.name+"</a>",
+            title: "<a href='"+link+"'>"+data.name+"</a>",
             icon: 'fas fa-envelope fa-lg',
           });
     });
