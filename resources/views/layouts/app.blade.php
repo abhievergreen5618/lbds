@@ -40,6 +40,11 @@
   <link rel="stylesheet" href="{{asset('/plugins/select2/css/select2.min.css')}}">
   <link rel="stylesheet" href="{{asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
   <link rel="stylesheet" href="{{asset('/css/style.css')}}">
+  <style>
+  .toast {
+    background-color: rgba(255, 255, 255, 0.85) !important;
+    }
+</style>
   @stack("header_extras")
 </head>
 
@@ -131,6 +136,14 @@
   @stack("footer_extras")
   <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
   <script>
+     $('.toastsDefaultFull').click(function() {
+      $(document).Toasts('create', {
+        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.',
+        title: 'Toast Title',
+        subtitle: 'Subtitle',
+        icon: 'fas fa-envelope fa-lg',
+      })
+    });
     // Enable pusher logging - don't include this in production
     Pusher.logToConsole = true;
 
@@ -158,12 +171,12 @@
         '</p><span class="text-center text-danger">' +
         data.unreadmessages + '&nbsp;Unread</span> ' +
         '</div></div></a><div class="dropdown-divider"></div>');
-        $(document).Toasts('create', {
-          body: data.message.message,
-          subtitle: 'Message',
-          title: data.name,
-          icon: 'fas fa-envelope fa-lg',
-        });
+          $(document).Toasts('create', {
+            body: data.message.message,
+            subtitle: 'Message',
+            title: data.name,
+            icon: 'fas fa-envelope fa-lg',
+          });
     });
 
 
