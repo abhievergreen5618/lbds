@@ -136,14 +136,6 @@
   @stack("footer_extras")
   <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
   <script>
-     $('.toastsDefaultFull').click(function() {
-      $(document).Toasts('create', {
-        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.',
-        title: 'Toast Title',
-        subtitle: 'Subtitle',
-        icon: 'fas fa-envelope fa-lg',
-      })
-    });
     // Enable pusher logging - don't include this in production
     Pusher.logToConsole = true;
 
@@ -173,7 +165,6 @@
         '</div></div></a><div class="dropdown-divider"></div>');
           $(document).Toasts('create', {
             body: data.message.message,
-            subtitle: 'Message',
             title: data.name,
             icon: 'fas fa-envelope fa-lg',
           });
