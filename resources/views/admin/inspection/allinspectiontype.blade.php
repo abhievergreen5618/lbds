@@ -68,7 +68,7 @@
 @push('footer_extras')
 <script>
   var disableinspection = $('.disableinspection').select2({
-    placeholder: "Assign Inspector",
+    placeholder: "Hide Inspection Type",
     multiple: true,
   });
   disableinspection.on('select2:selecting', function(sel) {
@@ -79,8 +79,8 @@
       var insid = element.val();
       if (insid.length) {
         Swal.fire({
-          title: 'Are you sure want to assign Test Inspector?',
-          text: "Agency and inspector will be immediately notified!",
+          title: 'Are you sure want to hide this?',
+          text: "You will be able to revert this!",
           showCancelButton: true,
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
@@ -126,7 +126,7 @@
       var insid = element.val();
       if (insid.length) {
         Swal.fire({
-          title: 'Are you sure want to assign Test Inspector?',
+          title: 'Are you sure want to hide this?',
           text: "You will be able to revert this!",
           showCancelButton: true,
           confirmButtonColor: '#3085d6',
