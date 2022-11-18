@@ -172,7 +172,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                     </ul>
                 </li>
                 {{-- @can('user-create','user-list') --}}
-                @if(Gate::check('user-create') && Gate::check('user-list'))
+                @if(Gate::check('user-create') || Gate::check('user-list'))
                     <li class="nav-item {{ (Route::currentRouteName() ==
                         'users.create') ||
                         (Route::currentRouteName() == 'admin.users.view') ? 'menu-open menu-is-opening ' : ''}}">
