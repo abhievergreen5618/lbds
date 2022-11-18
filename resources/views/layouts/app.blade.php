@@ -166,7 +166,7 @@
         var link = "/chatify/"+data.from_id;
           $(document).Toasts('create', {
             body: data.message.message,
-            title: "<a href='"+link+"'>"+data.name+"</a>",
+            title: "<a href='"+link+"' target='_blank'>"+data.name+"</a>",
             icon: 'fas fa-envelope fa-lg',
           });
     });
