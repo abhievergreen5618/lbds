@@ -40,6 +40,12 @@ class RequestController extends Controller
             session()->put('taskid', $id);
         } else {
             $id = session()->get('taskid');
+            if (RequestModel::where(["id" => $id])->count() == 0) 
+            {
+                $id = RequestModel::create(["agency_related_files" => []]);
+                $id = $id['id'];
+                session()->put('taskid', $id);
+            }
         }
         $data = Inspectiontype::where("status", "active")->pluck("name", "id");
         $roleid = Role::where("name", Auth::user()->roles->pluck('name')[0])->first("id");
@@ -175,7 +181,7 @@ class RequestController extends Controller
             Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
         }
         if (!empty($insdetails->notification_settings) && (array_key_exists('request_assigned', $insdetails->notification_settings))) {
-        Mail::to($insemail['email'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
+            Mail::to($insemail['email'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
         }
         $current_date_time = Carbon::now()->toDateTimeString();
         RequestModel::where(["id" => decrypt($reqid)])->update([
@@ -474,8 +480,7 @@ class RequestController extends Controller
         ]);
         if ($validator->fails()) {
             return redirect()->route('home')->with('error', '!Oops Request Details Not Found');
-        } 
-        else {
+        } else {
             $company = RequestModel::where("id", decrypt($request->id))->first('company_id');
             $companydetails = User::where("id", $company['company_id'])->first();
             $requestdetails = RequestModel::where("id", decrypt($request->id))->first();
@@ -689,7 +694,7 @@ class RequestController extends Controller
         }
     }
 
-    public function send_email($id,$status)
+    public function send_email($id, $status)
     {
         // $data = RequestModel::leftJoin('users  AS inspector','inspector.id', '=', 'request_models.assigned_ins')
         // ->leftJoin('users AS company','company.id', '=', 'request_models.company_id')
@@ -708,7 +713,7 @@ class RequestController extends Controller
                 Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
             }
             if (!empty($insdetails->notification_settings) && (array_key_exists('request_scheduled', $insdetails->notification_settings))) {
-            Mail::to($insdetails['email'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
+                Mail::to($insdetails['email'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
             }
         } else if ($status == "rescheduled") {
             $subject = "Request Rescheduled";
@@ -724,7 +729,7 @@ class RequestController extends Controller
                 Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
             }
             if (!empty($insdetails->notification_settings) && (array_key_exists('request_underreview', $insdetails->notification_settings))) {
-            Mail::to($insdetails['email'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
+                Mail::to($insdetails['email'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
             }
         } else if ($status == "completed") {
             $subject = "Request Completed";
@@ -733,7 +738,7 @@ class RequestController extends Controller
                 Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
             }
             if (!empty($insdetails->notification_settings) && (array_key_exists('request_completedrequest_underreview', $insdetails->notification_settings))) {
-            Mail::to($insdetails['email'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
+                Mail::to($insdetails['email'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
             }
         }
 
@@ -766,14 +771,14 @@ class RequestController extends Controller
         );
         $data['requestid'] = decrypt($data['requestid']);
         if ($request['btn'] == "send") {
-                try {
-                    Mail::to($request['reportmailto'])->cc($request['reportmailcc'])->bcc($request['reportmailbcc'])->send(new Report($data));
-                    $reportemail->saveemail($data, "sent");
-                } catch (Exception $e) {
-                    dd($e->getMessage());
-                    $reportemail->saveemaildraft($data, "draft");
-                    return redirect()->back()->with('error', 'Failed To Send Report Mail');
-                }
+            try {
+                Mail::to($request['reportmailto'])->cc($request['reportmailcc'])->bcc($request['reportmailbcc'])->send(new Report($data));
+                $reportemail->saveemail($data, "sent");
+            } catch (Exception $e) {
+                dd($e->getMessage());
+                $reportemail->saveemaildraft($data, "draft");
+                return redirect()->back()->with('error', 'Failed To Send Report Mail');
+            }
             return redirect()->back()->with('msg', 'Report Mail Send Successfully');
         } else {
             $data['reportmailto'] = isset($data['reportmailto']) ? $data['reportmailto'] : NULL;

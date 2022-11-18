@@ -333,8 +333,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                         {{-- @endcan --}}
                     </ul>
                 </li>
-                <li class="nav-item {{ (Route::currentRouteName() ==
-'admin.agency.agency-register') ? 'menu-open menu-is-opening' : ''}}">
+                <li class="nav-item {{ (Route::currentRouteName() == 'admin.agency.agency-register' || Route::currentRouteName() == 'admin.agency.agency-view' || Route::currentRouteName() == 'admin.adminlist.view' || Route::currentRouteName() == 'admin.adminlist.view' || Route::currentRouteName() == 'admin.disapproved.view') ? 'menu-open menu-is-opening' : ''}}">
 
                     <a href="javascript:void(0);" class="nav-link {{ (Route::currentRouteName() ==
 'admin.agency.agency-register')? 'active ' : ''}}">
@@ -344,8 +343,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() ==
-'admin.agency.agency-register') ? 'display: block;' : ''}}">
+                    <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() == 'admin.agency.agency-register') ? 'display: block;' : ''}}">
 
                         @can('agency-create')
                         <li class="nav-item">
