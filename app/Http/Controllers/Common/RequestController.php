@@ -19,6 +19,7 @@ use Spatie\Permission\Models\Role;
 use App\Mail\Admin\Report;
 use App\Models\EmailModel;
 use Exception;
+use Illuminate\Validation\Rule;
 
 class RequestController extends Controller
 {
@@ -158,7 +159,7 @@ class RequestController extends Controller
     }
 
 
-    public function assign_ins($id,$reqid)
+    public function assign_ins($id, $reqid)
     {
         $insemail = User::role('inspector')->where("id", decrypt($id))->first('email');
         $insdetails = User::role('inspector')->where("id", decrypt($id))->first();
@@ -170,8 +171,12 @@ class RequestController extends Controller
         //     'companydetails' => $companydetails,
         // ]);  
         $subject = "Inspectorassign";
+        if (!empty($companydetails->notification_settings) && (array_key_exists('request_assigned', $companydetails->notification_settings))) {
+            Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
+        }
+        if (!empty($insdetails->notification_settings) && (array_key_exists('request_assigned', $insdetails->notification_settings))) {
         Mail::to($insemail['email'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
-        Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
+        }
         $current_date_time = Carbon::now()->toDateTimeString();
         RequestModel::where(["id" => decrypt($reqid)])->update([
             "assigned_ins" => decrypt($id),
@@ -459,38 +464,50 @@ class RequestController extends Controller
     }
     public function requestcheck(Request $request)
     {
-        $company = RequestModel::where("id", decrypt($request->id))->first('company_id');
-        $companydetails = User::where("id", $company['company_id'])->first();
-        $requestdetails = RequestModel::where("id", decrypt($request->id))->first();
-        $maildraft = EmailModel::where(["requestid"=>decrypt($request->id),"status"=>"draft"])->first();
-        $inspectordetails = User::where("id", $requestdetails['assigned_ins'])->first();
-        $agencyfiles = RequestModel::where("id", decrypt($request->id))->first("agency_related_files");
-        $reportfiles = RequestModel::where("id", decrypt($request->id))->first("reports_related_files");
-        $data = Inspectiontype::where("status", "active")->pluck("name", "id");
-        $invoicedata = SendInvoice::where("status", "active")->pluck("name", "id");
-        $inslist = User::role('inspector')->pluck("name", "id");
-        $maillist = [$requestdetails['applicantemail'], $companydetails['email']];
-        if(!empty($maildraft['mailto']) && count($maildraft['mailto']) != 0)
-        {
-            $result = array_diff($maildraft['mailto'],$maillist);
-            $maillist = (!empty($result) && count($result) != 0) ? array_merge($maillist,$result) : $maillist;
+        $data = $request->all();
+        $data['id'] = decrypt($data['id']);
+        $validator = Validator::make($data, [
+            'id' => [
+                'required',
+                'exists:request_models,id',
+            ],
+        ]);
+        if ($validator->fails()) {
+            return redirect()->route('home')->with('error', '!Oops Request Details Not Found');
+        } 
+        else {
+            $company = RequestModel::where("id", decrypt($request->id))->first('company_id');
+            $companydetails = User::where("id", $company['company_id'])->first();
+            $requestdetails = RequestModel::where("id", decrypt($request->id))->first();
+            $maildraft = EmailModel::where(["requestid" => decrypt($request->id), "status" => "draft"])->first();
+            $inspectordetails = User::where("id", $requestdetails['assigned_ins'])->first();
+            $agencyfiles = RequestModel::where("id", decrypt($request->id))->first("agency_related_files");
+            $reportfiles = RequestModel::where("id", decrypt($request->id))->first("reports_related_files");
+            $data = Inspectiontype::where("status", "active")->pluck("name", "id");
+            $invoicedata = SendInvoice::where("status", "active")->pluck("name", "id");
+            $inslist = User::role('inspector')->pluck("name", "id");
+            $maillist = [$requestdetails['applicantemail'], $companydetails['email']];
+            if (!empty($maildraft['mailto']) && count($maildraft['mailto']) != 0) {
+                $result = array_diff($maildraft['mailto'], $maillist);
+                $maillist = (!empty($result) && count($result) != 0) ? array_merge($maillist, $result) : $maillist;
+            }
+            $attachments = $this->get_merged_files($agencyfiles['agency_related_files'], $reportfiles['reports_related_files']);
+            return view('admin.request.requeststatus')->with(
+                [
+                    "companydetails" => $companydetails,
+                    "requestdetails" => $requestdetails,
+                    "agencyfiles" => $agencyfiles['agency_related_files'],
+                    "reportfiles" => $reportfiles['reports_related_files'],
+                    "invoicedata" => $invoicedata,
+                    "inspectordetails" => $inspectordetails,
+                    "data" => $data,
+                    "inslist" => $inslist,
+                    "maillist" => $maillist,
+                    "attachments" => $attachments,
+                    "maildraft" => $maildraft,
+                ]
+            );
         }
-        $attachments = $this->get_merged_files($agencyfiles['agency_related_files'], $reportfiles['reports_related_files']);
-        return view('admin.request.requeststatus')->with(
-            [
-                "companydetails" => $companydetails,
-                "requestdetails" => $requestdetails,
-                "agencyfiles" => $agencyfiles['agency_related_files'],
-                "reportfiles" => $reportfiles['reports_related_files'],
-                "invoicedata" => $invoicedata,
-                "inspectordetails" => $inspectordetails,
-                "data" => $data,
-                "inslist" => $inslist,
-                "maillist" => $maillist,
-                "attachments" => $attachments,
-                "maildraft" => $maildraft,
-            ]
-        );
     }
 
     public function get_merged_files($agencyfiles, $reportfiles)
@@ -606,7 +623,7 @@ class RequestController extends Controller
                 "id" => 'required',
             ]
         );
-        $this->send_email($request['id'], "cancelled");
+        // $this->send_email($request['id'], "cancelled");
         RequestModel::where('id', decrypt($request['id']))->update([
             "status" => "cancelled",
             "cancel_reason" => $request['msg'],
@@ -680,19 +697,53 @@ class RequestController extends Controller
         $requestdetails = RequestModel::where("id", decrypt($id))->first();
         $insdetails = User::where("id", $requestdetails['assigned_ins'])->first();
         $companydetails = User::where("id", $requestdetails['company_id'])->first();
+        $requestdetails = RequestModel::where("id", decrypt($id))->first();
+        $insdetails = User::where("id", $requestdetails['assigned_ins'])->first();
+        $companydetails = User::where("id", $requestdetails['company_id'])->first();
+
         if ($status == "scheduled") {
             $subject = "Request Scheduled";
+
+            if (!empty($companydetails->notification_settings) && (array_key_exists('request_scheduled', $companydetails->notification_settings))) {
+                Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
+            }
+            if (!empty($insdetails->notification_settings) && (array_key_exists('request_scheduled', $insdetails->notification_settings))) {
+            Mail::to($insdetails['email'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
+            }
         } else if ($status == "rescheduled") {
             $subject = "Request Rescheduled";
         } else if ($status == "cancelled") {
             $subject = "Request Cancelled";
+
+            Mail::to($insdetails['email'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
+            Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
         } else if ($status == "underreview") {
             $subject = "Request Underreview";
+
+            if (!empty($companydetails->notification_settings) && (array_key_exists('request_underreview', $companydetails->notification_settings))) {
+                Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
+            }
+            if (!empty($insdetails->notification_settings) && (array_key_exists('request_underreview', $insdetails->notification_settings))) {
+            Mail::to($insdetails['email'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
+            }
         } else if ($status == "completed") {
             $subject = "Request Completed";
+
+            if (!empty($companydetails->notification_settings) && (array_key_exists('request_completed', $companydetails->notification_settings))) {
+                Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
+            }
+            if (!empty($insdetails->notification_settings) && (array_key_exists('request_completedrequest_underreview', $insdetails->notification_settings))) {
+            Mail::to($insdetails['email'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
+            }
         }
-        Mail::to($insdetails['email'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
-        Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
+
+        // priya code merge stash
+        // if(!empty($insdetails)) 
+        // {
+        //     Mail::to($insdetails['email'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
+        //     Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new Inspectorassign($insdetails,$companydetails, $requestdetails, $subject));
+        // }
+        //end
     }
 
 
@@ -700,7 +751,7 @@ class RequestController extends Controller
     {
         return view('company.request.requestlist');
     }
-    public function sendmailreport(Request $request,EmailModel $reportemail)
+    public function sendmailreport(Request $request, EmailModel $reportemail)
     {
         $data = $request->all();
         $request->validate(
@@ -708,31 +759,26 @@ class RequestController extends Controller
                 "reportmailto" => "required_if:btn,send",
                 "subject" => "required_if:btn,send",
                 "message" => "required_if:btn,send",
-                "attachments" => "required_if:btn,send",
             ],
             [
                 "required_if" => "This field is required.",
             ]
         );
         $data['requestid'] = decrypt($data['requestid']);
-        if($request['btn'] == "send") {
-            foreach ($request['reportmailto'] as $key => $value) {
+        if ($request['btn'] == "send") {
                 try {
-                    Mail::to($value)->send(new Report($data));
-                    $reportemail->saveemail($data,"sent");
+                    Mail::to($request['reportmailto'])->cc($request['reportmailcc'])->bcc($request['reportmailbcc'])->send(new Report($data));
+                    $reportemail->saveemail($data, "sent");
                 } catch (Exception $e) {
+                    dd($e->getMessage());
+                    $reportemail->saveemaildraft($data, "draft");
                     return redirect()->back()->with('error', 'Failed To Send Report Mail');
                 }
-            }
             return redirect()->back()->with('msg', 'Report Mail Send Successfully');
-        }
-        else
-        {
+        } else {
             $data['reportmailto'] = isset($data['reportmailto']) ? $data['reportmailto'] : NULL;
-            $reportemail->saveemaildraft($data,"draft");
+            $reportemail->saveemaildraft($data, "draft");
             return redirect()->back()->with('msg', 'Report Draft Saved Successfully');
         }
     }
 }
-
-

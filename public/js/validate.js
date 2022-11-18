@@ -393,9 +393,8 @@ $(document).ready(function () {
       },
     },
     errorPlacement: function (error, element) {
-      console.log(element);
       if (element.attr("id") === "reportmailto") {
-        $(element).parent().parent().append(error);
+          $(element).parent().after(error);
       }
       else if (element.hasClass("summernote")) {
         error.insertAfter(element.siblings(".note-editor"));

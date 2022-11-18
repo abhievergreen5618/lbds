@@ -96,7 +96,13 @@ class AgencyController extends Controller
                     $statusBtn = "<div class='d-flex justify-content-center'><a href='javascript:void(0)' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Task $btntext' class='$class'>$btntext</a></div>";
                     return $statusBtn;
                 })
-                ->rawColumns(['id', 'action', 'status'])
+                ->addColumn('profile', function ($row) {
+                    $id = encrypt($row->id);
+                    $profilelink = route('admin.agency.profile', ['id' => $id]);
+                    $btn = "<div class='d-flex justify-content-around'><a href='$profilelink' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Profile' class='btn btn-primary  profile'>View</a></div>";
+                    return $btn;
+                })
+                ->rawColumns(['id', 'action', 'status','profile'])
                 ->make(true);
         }
     }
@@ -198,5 +204,39 @@ class AgencyController extends Controller
 
         return redirect()->route('admin.agency.agency-view')->with("msg", "Record Updated Successfully");
     }
+
+
+     // for view particular agency profile for admin...
+     public function viewProfile(Request $request){
+        if (isset($request['id']) && !empty($request['id'])) {
+            //
+            $data=User::where('id',decrypt($request['id']))->first();
+            $user_request=DB::table('request_models')->where('company_id',decrypt($request['id']))->get();
+
+            $totalrequest=$user_request->count();  
+            $pendingrequest=$user_request->where('status','pending')->count();
+            $scheduledrequest=$user_request->where('status','scheduled')->count();
+            $completedrequest=$user_request->where('status','completed')->count();
+            //
+            $pending_request=DB::table('request_models')->where('company_id',decrypt($request['id']))->where('status','pending')->take(10)->get();
+            $scheduled_request=DB::table('request_models')->where('company_id',decrypt($request['id']))->where('status','scheduled')->take(10)->get();
+            $completed_request=DB::table('request_models')->where('company_id',decrypt($request['id']))->where('status','completed')->take(10)->get();
+            // 
+            
+            return view('admin.agency.profileshow')->with(["data"=>$data,"user_request"=>$user_request,"totalrequest" => $totalrequest,"pendingrequest"=>$pendingrequest,
+            "scheduledrequest"=>$scheduledrequest,"completedrequest"=>$completedrequest,"pending_request"=>$pending_request,"scheduled_request"=>$scheduled_request,
+            "completed_request"=>$completed_request]);
+        }
+    }
+
+
+    // for store the values of options
+     public function updateAgencyMail(Request $request, User $user)
+     {  
+      User::where('id',decrypt($request['id']))->update(['notification_settings'=>$request['notification_settings']]);
+         return back()->with('msg', 'Email Configuration Updated Successfully');
+     }
+ 
+
 
 }

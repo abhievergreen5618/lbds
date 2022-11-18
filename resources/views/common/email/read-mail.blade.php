@@ -39,7 +39,7 @@
             <!-- /.card-header -->
             <div class="card-body p-0">
               <div class="mailbox-read-info">
-                <h5>{{$readmail->subject}}</h5>
+                <h5>{{(!empty($readmail->subject) ? $readmail->subject : 'No Subject' )}}</h5>
                 <h6>From: support@adminlte.io
                   <span class="mailbox-read-time float-right">15 Feb. 2015 11:03 PM</span></h6>
               </div>
@@ -64,7 +64,7 @@
               <!-- /.mailbox-controls -->
               <div class="mailbox-read-message">
                     @php
-                    echo $readmail->message;
+                    echo (!empty($readmail->message) ? $readmail->message : 'No Message');
                     @endphp
               </div>
               <!-- /.mailbox-read-message -->

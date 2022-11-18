@@ -17,10 +17,12 @@ return new class extends Migration
             $table->id();
             $table->string("requestid");
             $table->string("mailto")->nullable();
+            $table->string("mailcc")->nullable();
+            $table->string("mailbcc")->nullable();
             $table->string("subject")->nullable();
             $table->string("message")->nullable();
-            $table->string("files")->nullable();
-            $table->string("attachments")->nullable();
+            $table->longText("files")->nullable();
+            $table->longText("attachments")->nullable();
             $table->string("status");
             $table->timestamps();
         });

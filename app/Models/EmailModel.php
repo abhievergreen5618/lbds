@@ -12,6 +12,8 @@ class EmailModel extends Model
     protected $fillable = [
         'requestid',
         'mailto',
+        'mailcc',
+        'mailbcc',
         'subject',
         'message',
         'files',
@@ -21,6 +23,8 @@ class EmailModel extends Model
 
     protected $casts = [
         "mailto" => "array",
+        "mailcc" => "array",
+        "mailbcc" => "array",
         "attachments" => "array",
     ];
 
@@ -29,13 +33,15 @@ class EmailModel extends Model
     {
         EmailModel::Create(
             [
-                "requestid"=>$data['requestid'],
-                "mailto"=>$data['reportmailto'],
-                "subject"=>$data['subject'],
-                "message"=>$data['message'],
-                "files"=>$data['files'],
-                "attachments"=>$data['attachments'],
-                "status"=>$status,
+                "requestid"   =>  $data['requestid'],
+                "mailto"      =>  (isset($data['reportmailto']) ? $data['reportmailto'] : NULL),
+                "mailcc"      =>  (isset($data['reportmailcc']) ? $data['reportmailcc'] : NULL),
+                "mailbcc"     =>  (isset($data['reportmailbcc']) ? $data['reportmailbcc'] : NULL),
+                "subject"     =>  (isset($data['subject']) ? $data['subject'] : NULL),
+                "message"     =>  (isset($data['message']) ? $data['message'] : NULL),
+                "files"       =>  (isset($data['files']) ? $data['files'] : NULL),
+                "attachments" =>  (isset($data['attachments']) ? $data['attachments'] : NULL),
+                "status"      =>   $status,
             ],
         );
     }
@@ -44,12 +50,14 @@ class EmailModel extends Model
         EmailModel::updateOrCreate(
             ["requestid"=>$data['requestid']],
             [
-                "mailto"=>$data['reportmailto'],
-                "subject"=>$data['subject'],
-                "message"=>$data['message'],
-                "files"=>$data['files'],
-                "attachments"=>$data['attachments'],
-                "status"=>$status,
+                "mailto"      =>  (isset($data['reportmailto']) ? $data['reportmailto'] : NULL),
+                "mailcc"      =>  (isset($data['reportmailcc']) ? $data['reportmailcc'] : NULL),
+                "mailbcc"     =>  (isset($data['reportmailbcc']) ? $data['reportmailbcc'] : NULL),
+                "subject"     =>  (isset($data['subject']) ? $data['subject'] : NULL),
+                "message"     =>  (isset($data['message']) ? $data['message'] : NULL),
+                "files"       =>  (isset($data['files']) ? $data['files'] : NULL),
+                "attachments" =>  (isset($data['attachments']) ? $data['attachments'] : NULL),
+                "status"      =>   $status,
             ],
         );
     }

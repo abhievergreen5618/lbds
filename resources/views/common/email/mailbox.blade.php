@@ -88,15 +88,15 @@
                           <label for="check1"></label>
                         </div>
                       </td>
-                      <td class="mailbox-star"><a href="#"><i class="fas fa-star text-warning"></i></a></td>
+                      <!-- <td class="mailbox-star"><a href="#"><i class="fas fa-star text-warning"></i></a></td> -->
                       <td class="mailbox-name"><a href="{{route('mailbox.readmail',['id'=>encrypt($value->id)])}}">Alexander Pierce</a></td>
-                      <td class="mailbox-subject">{{$value->subject}}</td>
+                      <td class="mailbox-subject">{{(!empty($value->subject) ? $value->subject : 'No Subject' )}}</td>
                       <td class="mailbox-attachment">@if(!empty($value->attachments))<i class="fas fa-paperclip"></i>@endif</td>
                       <td class="mailbox-date">{{$value->updated_at->diffForHumans()}}</td>
                     </tr>
                 @empty
                     <tr>
-                      <td class="text-center"><b class="fs-5">No Sent Mail Founded</b></td>
+                      <td class="text-center"><b class="fs-5">No Mail Founded</b></td>
                     </tr>
                 @endforelse
               </tbody>

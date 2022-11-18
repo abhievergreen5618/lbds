@@ -8,7 +8,7 @@ function getFormData($form) {
 
     const posts = [];
 
-    $.each(unindexed_array, function(key, value) {
+    $.each(unindexed_array, function (key, value) {
 
         name = value.name;
 
@@ -55,7 +55,7 @@ function requestformsubmit() {
         headers: {
             'x-csrf-token': $('meta[name="csrf-token"]').attr('content'),
         },
-        success: function(res) {
+        success: function (res) {
             $('.preloader').children().hide();
             $('.preloader').css("height", "0");
             Swal.fire({
@@ -65,15 +65,15 @@ function requestformsubmit() {
                 showConfirmButton: false,
                 timer: 1000,
             }).then((result) => {
-                window.location.href = res.newlocation; 
+                window.location.href = res.newlocation;
             });
         },
-        error: function(xhr) {
+        error: function (xhr) {
             $('.preloader').children().hide();
             $('.preloader').css("height", "0");
             if (xhr.status == 422) {
                 $('*').removeClass("is-invalid-special");
-                $.each(xhr.responseJSON.errors, function(key, value) {
+                $.each(xhr.responseJSON.errors, function (key, value) {
                     if (key == "agency") {
                         $("[name='" + key + "']").next().focus();
                         $("#error-" + key).remove();
@@ -97,10 +97,33 @@ function requestformsubmit() {
     });
 }
 
-function ucfirst(str,force){
-    str=force ? str.toLowerCase() : str;
+function ucfirst(str, force) {
+    str = force ? str.toLowerCase() : str;
     return str.replace(/(\b)([a-zA-Z])/,
-             function(firstLetter){
-                return   firstLetter.toUpperCase();
-             });
+        function (firstLetter) {
+            return firstLetter.toUpperCase();
+        });
+}
+
+// function copy(text){
+//     var $temp = $("<div>");
+//     $("body").append($temp);
+//     $temp.attr("contenteditable", true)
+//          .html(text).select()
+//          .on("focus", function() { document.execCommand('selectAll',false,null); })
+//          .focus();
+//     document.execCommand("copy");
+//     $temp.remove();
+// }
+
+function setTooltip(message) {
+    $('#copy').tooltip('hide')
+        .attr('data-original-title', message)
+        .tooltip('show');
+}
+
+function hideTooltip() {
+    setTimeout(function () {
+        $('#copy').tooltip('hide');
+    }, 1000);
 }

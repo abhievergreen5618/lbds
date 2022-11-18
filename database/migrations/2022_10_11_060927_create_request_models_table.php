@@ -38,8 +38,8 @@ return new class extends Migration
             $table->timestamp('completed_at')->nullable()->default(null);
             $table->string('status')->default("pending");
             $table->string('cancel_reason')->nullable();
-            $table->string('agency_related_files')->nullable();
-            $table->string('reports_related_files')->nullable();
+            $table->longText('agency_related_files')->nullable();
+            $table->longText('reports_related_files')->nullable();
             $table->timestamps();
             // $table->softDeletes();
         });

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -35,6 +37,28 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('guest')->except([
+            'logout',
+            'locked',
+            'unlock'
+        ]);
+    }
+
+    public function locked()
+    {
+        if(!session()->has('lock-start-at')){
+            return redirect('/');
+        }    
+        return view('auth.locked');
+    }
+
+    public function unlock(Request $request)
+    {
+        $check = Hash::check($request->input('password'),$request->user()->password);
+        if(!$check){
+            return redirect()->back()->withErrors(["password"=>'Your password does not match your profile.']);
+        }
+        session(['lock-start-at' => now()->addMinutes($request->user()->getLockoutTime())]);
+        return redirect(session()->get('url.intended'));
     }
 }

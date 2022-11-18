@@ -32,9 +32,10 @@ return new class extends Migration
             $table->string('color_code')->nullable();
             $table->string('inspector_id')->nullable();
             $table->string('state')->nullable();
-            $table->string('profile_img')->nullable();
+            $table->string('profile_img')->default('profile.jpg')->nullable();
             $table->string('status')->default("active");
             $table->string('approved')->default("Pending");
+            $table->string('notification_settings')->default('{"request_assigned":"on","request_scheduled":"on","request_underreview":"on","request_completed":"on"}')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

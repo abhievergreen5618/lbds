@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\Agency\AgencyController;
 use App\Http\Controllers\Admin\Portal\ProtalController;
 use App\Http\Controllers\Admin\Agency\AgencyApprovalController;
 use App\Http\Controllers\Common\Mail\MailBoxController;
+use App\Http\Controllers\Auth\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,6 +60,7 @@ Route::controller(RequestController::class)->group(function () {
     Route::post('/requestschedule', 'schedule')->name('requestschedule');
     Route::get('/filedownload', 'filedownload')->name('filedownload');
     Route::post('/sendmailreport', 'sendmailreport')->name('sendmailreport');
+    Route::post('/statusupdate', 'statusupdate')->name('statusupdate');
 
     // company routes
     Route::get('/company-request-list', 'showcompanylist')->name('company.request.list');
@@ -118,6 +120,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/inspector-status-update', 'status')->name('inspector-status-update');
         Route::get('inspector/password/password-reset', 'passwordReset')->name('admin.inspector.passwordReset');
         Route::post('inspector/password/submit', 'updatepassword')->name('admin.inspector.Updatepassword');
+        //for view profile
+        Route::get('/inspector/profile', 'viewProfile')->name('admin.inspector.profile');
+        Route::post('/portalsetup/update/inspector-mail', 'updateInspectorMail')->name('admin.update.inspector-mail');
     });
     // Route::controller(InspectorController::class)->group(function () {
     //     Route::get('/view-inspector','index')->name('admin.view.inspector');
@@ -172,6 +177,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/agency-delete', 'destroy')->name('admin.agency-delete');
         Route::get('agency/password/password-reset', 'passwordReset')->name('admin.agency.passwordReset');
         Route::post('agency/password/submit', 'updatepassword')->name('admin.agency.Updatepassword');
+        // for view profile
+        Route::get('/agency/profile', 'viewProfile')->name('admin.agency.profile');
+        Route::post('/portalsetup/update/agency-mail', 'updateAgencyMail')->name('admin.update.agency-mail');
     });
 
     Route::controller(ProtalController::class)->group(function () {
@@ -179,12 +187,14 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/portalsetup/mail', 'index')->name('admin.portal.mail');
         Route::post('/portalsetup/update/website', 'update')->name('portal.update.website');
         Route::post('/portalsetup/update/mail', 'updatemail')->name('portal.update.mail');
+        Route::post('/portalsetup/update/pusher', 'updatepusher')->name('portal.update.pusher');
+        Route::post('/portalsetup/update/image', 'updateLoginImage')->name('portal.update.image');
     });
 
     Route::controller(MailBoxController::class)->group(function () {
-        Route::get('/mailbox/sent','index')->name('mailbox.sent');
-        Route::get('/mailbox/draft','draft')->name('mailbox.draft');
-        Route::get('/mailbox/read-mail','show')->name('mailbox.readmail');
+        Route::get('/mailbox/sent', 'index')->name('mailbox.sent');
+        Route::get('/mailbox/draft', 'draft')->name('mailbox.draft');
+        Route::get('/mailbox/read-mail', 'show')->name('mailbox.readmail');
     });
 
     Route::controller(AgencyApprovalController::class)->group(function () {
@@ -210,16 +220,13 @@ Route::get('/email/verify', function () {
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
-    if(Auth::user()->approved =="Pending" || Auth::user()->approved =="Disapproved")
-    {
+    if (Auth::user()->approved == "Pending" || Auth::user()->approved == "Disapproved") {
         Auth::logout();
-    //    return view('admin.approval')->with("msg",Auth::user()->approved);
+        //    return view('admin.approval')->with("msg",Auth::user()->approved);
         return view('admin.agency.approval');
-    }
-    else{
+    } else {
         return redirect('/home');
     }
-
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
 
@@ -235,4 +242,25 @@ Route::post('/email/verification-notification', function (Request $request) {
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
+    Route::controller(RoleController::class)->group(function () {
+        Route::get('/role-show', 'showRoles')->name('admin.roles.view');
+        Route::post('/roles-details', 'display')->name('admin.roles.details');
+
+        Route::get('/role-update', 'editRole')->name('admin.roles.show');
+        Route::post('/submit/role-update', 'update')->name('admin.roles.update');
+        Route::post('/role-delete', 'destroy')->name('admin.role-delete');
+    });
+
+    Route::controller(UserController::class)->group(function () {
+        Route::get('/user-show', 'showRoles')->name('admin.users.view');
+        Route::post('/users-details', 'display')->name('admin.users.details');
+
+        Route::get('/user-update', 'editRole')->name('admin.users.show');
+        Route::post('/submit/user-update', 'update')->name('admin.users.update');
+        Route::post('/user-delete', 'destroy')->name('admin.users-delete');
+    });
 });
+
+
+Route::get('login/locked',[LoginController::class, 'locked'])->name('login.locked')->middleware('auth');
+Route::post('login/unlock',[LoginController::class, 'unlock'])->name('login.unlock')->middleware('auth');

@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\DB;
-    
+use DataTables;
+
 class RoleController extends Controller
 {
  
@@ -59,7 +60,7 @@ class RoleController extends Controller
         $role = Role::create(['name' => $request->input('name')]);
         $role->syncPermissions($request->input('permission'));
     
-        return redirect()->route('roles.index')
+        return redirect()->route('admin.roles.view')
                         ->with('success','Role created successfully');
     }
     /**
@@ -84,15 +85,23 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+  
+
+
+    public function editRole(Request $request)
     {
-        $role = Role::find($id);
-        $permission = Permission::get();
-        $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
-            ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
-            ->all();
-    
-        return view('admin.roles.edit',compact('role','permission','rolePermissions'));
+        if (isset($request['id']) && !empty($request['id'])) {
+            $role= role::where('id', decrypt($request['id']))->first();
+           $permission= Permission::get();
+           $rolePermissions= DB::table("role_has_permissions")->where("role_has_permissions.role_id",$role->id)
+                ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
+                ->all();
+            return view('admin.roles.edit',compact('role','permission','rolePermissions'));
+        }
+        else{
+            return redirect()->back()->with("msg", "Record Created Successfully"); 
+        }
+     
     }
     
     /**
@@ -109,13 +118,13 @@ class RoleController extends Controller
             'permission' => 'required',
         ]);
     
-        $role = Role::find($id);
-        $role->name = $request->input('name');
-        $role->save();
+        $role= role::where('id', decrypt($request['id']))->first();
+       Role::where('id', decrypt($request['id']))->update([
+            "name" => $request->name
+        ]);
+       $role->syncPermissions($request->input('permission'));
     
-        $role->syncPermissions($request->input('permission'));
-    
-        return redirect()->route('roles.index')
+        return redirect()->route('admin.roles.view')
                         ->with('success','Role updated successfully');
     }
     /**
@@ -124,10 +133,43 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        DB::table("roles")->where('id',$id)->delete();
-        return redirect()->route('roles.index')
-                        ->with('success','Role deleted successfully');
+   
+        $request->validate(
+            [
+                "id" => 'required',
+            ]
+        );
+        Role::where('id', decrypt($request['id']))->delete();
+        $msg = "Deleted Successfully";
+        return response()->json(array("msg" => $msg), 200);
+    }
+
+
+    public function showRoles(){
+        $roles=Role::all();
+        return view('admin.roles.index',compact('roles'));
+    }
+
+    public function display(Request $request)
+    {
+        if ($request->ajax()) {
+            $GLOBALS['count'] = 0;
+            $data = Role::get(['id','name']);
+            return Datatables::of($data)->addIndexColumn()
+            ->addColumn('sno', function($row){
+                $GLOBALS['count']++;
+                return $GLOBALS['count'];
+            })
+                ->addColumn('action', function ($row) {
+                    $id = encrypt($row->id);
+                    $editlink = route('admin.roles.show', ['id' => $id]);
+                    $btn = "<div class='d-flex justify-content-around'><a href='$editlink' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Edit' class='btn limegreen btn-primary  edit'><i class='fas fa-edit'></i></a><a href='javascript:void(0)' data-id='$id' class='delete btn red-btn btn-danger  '  data-bs-toggle='tooltip' data-bs-placement='top' title='Delete'><i class='fa fa-trash' aria-hidden='true'></i></a></div>";
+                    return $btn;
+                })  
+                ->rawColumns(['id','sno', 'action'])
+                ->make(true);
+        }
     }
 }

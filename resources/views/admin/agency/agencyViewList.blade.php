@@ -22,6 +22,7 @@
             <th>Company Phone No.</th>
             <th>Zip Code</th>
             <th>Status</th>
+            <th>Profile</th>
             <th>Actions</th>
           </tr>
         </thead>

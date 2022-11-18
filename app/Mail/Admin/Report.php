@@ -21,7 +21,7 @@ class Report extends Mailable
     public function __construct($data)
     {
         $this->subject = $data['subject'];
-        $this->files = $data['attachments'];
+        $this->files = (isset($data['attachments']) ? $data['attachments'] : NULL);
         $this->message = $data['message'];
     }
 
@@ -60,10 +60,11 @@ class Report extends Mailable
     public function attachments()
     {
         $data = [];
-        foreach($this->files as $key=>$value)
-        {
-            $value = asset('taskfiles/'.$value);
-            $data[] = Attachment::fromPath($value);
+        if (!empty($this->files)) {
+            foreach ($this->files as $key => $value) {
+                $value = asset('taskfiles/' . $value);
+                $data[] = Attachment::fromPath($value);
+            }
         }
         return $data;
     }

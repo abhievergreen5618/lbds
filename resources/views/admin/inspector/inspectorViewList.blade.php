@@ -22,6 +22,7 @@
             <th>Status</th>
             <th>License Number</th>
             <th>Area(s) of Services</th>
+            <th>Profile</th>
             <th>Actions</th>
           </tr>
         </thead>

@@ -38,7 +38,7 @@ class MailBoxController extends Controller
 
     public function show(Request $request)
     {
-        $readmail = EmailModel::where(['id'=>decrypt($request->id),'status'=>'sent'])->first();
+        $readmail = EmailModel::where(['id'=>decrypt($request->id)])->first();
         $sentmailcount = EmailModel::where('status','sent')->count();
         $draftmailcount = EmailModel::where('status','draft')->count();
         return view('common.email.read-mail')->with(["readmail"=>$readmail,"sentmailcount"=>$sentmailcount,"draftmailcount"=>$draftmailcount]);

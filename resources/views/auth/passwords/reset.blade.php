@@ -1,11 +1,22 @@
 @extends('layouts.auth')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
+
+@php
+use App\Models\Options;
+$options =new Options();
+@endphp
+<div class="section one11">
+
+            <div class="col-md-6 gh">
+
+            <a class="navbar-brand tttt" href="#">
+                <img src="{{asset('images').'/'.$options->get_option('website_second_logo')}}" alt="logo">
+    
+            </a>
+            <div class="card mt-2">
+                <div class="card-header bg-green"><div class="small
+                    text-white fw-500">{{ __('Reset Password') }}</div></div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('password.update') }}">
@@ -59,7 +70,7 @@
                     </form>
                 </div>
             </div>
-        </div>
+    
     </div>
 </div>
 @endsection

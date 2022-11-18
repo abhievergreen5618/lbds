@@ -9,6 +9,10 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Arr;
+use Carbon\Carbon;
+use DataTables;
+
+
 class UserController extends Controller
 {
     
@@ -59,7 +63,7 @@ class UserController extends Controller
         $user = User::create($input);
         $user->assignRole($request->input('roles'));
         DB::table('users')->where('id',$user->id)->update(['approved'=>"Approved"]);
-        return redirect()->route('users.index')
+        return redirect()->route('admin.users.view')
                         ->with('success','User created successfully');
     }
     
@@ -81,13 +85,18 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function editRole(Request $request)
     {
-        $user = User::find($id);
-        $roles = Role::pluck('name','name')->all();
-        $userRole = $user->roles->pluck('name','name')->all();
-    
-        return view('admin.users.edit',compact('user','roles','userRole'));
+
+        if (isset($request['id']) && !empty($request['id'])) {
+            $user = User::where('id', decrypt($request['id']))->first();
+           $roles= Role::pluck('name','name')->all();
+           $userRole = $user->roles->pluck('name','name')->all();
+           return view('admin.users.edit',compact('user','roles','userRole'));
+        }
+        else{
+            return redirect()->back()->with("msg", "Record Created Successfully"); 
+        }
     }
     
     /**
@@ -129,10 +138,54 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        User::find($id)->delete();
-        return redirect()->route('admin.users.index')
-                        ->with('success','User deleted successfully');
+        $request->validate(
+            [
+                "id" => 'required',
+            ]
+        );
+        User::where('id', decrypt($request['id']))->delete();
+        $msg = "Deleted Successfully";
+        return response()->json(array("msg" => $msg), 200);
     }
+
+    public function showRoles(){
+        return view('admin.users.index');
+    }
+
+    public function display(Request $request)
+    {
+        if ($request->ajax()) {
+            $GLOBALS['count'] = 0;
+            $data = User::get(['id','name','email']);
+            return Datatables::of($data)->addIndexColumn()
+            ->addColumn('sno', function($row){
+                $GLOBALS['count']++;
+                return $GLOBALS['count'];
+            }) 
+             ->addColumn('roles', function ($row) {
+                $user = User::find($row->id);
+                if (!empty($user->getRoleNames())) {
+                    foreach($user->getRoleNames() as $v)
+                    {
+                     $btn= "<label class='badge badge-success'> $v</label>";
+                    }
+                 
+                }
+
+                return $btn;
+            })
+                ->addColumn('action', function ($row) {
+                    $id = encrypt($row->id);
+                    $editlink = route('admin.users.show', ['id' => $id]);
+                    $btn = "<div class='d-flex justify-content-around'><a href='$editlink' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Edit' class='btn limegreen btn-primary  edit'><i class='fas fa-edit'></i></a><a href='javascript:void(0)' data-id='$id' class='delete btn red-btn btn-danger  '  data-bs-toggle='tooltip' data-bs-placement='top' title='Delete'><i class='fa fa-trash' aria-hidden='true'></i></a></div>";
+                    return $btn;
+                })  
+                ->rawColumns(['id','sno','roles' ,'action'])
+                ->make(true);
+        }
+    }
+
+  
 }

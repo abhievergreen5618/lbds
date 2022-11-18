@@ -86,4 +86,15 @@ class Options extends Model
             }
         }
     }
+
+    public function envUpdate($data=[])
+    {
+        $path = base_path('.env');
+        if (file_exists($path)) {
+            foreach($data as $key =>$value){
+                    file_put_contents($path, str_ireplace($key.'='.env($key), strtoupper($key).'='.$value,file_get_contents($path)));
+          
+            }        
+        }
+    }
 }

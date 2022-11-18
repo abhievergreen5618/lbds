@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request as FacadesRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+
+// use App\Http\Controllers\HomeController;
+use App\Events\MessageEvent;
+
 class MessagesController extends Controller
 {
     protected $perPage = 30;
@@ -183,12 +187,33 @@ class MessagesController extends Controller
 
             // fetch message to send it with the response
             $messageData = Chatify::fetchMessage($messageID);
-
             // send to user using pusher
             Chatify::push('private-chatify', 'messaging', [
                 'from_id' => Auth::user()->id,
                 'to_id' => $request['id'],
+
                 'message' => Chatify::messageCard($messageData, 'default')
+            ]);
+        
+            $messages = DB::table('ch_messages')
+            ->join('users', 'users.id', '=', 'ch_messages.from_id')
+            ->where('to_id', $request['id'])->where('seen','0')->groupBy('ch_messages.from_id')->get();
+            $messagesCount=count($messages);
+
+            $unreadmessages = DB::table('ch_messages')
+            ->where('from_id', Auth::user()->id)
+            ->where('seen', '0')
+            ->count();
+        
+
+            Chatify::push('my-channel', 'my-event', [
+                'from_id' => Auth::user()->id,
+                'name'=>Auth::user()->name,
+                'profile_img'=>Auth::user()->profile_img,
+                'to_id' => $request['id'],
+                'message' => $messageData,
+                'messagesCount'=>$messagesCount,
+                'unreadmessages'=>$unreadmessages,
             ]);
         }
 

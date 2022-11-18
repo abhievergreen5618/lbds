@@ -1,3 +1,6 @@
+@php
+use Illuminate\Support\Facades\Storage;
+@endphp
 @push('header_extras')
 <link rel="stylesheet" href="{{asset('/css/all.css')}}">
 <style>
@@ -669,11 +672,41 @@
                                             <!-- /.card-header -->
                                             <div class="card-body">
                                                 <div class="form-group">
-                                                    <div class="select2-purple">
+                                                    <div class="select2-purple my-2">
                                                         <select class="form-control" name="reportmailto[]" id="reportmailto" multiple>
                                                             @if(!empty($maillist) && count($maillist) != 0)
                                                             @foreach($maillist as $key=>$value)
                                                             <option value="{{$value}}" {{(!empty($maildraft['mailto']) && count($maildraft['mailto']) != 0) ? (in_array($value,$maildraft['mailto'])) ? 'selected' : '' : ''}}>{{__($value)}}</option>
+                                                            @endforeach
+                                                            @endif
+                                                        </select>
+                                                        @error('reportmailto')
+                                                        <div>
+                                                            <label class="error fail-alert  mt-1">{{$message}}<label>
+                                                        </div>
+                                                        @enderror
+                                                        <!-- <input class="form-control" placeholder="To:"> -->
+                                                    </div>
+                                                    <div class="select2-purple  my-2">
+                                                        <select class="form-control" name="reportmailcc[]" id="reportmailcc" multiple>
+                                                            @if(!empty($maillist) && count($maillist) != 0)
+                                                            @foreach($maillist as $key=>$value)
+                                                            <option value="{{$value}}" {{(!empty($maildraft['mailcc']) && count($maildraft['mailcc']) != 0) ? (in_array($value,$maildraft['mailcc'])) ? 'selected' : '' : ''}}>{{__($value)}}</option>
+                                                            @endforeach
+                                                            @endif
+                                                        </select>
+                                                        @error('reportmailto')
+                                                        <div>
+                                                            <label class="error fail-alert  mt-1">{{$message}}<label>
+                                                        </div>
+                                                        @enderror
+                                                        <!-- <input class="form-control" placeholder="To:"> -->
+                                                    </div>
+                                                    <div class="select2-purple  my-2">
+                                                        <select class="form-control" name="reportmailbcc[]" id="reportmailbcc" multiple>
+                                                            @if(!empty($maillist) && count($maillist) != 0)
+                                                            @foreach($maillist as $key=>$value)
+                                                            <option value="{{$value}}" {{(!empty($maildraft['mailbcc']) && count($maildraft['mailbcc']) != 0) ? (in_array($value,$maildraft['mailbcc'])) ? 'selected' : '' : ''}}>{{__($value)}}</option>
                                                             @endforeach
                                                             @endif
                                                         </select>
@@ -744,11 +777,13 @@
                                                                 @php
                                                                 $info = pathinfo(public_path('taskfiles') . $item);
                                                                 $ext = $info['extension'];
+                                                                $fileSize =Storage::disk('taskfiles')->size($item);
+                                                                $fileSize = intval(abs(number_format($fileSize / 1048576,2)));
                                                                 @endphp
                                                                 @if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg')
                                                                 <div class="col-md-3 @if ($i >= 5) {{ 'mt-3' }} @endif">
                                                                     <div class="custom-control custom-checkbox image-checkbox h-100">
-                                                                        <input type="checkbox" class="custom-control-input" name="attachments[]" value="{{ $item }}" id="ck_.{{$key}}" {{(!empty($maildraft['attachments']) && count($maildraft['attachments']) != 0) ? (in_array($item,$maildraft['attachments'])) ? 'checked' : '' : 'checked'}}>
+                                                                        <input type="checkbox" class="custom-control-input checkattachments" data-file="{{ asset('taskfiles/' . $item) }}" name="attachments[]" data-size='{{$fileSize}}' value="{{ ($fileSize < 32 ? $item  : '')}}" id="ck_.{{$key}}" {{(!empty($maildraft['attachments']) && count($maildraft['attachments']) != 0) ? (in_array($item,$maildraft['attachments'])) ? 'checked' : '' : ($fileSize < 32 ? 'checked' : '')}}>
                                                                         <label class="custom-control-label h-100" for="ck_.{{$key}}">
                                                                             <img src="{{ asset('taskfiles/' . $item) }}" alt="#" class="img-fluid h-100">
                                                                         </label>
@@ -757,9 +792,9 @@
                                                                 @else
                                                                 <div class="col-md-3 @if ($i >= 5) {{ 'mt-3' }} @endif ">
                                                                     <div class="custom-control custom-checkbox image-checkbox h-100" style="min-height: 120px;">
-                                                                        <input type="checkbox" class="custom-control-input" name="attachments[]" value="{{ $item }}" id="ck_.{{$key}}" {{(!empty($maildraft['attachments']) && count($maildraft['attachments']) != 0) ? (in_array($item,$maildraft['attachments'])) ? 'checked' : '' : 'checked'}}>
+                                                                        <input type="checkbox" class="custom-control-input checkattachments" data-file="{{ asset('taskfiles/' . $item) }}" name="attachments[]" data-size='{{$fileSize}}' value="{{ ($fileSize < 32 ? $item  : '') }}" id="ck_.{{$key}}" {{(!empty($maildraft['attachments']) && count($maildraft['attachments']) != 0) ? (in_array($item,$maildraft['attachments'])) ? 'checked' : '' : ($fileSize < 32 ? 'checked' : '')}}>
                                                                         <label class="custom-control-label h-100 w-100" for="ck_.{{$key}}">
-                                                                            <div class="taskpdf h-100" data-file="{{ asset('taskfiles/' . $item) }}">
+                                                                            <div class="taskpdf h-100">
                                                                                 <span class="h-100 w-100 d-flex justify-content-center align-items-center flex-column" style=" overflow: hidden;
                                                                                                         text-overflow: ellipsis; word-break: break-all;">
                                                                                     {{ $item }}
@@ -798,7 +833,7 @@
                                             <div class="card-footer">
                                                 <div class="float-right">
                                                     <button type="submit" class="btn btn-default" name="btn" formnovalidate="formnovalidate" value="draft"><i class="fas fa-pencil-alt"></i>Draft</button>
-                                                    <button type="submit" class="btn btn-primary" name="btn"  value="send"><i class="far fa-envelope"></i>Send</button>
+                                                    <button type="submit" class="btn btn-primary" name="btn" value="send"><i class="far fa-envelope"></i>Send</button>
                                                 </div>
                                                 <!-- <button type="reset" class="btn btn-default"><i class="fas fa-times"></i> Discard</button> -->
                                             </div>
@@ -822,9 +857,54 @@
 @push('footer_extras')
 <script>
     $(document).ready(function() {
+        function validateEmail(email) {
+            var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);
+        }
         $("#reportmailto").select2({
             tags: true,
             multiple: true,
+            placeholder: "TO",
+            createTag: function(term, data) {
+                var value = term.term;
+                if (validateEmail(value)) {
+                    return {
+                        id: value,
+                        text: value
+                    };
+                }
+                return null;
+            }
+        });
+        $("#reportmailcc").select2({
+            tags: true,
+            multiple: true,
+            placeholder: "CC",
+            createTag: function(term, data) {
+                var value = term.term;
+                if (validateEmail(value)) {
+                    return {
+                        id: value,
+                        text: value
+                    };
+                }
+                return null;
+            }
+        });
+        $("#reportmailbcc").select2({
+            tags: true,
+            multiple: true,
+            placeholder: "BCC",
+            createTag: function(term, data) {
+                var value = term.term;
+                if (validateEmail(value)) {
+                    return {
+                        id: value,
+                        text: value
+                    };
+                }
+                return null;
+            }
         });
         $('#compose-textarea').summernote();
         let els = document.querySelectorAll('.source-code')
@@ -876,6 +956,31 @@
 
             Prism.highlightElement(code);
         }
+        $('.checkattachments').change(function() {
+            if (this.checked) {
+                var size = $(this).attr("data-size");
+                var link = $(this).attr("data-file");
+                if (size > 32) {
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        html: "<h6>File size is greater than 32mb you need to attach file <br> link as below in message.</h6><br><div class='row'><div class='col-md-12 text-center'><button id='copy' class='btn btn-primary' data-clipboard-text='"+link+"'>Copy to clipboard<i class='my-2 fas fa-copy'></i></button></div><div class='col-md-12'><b><a href='"+link+"' target='_blank'>"+link+"</a></b></div></div>",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'OK',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $(this).prop('checked',false);
+                        }
+                        else
+                        {
+                            $(this).prop('checked',false);
+                        }
+                    })
+                }
+            }
+        });
     });
 </script>
 @endpush
