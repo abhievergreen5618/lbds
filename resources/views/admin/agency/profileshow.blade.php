@@ -151,8 +151,8 @@
                     <td>{{$value->applicantname}}</td>
                     <td>{{$value->address}}</td>
                     <!-- <td>{{$value->inspectiontype}}</td> -->
-                    <td>{{(!empty($value->scheduled_at) ? $value->schedule_at : '')}}</td>
-                    <td>{{(!empty($value->assigned_ins) ? $value->schedule_at : '')}}</td>
+                    <td>{{(!empty($value->scheduled_at) ? $value->scheduled_at : '')}}</td>
+                    <td>{{(!empty($value->assigned_ins) ? $value->assigned_ins : '')}}</td>
                     <td  class="badge bg-danger">{{$value->status}}</td>
                   </tr>
                   @endforeach
