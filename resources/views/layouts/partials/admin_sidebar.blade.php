@@ -262,14 +262,14 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                 {{-- @endcan --}}
 
                 {{-- @can('') --}}
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a href="" class="nav-link">
                         <i class="nav-icon fas fa-dollar-sign"></i>
                         <p>
                             Pay Roll Tracker
                         </p>
                     </a>
-                </li>
+                </li> -->
                 {{-- @endcan --}}
 
                 {{--
