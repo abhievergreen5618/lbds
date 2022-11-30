@@ -92,7 +92,6 @@ class ProtalController extends Controller
             $fileName = "";
         }
         $option->updatesetting($values);
-        // $option->envUpdate($request->all());
         return back()->with('msg', 'Website Configuration Updated Successfully');
     }
 
