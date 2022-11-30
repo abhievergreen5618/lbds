@@ -434,47 +434,12 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{route('admin.portal.setup')}}" class="nav-link {{  (Route::currentRouteName() == 'admin.portal.setup') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-cogs"></i>
                         <p>
-                            Cronfigurations
-                            <i class="right fas fa-angle-left"></i>
+                            Portal Setup
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
-                        {{-- @can('') --}}
-                        <li class="nav-item">
-                            <a href="{{route('admin.portal.setup')}}" class="nav-link">
-                                <i class="nav-icon fas fa-cogs"></i>
-                                <p>
-                                    Portal Setup
-                                </p>
-                            </a>
-                        </li>
-                        {{-- @endcan --}}
-
-                        {{-- @can('') --}}
-                        <li class="nav-item">
-                            <a href="{{route('admin.portal.mail')}}" class="nav-link">
-                                <i class="nav-icon fas fa-cogs"></i>
-                                <p>
-                                    Mail Setup
-                                </p>
-                            </a>
-                        </li>
-                        {{-- @endcan --}}
-
-                        {{--
-                        <li class="nav-item">
-                            <a href="{{ route('logout') }}" class="nav-link">
-                                <i class="nav-icon fas fa-sign-out-alt"></i>
-                                <p>
-                                    Logout
-                                </p>
-                            </a>
-                        </li>
-                        --}}
-                    </ul>
                 </li>
             </ul>
         </nav>
