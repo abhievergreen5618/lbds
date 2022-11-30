@@ -77,8 +77,6 @@ class UserSeeder extends Seeder
              "approved"    => "Approved",
         ]);
 
-        $role = Role::create(['name' => 'admin']);
-
         $role->givePermissionTo([
             'role-list',
             'role-create',
