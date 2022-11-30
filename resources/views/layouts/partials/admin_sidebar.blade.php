@@ -400,7 +400,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                     <a href="{{route('mailbox.sent')}}" class="nav-link {{  (Route::currentRouteName() == 'mailbox.sent' || Route::currentRouteName() == 'mailbox.draft' || Route::currentRouteName() == 'mailbox.readmail') ? 'active' : '' }}">
                         <i class="nav-icon far fa-envelope"></i>
                         <p>
-                            Mailbox
+                            Email Logs
                             <!-- <i class="fas fa-angle-left right"></i> -->
                         </p>
                     </a>
