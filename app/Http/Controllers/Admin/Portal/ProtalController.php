@@ -73,8 +73,8 @@ class ProtalController extends Controller
     {
         $request->validate(
             [
-                "name" => "required",
-                "email" => "required|email",
+                "website_name" => "required",
+                "website_email" => "required|email",
             ],
             [
                 "required" => "This field is required."
