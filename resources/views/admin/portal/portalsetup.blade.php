@@ -105,7 +105,7 @@
                                     <div class="form-group mb-2">
                                         <label for="name">{{ __('Name') }}</label>
                                         <input type="text"
-                                            class="form-control @error('name') {{ 'is-invalid' }} @enderror" id="name"
+                                            class="form-control @error('name') {{ 'is-invalid' }} @enderror" id="website_name"
                                             name="name" value="{{ @old('name', $data['website_name']) }}">
                                     </div>
                                     @error('name')
@@ -117,7 +117,7 @@
                                         <label for="exampleInputEmail1">{{ __('Email Address') }}</label>
                                         <input type="email"
                                             class="form-control @error('email') {{ 'is-invalid' }} @enderror"
-                                            id="email" name="email"
+                                            id="email" name="website_email"
                                             value="{{ @old('email', $data['website_email']) }}">
                                         <div>
                                             <small>This is where you will be receiving emails.</small>
