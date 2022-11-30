@@ -42,7 +42,7 @@
   <link rel="stylesheet" href="{{asset('/css/style.css')}}">
   <style>
   .toast {
-    background-color: rgba(255, 255, 255, 0.85) !important;
+    background-color: rgba(255, 255, 255, 0.85);
     }
 </style>
   @stack("header_extras")
