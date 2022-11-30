@@ -23,12 +23,12 @@
 
 @section('content')
 <div class="row mb-2">
-    <div class="col-sm-6">
+    <!-- <div class="col-sm-6"> -->
         <!-- <h4>Users</h4> -->
-    </div>
-    <div class="col-sm-6">
-        <div class="float-right">
-            <a class="btn btn-primary" href="{{ route('users.index') }}"> Back</a>
+    <!-- </div> -->
+    <div class="col-sm-12">
+        <div class="float-left">
+            <a class="btn btn-primary" href="{{ route('admin.users.view') }}"> Back</a>
         </div>
     </div>
 </div>
