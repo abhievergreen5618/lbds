@@ -46,8 +46,8 @@
         <div class="card-body p-0">
           <div class="mailbox-controls">
             <!-- Check all button -->
-            <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="far fa-square"></i>
-            </button>
+            <!-- <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="far fa-square"></i>
+            </button> -->
             <!-- <div class="btn-group">
               <button type="button" class="btn btn-default btn-sm">
                 <i class="far fa-trash-alt"></i>
@@ -60,9 +60,9 @@
               </button>
             </div> -->
             <!-- /.btn-group -->
-            <button type="button" class="btn btn-default btn-sm">
+            <!-- <button type="button" class="btn btn-default btn-sm">
               <i class="fas fa-sync-alt"></i>
-            </button>
+            </button> -->
             <div class="float-right">
               1-{{isset($sent) ? $sentmailcount : $draftmailcount}}/{{isset($sent) ? $sentmailcount : $draftmailcount}}
               <div class="btn-group">
