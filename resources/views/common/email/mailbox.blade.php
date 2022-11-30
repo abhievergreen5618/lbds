@@ -30,7 +30,7 @@
         <div class="card-header">
           <h3 class="card-title">Inbox</h3>
 
-          <div class="card-tools">
+          <!-- <div class="card-tools">
             <div class="input-group input-group-sm">
               <input type="text" class="form-control" placeholder="Search Mail">
               <div class="input-group-append">
@@ -39,7 +39,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
           <!-- /.card-tools -->
         </div>
         <!-- /.card-header -->
@@ -48,7 +48,7 @@
             <!-- Check all button -->
             <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="far fa-square"></i>
             </button>
-            <div class="btn-group">
+            <!-- <div class="btn-group">
               <button type="button" class="btn btn-default btn-sm">
                 <i class="far fa-trash-alt"></i>
               </button>
@@ -58,7 +58,7 @@
               <button type="button" class="btn btn-default btn-sm">
                 <i class="fas fa-share"></i>
               </button>
-            </div>
+            </div> -->
             <!-- /.btn-group -->
             <button type="button" class="btn btn-default btn-sm">
               <i class="fas fa-sync-alt"></i>
