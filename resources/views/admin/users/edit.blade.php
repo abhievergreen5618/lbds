@@ -60,13 +60,13 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Name:</strong>
-                    {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control','disabled'=>'disabled')) !!}
+                    {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control','readonly'=>'readonly')) !!}
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Email:</strong>
-                    {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control','disabled'=>'disabled')) !!}
+                    {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control','readonly'=>'readonly')) !!}
                 </div>
             </div>
             <!-- <div class="col-xs-12 col-sm-12 col-md-12">
