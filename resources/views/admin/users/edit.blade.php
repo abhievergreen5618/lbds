@@ -22,16 +22,16 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="row mb-2">
-    <!-- <div class="col-sm-6"> -->
-        <!-- <h4>Users</h4> -->
-    <!-- </div> -->
+<!-- <div class="row mb-2">
+    <div class="col-sm-6">
+        <h4>Users</h4>
+    </div>
     <div class="col-sm-12">
         <div class="float-left">
             <a class="btn btn-primary" href="{{ route('admin.users.view') }}"> Back</a>
         </div>
     </div>
-</div>
+</div> -->
 <div class="card  card-primary mt-2">
     <div class="card-header">
         <div class="row">
@@ -42,7 +42,6 @@
             </div>
         </div>
     </div>
-
 
     @if (count($errors) > 0)
     <div class="alert alert-danger">
