@@ -165,6 +165,7 @@ class UserController extends Controller
              ->addColumn('roles', function ($row) {
                 $user = User::find($row->id);
                 if (!empty($user->getRoleNames())) {
+                    $btn = "";
                     foreach($user->getRoleNames() as $v)
                     {
                      $btn= $btn+"<label class='badge badge-success'> $v</label><br>";
