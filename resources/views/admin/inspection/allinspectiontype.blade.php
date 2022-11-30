@@ -102,7 +102,6 @@
               dataType: 'json',
               success: function(data) {
                 toastr.success(data.msg);
-                requesttable.ajax.reload();
               },
               error: function(xhr) {
                 if (xhr.status == 422 && xhr.responseJSON.msg.length) {
@@ -149,7 +148,6 @@
               dataType: 'json',
               success: function(data) {
                 toastr.success(data.msg);
-                requesttable.ajax.reload();
               },
               error: function(xhr) {
                 if (xhr.status == 422 && xhr.responseJSON.msg.length) {
