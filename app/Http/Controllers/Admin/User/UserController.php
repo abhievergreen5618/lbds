@@ -128,7 +128,7 @@ class UserController extends Controller
     
         $user->assignRole($request->input('roles'));
     
-        return redirect()->route('users.show')
+        return redirect()->route('admin.users.view')
                         ->with('success','User updated successfully');
     }
     
