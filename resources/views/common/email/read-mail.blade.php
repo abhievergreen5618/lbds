@@ -31,10 +31,10 @@
           <div class="card-header">
             <h3 class="card-title">Read Mail</h3>
 
-            <div class="card-tools">
+            <!-- <div class="card-tools">
               <a href="#" class="btn btn-tool" title="Previous"><i class="fas fa-chevron-left"></i></a>
               <a href="#" class="btn btn-tool" title="Next"><i class="fas fa-chevron-right"></i></a>
-            </div>
+            </div> -->
           </div>
           <!-- /.card-header -->
           <div class="card-body p-0">
@@ -110,14 +110,14 @@
             </ul>
           </div>
           <!-- /.card-footer -->
-          <div class="card-footer">
+          <!-- <div class="card-footer">
             <div class="float-right">
               <button type="button" class="btn btn-default"><i class="fas fa-reply"></i> Reply</button>
               <button type="button" class="btn btn-default"><i class="fas fa-share"></i> Forward</button>
             </div>
             <button type="button" class="btn btn-default"><i class="far fa-trash-alt"></i> Delete</button>
             <button type="button" class="btn btn-default"><i class="fas fa-print"></i> Print</button>
-          </div>
+          </div> -->
           <!-- /.card-footer -->
         </div>
         <!-- /.card -->
