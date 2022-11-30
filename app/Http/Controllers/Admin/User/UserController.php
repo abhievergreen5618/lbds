@@ -168,7 +168,7 @@ class UserController extends Controller
                     $btn = "";
                     foreach($user->getRoleNames() as $v)
                     {
-                     $btn= $btn+"<label class='badge badge-success'> $v</label><br>";
+                     $btn= $btn."<label class='badge badge-success'> $v</label><br>";
                     }
                  
                 }
