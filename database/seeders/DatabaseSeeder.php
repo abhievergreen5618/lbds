@@ -24,7 +24,6 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             InspectionSeeder::class,
             SendInvoiceSeeder::class,
-            SendInvoiceSeeder::class,
             OptionsSeeder::class,
         ]);
     }
