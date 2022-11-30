@@ -63,18 +63,18 @@
             <!-- <button type="button" class="btn btn-default btn-sm">
               <i class="fas fa-sync-alt"></i>
             </button> -->
-            <div class="float-right">
-              1-{{isset($sent) ? $sentmailcount : $draftmailcount}}/{{isset($sent) ? $sentmailcount : $draftmailcount}}
-              <div class="btn-group">
+            <!-- <div class="float-right"> -->
+              <!-- 1-{{isset($sent) ? $sentmailcount : $draftmailcount}}/{{isset($sent) ? $sentmailcount : $draftmailcount}} -->
+              <!-- <div class="btn-group">
                 <button type="button" class="btn btn-default btn-sm">
                   <i class="fas fa-chevron-left"></i>
                 </button>
                 <button type="button" class="btn btn-default btn-sm">
                   <i class="fas fa-chevron-right"></i>
                 </button>
-              </div>
+              </div> -->
               <!-- /.btn-group -->
-            </div>
+            <!-- </div> -->
             <!-- /.float-right -->
           </div>
           <div class="table-responsive mailbox-messages">
@@ -133,12 +133,12 @@
               <button type="button" class="btn btn-default btn-sm">
                 <i class="fas fa-share"></i>
               </button> -->
-            </div>
+            <!-- </div> -->
             <!-- /.btn-group -->
             <!-- <button type="button" class="btn btn-default btn-sm">
               <i class="fas fa-sync-alt"></i>
             </button> -->
-            <div class="float-right">
+            <!-- <div class="float-right">
                 1-{{isset($sent) ? $sentmailcount : $draftmailcount}}/{{isset($sent) ? $sentmailcount : $draftmailcount}}
               <div class="btn-group">
                 <button type="button" class="btn btn-default btn-sm">
@@ -148,8 +148,8 @@
                   <i class="fas fa-chevron-right"></i>
                 </button>
               </div>
-              <!-- /.btn-group -->
-            </div>
+              /.btn-group
+            </div> -->
             <!-- /.float-right -->
           </div>
         </div>
