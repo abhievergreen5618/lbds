@@ -11,7 +11,7 @@
     <div class="col-sm-6">
         <div class="float-right">
         @can('user-create')
-        <!-- <a class="btn btn-primary" href="{{ route('users.create') }}"> Create New User </a> -->
+        <a class="btn btn-primary" href="{{ route('users.create') }}"> Create New User </a>
         @endcan
         </div>
     </div>
