@@ -64,7 +64,7 @@ class UserController extends Controller
         $user->assignRole($request->input('roles'));
         DB::table('users')->where('id',$user->id)->update(['approved'=>"Approved"]);
         return redirect()->route('admin.users.view')
-                        ->with('success','User created successfully');
+                        ->with('msg','User created successfully');
     }
     
     /**
@@ -127,9 +127,7 @@ class UserController extends Controller
         DB::table('model_has_roles')->where('model_id',$id)->delete();
     
         $user->assignRole($request->input('roles'));
-    
-        return redirect()->route('admin.users.view')
-                        ->with('success','User updated successfully');
+        return redirect()->route('admin.users.view')->with('msg','User updated successfully');
     }
     
     /**
