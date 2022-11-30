@@ -33,7 +33,7 @@ class PermissionTableSeeder extends Seeder
             'sendinvoice-edit',
             'sendinvoice-delete',
             'user-list',
-            // 'user-create',
+            'user-create',
             'user-edit',
             'user-delete',
             'request-list',
