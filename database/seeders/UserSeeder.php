@@ -76,6 +76,43 @@ class UserSeeder extends Seeder
             "email_verified_at" => Carbon::now()->timestamp,
              "approved"    => "Approved",
         ]);
+
+        $role = Role::create(['name' => 'admin']);
+
+        $role->givePermissionTo([
+            'role-list',
+            'role-create',
+            'role-edit',
+            'role-delete',
+            'inspector-list',
+            'inspector-create',
+            'inspector-edit',
+            'inspector-delete',
+            'inspection-list',
+            'inspection-create',
+            'inspection-edit',
+            'inspection-delete',
+            'sendinvoice-list',
+            'sendinvoice-create',
+            'sendinvoice-edit',
+            'sendinvoice-delete',
+            'user-list',
+            // 'user-create',
+            'user-edit',
+            'user-delete',
+            'request-list',
+            'request-create',
+            'request-edit',
+            'request-delete',
+            'employee-list',
+            'employee-create',
+            'employee-edit',
+            'employee-delete',
+            'agency-list',
+            'agency-create',
+            'agency-edit',
+            'agency-delete',
+        ]);
         
         // $permissions = Permission::pluck('id','id')->all();
    
