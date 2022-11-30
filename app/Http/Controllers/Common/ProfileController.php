@@ -83,21 +83,26 @@ class ProfileController extends Controller
         ]);
             if($request->file('profile_img'))
             {
-            $rand = rand(10, 5000);
-            $name = $request->file('profile_img')->getClientOriginalName();
-            $fileName = time() . $rand . '.' . $request->file('profile_img')->getClientOriginalExtension();
-            $request->file('profile_img')->move(public_path('images/profile'), $fileName);
+                $rand = rand(10, 5000);
+                $name = $request->file('profile_img')->getClientOriginalName();
+                $fileName = time() . $rand . '.' . $request->file('profile_img')->getClientOriginalExtension();
+                $request->file('profile_img')->move(public_path('images/profile'), $fileName);
+                $user =Auth::user();
+                $user->name = $request['name'];
+                $user->mobile_number = $request['mobile_number'];
+                $user->profile_img = $fileName;
+                $user->save();
+                return back()->with('msg','Profile Updated Successfully');
             }
             else
             {
-                $fileName = "";
+                $user =Auth::user();
+                $user->name = $request['name'];
+                $user->mobile_number = $request['mobile_number'];
+                $user->save();
+                return back()->with('msg','Profile Updated Successfully');
             }
-            $user =Auth::user();
-            $user->name = $request['name'];
-            $user->mobile_number = $request['mobile_number'];
-            $user->profile_img = $fileName;
-            $user->save();
-            return back()->with('msg','Profile Updated Successfully');
+            
     }
     public function updatepass(Request $request)
     {
