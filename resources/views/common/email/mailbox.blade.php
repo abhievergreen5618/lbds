@@ -82,12 +82,12 @@
               <tbody>
                 @forelse($sentmail as $value)
                 <tr>
-                  <td>
+                  <!-- <td>
                     <div class="icheck-primary">
                       <input type="checkbox" value="" id="check1">
                       <label for="check1"></label>
                     </div>
-                  </td>
+                  </td> -->
                   <!-- <td class="mailbox-star"><a href="#"><i class="fas fa-star text-warning"></i></a></td> -->
                   <td class="mailbox-name"><a href="{{route('mailbox.readmail',['id'=>encrypt($value->id)])}}">
                     @php
