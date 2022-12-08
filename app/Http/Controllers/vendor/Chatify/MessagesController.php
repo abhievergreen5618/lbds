@@ -85,7 +85,7 @@ class MessagesController extends Controller
      */
     public function idFetchData(Request $request)
     {
-       
+
         // Favorite
         $favorite = Chatify::inFavorite($request['id']);
 
@@ -96,7 +96,7 @@ class MessagesController extends Controller
             //     $userAvatar = Chatify::getUserWithAvatar($fetch)->avatar;
             // }
             $userAvatar = asset('images/profile/profile.jpg');
-            
+
         }
 
         // send the response
@@ -168,8 +168,8 @@ class MessagesController extends Controller
         $userrole = Auth::user();
         // $userrole->getRoleNames()->pluck('name')->implode(',');
         // dd('am here ',$userrole->getRoleNames()->implode(','));
-       
-     
+
+
         if (!$error->status) {
             // send to database
             $messageID = mt_rand(9, 999999999) + time();
@@ -194,7 +194,7 @@ class MessagesController extends Controller
 
                 'message' => Chatify::messageCard($messageData, 'default')
             ]);
-        
+
             $messages = DB::table('ch_messages')
             ->join('users', 'users.id', '=', 'ch_messages.from_id')
             ->where('to_id', $request['id'])->where('seen','0')->groupBy('ch_messages.from_id')->get();
@@ -204,17 +204,19 @@ class MessagesController extends Controller
             ->where('from_id', Auth::user()->id)
             ->where('seen', '0')
             ->count();
-        
 
-            Chatify::push('my-channel', 'my-event', [
-                'from_id' => Auth::user()->id,
-                'name'=>Auth::user()->name,
-                'profile_img'=>Auth::user()->profile_img,
-                'to_id' => $request['id'],
-                'message' => $messageData,
-                'messagesCount'=>$messagesCount,
-                'unreadmessages'=>$unreadmessages,
-            ]);
+            if(Auth::check())
+            {
+                Chatify::push('my-channel', 'my-event', [
+                    'from_id' => encrypt(Auth::user()->id),
+                    'name'=> Auth::user()->name,
+                    'profile_img'=>Auth::user()->profile_img,
+                    'to_id' => encrypt($request['id']),
+                    'message' => $messageData,
+                    'messagesCount'=>$messagesCount,
+                    'unreadmessages'=>$unreadmessages,
+                ]);
+            }
         }
 
         // send the response
@@ -288,7 +290,7 @@ class MessagesController extends Controller
      */
     public function getContacts(Request $request)
     {
-     
+
         // get all users that received/sent message from/to [Auth user]
         $users = Message::join('users',  function ($join) {
             $join->on('ch_messages.from_id', '=', 'users.id')
@@ -563,7 +565,7 @@ class MessagesController extends Controller
         ], 200);
     }
 
-    // blocking unauthorized access with id 
+    // blocking unauthorized access with id
 
     public function usersession(Request $request)
     {
