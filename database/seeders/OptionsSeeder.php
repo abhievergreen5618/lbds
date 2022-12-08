@@ -18,7 +18,7 @@ class OptionsSeeder extends Seeder
         $options = [
             ["option_name"=>"website_logo","option_value"=>"logo.png"],
             ["option_name"=>"website_second_logo","option_value"=>"lg.png"],
-            ["option_name"=>"website_name","option_value"=>"WindMitigation.network"],
+            ["option_name"=>"app_name","option_value"=>"WindMitigation.network"],
             ["option_name"=>"website_email","option_value"=>"admin@windmitigations.com"],
             ["option_name"=>"mail_host","option_value"=>"mail.lbdstestdomain.com"],
             ["option_name"=>"mail_port","option_value"=>"465"],

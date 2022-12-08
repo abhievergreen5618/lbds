@@ -105,8 +105,8 @@
                                     <div class="form-group mb-2">
                                         <label for="name">{{ __('Name') }}</label>
                                         <input type="text"
-                                            class="form-control @error('website_name') {{ 'is-invalid' }} @enderror" id="name"
-                                            name="website_name" value="{{ @old('website_name', $data['website_name']) }}">
+                                            class="form-control @error('app_name') {{ 'is-invalid' }} @enderror" id="name"
+                                            name="app_name" value="{{ @old('app_name', $data['app_name']) }}">
                                     </div>
                                     @error('name')
                                         <div>
