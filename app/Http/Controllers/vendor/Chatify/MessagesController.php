@@ -205,15 +205,16 @@ class MessagesController extends Controller
             ->where('seen', '0')
             ->count();
 
-                Chatify::push('my-channel', 'my-event', [
-                    'from_id' => encrypt(Auth::user()->id),
-                    'name'=> Auth::user()->name,
-                    'profile_img'=>Auth::user()->profile_img,
-                    'to_id' => encrypt($request['id']),
-                    'message' => $messageData,
-                    'messagesCount'=>$messagesCount,
-                    'unreadmessages'=>$unreadmessages,
-                ]);
+
+            Chatify::push('my-channel', 'my-event', [
+                'from_id' => Auth::user()->id,
+                'name'=>Auth::user()->name,
+                'profile_img'=>Auth::user()->profile_img,
+                'to_id' => $request['id'],
+                'message' => $messageData,
+                'messagesCount'=>$messagesCount,
+                'unreadmessages'=>$unreadmessages,
+            ]);
         }
 
         // send the response
