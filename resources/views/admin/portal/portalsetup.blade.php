@@ -192,12 +192,12 @@
                                             @enderror
                                         </div>
                                         <div class="form-group mb-2">
-                                            <label for="mail_address">{{ __('MAIL FROM ADDRESS') }}</label>
+                                            <label for="mail_from_address">{{ __('MAIL FROM ADDRESS') }}</label>
                                             <input type="email"
-                                                class="form-control @error('mail_address') is-invalid @enderror"
-                                                id="mail_address" name="mail_address"
-                                                value="{{ @old('mail_address', $data['mail_address']) }}">
-                                            @error('mail_address')
+                                                class="form-control @error('mail_from_address') is-invalid @enderror"
+                                                id="mail_from_address" name="mail_from_address"
+                                                value="{{ @old('mail_from_address', $data['mail_from_address']) }}">
+                                            @error('mail_from_address')
                                                 <div>
                                                     <label class="error fail-alert  mt-1">{{ $message }}</label>
                                                 </div>

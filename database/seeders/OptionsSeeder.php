@@ -24,7 +24,7 @@ class OptionsSeeder extends Seeder
             ["option_name"=>"mail_port","option_value"=>"465"],
             ["option_name"=>"mail_username","option_value"=>"wind@lbdstestdomain.com"],
             ["option_name"=>"mail_password","option_value"=>"%T(aSwMaB1Wv"],
-            ["option_name"=>"mail_address","option_value"=>"wind@lbdstestdomain.com"],
+            ["option_name"=>"mail_from_address","option_value"=>"wind@lbdstestdomain.com"],
             ["option_name"=>"mail_encryption","option_value"=>"tls"],
             ["option_name"=>"pusher_app_id","option_value"=>"1491874"],
             ["option_name"=>"pusher_app_key","option_value"=>"cdb5dfb1da13d59428cd"],
@@ -42,6 +42,6 @@ class OptionsSeeder extends Seeder
                 "option_value" => $value['option_value'],
             ]);
         }
-        
+
     }
 }

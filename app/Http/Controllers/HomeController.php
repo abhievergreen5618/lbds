@@ -29,17 +29,17 @@ class HomeController extends Controller
             return view('admin.agency.approval');
         } else {
             // return redirect('/home');
-
-            switch (Auth::user()->role) {
-                case 1:
-                    return view('admin.dashboard');
-                    break;
-                case 2:
-                    return view('inspector.dashboard');
-                    break;
-                default:
-                    return view('company.dashboard');
-                    break;
+            if(Auth::user()->hasRole("admin"))
+            {
+                return view('admin.dashboard');
+            }
+            else if(Auth::user()->hasRole("company"))
+            {
+                return view('inspector.dashboard');
+            }
+            else if(Auth::user()->hasRole("inspector"))
+            {
+                return view('company.dashboard');
             }
         }
     }

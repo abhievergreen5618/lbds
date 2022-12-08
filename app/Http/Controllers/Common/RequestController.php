@@ -40,7 +40,7 @@ class RequestController extends Controller
             session()->put('taskid', $id);
         } else {
             $id = session()->get('taskid');
-            if (RequestModel::where(["id" => $id])->count() == 0) 
+            if (RequestModel::where(["id" => $id])->count() == 0)
             {
                 $id = RequestModel::create(["agency_related_files" => []]);
                 $id = $id['id'];
@@ -175,7 +175,7 @@ class RequestController extends Controller
         //     'insdetails' => $insdetails,
         //     'requestdetails' => $requestdetails,
         //     'companydetails' => $companydetails,
-        // ]);  
+        // ]);
         $subject = "Inspectorassign";
         if (!empty($companydetails->notification_settings) && (array_key_exists('request_assigned', $companydetails->notification_settings))) {
             Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
@@ -629,7 +629,7 @@ class RequestController extends Controller
         }
     }
 
-    // request cancel 
+    // request cancel
     public function cancel(Request $request)
     {
         $request->validate(
@@ -752,7 +752,7 @@ class RequestController extends Controller
         }
 
         // priya code merge stash
-        // if(!empty($insdetails)) 
+        // if(!empty($insdetails))
         // {
         //     Mail::to($insdetails['email'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
         //     Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new Inspectorassign($insdetails,$companydetails, $requestdetails, $subject));
@@ -788,8 +788,8 @@ class RequestController extends Controller
                 return redirect()->back()->with('error', 'Failed To Send Report Mail');
             }
             return redirect()->back()->with('msg', 'Report Mail Send Successfully');
-        } 
-        else 
+        }
+        else
         {
             $data['reportmailto'] = isset($data['reportmailto']) ? $data['reportmailto'] : NULL;
             $reportemail->saveemaildraft($data, "draft");

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use msztorc\LaravelEnv\Env;
 
 class Options extends Model
 {
@@ -48,21 +49,21 @@ class Options extends Model
     {
        $check = $this->option_exist($optionname);
        if($check == "exist")
-       {    
+       {
             $newarray =  [];
             $currentvalue = $this->get_option($optionname);
             if(!empty($currentvalue))
-            {   
+            {
                 foreach(json_decode($currentvalue,true) as $key=>$value)
                 {
                     if($value == $newvalue && $action == "remove")
                     {
                         continue;
-                    }   
+                    }
                     $newarray[] = $value;
                 }
-                if($action != "remove") 
-                { 
+                if($action != "remove")
+                {
                     $newarray[] = $newvalue;
                 };
                 $this->update_option($optionname,json_encode($newarray));
@@ -82,19 +83,17 @@ class Options extends Model
             {
                 Options::where("option_name",$key)->update([
                     "option_value" => trim($value),
-                ]);   
+                ]);
             }
         }
     }
 
     public function envUpdate($data=[])
     {
-        $path = base_path('.env');
-        if (file_exists($path)) {
-            foreach($data as $key =>$value){
-                    file_put_contents($path, str_ireplace($key.'='.env($key), strtoupper($key).'='.$value,file_get_contents($path)));
-          
-            }        
+        $env = new Env();
+        foreach($data as $key => $value)
+        {
+          $env->setValue(strtoupper($key),$value);
         }
     }
 }

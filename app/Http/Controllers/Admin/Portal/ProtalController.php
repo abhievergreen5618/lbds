@@ -86,7 +86,7 @@ class ProtalController extends Controller
             $name = $request->file('website_logo')->getClientOriginalName();
             $fileName = time() . $rand . '.' . $request->file('website_logo')->getClientOriginalExtension();
             $request->file('website_logo')->move(public_path('images'), $fileName);
-            unset($values["website_logo"]); 
+            unset($values["website_logo"]);
             $values['website_logo'] = $fileName;
         } else {
             $fileName = "";
@@ -103,7 +103,7 @@ class ProtalController extends Controller
                 "mail_port" => "required",
                 "mail_username" => "required",
                 "mail_password" => "required",
-                "mail_address" => "required",
+                "mail_from_address" => "required",
                 "mail_encryption" => "required",
             ],
             [
