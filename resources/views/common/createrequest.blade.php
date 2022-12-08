@@ -73,7 +73,7 @@
                                         <input class="form-check-input" id="inspection-type-{{$key}}" type="checkbox" name="inspectiontype[]" value="{{$key}}">
                                         <label class="form-check-label" for="inspection-type-{{$key}}">{{__($value)}}</label>
                                     </div>
-                                </div>  
+                                </div>
                             @endif
                             @endforeach
                         </div>
@@ -113,7 +113,7 @@
                             </div>
                             <div class="col-lg-4 my-2">
                                 <label for="state">{{ __('State') }}</label>
-                                <input type="number" class="form-control" id="state" name="state" placeholder="State">
+                                <input type="text" class="form-control" id="state" name="state" placeholder="State">
                             </div>
                             <div class="col-lg-4 my-2">
                                 <label for="zipcode">{{ __('ZipCode') }}</label>

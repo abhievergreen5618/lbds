@@ -27,7 +27,7 @@ class EmployeeController extends Controller
     {
         return view('company.employee.employee-create');
     }
-    
+
     public function create(Request $request)
     {
         $request->validate(
@@ -35,7 +35,7 @@ class EmployeeController extends Controller
                 "employeename" => "required",
                 "employeeemail" => "required",
                 "employeemobile" => "required",
-                "employeeaddress" => "required",
+                // "employeeaddress" => "required",
                 "employeecity" => "required",
                 "employeestate" => "required",
                 "employeezipcode" => "required",
@@ -54,7 +54,7 @@ class EmployeeController extends Controller
             "name" => $request['employeename'],
             "email" => $request['employeeemail'],
             "company_phonenumber" => $request['employeemobile'],
-            "company_address" => $request['employeeaddress'],
+            // "company_address" => $request['employeeaddress'],
             "city" => $request['employeecity'],
             "zip_code" => $request['employeezipcode'],
             "state" => $request['employeestate'],
@@ -90,7 +90,8 @@ class EmployeeController extends Controller
         //    dd($request->all());
         if ($request->ajax()) {
             $GLOBALS['count'] = 0;
-            $data = User::role('employee')->latest()->get(['id','name', 'email', 'company_phonenumber', 'company_address', 'city', 'state', 'zip_code']);
+            // $data = User::role('employee')->latest()->get(['id','name', 'email', 'company_phonenumber', 'company_address', 'city', 'state', 'zip_code']);
+            $data = User::role('employee')->latest()->get(['id','name', 'email', 'company_phonenumber', 'city', 'state', 'zip_code']);
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     $id = encrypt($row->id);
@@ -147,7 +148,7 @@ class EmployeeController extends Controller
             "name" => $request['employeename'],
             "email" => $request['employeeemail'],
             "company_phonenumber" => $request['employeemobile'],
-            "company_address" => $request['employeeaddress'],
+            // "company_address" => $request['employeeaddress'],
             "city" => $request['employeecity'],
             "state" => $request['employeestate'],
             "zip_code" => $request['employeezipcode'],

@@ -23,7 +23,7 @@ $options = new Options();
             </div>
         </div>
 
-    
+
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
@@ -38,7 +38,7 @@ $options = new Options();
                         </p>
                     </a>
                 </li>
-                
+
                 @if(Gate::check('employee-create') || Gate::check('employee-list'))
                 <li class="nav-item {{ (Route::currentRouteName() ==
                     'admin.employee.create' || Route::currentRouteName() ==
@@ -54,7 +54,7 @@ $options = new Options();
                     <ul class="nav nav-treeview" {{ (Route::currentRouteName() ==
                         'admin.employee.create'||
                         Route::currentRouteName() == 'admin.employee.view') ? 'display: block;' : ''}}>
-                         
+
                         @can('employee-create')
                         <li class="nav-item">
                             <a href="{{route('admin.employee.create')}}" class="nav-link">
@@ -92,10 +92,10 @@ $options = new Options();
                 </li>
                 @endif
                 {{-- @role('company') --}}
-                {{-- <li class="nav-item {{ (Route::currentRouteName() == 
+                {{-- <li class="nav-item {{ (Route::currentRouteName() ==
                     'admin.request.create' ) ? 'menu-open menu-is-opening ' : ''}}">
 
-                    <a href="#"  class="nav-link {{ (Route::currentRouteName() == 
+                    <a href="#"  class="nav-link {{ (Route::currentRouteName() ==
                     'admin.request.create') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-user-circle"></i>
                         <p>
@@ -103,7 +103,7 @@ $options = new Options();
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() == 
+                    <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() ==
                         'admin.request.create') ? 'display: block;' : ''}}">
 
                         @can('role-list')
@@ -133,10 +133,10 @@ $options = new Options();
                 {{-- @endrole --}}
 
                 @if(Gate::check('request-create') || Gate::check('request-list'))
-                <li class="nav-item {{ (Route::currentRouteName() == 
+                <li class="nav-item {{ (Route::currentRouteName() ==
                     'admin.request.create' ) ? 'menu-open menu-is-opening ' : ''}}">
 
-                    <a href="#" class="nav-link {{ (Route::currentRouteName() == 
+                    <a href="#" class="nav-link {{ (Route::currentRouteName() ==
                     'admin.request.create') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-user-circle"></i>
                         <p>
@@ -144,9 +144,9 @@ $options = new Options();
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() == 
+                    <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() ==
                         'admin.request.create') ? 'display: block;' : ''}}">
-                        
+
                         @can('request-create')
                         <li class="nav-item">
                             <a href="{{route('admin.request.create')}}" class="nav-link">
@@ -183,14 +183,14 @@ $options = new Options();
                 {{-- @endcan --}}
 
                 {{-- @can('') --}}
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a href="" class="nav-link">
                         <i class="nav-icon fas fa-file-alt"></i>
                         <p>
                            Content
                         </p>
                     </a>
-                </li>
+                </li> -->
                 {{-- @endcan --}}
 
                 {{-- @can('') --}}

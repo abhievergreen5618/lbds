@@ -32,9 +32,9 @@ $(document).ready(function () {
             {
                 "data": "company_phonenumber",
             },
-            {
-                "data": "company_address",
-            },
+            // {
+            //     "data": "company_address",
+            // },
             {
                 "data": "city",
             },

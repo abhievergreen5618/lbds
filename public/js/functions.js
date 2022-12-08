@@ -1,15 +1,16 @@
-// for getting form values 
+// for getting form values
 
 function getFormData($form) {
 
     var unindexed_array = $form.serializeArray();
-
     var indexed_array = {};
 
-    const posts = [];
+    const array_value = [];
+    const posts=[];
+    // console.log(unindexed_array);
 
     $.each(unindexed_array, function (key, value) {
-
+    //   console.log(value);
         name = value.name;
 
         val = value.value;
@@ -17,17 +18,15 @@ function getFormData($form) {
         if (val.length) {
 
             if (name == "sendinvoice[]") {
-
                 posts.push(val);
 
-                indexed_array["sendinvoice[]"] = posts;
+                // indexed_array[name] = posts;
 
             }
             if (name == "inspectiontype[]") {
 
-                posts.push(val);
-
-                indexed_array["inspectiontype[]"] = posts;
+                array_value.push(val);
+                indexed_array[name] = array_value;
 
             } else {
 
@@ -38,7 +37,7 @@ function getFormData($form) {
         }
 
     });
-
+    indexed_array['sendinvoice[]']=posts;
     return indexed_array;
 
 }

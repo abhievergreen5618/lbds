@@ -1,5 +1,12 @@
-@extends('layouts.app')
+@php
+use App\Models\User;
+use App\Models\RequestModel;
+use Illuminate\Support\Facades\DB;
 
+$total_pending_request=RequestModel::where('status','pending')->count();
+$total_completed_request=RequestModel::where('status','completed')->count();
+@endphp
+@extends('layouts.app')
 @section("content")
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -28,14 +35,14 @@
                 <!-- small box -->
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h3>150</h3>
+                        <h3>{{ $total_pending_request }}</h3>
 
                         <p>Pending Requests</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-bag"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
                 </div>
             </div>
             <!-- ./col -->
@@ -43,14 +50,13 @@
                 <!-- small box -->
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3>53<sup style="font-size: 20px">%</sup></h3>
-
+                        <h3>{{$total_completed_request}}</h3>
                         <p>Completed Requests</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
                 </div>
             </div>
             <!-- ./col -->
@@ -59,13 +65,12 @@
                 <div class="small-box bg-warning">
                     <div class="inner">
                         <h3>44</h3>
-
                         <p>Final Reports</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-person-add"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
                 </div>
             </div>
         </div>

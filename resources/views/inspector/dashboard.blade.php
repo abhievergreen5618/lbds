@@ -1,5 +1,14 @@
-@extends('layouts.app')
+@php
+use App\Models\User;
+use App\Models\RequestModel;
+use Illuminate\Support\Facades\DB;
 
+$total_scheduled_request=RequestModel::where('status','scheduled')->count();
+$total_assigned_request=RequestModel::where('status','assigned')->count();
+$total_underreview_request=RequestModel::where('status','underreview')->count();
+$total_completed_request=RequestModel::where('status','completed')->count();
+@endphp
+@extends('layouts.app')
 @section("content")
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -28,14 +37,14 @@
                 <!-- small box -->
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h3>150</h3>
+                        <h3>{{$total_assigned_request}}</h3>
 
                         <p>Assigned Request</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-bag"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
                 </div>
             </div>
             <!-- ./col -->
@@ -43,14 +52,14 @@
                 <!-- small box -->
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3>53<sup style="font-size: 20px">%</sup></h3>
+                        <h3>{{$total_scheduled_request}}</h3>
 
                         <p>Scheduled Requests</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
                 </div>
             </div>
             <!-- ./col -->
@@ -58,14 +67,14 @@
                 <!-- small box -->
                 <div class="small-box bg-warning">
                     <div class="inner">
-                        <h3>44</h3>
+                        <h3>{{$total_underreview_request}}</h3>
 
                         <p>Submitted for Review Requests</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-person-add"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
                 </div>
             </div>
             <!-- ./col -->
@@ -73,14 +82,14 @@
                 <!-- small box -->
                 <div class="small-box bg-danger">
                     <div class="inner">
-                        <h3>65</h3>
+                        <h3>{{$total_completed_request}}</h3>
 
                         <p>Completed Requests</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-pie-graph"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
                 </div>
             </div>
             <!-- ./col -->

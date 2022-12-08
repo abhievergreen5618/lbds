@@ -54,7 +54,7 @@
                     </div>
                     <div class="col-md-12 my-2">
                         <div class="row">
-                            <div class="col-lg-12 my-2">
+                            <!-- <div class="col-lg-12 my-2">
                                 <label for="employeeaddress">{{ __('Address') }}</label>
                                 <textarea class="form-control @error('employeeaddress') is-invalid @enderror" rows="3" placeholder="Enter Address" id="employeeaddress" name="employeeaddress">{{@old('company_address',$data->company_address)}}</textarea>
                                 @error('employeeaddress')
@@ -62,7 +62,7 @@
                                             <label class="error fail-alert  mt-1">{{ $message }}</label>
                                         </div>
                                 @enderror
-                            </div>
+                            </div> -->
                             <div class="col-lg-4 my-2">
                                 <label for="employeecity">{{ __('City') }}</label>
                                 <input type="text" class="form-control @error('employeecity') is-invalid @enderror" id="employeecity" name="employeecity" placeholder="City" value="{{@old('city',$data->city)}}">
@@ -74,7 +74,7 @@
                             </div>
                             <div class="col-lg-4 my-2">
                                 <label for="employeestate">{{ __('State') }}</label>
-                                <input type="number" class="form-control @error('employeestate') is-invalid @enderror" id="employeestate" name="employeestate" placeholder="State" value="{{@old('state',$data->state)}}">
+                                <input type="text" class="form-control @error('employeestate') is-invalid @enderror" id="employeestate" name="employeestate" placeholder="State" value="{{@old('state',$data->state)}}">
                                 @error('employeestate')
                                         <div>
                                             <label class="error fail-alert  mt-1">{{ $message }}</label>

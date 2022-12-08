@@ -419,7 +419,7 @@ use Illuminate\Support\Facades\Storage;
                                 </tr>
                                 <tr>
                                     <td>State</td>
-                                    <td><input type="number" class="form-control" id="state" name="state" placeholder="State" value="{{old('state',$requestdetails->state)}}">
+                                    <td><input type="text" class="form-control" id="state" name="state" placeholder="State" value="{{old('state',$requestdetails->state)}}">
                                         @error('state')
                                         <div>
                                             <label class="error fail-alert  mt-1">{{$message}}<label>
@@ -483,12 +483,12 @@ use Illuminate\Support\Facades\Storage;
                                     <td>Comments:</td>
                                     <td><textarea class="form-control" rows="3" placeholder="Enter Comments" name="comments" id="comments">{{old('comments',$requestdetails->comments)}}</textarea></td>
                                 </tr>
-                                @if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('company'))
+                                <!-- @if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('company'))
                                 <tr>
                                     <td>Agency Comment:</td>
                                     <td><textarea class="form-control" rows="3" placeholder="Enter Agency Comment" name="agencycomments" id="agencycomments">{{old('agencycomments',$requestdetails->agencycomments)}}</textarea></td>
                                 </tr>
-                                @endif
+                                @endif -->
                                 @if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('inspector'))
                                 <tr>
                                     <td>Inspector Comment:</td>

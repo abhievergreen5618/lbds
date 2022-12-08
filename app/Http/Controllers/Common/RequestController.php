@@ -237,7 +237,7 @@ class RequestController extends Controller
             "sendinvoice" => $request['sendinvoice'],
             "comments" => $request['comments'],
             "ins_fee" => $request['ins_fee'],
-            "agencycomments" => $request['agencycomments'],
+            // "agencycomments" => $request['agencycomments'],
             "inspectorcomments" => $request['inspectorcomments'],
         ]);
         return redirect()->back()->with('msg', 'Request Updated Successfully');

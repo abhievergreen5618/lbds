@@ -17,7 +17,7 @@
             <th>Name</th>
             <th>Email</th>
             <th>Phone</th>
-            <th>Address</th>
+            <!-- <th>Address</th> -->
             <th>City</th>
             <th>State</th>
             <th>Zipcode</th>
