@@ -32,7 +32,6 @@ class MessagesController extends Controller
      */
     public function pusherAuth(Request $request)
     {
-        // dd($request);
         // Auth data
         $authData = json_encode([
             'user_id' => Auth::user()->id,
@@ -40,6 +39,7 @@ class MessagesController extends Controller
                 'name' => Auth::user()->name
             ]
         ]);
+        dd($authData);
         // check if user authorized
         if (Auth::check()) {
             return Chatify::pusherAuth(
