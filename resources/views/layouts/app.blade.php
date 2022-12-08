@@ -48,7 +48,7 @@
   @stack("header_extras")
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed" data-id="{{encrypt(Auth::user()->id)}}">
+<body class="hold-transition sidebar-mini layout-fixed">
   <div class="wrapper">
     @include('layouts.partials.loader')
     @include('layouts.partials.header')
@@ -145,9 +145,8 @@
 
     var channel = pusher.subscribe('my-channel');
     channel.bind('my-event', function(data) {
-    if($('body').attr("data-id") == data.to_id)
-    {
-        var attactchment = '';
+      // console.log(data.unreadmessages);
+      var attactchment = '';
       if (data.message.attachment[0] == null && data.message.attachment[1] == null && data.message.attachment[2] == null) {
         attactchment = '';
       } else {
@@ -170,7 +169,6 @@
             title: "<a href='"+link+"' target='_blank'>"+data.name+"</a>",
             icon: 'fas fa-envelope fa-lg',
           });
-        }
     });
 
 
