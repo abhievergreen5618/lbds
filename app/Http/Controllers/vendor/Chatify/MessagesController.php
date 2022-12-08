@@ -32,6 +32,7 @@ class MessagesController extends Controller
      */
     public function pusherAuth(Request $request)
     {
+        dd($request);
         // Auth data
         $authData = json_encode([
             'user_id' => Auth::user()->id,
