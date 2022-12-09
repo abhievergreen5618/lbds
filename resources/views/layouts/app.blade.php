@@ -145,8 +145,11 @@
 
     var channel = pusher.subscribe('my-channel');
     channel.bind('my-event', function(data) {
+      // console.log({{Auth::user()->id}});
       // console.log(data.unreadmessages);
-      var attactchment = '';
+      if({{Auth::user()->id}} == data.to_id)
+      {
+        var attactchment = '';
       if (data.message.attachment[0] == null && data.message.attachment[1] == null && data.message.attachment[2] == null) {
         attactchment = '';
       } else {
@@ -169,9 +172,13 @@
             title: "<a href='"+link+"' target='_blank'>"+data.name+"</a>",
             icon: 'fas fa-envelope fa-lg',
           });
+        }
     });
 
 
+        
+      
+    
     function playAudio() {
       var sound = new Audio('{{ asset('audio/sound.mp3')}}');
       var playPromise = sound.play();

@@ -36,34 +36,7 @@ $total_completed_request=RequestModel::where('status','completed')->count();
 <!-- Main content -->
 <section class="content">
   <div class="container-fluid">
-    <!-- Small boxes (Stat box) -->
-    <div class="row">
-      <div class="col-lg-3 col-6">
-        <!-- small box -->
-        <div class="small-box bg-gradient-purple">
-          <div class="inner">
-            <h3>{{ $total_inpspector }}</h3>
-            <p>Total Inspector</p>
-          </div>
-          <a href="{{route('admin.view.inspector')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-        </div>
-      </div>
 
-      <!-- ./col -->
-      <div class="col-lg-3 col-6">
-        <!-- small box -->
-        <div class="small-box bg-gradient-indigo">
-          <div class="inner">
-            <h3>{{ $total_agency }}</h3>
-            <p>Total Agency</p>
-          </div>
-          <a href="{{route('admin.agency.agency-view')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-        </div>
-      </div>
-      <!-- ./col -->
-
-    </div>
-    <!-- /.row -->
     <!-- Main row -->
     <div class="row">
       <div class="col-lg-3 col-6">
@@ -115,6 +88,35 @@ $total_completed_request=RequestModel::where('status','completed')->count();
        <!-- ./col -->
     </div>
     <!-- /.row (main row) -->
+
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+      <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-gradient-purple">
+          <div class="inner">
+            <h3>{{ $total_inpspector }}</h3>
+            <p>Total Inspector</p>
+          </div>
+          <a href="{{route('admin.view.inspector')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+      </div>
+
+      <!-- ./col -->
+      <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-gradient-indigo">
+          <div class="inner">
+            <h3>{{ $total_agency }}</h3>
+            <p>Total Agency</p>
+          </div>
+          <a href="{{route('admin.agency.agency-view')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+      </div>
+      <!-- ./col -->
+
+    </div>
+    <!-- /.row -->
   </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->

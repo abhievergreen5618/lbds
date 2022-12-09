@@ -92,7 +92,7 @@
             <li class="nav-item"><a class="nav-link" href="#scheduled_requests" data-toggle="tab">Scheduled Requests</a></li>
             <li class="nav-item"><a class="nav-link" href="#completed_requests" data-toggle="tab">Completed Requests</a></li>
             <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Notifications Settings</a></li>
-            <li class="nav-item"><a class="nav-link" href="#notifications" data-toggle="tab">Send Mail</a></li>
+            <!-- <li class="nav-item"><a class="nav-link" href="#notifications" data-toggle="tab">Send Mail</a></li> -->
           </ul>
         </div><!-- /.card-header -->
         <div class="card-body">
@@ -249,7 +249,7 @@
               </form>
             </div>
             <!-- /.tab-pane -->
-            <div class="tab-pane" id="notifications">
+            <!-- <div class="tab-pane" id="notifications">
               <form class="form-horizontal">
                 <div class="form-group row">
                   <label for="subject" class="col-sm-2 col-form-label">Subject</label>
@@ -275,7 +275,7 @@
                   </div>
                 </div>
               </form>
-            </div>
+            </div> -->
             <!-- /.tab-pane -->
           </div>
           <!-- /.tab-content -->

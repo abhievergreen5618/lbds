@@ -544,10 +544,13 @@ use Illuminate\Support\Facades\Storage;
                     @role('admin')
                     @if($requestdetails->status != "underreview" && $requestdetails->status != "completed")
                     @if(!empty($requestdetails->assigned_at))
-                    <div class="mt-3 mb-3 scheduled0eaff1"> <span class="btn
-                            btn-danger col-12 shadow-sm font-weight-600 btn-sm
-                            pointer"> Schedule Inspection &nbsp; <i class="fas
-                                fa-arrow-down fa-sm"></i></span> <br>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card card-danger m-0">
+                            <div class="card-header">
+                                <h3 class="card-title">Schedule Inspection &nbsp;</h3>
+                            </div>
+                            <div class="card-body">
                         <form method="post" action="{{route('requestschedule')}}">
                             @csrf
                             <input type="hidden" name="id" value="{{encrypt($requestdetails->id)}}">
@@ -571,10 +574,9 @@ use Illuminate\Support\Facades\Storage;
                                 <button type="submit" class="btn btn-success font-weight-500 btn-reschedule border" id="0eaff1">Submit<i class="fas fa-savefa-sm"></i></button>
                             </div>
                         </form>
-                    </div>
-                    <div class="status-label mt-2">
+                    <div class="d-flex status-label mt-2">
                         <span id="btn-calendar" class="btn btn-sm btn-dark
-                            font-weight-500 py-0 shadow pointer">
+                            font-weight-500 py-0 shadow">
                             @if(!empty($requestdetails->scheduled_at))
                             @php
                             $link = "https://calendar.google.com/calendar/r/eventedit?text=Inspection&details=test&location=&dates=".$requestdetails->scheduled_at."T".$requestdetails->time."ctz=(GMT+5:30)";
@@ -586,16 +588,23 @@ use Illuminate\Support\Facades\Storage;
                             @endif
                             <a href="{{$link}}" class="text-light"><i class="fas
                                 fa-calendar"></i> Add to Calendar </span> </a>
-                        <span id="btn-calendar-google" class="btn btn-sm btn-info
+                        <span id="btn-calendar-google" class="ml-2 btn btn-sm btn-info
                             font-weight-500 py-0 shadow pointer"> <i class="fas
                                 fa-calendar"></i> Add to Google WorkSpace </span>
                     </div>
+                    </div>
+                        </div>
+                        </div>
+                    </div>
                     @else
-                    <div class="mt-3 mb-3 scheduled0eaff1"> <span class="btn
-                            btn-danger col-12 shadow-sm font-weight-600 btn-sm
-                            pointer">Assign Inspector &nbsp; <i class="fas
-                                fa-arrow-down fa-sm"></i></span> <br>
-                        <form method="post" action="{{route('inspectorassign')}}">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card card-danger m-0">
+                            <div class="card-header">
+                                <h3 class="card-title">Assign Inspector &nbsp;</h3>
+                            </div>
+                            <div class="card-body">
+                            <form method="post" action="{{route('inspectorassign')}}">
                             @csrf
                             <input type="hidden" name="reqid" value="{{encrypt($requestdetails->id)}}">
                             <div class="my-2">
@@ -617,6 +626,9 @@ use Illuminate\Support\Facades\Storage;
                                 <button type="submit" class="btn btn-success font-weight-500 btn-reschedule border" id="0eaff1">Submit<i class="fas fa-savefa-sm"></i></button>
                             </div>
                         </form>
+                            </div>
+                        </div>
+                        </div>
                     </div>
                     @endif
                     @endif

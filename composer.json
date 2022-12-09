@@ -14,7 +14,7 @@
         "laravel/ui": "^4.0",
         "laravelcollective/html": "^6.3",
         "msztorc/laravel-env": "^1.2",
-        "munafio/chatify": "^1.5",
+        "munafio/chatify": "v1.5.2",
         "onecentlin/laravel-adminer": "^6.0",
         "spatie/laravel-permission": "^5.5",
         "yajra/laravel-datatables-oracle": "~9.0"

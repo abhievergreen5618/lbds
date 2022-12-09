@@ -105,7 +105,7 @@ Route::currentRouteName() == 'admin.allinspectiontype') ? 'display: block;' : ''
 Route::currentRouteName() == 'admin.allsendinvoice') ? 'active' : ''}}">
                         <i class="nav-icon fa fa-edit"></i>
                         <p>
-                            SendInvoice
+                            Invoicing
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
@@ -117,7 +117,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                             <a href="{{route('admin.create.addsendinvoice')}}" class="nav-link">
                                 <i class="nav-icon fa  fa-file-invoice fa-thin fas"></i>
                                 <p>
-                                    Add Send Invoice
+                                    Add New Invoice Type
                                 </p>
                             </a>
                         </li>
@@ -128,7 +128,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                             <a href="{{route('admin.allsendinvoice')}}" class="nav-link">
                                 <i class="nav-icon fa fa-solid fa-file-contract"></i>
                                 <p>
-                                    View All SendInvoice
+                                    View All Invoice Types
                                 </p>
                             </a>
                         </li>

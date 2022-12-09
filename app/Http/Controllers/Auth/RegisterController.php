@@ -81,6 +81,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'direct_number' => $data['direct_number'],
         ]);
         $user->assignRole([$role->id]);
         $role->givePermissionTo('request-create');

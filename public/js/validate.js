@@ -408,3 +408,154 @@ $(document).ready(function () {
     }
   });
 });
+
+$('#inspectorform').validate({
+  errorClass: "error fail-alert",
+  validClass: "valid success-alert",
+  rules: {
+    name: {
+      required: true,
+    },
+    company_name: {
+      required: true,
+    },
+    company_address: {
+      required: true,
+    },
+    number: {
+      required: true,
+      minlength: 10,
+      maxlength: 10,
+    },
+    license_number: {
+      required: true,
+    },
+    email: {
+      required: true,
+      email: true,
+    },
+    area_coverage:{
+      required: true,
+    },
+    color_code:{
+      required: true,
+    },
+    password: {
+      required: true,
+      minlength: 8
+    },
+
+  },
+  errorPlacement: function (error, element) {
+    if (element.attr("type") == "checkbox" || element.attr("type") == "radio") {
+      $(element).parent().parent().append(error);
+    } else if (element.attr("name") == "password") {
+      $(element).parent().append(error);
+    } else {
+      element.after(error);
+    }
+  }
+});
+
+$('#inspectorupdateform').validate({
+  errorClass: "error fail-alert",
+  validClass: "valid success-alert",
+  rules: {
+    name: {
+      required: true,
+    },
+    company_name: {
+      required: true,
+    },
+    company_address: {
+      required: true,
+    },
+    number: {
+      required: true,
+      minlength: 10,
+      maxlength: 10,
+    },
+    license_number: {
+      required: true,
+    },
+    email: {
+      required: true,
+      email: true,
+    },
+    area_coverage:{
+      required: true,
+    },
+    color_code:{
+      required: true,
+    },
+    password: {
+      required: true,
+      minlength: 8
+    },
+
+  },
+  errorPlacement: function (error, element) {
+    if (element.attr("type") == "checkbox" || element.attr("type") == "radio") {
+      $(element).parent().parent().append(error);
+    } else if (element.attr("name") == "password") {
+      $(element).parent().append(error);
+    } else {
+      element.after(error);
+    }
+  }
+});
+
+
+$('#register-form').validate({
+  errorClass: "error fail-alert",
+  validClass: "valid success-alert",
+  rules: {
+    company_name: {
+      required: true,
+    },
+    city: {
+      required: true,
+    },
+    company_address: {
+      required: true,
+    },
+    company_phonenumber: {
+      required: true,
+      minlength: 10,
+      maxlength: 10,
+    },
+    name: {
+      required: true,
+    },
+    direct_number: {
+      required: true,
+      minlength: 10,
+      maxlength: 10,
+    },
+    zip_code: {
+      required: true,
+    },
+    email: {
+      required: true,
+      email: true,
+    },
+    password: {
+      required: true,
+      minlength: 8
+    },
+    password_confirmation: {
+      required: true,
+      minlength: 8,
+      equalTo: '#password',
+    }
+  },
+  errorPlacement: function (error, element) {
+    if (element.attr("type") == "checkbox" || element.attr("type") == "radio") {
+      $(element).parent().parent().append(error);
+    } else if (element.attr("name") == "password") {
+      $(element).parent().append(error);
+    } else {
+      element.after(error);
+    }
+  }
+});

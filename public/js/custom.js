@@ -956,10 +956,10 @@ $(document).ready(function () {
         });
     });
     requesttable.on('select2:selecting', '.statusdropdown', function (sel) {
+        var insid = $(this).attr('data-req-id');
         $(this).find("option[value=" + sel.params.args.data.id + "]").each(function (e) {
             element = $(this);
             var status = $(this).val();
-            var insid = $(".statusdropdown").attr('data-req-id');
             if (insid.length && status.length) {
                 Swal.fire({
                     title: 'Are you sure want to change status to ' + ucfirst(status) + '?',

@@ -90,6 +90,7 @@
                                         </div>
                                 @enderror
                             </div>
+                            @if(empty($data->id))
                             <div class="col-lg-6 my-2">
                                 <label for="password">{{ __('Password') }}</label>
                                 <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" placeholder="Password">
@@ -111,6 +112,7 @@
                                     </div>
                                 @enderror
                             </div>
+                            @endif
                         </div>
                     </div>
                 </div>

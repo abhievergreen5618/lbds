@@ -274,7 +274,7 @@ class RequestController extends Controller
                 })
                 ->addColumn('assigned_inspector', function ($row) {
                     $returnvalue = "<select class='form-control inspectorlist'  name='inspectorlist'><option value=''></option>";
-                    $inspectors = User::role('inspector')->pluck("name", "id");
+                    $inspectors = User::role('inspector')->where('status','active')->pluck("name", "id");
                     foreach ($inspectors as $key => $value) {
                         $select = ((!empty($row->assigned_ins)) && $row->assigned_ins == $key) ? "selected" : "";
                         $returnvalue = $returnvalue . "<option value='" . encrypt($key) . "' data-req-id='" . encrypt($row->id) . "' $select>" . $value . "</option>";
@@ -650,6 +650,7 @@ class RequestController extends Controller
     // request complete
     public function statusupdate(Request $request)
     {
+        // dd($request->all());
         if ($request->ajax()) {
             $validator = Validator::make($request->all(), [
                 "id" => 'required',
@@ -696,6 +697,7 @@ class RequestController extends Controller
                         "status" => $request['status'],
                         $status => $current_date_time,
                     ]);
+                    $this->send_email($request['id'], "completed");
                 }
                 $msg = "Request Status Updated Successfully";
                 return response()->json(array("msg" => $msg), 200);
