@@ -137,7 +137,7 @@
   <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
   <script>
     // Enable pusher logging - don't include this in production
-    Pusher.logToConsole = true;
+    Pusher.logToConsole = false;
 
     var pusher = new Pusher('cdb5dfb1da13d59428cd', {
       cluster: 'us3'
