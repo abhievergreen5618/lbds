@@ -149,29 +149,29 @@
       // console.log(data.unreadmessages);
       if({{Auth::user()->id}} == data.to_id)
       {
-        var attactchment = '';
-      if (data.message.attachment[0] == null && data.message.attachment[1] == null && data.message.attachment[2] == null) {
-        attactchment = '';
-      } else {
-        attactchment = '<i class="text-primary fa fa-paperclip">Attachment</i>';
-      }
-      playAudio();
-      $("#messagesCount").html(
-        '<i class="far fa-comments"></i><span class="badge badge-danger navbar-badge">' + data
-        .messagesCount + '</span>');
-      $("#message-notification").prepend('<a href="/chatify/' + data.from_id +
-        '" class="dropdown-item"><div class="media"><img src="images/profile/' + data.profile_img +
-        '" alt="User Avatar" class="img-size-50 mr-3 img-circle"><div class="media-body"><h3 class="dropdown-item-title">' +
-        data.name + '</h3><p class="text-sm">' + data.message.message + '</p><p>' + attactchment +
-        '</p><span class="text-center text-danger">' +
-        data.unreadmessages + '&nbsp;Unread</span> ' +
-        '</div></div></a><div class="dropdown-divider"></div>');
-        var link = "/chatify/"+data.from_id;
-          $(document).Toasts('create', {
-            body: data.message.message,
-            title: "<a href='"+link+"' target='_blank'>"+data.name+"</a>",
-            icon: 'fas fa-envelope fa-lg',
-          });
+          var attactchment = '';
+          if (data.message.attachment[0] == null && data.message.attachment[1] == null && data.message.attachment[2] == null) {
+            attactchment = '';
+          } else {
+            attactchment = '<i class="text-primary fa fa-paperclip">Attachment</i>';
+          }
+          playAudio();
+          $("#messagesCount").html(
+            '<i class="far fa-comments"></i><span class="badge badge-danger navbar-badge">' + data
+            .messagesCount + '</span>');
+          $("#message-notification").prepend('<a href="/chatify/' + data.from_id +
+            '" class="dropdown-item"><div class="media"><img src="images/profile/' + data.profile_img +
+            '" alt="User Avatar" class="img-size-50 mr-3 img-circle"><div class="media-body"><h3 class="dropdown-item-title">' +
+            data.name + '</h3><p class="text-sm">' + data.message.message + '</p><p>' + attactchment +
+            '</p><span class="text-center text-danger">' +
+            data.unreadmessages + '&nbsp;Unread</span> ' +
+            '</div></div></a><div class="dropdown-divider"></div>');
+            var link = "/chatify/"+data.from_id;
+              $(document).Toasts('create', {
+                body: data.message.message,
+                title: "<a href='"+link+"' target='_blank'>"+data.name+"</a>",
+                icon: 'fas fa-envelope fa-lg',
+              });
         }
     });
 
