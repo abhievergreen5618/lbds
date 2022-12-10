@@ -74,7 +74,7 @@ class UserSeeder extends Seeder
             "email" => "bishoples@gmail.com",
             "password" => Hash::make("12345678"),
             "email_verified_at" => Carbon::now()->timestamp,
-             "approved"    => "Approved",
+            "approved"    => "Approved",
         ]);
 
         $role->givePermissionTo([

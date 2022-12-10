@@ -697,7 +697,7 @@ class RequestController extends Controller
                         "status" => $request['status'],
                         $status => $current_date_time,
                     ]);
-                    $this->send_email($request['id'], "completed");
+                    // $this->send_email($request['id'], "completed");
                 }
                 $msg = "Request Status Updated Successfully";
                 return response()->json(array("msg" => $msg), 200);
