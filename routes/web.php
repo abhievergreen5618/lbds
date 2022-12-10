@@ -99,8 +99,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/send-invoice-delete', 'destroy')->name('send-invoice-delete');
     });
     Route::controller(EmployeeController::class)->group(function () {
-        Route::get('/add-employee', 'index')->name('admin.employee.create');
-        Route::post('/add-employee', 'create')->name('admin.employee.create');
+        Route::any('/add-employee', 'index')->name('admin.employee.create');
+        Route::post('/create-employee', 'create')->name('admin.employee.create');
         Route::get('/employee-list', 'show')->name('admin.employee.view');
         Route::post('/employee-details', 'display')->name('employee-details');
         Route::get('/employee-update', 'update')->name('admin.show.employee');

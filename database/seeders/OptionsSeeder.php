@@ -23,7 +23,7 @@ class OptionsSeeder extends Seeder
             ["option_name"=>"mail_host","option_value"=>"mail.lbdstestdomain.com"],
             ["option_name"=>"mail_port","option_value"=>"465"],
             ["option_name"=>"mail_username","option_value"=>"wind@lbdstestdomain.com"],
-            ["option_name"=>"mail_password","option_value"=>"%T(aSwMaB1Wv"],
+            ["option_name"=>"mail_password","option_value"=>"2yZ1WX@~BD3Q"],
             ["option_name"=>"mail_from_address","option_value"=>"wind@lbdstestdomain.com"],
             ["option_name"=>"mail_encryption","option_value"=>"tls"],
             ["option_name"=>"pusher_app_id","option_value"=>"1491874"],
