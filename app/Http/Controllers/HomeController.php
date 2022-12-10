@@ -29,11 +29,12 @@ class HomeController extends Controller
             return view('admin.agency.approval');
         } else {
             // return redirect('/home');
+            dd(Auth::user()->hasRole("company"));
             if(Auth::user()->hasRole("admin"))
             {
                 return view('admin.dashboard');
             }
-            else if(Auth::user()->hasRole("company") || Auth::user()->hasRole("employee"))
+            else if(Auth::user()->hasRole("company")  ||  Auth::user()->hasRole("employee"))
             {
                 return view('company.dashboard');
             }
