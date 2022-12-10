@@ -38,7 +38,7 @@
                 </li>
     
 
-                @can('request-list')
+                <!-- @can('request-list')
                 <li class="nav-item">
                     <a href="{{route('inspector.request.list')}}" class="nav-link {{ Route::currentRouteName() == 'inspector.request.list' ? 'active' : ''}}">
                         <i class="nav-icon fas fa-align-left"></i>
@@ -47,7 +47,7 @@
                         </p>
                     </a>
                 </li>
-                @endcan
+                @endcan -->
 
                 {{-- @can('') --}}
                 <li class="nav-item">
@@ -60,7 +60,7 @@
                 </li>
                 {{-- @endcan --}}
 
-                  {{-- @can('') --}}
+                  {{-- @can('request-list') --}}
                 <li class="nav-item">
                     <a href="{{ route('inspector.request.list') }}" class="nav-link">
                         <i class="nav-icon fas fa-align-left"></i>
@@ -72,14 +72,14 @@
                 {{-- @endcan --}}
 
                 {{-- @can('') --}}
-                <!-- <li class="nav-item">
+                <li class="nav-item">
                     <a href="" class="nav-link">
                         <i class="nav-icon fas fa-file-alt"></i>
                         <p>
                            Content
                         </p>
                     </a>
-                </li> -->
+                </li>
                 {{-- @endcan --}}
 
                 {{-- @can('') --}}
@@ -106,14 +106,14 @@
                 {{-- @endcan --}}
 
                   {{-- @can('') --}}
-                <li class="nav-item">
-                    <a href="" class="nav-link">
+                <!-- <li class="nav-item">
+                    <a href="{{ route('admin.inspector.passwordReset',['id'=>encrypt(Auth::user()->id)]) }}" class="nav-link">
                         <i class="nav-icon fas fa-key"></i>
                         <p>
                            Change Password
                         </p>
                     </a>
-                </li>
+                </li> -->
                 {{-- @endcan --}}
 
                   {{-- <li class="nav-item">
