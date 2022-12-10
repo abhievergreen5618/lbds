@@ -83,7 +83,7 @@
                                 </div>
                                 <div class="form-group mb-2">
                                     <label for="name">{{ __('Name') }}</label>
-                                    <input type="text" class="form-control @error('name') {{ 'is-invalid' }} @enderror" id="name" name="name" placeholder="Enter Inspection Name" value="{{@old('name',$data->name)}}">
+                                    <input type="text" class="form-control @error('name') {{ 'is-invalid' }} @enderror" id="name" name="name" placeholder="Enter Your Name" value="{{@old('name',$data->name)}}">
                                 </div>
                                 @error('name')
                                 <div>
@@ -101,7 +101,7 @@
                                 </div>
                                 <div class="form-group mb-2">
                                     <label for="exampleInputEmail1">{{ __('Email Address') }}</label>
-                                    <input type="email" class="form-control @error('email') {{ 'is-invalid' }} @enderror" id="email" name="email" placeholder="Enter Phone Number" value="{{@old('email',$data->email)}}" disabled>
+                                    <input type="email" class="form-control @error('email') {{ 'is-invalid' }} @enderror" id="email" name="email" placeholder="Enter Email Address" value="{{@old('email',$data->email)}}" disabled>
                                     @error('email')
                                     <div>
                                         <label class="error fail-alert  mt-1">{{ $message }}</label>
@@ -126,7 +126,7 @@
                                 <div class="card-body">
                                     <div class="form-group mb-2">
                                         <label for="exampleInputEmail1">{{ __('Old password') }}</label>
-                                        <input type="password" class="form-control @error('old_password') {{ 'is-invalid' }} @enderror" id="old_password" name="old_password" placeholder="Enter Phone Number">
+                                        <input type="password" class="form-control @error('old_password') {{ 'is-invalid' }} @enderror" id="old_password" name="old_password" placeholder="Enter Old Password">
                                         @error('old_password')
                                         <div>
                                             <label class="error fail-alert  mt-1">{{ $message }}</label>

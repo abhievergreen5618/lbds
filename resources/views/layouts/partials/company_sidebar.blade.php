@@ -138,19 +138,18 @@ $options = new Options();
 
                     <a href="#" class="nav-link {{ (Route::currentRouteName() ==
                     'admin.request.create') ? 'active' : ''}}">
-                        <i class="nav-icon fas fa-user-circle"></i>
+                        <i class="nav-icon fa fa-sharp fa-solid fa-file"></i>
                         <p>
                             Requests
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() ==
-                        'admin.request.create') ? 'display: block;' : ''}}">
+                    <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() == 'admin.request.create') ? 'display: block;' : ''}}">
 
                         @can('request-create')
                         <li class="nav-item">
                             <a href="{{route('admin.request.create')}}" class="nav-link">
-                                <i class="nav-icon fas fa-user-plus"></i>
+                                <i class="nav-icon fa fa-file-signature"></i>
                                 <p>
                                     Add new Request
                                 </p>
@@ -161,7 +160,7 @@ $options = new Options();
                         @can('request-list')
                         <li class="nav-item">
                             <a href="{{route('company.request.list')}}" class="nav-link">
-                                <i class="nav-icon fas fa-users"></i>
+                                <i class="nav-icon fa fa-file-alt"></i>
                                 <p>
                                     View All Requests
                                 </p>
