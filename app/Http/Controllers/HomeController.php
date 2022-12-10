@@ -33,7 +33,7 @@ class HomeController extends Controller
             {
                 return view('admin.dashboard');
             }
-            else if(Auth::user()->hasRole("company") || Auth::user()->hasRole("company"))
+            else if(Auth::user()->hasRole("company") || Auth::user()->hasRole("employee"))
             {
                 return view('company.dashboard');
             }
