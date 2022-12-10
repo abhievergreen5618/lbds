@@ -27,17 +27,18 @@ class HomeController extends Controller
         if (Auth::user()->approved == "Pending" || Auth::user()->approved == "Disapproved") {
             Auth::logout();
             return view('admin.agency.approval');
-        } else {
+        } 
+        else {
             // return redirect('/home');
             if(Auth::user()->hasRole("admin"))
             {
                 return view('admin.dashboard');
             }
-            else if(Auth::user()->hasRole("company"))
+            else if(Auth::user()->hasRole("inspector"))
             {
                 return view('inspector.dashboard');
             }
-            else if(Auth::user()->hasRole("inspector"))
+            else
             {
                 return view('company.dashboard');
             }
