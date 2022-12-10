@@ -2,10 +2,10 @@
 use App\Models\User;
 use App\Models\RequestModel;
 use Illuminate\Support\Facades\DB;
-
-$total_pending_request=RequestModel::where('status','pending')->count();
-$total_completed_request=RequestModel::where('status','completed')->count();
-$final_reports= RequestModel::where(['assigned_ins'=>Auth::user()->id,'status'=>'completed'])->count();
+$total_assigned_request=RequestModel::where(['assigned_ins'=>Auth::user()->id,'status'=>'assigned'])->count();
+$total_scheduled_request=RequestModel::where(['assigned_ins'=>Auth::user()->id,'status'=>'scheduled'])->count();
+$total_underreview_request=RequestModel::where(['assigned_ins'=>Auth::user()->id,'status'=>'underreview'])->count();
+$total_completed_request=RequestModel::where(['assigned_ins'=>Auth::user()->id,'status'=>'completed'])->count();
 @endphp
 @extends('layouts.app')
 @section("content")
@@ -32,21 +32,42 @@ $final_reports= RequestModel::where(['assigned_ins'=>Auth::user()->id,'status'=>
     <div class="container-fluid">
         <!-- Small boxes (Stat box) -->
         <div class="row">
-            <div class="col-lg-4 col-6">
+            <div class="col-lg-3 col-6">
                 <!-- small box -->
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h3>{{ $total_pending_request }}</h3>
-
-                        <p>Pending Requests</p>
+                        <h3>{{$total_assigned_request}}</h3>
+                        <p>Assigned Request</p>
                     </div>
                     <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
-            <div class="col-lg-4 col-6">
+            <div class="col-lg-3 col-6">
                 <!-- small box -->
                 <div class="small-box bg-success">
+                    <div class="inner">
+                        <h3>{{$total_scheduled_request}}</h3>
+                        <p>Scheduled Requests</p>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-warning">
+                    <div class="inner text-white">
+                        <h3>{{$total_underreview_request}}</h3>
+                        <p>Submitted for Review Requests</p>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-danger">
                     <div class="inner">
                         <h3>{{$total_completed_request}}</h3>
                         <p>Completed Requests</p>
@@ -55,17 +76,8 @@ $final_reports= RequestModel::where(['assigned_ins'=>Auth::user()->id,'status'=>
                 </div>
             </div>
             <!-- ./col -->
-            <div class="col-lg-4 col-6">
-                <!-- small box -->
-                <div class="small-box bg-warning">
-                    <div class="inner text-white">
-                        <h3>{{ $final_reports }}</h3>
-                        <p>Final Reports</p>
-                    </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
         </div>
     </div>
 </section>
 @endsection
+
