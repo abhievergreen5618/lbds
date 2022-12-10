@@ -125,6 +125,7 @@ class UserSeeder extends Seeder
             "approved"    => "Approved",
         ]);
         $role = Role::create(['name' => 'inspector']);
+        $role->givePermissionTo(['request-list','request-edit']);
         $user->assignRole([$role->id]);
         
         $user = User::create([
@@ -136,7 +137,7 @@ class UserSeeder extends Seeder
             "approved"    => "Approved",
         ]);
         $role = Role::create(['name' => 'company']);
-        $role->givePermissionTo(['request-create','request-list','employee-list','employee-create','employee-edit','employee-delete']);
+        $role->givePermissionTo(['request-create','request-list','request-edit','employee-list','employee-create','employee-edit','employee-delete']);
         $user->assignRole([$role->id]);
         $role = Role::create(['name' => 'employee']);
     }
