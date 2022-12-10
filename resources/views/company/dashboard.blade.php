@@ -3,8 +3,9 @@ use App\Models\User;
 use App\Models\RequestModel;
 use Illuminate\Support\Facades\DB;
 
-$total_pending_request=RequestModel::where('status','pending')->count();
-$total_completed_request=RequestModel::where('status','completed')->count();
+$total_pending_request=RequestModel::where(['company_id'=>Auth::user()->id,'status'=>'pending'])->count();
+$total_completed_request=RequestModel::where(['company_id'=>Auth::user()->id,'status'=>'completed'])->count();
+$final_reports= RequestModel::where(['company_id'=>Auth::user()->id,'status'=>'completed'])->count();
 @endphp
 @extends('layouts.app')
 @section("content")
@@ -58,7 +59,7 @@ $total_completed_request=RequestModel::where('status','completed')->count();
                 <!-- small box -->
                 <div class="small-box bg-warning">
                     <div class="inner text-white">
-                        <h3>44</h3>
+                        <h3>{{ $final_reports }}</h3>
                         <p>Final Reports</p>
                     </div>
                     <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
