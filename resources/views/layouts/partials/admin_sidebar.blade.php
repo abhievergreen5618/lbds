@@ -433,13 +433,40 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{route('admin.portal.setup')}}" class="nav-link {{  (Route::currentRouteName() == 'admin.portal.setup') ? 'active' : '' }}">
+                <li class="nav-item {{ (Route::currentRouteName() ==
+                        'admin.portal.setup') ||
+                        (Route::currentRouteName() == 'admin.portal.emailtemp') ? 'menu-open menu-is-opening ' : ''}}">
+                    <a href="#" class="nav-link {{ (Route::currentRouteName() ==
+                        'admin.portal.setup') ||
+                        (Route::currentRouteName() == 'admin.portal.emailtemp') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-cogs"></i>
                         <p>
-                            Portal Setup
+                           Portal Settings
+                            <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() ==
+                            'admin.portal.setup') || (Route::currentRouteName() == 'admin.portal.emailtemp') ? 'display: block;' : ''}}">
+
+                        <li class="nav-item">
+                            <a href="{{route('admin.portal.setup')}}" class="nav-link">
+                                <i class="nav-icon fas fa-cog"></i>
+                                <p>
+                                    Portal Setup
+                                </p>
+                            </a>
+                        </li>
+            
+                        <li class="nav-item">
+                            <a href="{{ route('admin.portal.emailtemp') }}" class="nav-link">
+                                <i class="nav-icon fas fa-mail-bulk"></i>
+                                <p>
+                                  Email Template Config
+                                </p>
+                            </a>
+                        </li>
+                     
+                    </ul>
                 </li>
             </ul>
         </nav>

@@ -65,7 +65,7 @@
                     <a href="{{ route('inspector.request.list') }}" class="nav-link {{ Route::currentRouteName() == 'inspector.request.list' ? 'active' : ''}}">
                         <i class="nav-icon fas fa-align-left"></i>
                         <p>
-                            Completed Request
+                            All Requests
                         </p>
                     </a>
                 </li>

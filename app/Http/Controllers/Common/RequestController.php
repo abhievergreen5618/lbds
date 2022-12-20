@@ -21,6 +21,9 @@ use App\Models\EmailModel;
 use Exception;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Common\Mail\MailBoxController;
+use App\Mail\Admin\RequestScheduled;
+use App\Mail\Admin\RequestUnderreview;
+use App\Mail\Admin\RequestCompleted;
 
 class RequestController extends Controller
 {
@@ -178,10 +181,10 @@ class RequestController extends Controller
         // ]);
         $subject = "Inspectorassign";
         if (!empty($companydetails->notification_settings) && (array_key_exists('request_assigned', $companydetails->notification_settings))) {
-            Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
+            Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject,'companyassign'));
         }
         if (!empty($insdetails->notification_settings) && (array_key_exists('request_assigned', $insdetails->notification_settings))) {
-            Mail::to($insemail['email'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
+            Mail::to($insemail['email'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject,'inspectorassign'));
         }
         $current_date_time = Carbon::now()->toDateTimeString();
         RequestModel::where(["id" => decrypt($reqid)])->update([
@@ -283,7 +286,7 @@ class RequestController extends Controller
                     return $returnvalue;
                 })
                 ->addColumn('created_at', function ($row) {
-                    return date('d-m-Y h:i a', strtotime($row->created_at));
+                    return date('F d ,Y h:i a',strtotime($row->created_at));
                 })
                 ->addColumn('status', function ($row) {
                     if ($row->status == "pending" || $row->status == "underreview") {
@@ -329,7 +332,7 @@ class RequestController extends Controller
                     return $returnvalue;
                 })
                 ->addColumn('created_at', function ($row) {
-                    return date('d-m-Y h:i a', strtotime($row->created_at));
+                    return date('F d ,Y h:i a',strtotime($row->created_at));
                 })
                 ->addColumn('status', function ($row) {
                     if ($row->status == "pending" || $row->status == "underreview") {
@@ -697,7 +700,7 @@ class RequestController extends Controller
                         "status" => $request['status'],
                         $status => $current_date_time,
                     ]);
-                    // $this->send_email($request['id'], "completed");
+                    $this->send_email($request['id'], "completed");
                 }
                 $msg = "Request Status Updated Successfully";
                 return response()->json(array("msg" => $msg), 200);
@@ -721,39 +724,38 @@ class RequestController extends Controller
             $subject = "Request Scheduled";
 
             if (!empty($companydetails->notification_settings) && (array_key_exists('request_scheduled', $companydetails->notification_settings))) {
-                Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
+                Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new RequestScheduled($insdetails, $companydetails, $requestdetails, $subject,'companyassign'));
             }
             if (!empty($insdetails->notification_settings) && (array_key_exists('request_scheduled', $insdetails->notification_settings))) {
-                Mail::to($insdetails['email'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
+                Mail::to($insdetails['email'])->send(new RequestScheduled($insdetails, $companydetails, $requestdetails, $subject,'inspectorassign'));
             }
         } else if ($status == "rescheduled") {
             $subject = "Request Rescheduled";
         } else if ($status == "cancelled") {
             $subject = "Request Cancelled";
 
-            Mail::to($insdetails['email'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
-            Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
+            Mail::to($insdetails['email'])->send(new RequestScheduled($insdetails, $companydetails, $requestdetails, $subject,'companyassign'));
+            Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new RequestScheduled($insdetails, $companydetails, $requestdetails, $subject,'inspectorassign'));
         } else if ($status == "underreview") {
             $subject = "Request Underreview";
 
             if (!empty($companydetails->notification_settings) && (array_key_exists('request_underreview', $companydetails->notification_settings))) {
-                Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
+                Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new RequestUnderreview($insdetails, $companydetails, $requestdetails, $subject,'companyassign'));
             }
             if (!empty($insdetails->notification_settings) && (array_key_exists('request_underreview', $insdetails->notification_settings))) {
-                Mail::to($insdetails['email'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
+                Mail::to($insdetails['email'])->send(new RequestUnderreview($insdetails, $companydetails, $requestdetails, $subject,'inspectorassign'));
             }
         } else if ($status == "completed") {
             $subject = "Request Completed";
 
             if (!empty($companydetails->notification_settings) && (array_key_exists('request_completed', $companydetails->notification_settings))) {
-                Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
+                Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new RequestCompleted($insdetails, $companydetails, $requestdetails, $subject,'companyassign'));
             }
             if (!empty($insdetails->notification_settings) && (array_key_exists('request_completedrequest_underreview', $insdetails->notification_settings))) {
-                Mail::to($insdetails['email'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));
+                Mail::to($insdetails['email'])->send(new RequestCompleted($insdetails, $companydetails, $requestdetails, $subject,'inspectorassign'));
             }
         }
 
-        // priya code merge stash
         // if(!empty($insdetails))
         // {
         //     Mail::to($insdetails['email'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject));

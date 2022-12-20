@@ -133,7 +133,7 @@ use App\Models\Inspectiontype;
                     @endphp
 
 
-                    <td>{{$value->assigned_at}}</td>
+                    <td>{{  date('F d ,Y h:i a', strtotime($value->assigned_at))}}</td>
                     <td class="badge bg-warning">{{$value->status}}</td>
                   </tr>
                   @endforeach
@@ -177,7 +177,7 @@ use App\Models\Inspectiontype;
                     echo "<td>".$returnvalue."</td>";
                     @endphp
 
-                    <td>{{$value->schedule_at}}</td>
+                    <td>{{date('F d ,Y h:i a', strtotime($value->schedule_at))}}</td>
                     <td class="badge bg-warning">{{$value->status}}</td>
                   </tr>
                   @endforeach
@@ -221,7 +221,7 @@ use App\Models\Inspectiontype;
                     }
                     echo "<td>".$returnvalue."</td>";
                     @endphp
-                    <td>{{$value->completed_at}}</td>
+                    <td>{{date('F d ,Y h:i a', strtotime($value->completed_at))}}</td>
                     <td class="badge bg-warning">{{$value->status}}</td>
                   </tr>
                   @endforeach

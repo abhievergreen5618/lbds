@@ -41,23 +41,23 @@ $options = new Options();
 
                 @if(Gate::check('employee-create') || Gate::check('employee-list'))
                 <li class="nav-item {{ (Route::currentRouteName() ==
-                    'admin.employee.create' || Route::currentRouteName() ==
-                    'admin.employee.view') ? 'menu-open menu-is-opening' : '' }}">
-                    <a href="#" class="nav-link {{ (Route::currentRouteName() == 'admin.employee.create'||
-                    Route::currentRouteName() == 'admin.employee.view') ? 'active' : ''}}">
+                    'company.employee.index' || Route::currentRouteName() ==
+                    'company.employee.view') ? 'menu-open menu-is-opening' : '' }}">
+                    <a href="#" class="nav-link {{ (Route::currentRouteName() == 'company.employee.index'||
+                    Route::currentRouteName() == 'company.employee.view') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-user-circle"></i>
                         <p>
-                            Employee
+                           Company Employee
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview" {{ (Route::currentRouteName() ==
-                        'admin.employee.create'||
-                        Route::currentRouteName() == 'admin.employee.view') ? 'display: block;' : ''}}>
+                        'company.employee.index'||
+                        Route::currentRouteName() == 'company.employee.view') ? 'display: block;' : ''}}>
 
                         @can('employee-create')
                         <li class="nav-item">
-                            <a href="{{route('admin.employee.create')}}" class="nav-link">
+                            <a href="{{route('company.employee.index')}}" class="nav-link">
                                 <i class="nav-icon fas fa-user-plus"></i>
                                 <p>
                                     Add new Employee
@@ -68,7 +68,7 @@ $options = new Options();
 
                         @can('employee-list')
                         <li class="nav-item">
-                            <a href="{{ route('admin.employee.view') }}" class="nav-link">
+                            <a href="{{ route('company.employee.view') }}" class="nav-link">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>
                                     View All Employees

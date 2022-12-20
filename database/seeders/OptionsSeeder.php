@@ -23,7 +23,7 @@ class OptionsSeeder extends Seeder
             ["option_name"=>"mail_host","option_value"=>"mail.lbdstestdomain.com"],
             ["option_name"=>"mail_port","option_value"=>"465"],
             ["option_name"=>"mail_username","option_value"=>"wind@lbdstestdomain.com"],
-            ["option_name"=>"mail_password","option_value"=>"2yZ1WX@~BD3Q"],
+            ["option_name"=>"mail_password","option_value"=>"%T(aSwMaB1Wv"],
             ["option_name"=>"mail_from_address","option_value"=>"wind@lbdstestdomain.com"],
             ["option_name"=>"mail_encryption","option_value"=>"tls"],
             ["option_name"=>"pusher_app_id","option_value"=>"1491874"],
@@ -33,6 +33,11 @@ class OptionsSeeder extends Seeder
             ["option_name"=>"login_img","option_value"=>"hh.jpg"],
             ["option_name"=>"registration_img","option_value"=>"regg.jpg"],
             ["option_name"=>"registration_logo_img","option_value"=>"yy.png"],
+            ["option_name"=>"verification_message","option_value"=>"<p>Hi [first_name],</p><p>&nbsp; &nbsp; &nbsp;Welcome to Our Organization. I hope you are happy to a part of our organiztion.</p>"],
+            ["option_name"=>"requestassign_message","option_value"=>"<p>Hi [first_name],</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Your Request has been Successfully Assigned to [inspector_name].</p>"],
+            ["option_name"=>"requestscheduled_message","option_value"=>"<p>Hi [first_name],</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Your Request has been Successfully Scheduled by [inspector_name].</p>"],
+            ["option_name"=>"requestunderreview_message","option_value"=>"<p>Hi [first_name],</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Your Request has been Successfully Reviewed By [inspector_name].</p>"],
+            ["option_name"=>"requestcompleted_message","option_value"=>"<p>Hi [first_name],</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Your Inspestion Request has been Successfully Completed.</p>"]
         ];
 
         foreach($options as $key => $value)

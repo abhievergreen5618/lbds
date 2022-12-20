@@ -349,7 +349,7 @@ $(document).ready(function () {
             },
         },
         "columnDefs": [
-            { "className": "dt-center", "targets": "_all" },
+            { "className": "dt-center", "width": '9%', "targets": "_all" },
         ],
         "order": [0, 'desc'],
         "columns": [
@@ -377,6 +377,7 @@ $(document).ready(function () {
             },
             {
                 "data": "status",
+                "width": '100px',
             },
             {
                 "data": "action",

@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Options;
-class Inspectorassign extends Mailable
+class RequestScheduled extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -17,7 +17,6 @@ class Inspectorassign extends Mailable
     public $companydetails;
     public $requestdetails;
     public $type;
-  
 
     public function __construct($insdetails,$companydetails,$requestdetails,$subject,$type)
     {
@@ -26,10 +25,8 @@ class Inspectorassign extends Mailable
         $this->companydetails = $companydetails;
         $this->requestdetails = $requestdetails;
         $this->subject=$subject;
-        $this->body= $options->get_option('requestassign_message'); 
-
-        // $arr = ["['first_name']","['inspector_name']","['company_name']","['company_location']"];
-           if($type=='inspectorassign')
+        $this->body= $options->get_option('requestscheduled_message');     
+        if($type=='inspectorassign')
         {
             $this->body= str_replace('[first_name]',$insdetails->name,$this->body);
             $this->body= str_replace('[inspector_name]',$insdetails->name,$this->body);
@@ -42,11 +39,8 @@ class Inspectorassign extends Mailable
             $this->body= str_replace('[company_name]',$companydetails->company_name,$this->body);
             $this->body= str_replace('[company_location]',$companydetails->company_address,$this->body);
         }
-     
-        
-    }
 
-    
+    }
 
     /**
      * Get the message envelope.

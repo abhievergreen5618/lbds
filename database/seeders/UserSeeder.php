@@ -45,10 +45,10 @@ class UserSeeder extends Seeder
             'inspection-create',
             'inspection-edit',
             'inspection-delete',
-            'sendinvoice-list',
-            'sendinvoice-create',
-            'sendinvoice-edit',
-            'sendinvoice-delete',
+            'invoicetype-list',
+            'invoicetype-create',
+            'invoicetype-edit',
+            'invoicetype-delete',
             'user-list',
             // 'user-create',
             'user-edit',
@@ -74,7 +74,7 @@ class UserSeeder extends Seeder
             "email" => "bishoples@gmail.com",
             "password" => Hash::make("12345678"),
             "email_verified_at" => Carbon::now()->timestamp,
-            "approved"    => "Approved",
+             "approved"    => "Approved",
         ]);
 
         $role->givePermissionTo([
@@ -90,10 +90,10 @@ class UserSeeder extends Seeder
             'inspection-create',
             'inspection-edit',
             'inspection-delete',
-            'sendinvoice-list',
-            'sendinvoice-create',
-            'sendinvoice-edit',
-            'sendinvoice-delete',
+            'invoicetype-list',
+            'invoicetype-create',
+            'invoicetype-edit',
+            'invoicetype-delete',
             'user-list',
             // 'user-create',
             'user-edit',
@@ -125,7 +125,6 @@ class UserSeeder extends Seeder
             "approved"    => "Approved",
         ]);
         $role = Role::create(['name' => 'inspector']);
-        $role->givePermissionTo(['request-list','request-edit']);
         $user->assignRole([$role->id]);
         
         $user = User::create([
@@ -137,7 +136,7 @@ class UserSeeder extends Seeder
             "approved"    => "Approved",
         ]);
         $role = Role::create(['name' => 'company']);
-        $role->givePermissionTo(['request-create','request-list','request-edit','employee-list','employee-create','employee-edit','employee-delete']);
+        $role->givePermissionTo(['request-create','request-list','employee-list','employee-create','employee-edit','employee-delete']);
         $user->assignRole([$role->id]);
         $role = Role::create(['name' => 'employee']);
     }

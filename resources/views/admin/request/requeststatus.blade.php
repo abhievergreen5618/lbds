@@ -367,6 +367,7 @@ use Illuminate\Support\Facades\Storage;
                         <input type="hidden" name="id" value="{{encrypt($requestdetails->id)}}">
                         <table class="table table-responsive brequest">
                             <tbody>
+                            @if((Auth::user()->hasRole('admin') || Auth::user()->hasRole('company'))) 
                                 <tr>
                                     <td>Applicant Name</td>
                                     <td><input type="text" class="form-control" id="applicantname" name="applicantname" placeholder="Name" value="{{old('applicantname',$requestdetails->applicantname)}}" class="form-control">
@@ -489,6 +490,121 @@ use Illuminate\Support\Facades\Storage;
                                     <td><textarea class="form-control" rows="3" placeholder="Enter Agency Comment" name="agencycomments" id="agencycomments">{{old('agencycomments',$requestdetails->agencycomments)}}</textarea></td>
                                 </tr>
                                 @endif -->
+                                @endif
+                                <!--inspector -->
+                                @role('inspector')
+                                <tr>
+                                    <td>Applicant Name</td>
+                                    <td><input type="text" class="form-control" id="applicantname" name="applicantname" placeholder="Name" value="{{old('applicantname',$requestdetails->applicantname)}}" class="form-control" readonly>
+                                        @error('applicantname')
+                                        <div>
+                                            <label class="error fail-alert  mt-1">{{$message}}<label>
+                                        </div>
+                                        @enderror
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Applicant Email</td>
+                                    <td><input type="email" class="form-control" id="applicantemail" name="applicantemail" placeholder="Email" value="{{old('applicantemail',$requestdetails->applicantemail)}}" readonly>
+                                        @error('applicantemail')
+                                        <div>
+                                            <label class="error fail-alert  mt-1">{{$message}}<label>
+                                        </div>
+                                        @enderror
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Applicant Phone</td>
+                                    <td><input type="number" class="form-control" id="applicantmobile" name="applicantmobile" placeholder="Phone" value="{{old('applicantmobile',$requestdetails->applicantmobile)}}" readonly>
+                                        @error('applicantmobile')
+                                        <div>
+                                            <label class="error fail-alert  mt-1">{{$message}}<label>
+                                        </div>
+                                        @enderror
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Address</td>
+                                    <td><textarea class="form-control" rows="3" placeholder="Enter Address" id="address" name="address" readonly>{{old('address',$requestdetails->address)}}</textarea>
+                                        @error('address')
+                                        <div>
+                                            <label class="error fail-alert  mt-1">{{$message}}<label>
+                                        </div>
+                                        @enderror
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>City</td>
+                                    <td><input type="text" class="form-control" id="city" name="city" placeholder="City" value="{{old('city',$requestdetails->city)}}" readonly>
+                                        @error('city')
+                                        <div>
+                                            <label class="error fail-alert  mt-1">{{$message}}<label>
+                                        </div>
+                                        @enderror
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>State</td>
+                                    <td><input type="text" class="form-control" id="state" name="state" placeholder="State" value="{{old('state',$requestdetails->state)}}" readonly>
+                                        @error('state')
+                                        <div>
+                                            <label class="error fail-alert  mt-1">{{$message}}<label>
+                                        </div>
+                                        @enderror
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Zip Code</td>
+                                    <td><input type="number" class="form-control" id="zipcode" name="zipcode" placeholder="ZipCode" value="{{old('zipcode',$requestdetails->zipcode)}}" readonly>
+                                        @error('zipcode')
+                                        <div>
+                                            <label class="error fail-alert  mt-1">{{$message}}<label>
+                                        </div>
+                                        @enderror
+                                    </td>
+                                </tr>
+                                @if(!empty($invoicedata) && count($invoicedata) != 0)
+                                <tr>
+                                    <td>Send Invoice(s) To:</td>
+                                    <td>
+                                        @foreach($invoicedata as $key=>$value)
+                                        <div>
+                                            <label class="px-2 py-1 mb-1">
+                                                <input type="checkbox" value="{{$key}}" name="sendinvoice[]" @if(in_array($key,$requestdetails['sendinvoice'])) {{"checked"}} @endif onclick="return false" readonly >
+                                                {{$value}}
+                                            </label>
+                                        </div>
+                                        @endforeach
+                                    </td>
+                                </tr>
+                                @endif
+                                @if(!empty($data) && count($data) != 0 && !empty($requestdetails['inspectiontype']))
+                                <tr>
+                                    <td>Inspection Type</td>
+                                    <td>
+                                        <div class="form-group">
+                                            <label>Select Inspection Type:</label>
+                                            <div class="row type">
+                                                @foreach($data as $key=>$value)
+                                                <div class="col-md-6">
+                                                    <label class="px-2 py-1 border mb-2
+                                                border col-md-12">
+                                                        <input id="inspection-type-{{$key}}" type="checkbox" name="inspectiontype[]" value="{{$key}}" @if(in_array($key,$requestdetails['inspectiontype'])) {{"checked"}} @endif onclick="return false" readonly>
+                                                        {{$value}}
+                                                    </label>
+                                                </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endif
+                                <tr>
+                                    <td>Comments:</td>
+                                    <td><textarea class="form-control" rows="3" placeholder="Enter Comments" name="comments" id="comments" readonly>{{old('comments',$requestdetails->comments)}}</textarea></td>
+                                </tr>
+                                @endrole
+
                                 @if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('inspector'))
                                 <tr>
                                     <td>Inspector Comment:</td>
@@ -544,13 +660,10 @@ use Illuminate\Support\Facades\Storage;
                     @role('admin')
                     @if($requestdetails->status != "underreview" && $requestdetails->status != "completed")
                     @if(!empty($requestdetails->assigned_at))
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="card card-danger m-0">
-                            <div class="card-header">
-                                <h3 class="card-title">Schedule Inspection &nbsp;</h3>
-                            </div>
-                            <div class="card-body">
+                    <div class="mt-3 mb-3 scheduled0eaff1"> <span class="btn
+                            btn-danger col-12 shadow-sm font-weight-600 btn-sm
+                            pointer"> Schedule Inspection &nbsp; <i class="fas
+                                fa-arrow-down fa-sm"></i></span> <br>
                         <form method="post" action="{{route('requestschedule')}}">
                             @csrf
                             <input type="hidden" name="id" value="{{encrypt($requestdetails->id)}}">
@@ -574,9 +687,10 @@ use Illuminate\Support\Facades\Storage;
                                 <button type="submit" class="btn btn-success font-weight-500 btn-reschedule border" id="0eaff1">Submit<i class="fas fa-savefa-sm"></i></button>
                             </div>
                         </form>
-                    <div class="d-flex status-label mt-2">
+                    </div>
+                    <div class="status-label mt-2">
                         <span id="btn-calendar" class="btn btn-sm btn-dark
-                            font-weight-500 py-0 shadow">
+                            font-weight-500 py-0 shadow pointer">
                             @if(!empty($requestdetails->scheduled_at))
                             @php
                             $link = "https://calendar.google.com/calendar/r/eventedit?text=Inspection&details=test&location=&dates=".$requestdetails->scheduled_at."T".$requestdetails->time."ctz=(GMT+5:30)";
@@ -588,23 +702,16 @@ use Illuminate\Support\Facades\Storage;
                             @endif
                             <a href="{{$link}}" class="text-light"><i class="fas
                                 fa-calendar"></i> Add to Calendar </span> </a>
-                        <span id="btn-calendar-google" class="ml-2 btn btn-sm btn-info
+                        <span id="btn-calendar-google" class="btn btn-sm btn-info
                             font-weight-500 py-0 shadow pointer"> <i class="fas
                                 fa-calendar"></i> Add to Google WorkSpace </span>
                     </div>
-                    </div>
-                        </div>
-                        </div>
-                    </div>
                     @else
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="card card-danger m-0">
-                            <div class="card-header">
-                                <h3 class="card-title">Assign Inspector &nbsp;</h3>
-                            </div>
-                            <div class="card-body">
-                            <form method="post" action="{{route('inspectorassign')}}">
+                    <div class="mt-3 mb-3 scheduled0eaff1"> <span class="btn
+                            btn-danger col-12 shadow-sm font-weight-600 btn-sm
+                            pointer">Assign Inspector &nbsp; <i class="fas
+                                fa-arrow-down fa-sm"></i></span> <br>
+                        <form method="post" action="{{route('inspectorassign')}}">
                             @csrf
                             <input type="hidden" name="reqid" value="{{encrypt($requestdetails->id)}}">
                             <div class="my-2">
@@ -626,9 +733,6 @@ use Illuminate\Support\Facades\Storage;
                                 <button type="submit" class="btn btn-success font-weight-500 btn-reschedule border" id="0eaff1">Submit<i class="fas fa-savefa-sm"></i></button>
                             </div>
                         </form>
-                            </div>
-                        </div>
-                        </div>
                     </div>
                     @endif
                     @endif
@@ -671,8 +775,8 @@ use Illuminate\Support\Facades\Storage;
                                     <img src="{{ asset('taskfiles/' . $item) }}" class="img-thumbnail h-100 preview-images" alt="...">
                                     <a id="" href="#" data-file="{{ $item }}" class="remove-btn">Remove file</a>
                                     <div class="image-overlay  position-absolute" style="display:none;">
-                                        <a href="{{route('filedownload',['filename' => $item])}}" data-file="{{ $item }}"><i class="fa fa-download" aria-hidden="true"></i></a>
-                                        <a href="" class="myImg" data-file="{{asset('taskfiles').'/'.$item}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                        <a href="{{route('filedownload',['filename' => $item])}}" data-file="{{ $item }}"><i class="fa fa-download" style="font-size:15px !important; padding:6px !important;" aria-hidden="true">Download</i></a>
+                                        <a href="" class="myImg" data-file="{{asset('taskfiles').'/'.$item}}"><i class="fa fa-eye"  style="font-size:15px !important; padding:6px !important; " aria-hidden="true">Preview</i></a>
                                     </div>
                                 </div>
                                 @else
@@ -686,8 +790,8 @@ use Illuminate\Support\Facades\Storage;
                                     <a id="" href="#" data-file="{{ $item }}" class="remove-btn">Remove file
                                     </a>
                                     <div class="image-overlay  position-absolute" style="display:none;">
-                                        <a href="{{route('filedownload',['filename' => $item])}}"><i class="fa fa-download" aria-hidden="true"></i></a>
-                                        <a href="{{asset('taskfiles').'/'.$item}}" target="blank" data-file="{{ $item }}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                        <a href="{{route('filedownload',['filename' => $item])}}"><i class="fa fa-download"  style="font-size:15px !important; padding:6px !important;" aria-hidden="true">Download</i></a>
+                                        <a href="{{asset('taskfiles').'/'.$item}}" target="blank" data-file="{{ $item }}"><i class="fa fa-eye"  style="font-size:15px !important; padding:6px !important;" aria-hidden="true">Preview</i></a>
                                     </div>
                                 </div>
                                 @endif
@@ -737,8 +841,8 @@ use Illuminate\Support\Facades\Storage;
                                     <img src="{{ asset('taskfiles/' . $item) }}" class="img-thumbnail h-100 preview-images" alt="...">
                                     <a id="" href="#" data-file="{{ $item }}" class="remove-btn">Remove file</a>
                                     <div class="image-overlay  position-absolute" style="display:none;">
-                                        <a href="{{route('filedownload',['filename' => $item])}}"><i class="fa fa-download" aria-hidden="true"></i></a>
-                                        <a href="#" class="myImg" data-file="{{asset('taskfiles').'/'.$item}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                        <a href="{{route('filedownload',['filename' => $item])}}"><i class="fa fa-download"  style="font-size:15px !important; padding:6px !important;" aria-hidden="true">Download</i></a>
+                                        <a href="#" class="myImg" data-file="{{asset('taskfiles').'/'.$item}}"><i class="fa fa-eye"  style="font-size:15px !important; padding:6px !important;" aria-hidden="true">Preview</i></a>
                                     </div>
                                 </div>
                                 @else
@@ -752,8 +856,8 @@ use Illuminate\Support\Facades\Storage;
                                     <a id="" href="#" class="remove-btn">Remove file
                                     </a>
                                     <div class="image-overlay  position-absolute" style="display:none;">
-                                        <a href="{{route('filedownload',['filename' => $item])}}"><i class="fa fa-download" aria-hidden="true"></i></a>
-                                        <a href="{{asset('taskfiles').'/'.$item}}" target="blank" data-file="{{ $item }}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                        <a href="{{route('filedownload',['filename' => $item])}}"><i class="fa fa-download" style="font-size:15px !important; padding:6px !important;" aria-hidden="true">Download</i></a>
+                                        <a href="{{asset('taskfiles').'/'.$item}}" target="blank" data-file="{{ $item }}"><i class="fa fa-eye" style="font-size:15px !important; padding:6px !important;" aria-hidden="true">Preview</i></a>
                                     </div>
                                 </div>
                                 @endif

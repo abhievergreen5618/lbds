@@ -20,6 +20,8 @@ use App\Http\Controllers\Admin\Portal\ProtalController;
 use App\Http\Controllers\Admin\Agency\AgencyApprovalController;
 use App\Http\Controllers\Common\Mail\MailBoxController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Admin\Payroll\PayrollController;
+use App\Http\Controllers\Admin\Portal\EmailTemplateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -89,22 +91,24 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/disableshow', 'disableshow')->name('disableshow');
         Route::post('/inspectiontypedisablelist', 'disablelist')->name('inspectiontypedisablelist');
     });
+    
     Route::controller(SendInvoiceController::class)->group(function () {
         Route::get('/add-send-invoice', 'index')->name('admin.create.addsendinvoice');
         Route::get('/update-send-invoice', 'update')->name('admin.update.sendinvoice');
         Route::post('/create-send-invoice', 'create')->name('admin.create.sendinvoice');
-        Route::get('/all-send-invoice', 'show')->name('admin.allsendinvoice');
+        Route::get('/all-invoices', 'show')->name('admin.allsendinvoice');
         Route::post('/sendinvoicedetails', 'display')->name('sendinvoicedetails');
         Route::post('/send-invoice-status-update', 'status')->name('send-invoice-status-update');
         Route::post('/send-invoice-delete', 'destroy')->name('send-invoice-delete');
     });
+
     Route::controller(EmployeeController::class)->group(function () {
-        Route::any('/add-employee', 'index')->name('admin.employee.create');
-        Route::post('/create-employee', 'create')->name('admin.employee.create');
-        Route::get('/employee-list', 'show')->name('admin.employee.view');
+        Route::get('/create-employee', 'index')->name('company.employee.index');
+        Route::post('/add-employee', 'create')->name('company.employee.create');
+        Route::get('/employee-list', 'show')->name('company.employee.view');
         Route::post('/employee-details', 'display')->name('employee-details');
-        Route::get('/employee-update', 'update')->name('admin.show.employee');
-        Route::post('/submit/update-employee/', 'submitUpdate')->name('admin.employee.update');
+        Route::get('/employee-update', 'update')->name('company.show.employee');
+        Route::post('/submit/update-employee/', 'submitUpdate')->name('company.employee.update');
         Route::post('/employee-delete', 'destroy')->name('employee-delete');
     });
 
@@ -191,6 +195,16 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/portalsetup/update/image', 'updateLoginImage')->name('portal.update.image');
     });
 
+    // EmailTemplateController
+    Route::controller(EmailTemplateController::class)->prefix('portalsetup')->group(function () {
+        Route::get('/email-templates','index')->name('admin.portal.emailtemp');
+        Route::post('/email-verify-temp','emailStore')->name('admin.portal.emailVerify');
+        Route::post('/email-assigned-temp','assignEmailStore')->name('admin.portal.emailAssign');
+        Route::post('/email-scheduled-temp','scheduledEmailStore')->name('admin.portal.emailScheduled');
+        Route::post('/email-underreview-temp','underreviewEmailStore')->name('admin.portal.emailUnderreview');
+        Route::post('/email-completed-temp','completedEmailStore')->name('admin.portal.emailCompleted');
+    });
+
     Route::controller(MailBoxController::class)->group(function () {
         Route::get('/mailbox/sent', 'index')->name('mailbox.sent');
         Route::get('/mailbox/draft', 'draft')->name('mailbox.draft');
@@ -208,6 +222,15 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/agency/disapproved-list', 'disApprovedList')->name('admin.disapproved.view');
         Route::post('/agency/details', 'statusDisApprovedList')->name('admin.disapproved.details');
     });
+    // PayrollController
+    Route::controller(PayrollController::class)->prefix('payroll-tracker')->group(function () {
+        Route::get('/list', 'index')->name('admin.payroll.index');
+        Route::post('/payrolldetails', 'display')->name('admin.payroll.display');
+        Route::post('/submit', 'store')->name('admin.payroll.store');
+        Route::post('/update', 'update')->name('admin.payroll.update');
+        Route::get('/search', 'filterList')->name('admin.payroll.filter');
+    });
+
 });
 
 Auth::routes(['verify' => true]);

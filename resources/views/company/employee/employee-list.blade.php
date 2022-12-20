@@ -4,7 +4,7 @@
 <div class="col-lg-12">
     <div class="card">
         <div class="card-body">
-          <h3 class="card-title">Send Invoice Details</h3>
+          <h3 class="card-title">Employee Details</h3>
         </div>
     </div>
 </div>

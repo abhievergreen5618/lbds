@@ -33,7 +33,7 @@
                             <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
                                 @csrf
                                 <div class="w-100 text-center">
-                                    <button type="submit" class="btn btn-green-soft text-green fw-500">{{ __('click here to request another') }}</button>.
+                                    <button type="submit" class="btn btn-green-soft text-green fw-500">{{ __('Resend Email Verify') }}</button>.
                                 </div>
                             </form>
                         </div>

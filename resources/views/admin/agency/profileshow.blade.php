@@ -138,7 +138,7 @@
                     <th>Location</th>
                     <!-- <th>Inspection Type</th> -->
                     <th>Scheduled At</th>
-                    <th>Assigned Inspector</th>
+                    <!-- <th>Assigned Inspector</th> -->
                     <th>Status</th>
                   </tr>
                 </thead>
@@ -151,8 +151,8 @@
                     <td>{{$value->applicantname}}</td>
                     <td>{{$value->address}}</td>
                     <!-- <td>{{$value->inspectiontype}}</td> -->
-                    <td>{{(!empty($value->scheduled_at) ? $value->scheduled_at : '')}}</td>
-                    <td>{{(!empty($value->assigned_ins) ? $value->assigned_ins : '')}}</td>
+                    <td>{{(!empty($value->scheduled_at) ? date('F d ,Y h:i a', strtotime($value->scheduled_at)) : '')}}</td>
+                    <!-- <td>{{(!empty($value->assigned_ins) ? $value->assigned_ins : '')}}</td> -->
                     <td  class="badge bg-danger">{{$value->status}}</td>
                   </tr>
                   @endforeach
@@ -174,7 +174,7 @@
                     <th>Location</th>
                     <!-- <th>Inspection Type</th> -->
                     <th>Added At</th>
-                    <th>Assigned Inspector</th>
+                    <!-- <th>Assigned Inspector</th> -->
                     <th>Status</th>
                   </tr>
                 </thead>
@@ -187,8 +187,8 @@
                     <td>{{$value->applicantname}}</td>
                     <td>{{$value->address}}</td>
                     <!-- <td>{{$value->inspectiontype}}</td> -->
-                    <td>{{$value->completed_at}}</td>
-                    <td>{{$value->assigned_ins}}</td>
+                    <td>{{date('F d ,Y h:i a', strtotime($value->completed_at))}}</td>
+                    <!-- <td>{{$value->assigned_ins}}</td> -->
                     <td class="badge bg-success">{{$value->status}}</td>
                   </tr>
                   @endforeach

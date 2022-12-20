@@ -13,7 +13,7 @@
         <div class="card-header">
             <h3 class="card-title">{{ __('Add New Employee') }}</h3>
         </div>
-        <form id="{{ (isset($data)) ? 'employeeupdateform' : 'employeeaddform' }}" action="@if(isset($data)) {{route('admin.employee.update')}} @else {{route('admin.employee.create')}} @endif" method="post">
+        <form id="{{ (isset($data)) ? 'employeeupdateform' : 'employeeaddform' }}" action="@if(isset($data)) {{route('company.employee.update')}} @else {{route('company.employee.create')}} @endif" method="post">
             @csrf
 
             @isset($data)
@@ -90,7 +90,7 @@
                                         </div>
                                 @enderror
                             </div>
-                            @if(empty($data->id))
+                            @if(empty($data))
                             <div class="col-lg-6 my-2">
                                 <label for="password">{{ __('Password') }}</label>
                                 <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" placeholder="Password">
