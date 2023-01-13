@@ -89,7 +89,7 @@ class UserController extends Controller
     {
 
         if (isset($request['id']) && !empty($request['id'])) {
-           $user = User::where('id', decrypt($request['id']))->first();
+            $user = User::where('id', decrypt($request['id']))->first();
            $roles= Role::pluck('name','name')->all();
            $userRole = $user->roles->pluck('name','name')->all();
            return view('admin.users.edit',compact('user','roles','userRole'));

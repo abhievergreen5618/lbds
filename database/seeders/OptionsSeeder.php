@@ -33,7 +33,7 @@ class OptionsSeeder extends Seeder
             ["option_name"=>"login_img","option_value"=>"hh.jpg"],
             ["option_name"=>"registration_img","option_value"=>"regg.jpg"],
             ["option_name"=>"registration_logo_img","option_value"=>"yy.png"],
-            ["option_name"=>"verification_message","option_value"=>"<p>Hi,</p><p>&nbsp; &nbsp; &nbsp;Welcome to Our Organization. I hope you are happy to a part of our organiztion.</p>"],
+            ["option_name"=>"verification_message","option_value"=>"<p>Hi [first_name],</p><p>&nbsp; &nbsp; &nbsp;Welcome to Our Organization. I hope you are happy to a part of our organiztion.</p>"],
             ["option_name"=>"requestassign_message","option_value"=>"<p>Hi [first_name],</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Your Request has been Successfully Assigned to [inspector_name].</p>"],
             ["option_name"=>"requestscheduled_message","option_value"=>"<p>Hi [first_name],</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Your Request has been Successfully Scheduled by [inspector_name].</p>"],
             ["option_name"=>"requestunderreview_message","option_value"=>"<p>Hi [first_name],</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Your Request has been Successfully Reviewed By [inspector_name].</p>"],

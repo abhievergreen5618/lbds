@@ -17,11 +17,11 @@ use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Request;
 use App\Http\Controllers\Admin\Agency\AgencyController;
 use App\Http\Controllers\Admin\Portal\ProtalController;
+use App\Http\Controllers\Admin\Portal\EmailTemplateController;
 use App\Http\Controllers\Admin\Agency\AgencyApprovalController;
 use App\Http\Controllers\Common\Mail\MailBoxController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\Payroll\PayrollController;
-use App\Http\Controllers\Admin\Portal\EmailTemplateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -91,7 +91,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/disableshow', 'disableshow')->name('disableshow');
         Route::post('/inspectiontypedisablelist', 'disablelist')->name('inspectiontypedisablelist');
     });
-    
     Route::controller(SendInvoiceController::class)->group(function () {
         Route::get('/add-send-invoice', 'index')->name('admin.create.addsendinvoice');
         Route::get('/update-send-invoice', 'update')->name('admin.update.sendinvoice');
@@ -101,7 +100,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/send-invoice-status-update', 'status')->name('send-invoice-status-update');
         Route::post('/send-invoice-delete', 'destroy')->name('send-invoice-delete');
     });
-
     Route::controller(EmployeeController::class)->group(function () {
         Route::get('/create-employee', 'index')->name('company.employee.index');
         Route::post('/add-employee', 'create')->name('company.employee.create');
@@ -194,7 +192,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/portalsetup/update/pusher', 'updatepusher')->name('portal.update.pusher');
         Route::post('/portalsetup/update/image', 'updateLoginImage')->name('portal.update.image');
     });
-
     // EmailTemplateController
     Route::controller(EmailTemplateController::class)->prefix('portalsetup')->group(function () {
         Route::get('/email-templates','index')->name('admin.portal.emailtemp');
@@ -222,6 +219,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/agency/disapproved-list', 'disApprovedList')->name('admin.disapproved.view');
         Route::post('/agency/details', 'statusDisApprovedList')->name('admin.disapproved.details');
     });
+
+
     // PayrollController
     Route::controller(PayrollController::class)->prefix('payroll-tracker')->group(function () {
         Route::get('/list', 'index')->name('admin.payroll.index');
@@ -230,7 +229,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/update', 'update')->name('admin.payroll.update');
         Route::get('/search', 'filterList')->name('admin.payroll.filter');
     });
-
 });
 
 Auth::routes(['verify' => true]);
@@ -285,5 +283,5 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 
-Route::get('login/locked',[LoginController::class, 'locked'])->name('login.locked')->middleware('auth');
-Route::post('login/unlock',[LoginController::class, 'unlock'])->name('login.unlock')->middleware('auth');
+Route::get('login/locked', [LoginController::class, 'locked'])->name('login.locked')->middleware('auth');
+Route::post('login/unlock', [LoginController::class, 'unlock'])->name('login.unlock')->middleware('auth');

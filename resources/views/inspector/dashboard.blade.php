@@ -81,5 +81,3 @@ $total_completed_request=RequestModel::where(['assigned_ins'=>Auth::user()->id,'
 </section>
 @endsection
 
-
-

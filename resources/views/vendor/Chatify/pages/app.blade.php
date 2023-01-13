@@ -5,11 +5,11 @@
         {{-- Header and search bar --}}
         <div class="m-header">
             <nav>
-                <a href="#"><i class="fas fa-inbox"></i> <span class="messenger-headTitle">MESSAGES</span> </a>
+                <a href="#"><i class="fas fa-inbox" style="font-size:24px !important;"></i> <span class="messenger-headTitle">MESSAGES</span> </a>
                 {{-- header buttons --}}
                 <nav class="m-header-right">
-                    <a href="#"><i class="fas fa-cog settings-btn"></i></a>
-                    <a href="#" class="listView-x"><i class="fas fa-times"></i></a>
+                    <a href="#"><i class="fas fa-cog settings-btn" style="font-size:24px !important;"></i></a>
+                    <a href="#" class="listView-x"><i class="fas fa-times" style="font-size:24px !important;"></i></a>
                 </nav>
             </nav>
             {{-- Search input --}}
@@ -70,7 +70,7 @@
             <nav class="chatify-d-flex chatify-justify-content-between chatify-align-items-center">
                 {{-- header back button, avatar and user name --}}
                 <div class="chatify-d-flex chatify-justify-content-between chatify-align-items-center">
-                    <a href="#" class="show-listView"><i class="fas fa-arrow-left"></i></a>
+                    <a href="#" class="show-listView"><i class="fas fa-arrow-left" style="font-size:24px !important;"></i></a>
                     @php $imglink = (!empty(Auth::user()->profile_img)) ? Auth::user()->profile_img : asset('images/profile/profile.jpg'); @endphp
                     <div class="avatar av-s header-avatar" style="margin: 0px 10px; margin-top: -5px; margin-bottom: -5px; background-image:url('{{asset($imglink)}}')">
                     </div>
@@ -80,9 +80,9 @@
                 <nav class="m-header-right">
                     {{-- <a href="" id="backBtn"><i class="fas fa-regular fa-arrow-left"></i></a> --}}
                     <a href="#" class="add-to-favorite"><i class="fas fa-star"></i></a>
-                    <a href="{{ route('home') }}"><i class="fas fa-home"></i></a>
-                    <a href="#" class="show-infoSide"><i class="fas fa-info-circle"></i></a>
-                    <a href="" id="refreshBtn"><i class="fa fa-redo-alt"></i></a>
+                    <a href="{{ route('home') }}"><i class="fas fa-home" style="font-size:24px !important;"></i></a>
+                    <a href="#" class="show-infoSide"><i class="fas fa-info-circle" style="font-size:24px !important;"></i></a>
+                    <a href="" id="refreshBtn"><i class="fa fa-redo-alt" style="font-size:24px !important;"></i></a>
 
                 </nav>
             </nav>

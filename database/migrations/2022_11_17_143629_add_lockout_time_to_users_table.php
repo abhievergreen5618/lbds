@@ -15,7 +15,7 @@ return new class extends Migration
     {
         // Up
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('lockout_time')->default(120)->after('email');
+            $table->integer('lockout_time')->default(30)->after('email');
         });
     }
 

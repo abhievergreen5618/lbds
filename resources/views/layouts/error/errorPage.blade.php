@@ -1,37 +1,74 @@
 @push('header_extras')
 <style>
-    a {
-        text-decoration: none;
-    }
+ .main{
+  margin-top: -11% !important;
+ }
+  .textterror {
+    padding: 80px;
+  }
 
-    .login-page {
-        width: 100%;
-        height: 100vh;
-        display: inline-block;
-        display: flex;
-        align-items: center;
-    }
+  .textterror.ps-5 {
+    margin-top: 20%;
+    margin-bottom: 10%;
+  }
 
-    .form-right i {
-        font-size: 100px;
-    }
+  .title {
+    font-size: 55px;
+    font-weight: 700;
+    text-align: center;
+    color: red;
+  }
+
+  .subtitle {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 500;
+  }
+
+  a.button {
+    background-color: red;
+    border-radius: 38px;
+    padding: 20px;
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+  }
+
+  .isi {
+    text-align: center;
+  }
+
+  .isi {
+    font-weight: 500;
+
+  }
 </style>
 @endpush
 @extends('layouts.auth')
 @section('content')
-<section class="vh-100 one1">
-    <section class="content text-center">
-        <div class="error-page">
-        <h2 class="headline text-danger">403</h2>
-        <div class="error-content">
-        <h3><i class="fas fa-exclamation-triangle text-danger"></i> Oops!Access Denied.</h3>
-        <p>You are trying to access wrong chat
-         <a href="{{route('chatify-index')}}" class="nav-link"><p>Back</p></a>
-        </p>
-        </p>
+@php
+use App\Models\Options;
+$options= new Options();
+@endphp
+<section class="one1">
+  <!-- <div class="container"> -->
+    <div class="main">
+      <div class="textterror ps-5 ">
+        <div class="title" data-content="403">
+        {{ __('403 - ACCESS DENIED') }}
         </div>
+        <div class="subtitle">
+        {{ __('Oops, You do not have permission to access this page.')}}
         </div>
-
-        </section>
+        <div class="isi">
+        {{ __('For getting more information you may contact with Administrative Department.')}}
+          <p><i class="fa fa-regular fa-envelope"></i>&nbsp;{{$options->get_option('mail_from_address')}}</p>
+        </div>
+        <div class="buttons mt-5 text-center">
+          <a class="button" href="{{route('home')}}">{{ __('Go to homepage')}}</a>
+        </div>
+      </div>
+    </div>
+  <!-- </div> -->
 </section>
 @endsection

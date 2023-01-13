@@ -178,15 +178,3 @@
     </div>
 </div>
 @endsection
-
-@push("footer_extras")
-<script>
-window.onbeforeunload = function() {
-   if (data_needs_saving()) {
-       return "Do you really want to leave our brilliant application?";
-   } else {
-      return;
-   }
-};
-</script>
-@endpush

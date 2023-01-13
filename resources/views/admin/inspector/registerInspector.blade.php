@@ -15,9 +15,8 @@
         </div>
         <!-- /.card-header -->
         <!-- form start -->
-        <form id="inspectorform" 
-        action="@if(isset($data)) {{route('admin.update.inspector')}} 
-        @else {{route('admin.insert.insertinspector')}} @endif" method="POST"> 
+        <form id="{{ (isset($data)) ? 'inspectorupdateform' : 'inspectorform' }}" 
+        action="@if(isset($data)) {{route('admin.update.inspector')}} @else {{route('admin.insert.insertinspector')}} @endif" method="POST"> 
             @csrf
 
             @isset($data)

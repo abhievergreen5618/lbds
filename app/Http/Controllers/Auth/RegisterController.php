@@ -53,15 +53,17 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
             'company_name'                => 'required',
             'company_address'             => 'required',
             'city'                        => 'required',
             'zip_code'                    => 'required',
             'company_phonenumber'         => 'required',
             'direct_number'               => 'required',
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+
+            
         ],
         [
             "required" => "Field is required."
@@ -71,6 +73,7 @@ class RegisterController extends Controller
     
     protected function create(array $data)
     {
+        // dd($data);
         $role = Role::findByName('company');
         $user = User::create([
             'company_name' => $data['company_name'],
@@ -78,10 +81,10 @@ class RegisterController extends Controller
             'city' => $data['city'],
             'zip_code' => $data['zip_code'],
             'company_phonenumber' => $data['company_phonenumber'],
+            'direct_number' => $data['direct_number'],
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'direct_number' => $data['direct_number'],
         ]);
         $user->assignRole([$role->id]);
         $role->givePermissionTo('request-create');

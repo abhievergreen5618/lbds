@@ -97,7 +97,7 @@ Route::currentRouteName() == 'admin.allinspectiontype') ? 'display: block;' : ''
                     </ul>
                 </li>
                 @endif
-                @if(Gate::check('sendinvoice-create') || Gate::check('sendinvoice-list'))
+                @if(Gate::check('invoicetype-create') || Gate::check('invoicetype-list'))
                 <li class="nav-item {{ (Route::currentRouteName() ==
 'admin.create.addsendinvoice' || Route::currentRouteName() ==
 'admin.allsendinvoice') ? 'menu-open menu-is-opening' : '' }}">
@@ -112,23 +112,23 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'active' : ''}}">
                     <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() ==
 'admin.create.addsendinvoice'||
 Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}">
-                        @can('sendinvoice-create')
+                        @can('invoicetype-create')
                         <li class="nav-item">
                             <a href="{{route('admin.create.addsendinvoice')}}" class="nav-link">
                                 <i class="nav-icon fa  fa-file-invoice fa-thin fas"></i>
                                 <p>
-                                    Add New Invoice Type
+                                    Add Send Invoice
                                 </p>
                             </a>
                         </li>
                         @endcan
 
-                        @can('sendinvoice-list')
+                        @can('invoicetype-list')
                         <li class="nav-item">
                             <a href="{{route('admin.allsendinvoice')}}" class="nav-link">
                                 <i class="nav-icon fa fa-solid fa-file-contract"></i>
                                 <p>
-                                    View All Invoice Types
+                                    View All SendInvoice
                                 </p>
                             </a>
                         </li>
@@ -262,14 +262,14 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                 {{-- @endcan --}}
 
                 {{-- @can('') --}}
-                <!-- <li class="nav-item">
-                    <a href="" class="nav-link">
+                <li class="nav-item">
+                    <a href="{{route('admin.payroll.index')}}" class="nav-link {{  (Route::currentRouteName() == 'admin.payroll.index') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-dollar-sign"></i>
                         <p>
                             Pay Roll Tracker
                         </p>
                     </a>
-                </li> -->
+                </li>
                 {{-- @endcan --}}
 
                 {{--
@@ -404,26 +404,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                             <!-- <i class="fas fa-angle-left right"></i> -->
                         </p>
                     </a>
-                    <!-- <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="../mailbox/mailbox.html" class="nav-link active">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Inbox</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="../mailbox/compose.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Compose</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="../mailbox/read-mail.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Read</p>
-                            </a>
-                        </li>
-                    </ul> -->
+               
                 </li>
                 <li class="nav-item">
                     <a href="{{route('profile.show')}}" class="nav-link {{  (Route::currentRouteName() == 'profile.show') ? 'active' : '' }}">
@@ -433,6 +414,8 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                         </p>
                     </a>
                 </li>
+    
+
                 <li class="nav-item {{ (Route::currentRouteName() ==
                         'admin.portal.setup') ||
                         (Route::currentRouteName() == 'admin.portal.emailtemp') ? 'menu-open menu-is-opening ' : ''}}">
