@@ -36,7 +36,8 @@ class RequestModel extends Model
         'completed_at',
         'inspectorcomments',
         'agencycomments',
-        'pay_range',
+        'pay_range_start',
+        'pay_range_end',
     ];
 
     protected $casts = [

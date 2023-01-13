@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('request_id');   
             $table->string('ins_fee')->nullable();
             $table->string('income')->nullable();
-            // $table->timestamp('pay_start')->nullable();
-            $table->timestamp('pay_range')->nullable();
+            $table->date('pay_range_start')->nullable();
+            $table->date('pay_range_end')->nullable();
             $table->timestamp('pay_date')->nullable();
             $table->string('payment_status')->default('unpaid');
             $table->timestamps();
