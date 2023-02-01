@@ -23,6 +23,7 @@
               <th>Added At</th>
               <th>Assigned Inspector</th>
               <th>Status</th>
+              <th>Invoice</th>
               <th>Action</th>
             </tr>
           </thead>

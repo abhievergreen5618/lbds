@@ -331,6 +331,9 @@ $(document).ready(function () {
             placeholder: "Select Status",
             tags: true,
         });
+        $("input[data-bootstrap-switch]").each(function() {
+            $(this).bootstrapSwitch('state', $(this).prop('checked'))
+        });
     }
     var requesttable = $('#requesttable').DataTable({
         "preDrawCallback": function (settings) {
@@ -378,6 +381,9 @@ $(document).ready(function () {
             {
                 "data": "status",
                 "width": '100px',
+            },
+            {
+                "data": "invoice",
             },
             {
                 "data": "action",

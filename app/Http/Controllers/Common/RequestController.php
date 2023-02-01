@@ -288,6 +288,9 @@ class RequestController extends Controller
                 ->addColumn('created_at', function ($row) {
                     return date('F d ,Y h:i a',strtotime($row->created_at));
                 })
+                ->addColumn('invoice', function ($row) {
+                    return '<input type="checkbox" name="notification_settings[request_assigned]" data-bootstrap-switch="" data-off-color="danger"  data-on-color="success" value="on">';
+                })
                 ->addColumn('status', function ($row) {
                     if ($row->status == "pending" || $row->status == "underreview") {
                         $class = "badge btn-warning ml-2 status";
