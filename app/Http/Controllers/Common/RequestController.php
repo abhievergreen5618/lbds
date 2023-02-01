@@ -289,7 +289,7 @@ class RequestController extends Controller
                     return date('F d ,Y h:i a',strtotime($row->created_at));
                 })
                 ->addColumn('invoice', function ($row) {
-                    return '<input type="checkbox" class="invoicebutton" name="requestinvoice" data-bootstrap-switch="" data-off-color="danger" data-req-id="'.encrypt($row->id).'" data-on-color="success" value="on">';
+                    return '<input type="checkbox" name="requestinvoice" data-bootstrap-switch="" data-off-color="danger" data-req-id="'.encrypt($row->id).'" data-on-color="success" value="on">';
                 })
                 ->addColumn('status', function ($row) {
                     if ($row->status == "pending" || $row->status == "underreview") {

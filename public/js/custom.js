@@ -332,7 +332,49 @@ $(document).ready(function () {
             tags: true,
         });
         $("input[data-bootstrap-switch]").each(function() {
-            $(this).bootstrapSwitch('state', $(this).prop('checked'))
+           $("input[data-bootstrap-switch]").each(function() {
+            $(this).bootstrapSwitch({
+            'state':$(this).prop('checked'),
+            'onSwitchChange': function(event, state){
+            element = $(this);
+            var userid = $(this).attr("data-req-id");
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You will be able to revert this!!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+            }).then((result) => {
+                if (result.value) {
+                    $('.preloader').children().show();
+                    $('.preloader').css("height", "100vh");
+                    $.ajax({
+                        type: "POST",
+                        headers: {
+                            'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                        },
+                        url: 'invoice-update',
+                        data: {
+                            id: userid,
+                            state :state
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            $('.preloader').children().hide();
+                            $('.preloader').css("height", "0");
+                            rolestable.ajax.reload();
+                        },
+                        error: function (data) {
+                            // console.log(data);
+                        }
+                    });
+                };
+            });
+            },
+            })
+        });
         });
     }
     var requesttable = $('#requesttable').DataTable({
@@ -390,46 +432,6 @@ $(document).ready(function () {
             },
         ],
     });
-
-        // Request invoice switch state change
-        requesttable.on('switchChange', '.invoicebutton', function () {
-            $('#userdetails_processing').show();
-            element = $(this);
-            var userid = $(this).attr("data-req-id");
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.value) {
-                    $('.preloader').children().show();
-                    $('.preloader').css("height", "100vh");
-                    $.ajax({
-                        type: "POST",
-                        headers: {
-                            'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-                        },
-                        url: 'role-delete',
-                        data: {
-                            id: userid
-                        },
-                        dataType: 'json',
-                        success: function (data) {
-                            $('.preloader').children().hide();
-                            $('.preloader').css("height", "0");
-                            rolestable.ajax.reload();
-                        },
-                        error: function (data) {
-                            // console.log(data);
-                        }
-                    });
-                };
-            });
-        });
 
     var companyrequesttable = $('#companyrequesttable').DataTable({
         "processing": true,
