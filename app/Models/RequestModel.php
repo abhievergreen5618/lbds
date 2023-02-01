@@ -37,6 +37,7 @@ class RequestModel extends Model
         'inspectorcomments',
         'agencycomments',
         'invoice',
+        'requestnote',
     ];
 
     protected $casts = [

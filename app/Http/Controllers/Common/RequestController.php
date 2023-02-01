@@ -223,7 +223,7 @@ class RequestController extends Controller
                 "state" => "required",
                 "zipcode" => "required",
                 "sendinvoice" => "required",
-                "comments" => "required",
+                // "comments" => "required",
             ],
             [
                 "required" => "Field is required.",
@@ -241,7 +241,7 @@ class RequestController extends Controller
             "sendinvoice" => $request['sendinvoice'],
             "comments" => $request['comments'],
             "ins_fee" => $request['ins_fee'],
-            // "agencycomments" => $request['agencycomments'],
+            "requestnote" => $request['requestnote'],
             "inspectorcomments" => $request['inspectorcomments'],
         ]);
         return redirect()->back()->with('msg', 'Request Updated Successfully');
