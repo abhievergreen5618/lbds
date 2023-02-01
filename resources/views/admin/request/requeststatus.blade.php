@@ -486,7 +486,7 @@ use Illuminate\Support\Facades\Storage;
                                 </tr>
                                 @if(Auth::user()->hasRole('admin'))
                                 <tr>
-                                    <td>Agency Notes:</td>
+                                    <td>Admin Notes:</td>
                                     <td><textarea class="form-control" rows="3" placeholder="Enter Agency Notes" name="requestnote" id="requestnote">{{old('requestnote',$requestdetails->requestnote)}}</textarea></td>
                                 </tr>
                                 @endif

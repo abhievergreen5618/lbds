@@ -371,7 +371,12 @@ $(document).ready(function () {
                             // console.log(data);
                         }
                     });
-                };
+                }
+                else
+                {
+                    var state = (state == "true") ? "false" : "true";
+                    $("#switch").bootstrapSwitch('setState', true);
+                }
             });
             },
             })
