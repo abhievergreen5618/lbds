@@ -111,7 +111,6 @@ class ProtalController extends Controller
                 "required" => "This field is required."
             ]
         );
-        dd($request->all());
         $option->envUpdate($request->all());
         $option->updatesetting($request->all());
         return back()->with('msg', 'Mail Configuration Updated Successfully');
