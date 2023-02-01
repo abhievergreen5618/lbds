@@ -232,7 +232,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                             <a href="{{ route('roles.index') }}" class="nav-link">
                                 <i class="nav-icon fas fa-user-plus"></i>
                                 <p>
-                                    Manage Rights
+                                   Manage Rights
                                 </p>
                             </a>
                         </li>

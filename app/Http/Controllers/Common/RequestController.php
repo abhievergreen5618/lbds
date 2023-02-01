@@ -81,13 +81,14 @@ class RequestController extends Controller
                 "state" => "required",
                 "zipcode" => "required",
                 "sendinvoice" => "required",
-                "comments" => "required",
+                // "comments" => "required",
             ],
             [
                 "required" => "Field is required.",
             ]
         );
         if (isset($request['id'])) {
+            $comment = isset($request['comments']) ? $request['comments'] : "";
             RequestModel::where("id", decrypt($request['id']))->update([
                 "company_id" => decrypt($request['agency']),
                 "inspectiontype" => $request['inspectiontype'],
@@ -99,7 +100,7 @@ class RequestController extends Controller
                 "state" => $request['state'],
                 "zipcode" => $request['zipcode'],
                 "sendinvoice" => $request['sendinvoice'],
-                "comments" => $request['comments'],
+                "comments" => $comment,
             ]);
             session()->forget('taskid');
         }
@@ -576,7 +577,7 @@ class RequestController extends Controller
             [
                 "id"   => "required",
                 "time" => "required",
-                "date" => "required|date|after:today",
+                "date" => "required|date|after:yesterday",
             ],
             [
                 "required" => "Field is required.",
