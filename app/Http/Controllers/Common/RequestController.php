@@ -81,7 +81,7 @@ class RequestController extends Controller
                 "state" => "required",
                 "zipcode" => "required",
                 "sendinvoice" => "required",
-                // "comments" => "required",
+                "comments" => "required",
             ],
             [
                 "required" => "Field is required.",
@@ -568,7 +568,7 @@ class RequestController extends Controller
             [
                 "id"   => "required",
                 "time" => "required",
-                "date" => "required|date|after:yesterday",
+                "date" => "required|date|after:today",
             ],
             [
                 "required" => "Field is required.",
@@ -751,7 +751,7 @@ class RequestController extends Controller
             if (!empty($companydetails->notification_settings) && (array_key_exists('request_completed', $companydetails->notification_settings))) {
                 Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new RequestCompleted($insdetails, $companydetails, $requestdetails, $subject,'companyassign'));
             }
-            if (!empty($insdetails->notification_settings) && (array_key_exists('request_completedrequest_underreview', $insdetails->notification_settings))) {
+            if (!empty($insdetails->notification_settings) && (array_key_exists('request_completed', $insdetails->notification_settings))) {
                 Mail::to($insdetails['email'])->send(new RequestCompleted($insdetails, $companydetails, $requestdetails, $subject,'inspectorassign'));
             }
         }

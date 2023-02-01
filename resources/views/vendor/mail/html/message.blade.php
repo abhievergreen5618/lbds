@@ -5,6 +5,7 @@
 {{ config('app.name') }}
 </x-mail::header>
 </x-slot:header>
+
 {{-- Body --}}
 {{ $slot }}
 

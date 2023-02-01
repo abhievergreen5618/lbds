@@ -39,7 +39,9 @@ class PayrollController extends Controller
                 $split_date = explode("-", $request->pay_range);
                 $start = date('Y-m-d', strtotime(trim($split_date[0])));
                 $end = date('Y-m-d', strtotime(trim($split_date[1])));
-            }
+            }   
+            // dd($start,$end);
+            // $data =empty($request->pay_range) ? RequestModel::where('status', 'completed')->get(['id', 'assigned_ins', 'company_id', 'address', 'inspectiontype', 'ins_fee']) : RequestModel::where('status', 'completed')->whereBetween('pay_range',[$start,$end])->get(['id', 'assigned_ins', 'company_id', 'address', 'inspectiontype', 'ins_fee']);
             if(empty($request->pay_range) && $request->assign_ins == 'all')
             {  
                $data= RequestModel::where('status', 'completed')->get(['id', 'assigned_ins', 'company_id', 'address', 'inspectiontype', 'ins_fee','completed_at']);
@@ -47,15 +49,16 @@ class PayrollController extends Controller
             elseif(empty($request->pay_range) &&  $request->assign_ins != 'all'){
              $data=RequestModel::where(['status'=>'completed','assigned_ins'=>decrypt($request->assign_ins)])->get(['id', 'assigned_ins', 'company_id', 'address', 'inspectiontype', 'ins_fee','completed_at']);
             }
-            elseif(!empty($request->pay_range) && $request->assign_ins == 'all'){ 
-                $data = RequestModel::where(['status'=>'completed'])->whereDate('pay_range_start', '>=', $start)->whereDate('pay_range_end', '<=', $end)->get(['id', 'assigned_ins', 'company_id', 'address', 'inspectiontype', 'ins_fee','completed_at']);
-        
+            elseif(!empty($request->pay_range) && $request->assign_ins == 'all'){               
+                $data= RequestModel::whereBetween('completed_at',[$start,$end])->where(['status'=>'completed'])->get(['id', 'assigned_ins', 'company_id', 'address', 'inspectiontype', 'ins_fee','completed_at']);
+                    //    dd($data);
             }elseif(!empty($request->pay_range) && $request->assign_ins != 'all')
             {
-                $data=RequestModel::where(['status'=>'completed','assigned_ins'=>decrypt($request->assign_ins)])->whereDate('pay_range_start', '>=', $start)->whereDate('pay_range_end', '<=', $end)->get(['id', 'assigned_ins', 'company_id', 'address', 'inspectiontype', 'ins_fee','completed_at']);     
+                $data=RequestModel::where(['status'=>'completed','assigned_ins'=>decrypt($request->assign_ins)])->whereBetween('completed_at',[$start,$end])->get(['id', 'assigned_ins', 'company_id', 'address', 'inspectiontype', 'ins_fee','completed_at']);     
             }else{
                 $data= RequestModel::where('status', 'completed')->get(['id', 'assigned_ins', 'company_id', 'address', 'inspectiontype', 'ins_fee','completed_at']);
             }
+        //  $data= RequestModel::where('status', 'completed')->get(['id', 'assigned_ins', 'company_id', 'address', 'inspectiontype', 'ins_fee']);
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('company_id', function ($row) {
                     $company_name = User::find($row->company_id);
@@ -78,34 +81,33 @@ class PayrollController extends Controller
                 ->addColumn('ins_fee', function ($row) {
                     $payroll = Payroll::where('request_id', $row->id)->first('ins_fee');
                     if (!is_null($payroll) && !empty($payroll)) {
-                        return "<input type='number' class='form-control' name='ins_fee' class='ins_fee form' data-id='ins_fee' value='" . $payroll->ins_fee . "'>";
+                        return "<input type='number' name='ins_fee' class='ins_fee form' data-id='ins_fee' value='" . $payroll->ins_fee . "'>";
                     } else {
-                        return "<input type='number' class='form-control' name='ins_fee' class='ins_fee' data-id='ins_fee' value='0'>";
+                        return "<input type='number' name='ins_fee' class='ins_fee' data-id='ins_fee' value='0'>";
                     }
                 })
                 ->addColumn('income', function ($row) {
                     $payroll = Payroll::where('request_id', $row->id)->first('income');
                     if (!is_null($payroll) && !empty($payroll)) {
-                        return "<input type='number' class='form-control' name='income' class='income form' data-id='income' value='" . $payroll->income . "'>";
+                        return "<input type='number' name='income' class='income form' data-id='income' value='" . $payroll->income . "'>";
                     } else {
-                        return "<input type='number'class='form-control' name='income' class='income' data-id='income' value='0'>";
+                        return "<input type='number' name='income' class='income' data-id='income' value='0'>";
                     }
                 })
                 ->addColumn('pay_range', function ($row) {
-                    $payroll = Payroll::where('request_id', $row->id)->first(['pay_range_start','pay_range_end']);
+                    $payroll = Payroll::where('request_id', $row->id)->first(['pay_range']);
                     if (!is_null($payroll) && !empty($payroll)) {
-                        $payrange = $payroll->pay_range_start." - ".$payroll->pay_range_end;
-                        return "<input type='text'  data-id='pay_rangedate' name='date_range' class='pay_rangedate form'  placeholder='dd-mm-yyyy'  value='" .$payrange. "'>";
+                        return "<input type='text'  data-id='pay_rangedate' name='date_range' class='pay_rangedate form'  placeholder='dd-mm-yyyy'  value='" .$payroll->pay_range. "'>";
                     } else {
-                        return "<p><input type='text' data-id='pay_rangedate' id='pay_rangedate' name='date_range' class='pay_rangedate' placeholder='dd-mm-yyyy' value=''></p>";
+                        return "<p><input type='text'   data-id='pay_rangedate' id='pay_rangedate' name='date_range' class='pay_rangedate' placeholder='dd-mm-yyyy' value=''></p>";
                     }
                 })
                 ->addColumn('pay_date', function ($row) {
                     $payroll = Payroll::where('request_id', $row->id)->first(['pay_date']);
                     if (!is_null($payroll) && !empty($payroll)) {
-                        return "<p><input type='text'  name='pay_date' class='daterangesingle form' data-id='pay_date' value='" . date('m/d/Y', strtotime($payroll->pay_date)) . "'></p>";
+                        return "<p><input type='text'   name='pay_date' class='daterangesingle form' data-id='pay_date' value='" . date('m/d/Y', strtotime($payroll->pay_date)) . "'></p>";
                     } else {
-                        return "<p><input type='text'  name='pay_date' data-id='pay_date' class='daterangesingle' placeholder='dd-mm-yyyy' value='' ></p>";
+                        return "<p><input type='text'   name='pay_date' data-id='pay_date' class='daterangesingle' placeholder='dd-mm-yyyy' value='' ></p>";
                     }
                 })
                 ->addColumn('payment_status', function ($row) {
@@ -162,33 +164,28 @@ class PayrollController extends Controller
         );
        
         $format = date('Y-m-d', strtotime($request->data['pay_date']));
-        // $format_range= $request->data['pay_rangedate'];
-        $split_date = explode("-", $request->data['pay_rangedate']);
-        $start = date('Y-m-d', strtotime(trim($split_date[0])));
-        $end = date('Y-m-d', strtotime(trim($split_date[1])));
+        $format_range= $request->data['pay_rangedate'];
         $payroll_data = Payroll::where('request_id', decrypt($request->id))->exists();
         if (empty($payroll_data)) {
             $payroll = Payroll::create([
                 'request_id'      => decrypt($request->id),
                 'ins_fee'         => $request->data['ins_fee'],
                 'income'          => $request->data['income'],
-                'pay_range_start' => $start,
-                'pay_range_end'   => $end,
+                'pay_range'       => $format_range,
                 'pay_date'        => $format,
                 'payment_status'  => $request->data['payment_status']
             ]);
-            RequestModel::where('id', decrypt($request->id))->update(['ins_fee'  => $request->data['ins_fee'],'pay_range_start' => $start,'pay_range_end'   => $end]);
+            RequestModel::where('id', decrypt($request->id))->update(['ins_fee'  => $request->data['ins_fee'],'pay_range'  => $format_range]);
             return response()->json(['msg' => 'Details Saved Successfully.', 'data' => $payroll], 200);
         } else {
             $payroll = Payroll::where('request_id', decrypt($request->id))->update([
                 'ins_fee'         => $request->data['ins_fee'],
                 'income'          => $request->data['income'],
-                'pay_range_start' => $start,
-                'pay_range_end'   => $end,
+                'pay_range'         => $format_range,
                 'pay_date'        => $format,
                 'payment_status'  => $request->data['payment_status']
             ]);
-            RequestModel::where('id', decrypt($request->id))->update(['ins_fee'  => $request->data['ins_fee'],'pay_range_start' => $start,'pay_range_end'   => $end]);
+            RequestModel::where('id', decrypt($request->id))->update(['ins_fee'  => $request->data['ins_fee'],'pay_range'  => $format_range]);
             return response()->json(['msg' => 'Record Updated Successfully.', 'data' => $payroll], 200);
         }
     }

@@ -673,11 +673,6 @@ $(document).ready(function () {
         });
     });
 
-   
-
- 
-
-    // inspector table
     var inspectortable = $('#inspectortable').DataTable({
         "processing": true,
         "serverSide": true,
@@ -759,7 +754,6 @@ $(document).ready(function () {
             };
         });
     });
-
 
     inspectortable.on('click', '.delete', function () {
         $('#userdetails_processing').show();
@@ -964,12 +958,9 @@ $(document).ready(function () {
     });
     requesttable.on('select2:selecting', '.statusdropdown', function (sel) {
         var insid = $(this).attr('data-req-id');
-        console.log(insid);
         $(this).find("option[value=" + sel.params.args.data.id + "]").each(function (e) {
             element = $(this);
             var status = $(this).val();
-
-
             if (insid.length && status.length) {
                 Swal.fire({
                     title: 'Are you sure want to change status to ' + ucfirst(status) + '?',
@@ -994,7 +985,6 @@ $(document).ready(function () {
                                 status: status,
                             },
                             dataType: 'json',
-
                             success: function (data) {
                                 $('.preloader').children().hide();
                                 $('.preloader').css("height", "0");

@@ -40,8 +40,6 @@ return new class extends Migration
             $table->string('cancel_reason')->nullable();
             $table->longText('agency_related_files')->nullable();
             $table->longText('reports_related_files')->nullable();
-            $table->date('pay_range_start')->nullable();
-            $table->date('pay_range_end')->nullable();
             $table->timestamps();
             // $table->softDeletes();
         });

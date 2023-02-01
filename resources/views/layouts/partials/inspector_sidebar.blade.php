@@ -28,7 +28,7 @@
                with font-awesome or any other icon font library -->
 
              
-                <li class="nav-item menu-open">
+                <li class="nav-item">
                     <a href="{{ route('home') }}" class="nav-link {{ Route::currentRouteName() == 'home' ? 'active' : ''}}">
                         <i class="nav-icon fas fa-home"></i>
                         <p>
@@ -62,10 +62,10 @@
 
                   {{-- @can('request-list') --}}
                 <li class="nav-item">
-                    <a href="{{ route('inspector.request.list') }}" class="nav-link">
+                    <a href="{{ route('inspector.request.list') }}" class="nav-link {{ Route::currentRouteName() == 'inspector.request.list' ? 'active' : ''}}">
                         <i class="nav-icon fas fa-align-left"></i>
                         <p>
-                           All Requests
+                            All Requests
                         </p>
                     </a>
                 </li>
