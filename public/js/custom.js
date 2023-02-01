@@ -1483,7 +1483,7 @@ $(document).ready(function () {
         });
     });
     // Request invoice switch state change
-    rolestable.on('change', '.invoicebutton', function () {
+    rolestable.on('switchChange', '.invoicebutton', function () {
         $('#userdetails_processing').show();
         element = $(this);
         var userid = $(this).attr("data-req-id");
