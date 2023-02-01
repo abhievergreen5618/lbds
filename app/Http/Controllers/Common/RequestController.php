@@ -250,7 +250,7 @@ class RequestController extends Controller
     {
         if ($request->ajax()) {
             $GLOBALS['count'] = 0;
-            $data = RequestModel::whereNotNull("company_id", "")->latest('id')->get(["id", "company_id", "applicantname", "address", "inspectiontype", "created_at", "status", "assigned_ins"]);
+            $data = RequestModel::whereNotNull("company_id", "")->latest('id')->get(["id", "company_id", "applicantname", "address", "inspectiontype", "created_at", "status", "assigned_ins","invoice"]);
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('company_id', function ($row) {
                     $company_name = User::role('company')->where(["id" => $row->company_id])->first("company_name");
@@ -289,7 +289,8 @@ class RequestController extends Controller
                     return date('F d ,Y h:i a',strtotime($row->created_at));
                 })
                 ->addColumn('invoice', function ($row) {
-                    return '<input type="checkbox" name="requestinvoice" data-bootstrap-switch="" data-off-color="danger" data-req-id="'.encrypt($row->id).'" data-on-color="success" value="on">';
+                    $checkstatus = (!empty($row->invoice) && $row->invoice == "active") ? "checked" :"" ;
+                    return '<input type="checkbox" name="requestinvoice" data-bootstrap-switch="" data-off-color="danger" data-req-id="'.encrypt($row->id).'" data-on-color="success" value="on" '.$checkstatus.'>';
                 })
                 ->addColumn('status', function ($row) {
                     if ($row->status == "pending" || $row->status == "underreview") {
