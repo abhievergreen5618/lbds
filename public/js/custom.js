@@ -374,8 +374,7 @@ $(document).ready(function () {
                 }
                 else
                 {
-                    var state = (state == "true") ? "false" : "true";
-                    $("#switch").bootstrapSwitch('setState', true);
+                    $(this).bootstrapSwitch('state',!state, true);
                 }
             });
             },

@@ -39,8 +39,8 @@ class EmployeeController extends Controller
                 "employeecity" => "required",
                 "employeestate" => "required",
                 "employeezipcode" => "required",
-                'password' => 'required| min:8 |confirmed',
-                'password_confirmation' => 'required| min:8',
+                'password' => 'required|min:8|confirmed',
+                'password_confirmation' => 'required|min:8',
             ],
             [
                 "required" => "This field is required.",
