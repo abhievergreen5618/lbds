@@ -24,10 +24,10 @@ echo $body;
 @endisset
 
 
-<!-- {{-- Outro Lines --}}
+{{-- Outro Lines --}}
 @foreach ($outroLines as $line)
 {{ $line }}
-@endforeach -->
+@endforeach
 
 {{-- Salutation --}}
 @if (! empty($salutation))
@@ -38,7 +38,7 @@ echo $body;
 @endif
 
 {{-- Subcopy --}}
-<!-- @isset($actionText)
+@isset($actionText)
 <x-slot:subcopy>
 @lang(
     "If you're having trouble clicking the \":actionText\" button, copy and paste the URL below\n".
@@ -48,5 +48,5 @@ echo $body;
     ]
 ) <span class="break-all">[{{ $displayableActionUrl }}]({{ $actionUrl }})</span>
 </x-slot:subcopy>
-@endisset -->
+@endisset
 </x-mail::message>
