@@ -783,8 +783,8 @@ use Illuminate\Support\Facades\Storage;
                                 </div>
                                 @else
                                 <div class="col-lg-4 pdfview @if ($i >= 4) {{ 'mt-3' }} @endif " style="cursor: pointer;" data-file="{{ asset('taskfiles/' . $item) }}">
-                                    <div class="preview-images taskpdf h-100" data-file="{{ asset('taskfiles/' . $item) }}">
-                                        <span class="h-100 w-100 d-flex justify-content-center align-items-center flex-column" style=" overflow: hidden;
+                                    <div class="preview-images taskpdf h-100" data-file="{{ asset('taskfiles/' . $item) }}" style="background-image:linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 78%, rgba(0, 0, 0, 100.65) 100%),url({{asset('images/defaultpdf.jpg')}}); background-size: cover;">
+                                        <span class="h-100 w-100 d-flex justify-content-end align-items-center flex-column text-light" style=" overflow: hidden;
                                                                                                         text-overflow: ellipsis; word-break: break-all;">
                                             {{ $item }}
                                         </span>
@@ -853,8 +853,8 @@ use Illuminate\Support\Facades\Storage;
                                 </div>
                                 @else
                                 <div class="col-lg-4 pdfview @if ($i >= 4) {{ 'mt-3' }} @endif" style="cursor: pointer;" data-file="{{ asset('taskfiles/' . $item) }}">
-                                    <div class="preview-images taskpdf h-100" data-file="{{ asset('taskfiles/' . $item) }}">
-                                        <span class="h-100 w-100 d-flex justify-content-center align-items-center flex-column" style=" overflow: hidden;
+                                    <div class="preview-images taskpdf h-100" data-file="{{ asset('taskfiles/' . $item) }}"  style="background-image:linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 78%, rgba(0, 0, 0, 100.65) 100%),url({{asset('images/defaultpdf.jpg')}}); background-size: cover;">
+                                        <span class="h-100 w-100 d-flex justify-content-end align-items-center flex-column text-light" style=" overflow: hidden;
                                                                                                         text-overflow: ellipsis; word-break: break-all;">
                                             {{ $item }}
                                         </span>

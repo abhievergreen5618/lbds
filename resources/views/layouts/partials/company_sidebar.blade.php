@@ -99,7 +99,7 @@ $options = new Options();
                     'admin.request.create') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-user-circle"></i>
                         <p>
-                            Roles & Permission
+                            Rights
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
@@ -111,7 +111,7 @@ $options = new Options();
                             <a href="{{ route('roles.index') }}" class="nav-link {{str_contains(request()->path(), 'admin.request.create') ? 'active' : ''}}">
                                 <i class="nav-icon fas fa-user-plus"></i>
                                 <p>
-                                    Manage Role
+                                   Manage Rights
                                 </p>
                             </a>
                         </li>
@@ -122,7 +122,7 @@ $options = new Options();
                             <a href="{{ route('roles.create') }}" class="nav-link">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>
-                                    Add Roles
+                                   Add Rights
                                 </p>
                             </a>
                         </li>
