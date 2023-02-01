@@ -820,7 +820,7 @@ class RequestController extends Controller
         RequestModel::where('id', decrypt($request['id']))->update([
             "invoice" => $status,
         ]);
-        $msg = ($status == "active") ? "Invoice Inactivated Successfully" :"Invoice Activate Successfully";
+        $msg = ($status == "active") ? "Invoice Activate Successfully" :"Invoice Inactivated Successfully";
         return response()->json(["msg" => $msg], 200);
     }
 }
