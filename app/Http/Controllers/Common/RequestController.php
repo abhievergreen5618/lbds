@@ -448,8 +448,10 @@ class RequestController extends Controller
                 $id = $request->session()->get('taskid');
                 $filearray = array();
                 foreach ($request->file('file') as $key => $value) {
+                    $file = $value->getClientOriginalName();
+                    $filename = pathinfo($file, PATHINFO_FILENAME);
                     $rand = rand(10, 5000);
-                    $fileName = $value->getClientOrginalName()."_".time() . $rand . '.' . $value->getClientOriginalExtension();
+                    $fileName = $filename."_".time() . $rand . '.' . $value->getClientOriginalExtension();
                     $value->move(public_path('taskfiles'), $fileName);
                     array_push($filearray, $fileName);
                 }
@@ -461,8 +463,10 @@ class RequestController extends Controller
                 $files = RequestModel::where('id', $id)->first($type);
                 $filearray = (!empty($files[$type]) && count($files[$type]) != 0) ? $files[$type] : array();
                 foreach ($request->file('file') as $key => $value) {
+                    $file = $value->getClientOriginalName();
+                    $filename = pathinfo($file, PATHINFO_FILENAME);
                     $rand = rand(10, 5000);
-                    $fileName = $value->getClientOrginalName()."_".time() . $rand . '.' . $value->getClientOriginalExtension();
+                    $fileName = $filename."_".time() . $rand . '.' . $value->getClientOriginalExtension();
                     $value->move(public_path('taskfiles'), $fileName);
                     array_push($filearray, $fileName);
                 }
