@@ -221,7 +221,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
     'roles.index') || Route::currentRouteName() == 'roles.create' ? 'active' : ''}}">
                         <i class="nav-icon fa fa-cog"></i>
                         <p>
-                            Rights
+                            Roles & Permission
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
@@ -232,7 +232,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                             <a href="{{ route('roles.index') }}" class="nav-link">
                                 <i class="nav-icon fas fa-user-plus"></i>
                                 <p>
-                                   Manage Rights
+                                    Manage Role
                                 </p>
                             </a>
                         </li>
@@ -242,7 +242,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                             <a href="{{ route('roles.create') }}" class="nav-link">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>
-                                    Add Rights
+                                    Add Roles
                                 </p>
                             </a>
                         </li>
