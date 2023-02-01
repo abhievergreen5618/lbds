@@ -775,8 +775,10 @@ use Illuminate\Support\Facades\Storage;
                                     <img src="{{ asset('taskfiles/' . $item) }}" class="img-thumbnail h-100 preview-images" alt="...">
                                     <a id="" href="#" data-file="{{ $item }}" class="remove-btn">Remove file</a>
                                     <div class="image-overlay  position-absolute" style="display:none;">
-                                        <a href="{{route('filedownload',['filename' => $item])}}" data-file="{{ $item }}"><i class="fa fa-download" style="font-size:15px !important; padding:6px !important;" aria-hidden="true">Download</i></a>
-                                        <a href="" class="myImg" data-file="{{asset('taskfiles').'/'.$item}}"><i class="fa fa-eye"  style="font-size:15px !important; padding:6px !important; " aria-hidden="true">Preview</i></a>
+                                        <div class="d-flex">
+                                            <a href="{{route('filedownload',['filename' => $item])}}" data-file="{{ $item }}"><i class="fa fa-download" style="font-size:15px !important; padding:6px !important;" aria-hidden="true">Download</i></a>
+                                            <a href="" class="myImg ml-2" data-file="{{asset('taskfiles').'/'.$item}}"><i class="fa fa-eye"  style="font-size:15px !important; padding:6px !important; " aria-hidden="true">Preview</i></a>
+                                        </div>
                                     </div>
                                 </div>
                                 @else
@@ -790,8 +792,10 @@ use Illuminate\Support\Facades\Storage;
                                     <a id="" href="#" data-file="{{ $item }}" class="remove-btn">Remove file
                                     </a>
                                     <div class="image-overlay  position-absolute" style="display:none;">
-                                        <a href="{{route('filedownload',['filename' => $item])}}"><i class="fa fa-download"  style="font-size:15px !important; padding:6px !important;" aria-hidden="true">Download</i></a>
-                                        <a href="{{asset('taskfiles').'/'.$item}}" target="blank" data-file="{{ $item }}"><i class="fa fa-eye"  style="font-size:15px !important; padding:6px !important;" aria-hidden="true">Preview</i></a>
+                                        <div class="d-flex">
+                                            <a href="{{route('filedownload',['filename' => $item])}}"><i class="fa fa-download"  style="font-size:15px !important; padding:6px !important;" aria-hidden="true">Download</i></a>
+                                            <a class="ml-2" href="{{asset('taskfiles').'/'.$item}}" target="blank" data-file="{{ $item }}"><i class="fa fa-eye"  style="font-size:15px !important; padding:6px !important;" aria-hidden="true">Preview</i></a>
+                                        </div>
                                     </div>
                                 </div>
                                 @endif
@@ -841,8 +845,10 @@ use Illuminate\Support\Facades\Storage;
                                     <img src="{{ asset('taskfiles/' . $item) }}" class="img-thumbnail h-100 preview-images" alt="...">
                                     <a id="" href="#" data-file="{{ $item }}" class="remove-btn">Remove file</a>
                                     <div class="image-overlay  position-absolute" style="display:none;">
-                                        <a href="{{route('filedownload',['filename' => $item])}}"><i class="fa fa-download"  style="font-size:15px !important; padding:6px !important;" aria-hidden="true">Download</i></a>
-                                        <a href="#" class="myImg" data-file="{{asset('taskfiles').'/'.$item}}"><i class="fa fa-eye"  style="font-size:15px !important; padding:6px !important;" aria-hidden="true">Preview</i></a>
+                                        <div class="d-flex">
+                                            <a href="{{route('filedownload',['filename' => $item])}}"><i class="fa fa-download"  style="font-size:15px !important; padding:6px !important;" aria-hidden="true">Download</i></a>
+                                            <a href="#" class="myImg ml-2" data-file="{{asset('taskfiles').'/'.$item}}"><i class="fa fa-eye"  style="font-size:15px !important; padding:6px !important;" aria-hidden="true">Preview</i></a>
+                                        </div>
                                     </div>
                                 </div>
                                 @else
@@ -856,8 +862,10 @@ use Illuminate\Support\Facades\Storage;
                                     <a id="" href="#" class="remove-btn">Remove file
                                     </a>
                                     <div class="image-overlay  position-absolute" style="display:none;">
-                                        <a href="{{route('filedownload',['filename' => $item])}}"><i class="fa fa-download" style="font-size:15px !important; padding:6px !important;" aria-hidden="true">Download</i></a>
-                                        <a href="{{asset('taskfiles').'/'.$item}}" target="blank" data-file="{{ $item }}"><i class="fa fa-eye" style="font-size:15px !important; padding:6px !important;" aria-hidden="true">Preview</i></a>
+                                        <div class="d-flex">
+                                            <a href="{{route('filedownload',['filename' => $item])}}"><i class="fa fa-download" style="font-size:15px !important; padding:6px !important;" aria-hidden="true">Download</i></a>
+                                            <a class="ml-2" href="{{asset('taskfiles').'/'.$item}}" target="blank" data-file="{{ $item }}"><i class="fa fa-eye" style="font-size:15px !important; padding:6px !important;" aria-hidden="true">Preview</i></a>
+                                        </div>
                                     </div>
                                 </div>
                                 @endif
