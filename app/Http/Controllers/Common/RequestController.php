@@ -81,7 +81,7 @@ class RequestController extends Controller
                 "state" => "required",
                 "zipcode" => "required",
                 "sendinvoice" => "required",
-                "comments" => "required",
+                // "comments" => "required",
             ],
             [
                 "required" => "Field is required.",
@@ -568,7 +568,7 @@ class RequestController extends Controller
             [
                 "id"   => "required",
                 "time" => "required",
-                "date" => "required|date|after:today",
+                "date" => "required|date|after:yesterday",
             ],
             [
                 "required" => "Field is required.",
