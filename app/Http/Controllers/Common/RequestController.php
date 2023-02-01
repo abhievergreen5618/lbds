@@ -449,7 +449,7 @@ class RequestController extends Controller
                 $filearray = array();
                 foreach ($request->file('file') as $key => $value) {
                     $rand = rand(10, 5000);
-                    $fileName = time() . $rand . '.' . $value->getClientOriginalExtension();
+                    $fileName = $value->getClientOrginalName."_".time() . $rand . '.' . $value->getClientOriginalExtension();
                     $value->move(public_path('taskfiles'), $fileName);
                     array_push($filearray, $fileName);
                 }
@@ -462,7 +462,7 @@ class RequestController extends Controller
                 $filearray = (!empty($files[$type]) && count($files[$type]) != 0) ? $files[$type] : array();
                 foreach ($request->file('file') as $key => $value) {
                     $rand = rand(10, 5000);
-                    $fileName = time() . $rand . '.' . $value->getClientOriginalExtension();
+                    $fileName = $value->getClientOrginalName."_".time() . $rand . '.' . $value->getClientOriginalExtension();
                     $value->move(public_path('taskfiles'), $fileName);
                     array_push($filearray, $fileName);
                 }
