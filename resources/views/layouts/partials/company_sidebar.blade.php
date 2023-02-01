@@ -194,7 +194,7 @@ $options = new Options();
 
                 {{-- @can('') --}}
                 <li class="nav-item">
-                    <a href="{{ route('chatify-index') }}" class="nav-link {{  (Route::currentRouteName() == 'chatify-index') ? 'active' : '' }}">
+                    <a href="{{ route('chatify-index') }}" class="nav-link {{  (Route::currentRouteName() == 'chatify-index') ? 'active' : '' }}" target="_blank">
                         <i class="nav-icon fas fa-comments"></i>
                         <p>
                             Messages
