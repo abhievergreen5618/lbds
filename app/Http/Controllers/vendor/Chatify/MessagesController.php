@@ -68,11 +68,8 @@ class MessagesController extends Controller
         {
             return view('Chatify::pages.app', ['id' => $id ?? 0,'type' => $type ?? 'user','messengerColor' => Auth::user()->messenger_color ?? $this->messengerFallbackColor,'dark_mode' => Auth::user()->dark_mode < 1 ? 'light' : 'dark',]);
         }
-        else if(Auth::user()->hasRole("company") || Auth::user()->hasRole("inspector") )
-        {
-            return (in_array($id,$validid)) ? view('Chatify::pages.app', ['id' => $id ?? 0,'type' => $type ?? 'user','messengerColor' => Auth::user()->messenger_color ?? $this->messengerFallbackColor,'dark_mode' => Auth::user()->dark_mode < 1 ? 'light' : 'dark',]) :  view('layouts.error.errorPage');
-        }
-        else if(Auth::user()->hasRole("company") || Auth::user()->hasRole("inspector"))
+        // else if(Auth::user()->hasRole("company") || Auth::user()->hasRole("inspector") || Auth::user()->hasRole("employee"))
+        else
         {
             return (in_array($id,$validid)) ? view('Chatify::pages.app', ['id' => $id ?? 0,'type' => $type ?? 'user','messengerColor' => Auth::user()->messenger_color ?? $this->messengerFallbackColor,'dark_mode' => Auth::user()->dark_mode < 1 ? 'light' : 'dark',]) :  view('layouts.error.errorPage');
         }
