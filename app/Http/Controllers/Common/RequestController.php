@@ -808,4 +808,19 @@ class RequestController extends Controller
             return redirect()->back()->with('msg', 'Report Draft Saved Successfully');
         }
     }
+    public function invoicestatusupdate(Request $request)
+    {
+        $request->validate(
+            [
+                "id" => 'required',
+                "state" => 'required',
+            ]
+        );
+        $status = ($request['state'] == "true") ? "active" : "inactive";
+        RequestModel::where('id', decrypt($request['id']))->update([
+            "invoice" => $status,
+        ]);
+        $msg = ($status == "active") ? "Invoice Inactivated Successfully" :"Invoice Activate Successfully";
+        return response()->json(["msg" => $msg], 200);
+    }
 }

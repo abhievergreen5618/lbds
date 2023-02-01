@@ -355,7 +355,7 @@ $(document).ready(function () {
                         headers: {
                             'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
                         },
-                        url: 'invoice-update',
+                        url: 'invoicestatusupdate',
                         data: {
                             id: userid,
                             state :state
@@ -364,6 +364,7 @@ $(document).ready(function () {
                         success: function (data) {
                             $('.preloader').children().hide();
                             $('.preloader').css("height", "0");
+                            toastr.success(data.msg);
                             rolestable.ajax.reload();
                         },
                         error: function (data) {
