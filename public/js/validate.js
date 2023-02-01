@@ -21,6 +21,11 @@ $(document).ready(function () {
       }
     }
   });
+  jQuery.validator.addMethod("phoneUS", function (phone_number, element) {
+    phone_number = phone_number.replace(/\s+/g, "");
+    return this.optional(element) || phone_number.length > 9 &&
+          phone_number.match(/\(?[\d\s]{3}\)[\d\s]{3}-[\d\s]{4}$/);
+  }, "Invalid phone number");
   $('#requestform').validate({
     errorClass: "error fail-alert",
     validClass: "valid success-alert",
@@ -37,8 +42,7 @@ $(document).ready(function () {
       },
       applicantmobile: {
         required: true,
-        minlength: 10,
-        maxlength: 10,
+        phoneUS: true,
       },
       address: {
         required: true,
@@ -93,8 +97,7 @@ $(document).ready(function () {
       },
       employeemobile: {
         required: true,
-        minlength: 10,
-        maxlength: 10,
+        phoneUS: true,
       },
       employeeaddress: {
         required: true,
@@ -144,8 +147,7 @@ $(document).ready(function () {
       },
       employeemobile: {
         required: true,
-        minlength: 10,
-        maxlength: 10,
+        phoneUS: true,
       },
       employeeaddress: {
         required: true,
@@ -188,8 +190,7 @@ $(document).ready(function () {
       },
       mobile_number: {
         required: true,
-        minlength: 10,
-        maxlength: 10,
+        phoneUS: true,
       },
       email: {
         email: true,
