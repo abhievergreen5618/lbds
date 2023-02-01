@@ -1702,6 +1702,5 @@ $(document).ready(function () {
         hideTooltip();
 
     });
-
 });
 
