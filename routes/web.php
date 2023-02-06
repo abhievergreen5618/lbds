@@ -74,6 +74,9 @@ Route::controller(RequestController::class)->group(function () {
     Route::post('/inspectorrequestdetails', 'displayinspectorlist')->name('inspectorrequestdetails');
     Route::post('/request-reschedule', 'reschedule')->name('request-reschedule');
     Route::post('/request-submit-review', 'submitreview')->name('request-submit-review');
+
+
+    Route::get('/requesttest','test')->name('requesttest');
 });
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -204,6 +207,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/email-scheduled-temp','scheduledEmailStore')->name('admin.portal.emailScheduled');
         Route::post('/email-underreview-temp','underreviewEmailStore')->name('admin.portal.emailUnderreview');
         Route::post('/email-completed-temp','completedEmailStore')->name('admin.portal.emailCompleted');
+        Route::post('/email-reminder-temp','ReminderStore')->name('admin.portal.emailReminder');
     });
 
     Route::controller(MailBoxController::class)->group(function () {

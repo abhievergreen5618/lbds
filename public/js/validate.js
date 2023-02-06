@@ -23,8 +23,7 @@ $(document).ready(function () {
   });
   jQuery.validator.addMethod("phoneUS", function (phone_number, element) {
     phone_number = phone_number.replace(/\s+/g, "");
-    return this.optional(element) || phone_number.length > 9 &&
-          phone_number.match(/\(?[\d\s]{3}\)[\d\s]{3}-[\d\s]{4}$/);
+    return this.optional(element) || phone_number.length > 9 && phone_number.match(/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/);
   }, "Invalid phone number");
   $('#requestform').validate({
     errorClass: "error fail-alert",
@@ -42,7 +41,7 @@ $(document).ready(function () {
       },
       applicantmobile: {
         required: true,
-        phoneUS: true,
+        // phoneUS: true,
       },
       address: {
         required: true,

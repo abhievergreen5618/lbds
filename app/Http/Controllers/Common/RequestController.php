@@ -25,6 +25,9 @@ use App\Mail\Admin\RequestScheduled;
 use App\Mail\Admin\RequestUnderreview;
 use App\Mail\Admin\RequestCompleted;
 
+//Cron part
+use App\Mail\Admin\ReminderMail;
+
 class RequestController extends Controller
 {
     function __construct()
@@ -823,5 +826,38 @@ class RequestController extends Controller
         ]);
         $msg = ($status == "active") ? "Invoice Activated Successfully" :"Invoice Inactivated Successfully";
         return response()->json(["msg" => $msg], 200);
+    }
+
+    public function test()
+    {
+        $ldate = date('Y-m-d');
+        $result = RequestModel::where('schedule_time', '!=', null)->where("scheduled_at",'>=',$ldate)->where("remindermailstatus","notsend")->get();
+        foreach($result as $key => $value)
+        {
+            $to = Carbon::now();
+            $from = Carbon::createFromFormat('Y-m-d H:s:i',$value['scheduled_at']." ".$value['schedule_time']);
+            $diff_in_hours = $to->diffInHours($from);
+            if($diff_in_hours <= 8)
+            {
+                try
+                {
+                    $insdetails = User::where(["id"=>$value['assigned_ins']])->first();
+                    $companydetails = User::where(["id"=>$value['company_id']])->first();
+                    Mail::to("abhishek@evergreenbrain.com")->send(new ReminderMail($insdetails,$companydetails,$value,"inspector"));
+                    // Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new ReminderMail($insdetails,$companydetails,$value,"company"));
+                    // Mail::to($insdetails['email'])->send(new ReminderMail($insdetails,$companydetails,$value,"inspector"));
+                    RequestModel::where(["id"=>$value['id']])->update([
+                        "remindermailstatus" => "sent",
+                    ]);
+                }
+                catch(Expection $e)
+                {
+                    RequestModel::where(["id"=>$value['id']])->update([
+                        "remindermailstatus" => "notsend",
+                    ]);
+                }
+                
+            }  
+        }
     }
 }

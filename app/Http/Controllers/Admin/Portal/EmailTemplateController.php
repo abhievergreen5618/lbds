@@ -78,6 +78,12 @@ class EmailTemplateController extends Controller
         $options->updatesetting($request->all());
         return back()->with('msg', 'Request Completed Template Updated Successfully');
     }
+    
+    public function ReminderStore(Request $request,Options $options)
+    {
+        $options->updatesetting($request->all());
+        return back()->with('msg','Inspection Reminder Template Updated Successfully');
+    }
 
    
     /**
