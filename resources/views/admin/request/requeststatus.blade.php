@@ -754,7 +754,7 @@ use Illuminate\Support\Facades\Storage;
                     <div id="collapseOne" class="collapse" data-parent="#accordion">
                         <div class="card-body">
                             <div class="row">
-                                @role('admin')
+                            @if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('company') || Auth::user()->hasRole('employee'))
                                 <div class="col-md-12 my-2">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <label for="reportfiles">{{ __('Reports Related Files') }}</label>
@@ -762,7 +762,7 @@ use Illuminate\Support\Facades\Storage;
                                     </div>
                                     <div class="dropzone" id="reportfiles"></div>
                                 </div>
-                                @endrole
+                                @endif
                                 @if(!empty($reportfiles) && count($reportfiles) != 0)
                                 @php $i = 1; @endphp
                                 @foreach ($reportfiles as $key => $item)
@@ -823,7 +823,7 @@ use Illuminate\Support\Facades\Storage;
                     <div id="collapseTwo" class="collapse" data-parent="#accordion">
                         <div class="card-body">
                             <div class="row">
-                                @role('admin')
+                               @if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('company') || Auth::user()->hasRole('employee'))
                                 <div class="col-md-12 my-2">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <label for="relatedfiles">{{ __('Agency Related Files') }}</label>
