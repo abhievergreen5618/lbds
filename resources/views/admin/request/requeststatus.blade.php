@@ -754,7 +754,7 @@ use Illuminate\Support\Facades\Storage;
                     <div id="collapseOne" class="collapse" data-parent="#accordion">
                         <div class="card-body">
                             <div class="row">
-                            @if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('company') || Auth::user()->hasRole('employee'))
+                                @if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('company') || Auth::user()->hasRole('employee'))
                                 <div class="col-md-12 my-2">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <label for="reportfiles">{{ __('Reports Related Files') }}</label>
