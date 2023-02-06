@@ -844,7 +844,7 @@ class RequestController extends Controller
                     $insdetails = User::where(["id"=>$value['assigned_ins']])->first();
                     $companydetails = User::where(["id"=>$value['company_id']])->first();
                     // Mail::to("abhishek@evergreenbrain.com")->send(new ReminderMail($insdetails,$companydetails,$value,"inspector"));
-                    Mail::to($companydetails['email'])->cc($result['applicantemail'])->send(new ReminderMail($insdetails,$companydetails,$value,"company"));
+                    Mail::to($companydetails['email'])->cc($value['applicantemail'])->send(new ReminderMail($insdetails,$companydetails,$value,"company"));
                     Mail::to($insdetails['email'])->send(new ReminderMail($insdetails,$companydetails,$value,"inspector"));
                     RequestModel::where(["id"=>$value['id']])->update([
                         "remindermailstatus" => "sent",
