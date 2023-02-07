@@ -40,7 +40,7 @@ $final_reports= RequestModel::where(['company_id'=>Auth::user()->id,'status'=>'c
 
                         <p>Pending Requests</p>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
                 </div>
             </div>
             <!-- ./col -->
@@ -51,7 +51,7 @@ $final_reports= RequestModel::where(['company_id'=>Auth::user()->id,'status'=>'c
                         <h3>{{$total_completed_request}}</h3>
                         <p>Completed Requests</p>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
                 </div>
             </div>
             <!-- ./col -->
@@ -62,7 +62,7 @@ $final_reports= RequestModel::where(['company_id'=>Auth::user()->id,'status'=>'c
                         <h3>{{ $final_reports }}</h3>
                         <p>Final Reports</p>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
                 </div>
             </div>
             <div class="col-lg-4 col-6">
