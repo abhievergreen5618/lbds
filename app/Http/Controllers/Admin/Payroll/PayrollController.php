@@ -94,12 +94,12 @@ class PayrollController extends Controller
                 ->addColumn('pay_range', function ($row) {
                     $payroll = Payroll::where('request_id', $row->id)->first(['pay_range_start','pay_range_end']);
                     if (!is_null($payroll) && !empty($payroll)) {
-                        $payroll->pay_range_start = str_replace("-","/",$payroll->pay_range_start);
-                        $payroll->pay_range_end = str_replace("-","/",$payroll->pay_range_end);
+                        $payroll->pay_range_start = date("m/d/Y",strtotime($payroll->pay_range_start));
+                        $payroll->pay_range_end = date("m/d/Y",strtotime($payroll->pay_range_end));
                         $payrange = $payroll->pay_range_start." - ".$payroll->pay_range_end;
-                        return "<input type='text'  data-id='pay_rangedate' name='date_range' class='pay_rangedate form'  placeholder='dd-mm-yyyy'  value='" .$payrange. "'>";
+                        return "<input type='text'  data-id='pay_rangedate' name='date_range' class='pay_rangedate form'  placeholder='mm-dd-yyyy - mm-dd-yyyy'  value='" .$payrange. "'>";
                     } else {
-                        return "<p><input type='text' data-id='pay_rangedate' id='pay_rangedate' name='date_range' class='pay_rangedate' placeholder='dd-mm-yyyy' value=''></p>";
+                        return "<p><input type='text' data-id='pay_rangedate' id='pay_rangedate' name='date_range' class='pay_rangedate' placeholder='mm-dd-yyyy - mm-dd-yyyy' value=''></p>";
                     }
                 })
                 ->addColumn('pay_date', function ($row) {
