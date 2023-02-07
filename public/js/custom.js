@@ -1549,7 +1549,7 @@ $(document).ready(function () {
             'x-csrf-token': $('meta[name="csrf-token"]').attr('content'),
         },
         maxFilesize: 500,
-        acceptedFiles: ".jpeg,.jpg,.png,.pdf",
+        acceptedFiles: ".jpeg,.jpg,.png,.pdf,.docx",
         removedfile: function (file) {
             var _ref;
             return (_ref = file.previewElement) != null ? _ref.parentNode
@@ -1568,7 +1568,7 @@ $(document).ready(function () {
             'x-csrf-token': $('meta[name="csrf-token"]').attr('content'),
         },
         maxFilesize: 500,
-        acceptedFiles: ".jpeg,.jpg,.png,.pdf",
+        acceptedFiles: ".jpeg,.jpg,.png,.pdf,.docx",
         removedfile: function (file) {
             var _ref;
             return (_ref = file.previewElement) != null ? _ref.parentNode

@@ -367,7 +367,7 @@ use Illuminate\Support\Facades\Storage;
                         <input type="hidden" name="id" value="{{encrypt($requestdetails->id)}}">
                         <table class="table table-responsive brequest">
                             <tbody>
-                            @if((Auth::user()->hasRole('admin') || Auth::user()->hasRole('company')) || Auth::user()->hasRole('employee'))) 
+                            @if((Auth::user()->hasRole('admin') || Auth::user()->hasRole('company')) || Auth::user()->hasRole('employee')) 
                                 <tr>
                                     <td>Applicant Name</td>
                                     <td><input type="text" class="form-control" id="applicantname" name="applicantname" placeholder="Name" value="{{old('applicantname',$requestdetails->applicantname)}}" class="form-control">
@@ -487,7 +487,7 @@ use Illuminate\Support\Facades\Storage;
                                 @if(Auth::user()->hasRole('admin'))
                                 <tr>
                                     <td>Admin Notes:</td>
-                                    <td><textarea class="form-control" rows="3" placeholder="Enter Agency Notes" name="requestnote" id="requestnote">{{old('requestnote',$requestdetails->requestnote)}}</textarea></td>
+                                    <td><textarea class="form-control" rows="3" placeholder="Enter Admin Notes" name="requestnote" id="requestnote">{{old('requestnote',$requestdetails->requestnote)}}</textarea></td>
                                 </tr>
                                 @endif
                                 @endif
@@ -782,8 +782,22 @@ use Illuminate\Support\Facades\Storage;
                                     </div>
                                 </div>
                                 @else
+                                @php
+                                    if($ext == 'pdf')
+                                    {
+                                        $thumbimage =asset('images/defaultpdf.png');
+                                    }
+                                    else if($ext == 'docx')
+                                    {
+                                        $thumbimage =asset('images/defaultdocx.png');
+                                    }
+                                    else
+                                    {
+                                        $thumbimage =asset('images/defaultdocument.jpg');
+                                    }
+                                @endphp
                                 <div class="col-lg-4 pdfview @if ($i >= 4) {{ 'mt-3' }} @endif " style="cursor: pointer;" data-file="{{ asset('taskfiles/' . $item) }}">
-                                    <div class="preview-images taskpdf h-100" data-file="{{ asset('taskfiles/' . $item) }}" style="background-image:linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 78%, rgba(0, 0, 0, 100.65) 100%),url({{asset('images/defaultpdf.jpg')}}); background-size: cover;">
+                                    <div class="preview-images taskpdf h-100" data-file="{{ asset('taskfiles/' . $item) }}" style="background-image:linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 100.65) 100%),url({{$thumbimage}}); background-repeat: no-repeat; background-size: contain; background-position: center;">
                                         <span class="h-100 w-100 d-flex justify-content-end align-items-center flex-column text-light" style=" overflow: hidden;
                                                                                                         text-overflow: ellipsis; word-break: break-all;">
                                             {{ $item }}
@@ -852,8 +866,22 @@ use Illuminate\Support\Facades\Storage;
                                     </div>
                                 </div>
                                 @else
+                                @php
+                                    if($ext == 'pdf')
+                                    {
+                                        $thumbimage =asset('images/defaultpdf.png');
+                                    }
+                                    else if($ext == 'docx')
+                                    {
+                                        $thumbimage =asset('images/defaultdocx.png');
+                                    }
+                                    else
+                                    {
+                                        $thumbimage =asset('images/defaultdocument.jpg');
+                                    }
+                                @endphp
                                 <div class="col-lg-4 pdfview @if ($i >= 4) {{ 'mt-3' }} @endif" style="cursor: pointer;" data-file="{{ asset('taskfiles/' . $item) }}">
-                                    <div class="preview-images taskpdf h-100" data-file="{{ asset('taskfiles/' . $item) }}"  style="background-image:linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 78%, rgba(0, 0, 0, 100.65) 100%),url({{asset('images/defaultpdf.jpg')}}); background-size: cover;">
+                                    <div class="preview-images taskpdf h-100" data-file="{{ asset('taskfiles/' . $item) }}"  style="background-image:linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 100.65) 100%),url({{$thumbimage}}); background-repeat: no-repeat; background-size: contain; background-position: center;">
                                         <span class="h-100 w-100 d-flex justify-content-end align-items-center flex-column text-light" style=" overflow: hidden;
                                                                                                         text-overflow: ellipsis; word-break: break-all;">
                                             {{ $item }}
