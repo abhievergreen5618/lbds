@@ -37,8 +37,8 @@ class PayrollController extends Controller
             if(!empty($request->pay_range))
             {
                 $split_date = explode("-", $request->pay_range);
-                $start = date('Y-m-d', strtotime(trim($split_date[0])));
-                $end = date('Y-m-d', strtotime(trim($split_date[1])));
+                $start = date('m/d/Y', strtotime(trim($split_date[0])));
+                $end = date('m/d/Y', strtotime(trim($split_date[1])));
             }   
             if(empty($request->pay_range) && $request->assign_ins == 'all')
             {  
@@ -163,8 +163,8 @@ class PayrollController extends Controller
        
         $format = date('Y-m-d', strtotime($request->data['pay_date']));
         $split_date = explode("-", $request->data['pay_rangedate']);
-        $start = date('Y-m-d', strtotime(trim($split_date[0])));
-        $end = date('Y-m-d', strtotime(trim($split_date[1])));
+        $start = date('m/d/Y', strtotime(trim($split_date[0])));
+        $end = date('m/d/Y', strtotime(trim($split_date[1])));
         $payroll_data = Payroll::where('request_id', decrypt($request->id))->exists();
         if (empty($payroll_data)) {
             $payroll = Payroll::create([
