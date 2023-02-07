@@ -97,7 +97,7 @@
                             </div>
                             <div class="col-lg-4 my-2">
                                 <label for="applicantmobile">{{ __('Phone') }}</label>
-                                <input type="number" class="form-control" id="applicantmobile" name="applicantmobile" placeholder="Phone">
+                                <input type="text" class="form-control" id="applicantmobile" name="applicantmobile" placeholder="123-456-7890">
                             </div>
                         </div>
                     </div>

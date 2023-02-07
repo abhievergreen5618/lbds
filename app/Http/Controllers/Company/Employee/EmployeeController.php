@@ -35,7 +35,7 @@ class EmployeeController extends Controller
             [
                 "employeename" => "required",
                 "employeeemail" => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
-                "employeemobile" => "required",
+                "employeemobile" => "required|regex:/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/",
                 // "employeeaddress" => "required",
                 "employeecity" => "required",
                 "employeestate" => "required",

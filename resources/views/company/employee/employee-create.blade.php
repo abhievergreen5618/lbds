@@ -43,7 +43,7 @@
                             </div>
                             <div class="col-lg-4 my-2">
                                 <label for="employeemobile">{{ __('Phone') }}</label>
-                                <input type="number" class="form-control  @error('employeemobile') is-invalid @enderror" id="employeemobile" name="employeemobile" placeholder="Phone" value="{{@old('employeemobile',$data->company_phonenumber)}}">
+                                <input type="text" class="form-control  @error('employeemobile') is-invalid @enderror" id="employeemobile" name="employeemobile" placeholder="123-456-7890" value="{{@old('employeemobile',$data->company_phonenumber)}}">
                                 @error('employeemobile')
                                         <div>
                                             <label class="error fail-alert  mt-1">{{ $message }}</label>

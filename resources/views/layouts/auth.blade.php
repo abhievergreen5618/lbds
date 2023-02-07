@@ -29,6 +29,8 @@
     </div>
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
     <script src="{{asset('/plugins/jquery/jquery.min.js')}}"></script>
+    <script src="{{asset('/js/validation.min.js')}}"></script>
+    <script src="{{asset('/js/validate.js')}}"></script>
     @stack('footer_extras')
 </body>
 </html>

@@ -60,9 +60,9 @@
                             <div class="col-md-6 form-group">
                                 <label for="company_phonenumber">{{ __('Company Phone Number') }}<span
                                         class="text-danger">*</span></label>
-                                <input id="company_phonenumber" type="number"
+                                <input id="company_phonenumber" type="text"
                                     class="form-control @error('company_phonenumber') {{ 'is-invalid' }} @enderror"
-                                    name="company_phonenumber" value="{{@old('company_phonenumber',$data->company_phonenumber)}}">
+                                    name="company_phonenumber" value="{{@old('company_phonenumber',$data->company_phonenumber)}}" placeholder="123-456-7890">
                                 @error('company_phonenumber')
                                     <div>
                                         <label class="error fail-alert  mt-1">{{ $message }}</label>
@@ -75,7 +75,6 @@
                                 <input id="name" type="text"
                                     class="form-control @error('name') {{ 'is-invalid' }} @enderror" name="name"
                                     value="{{@old('name',$data->name)}}">
-
                                 @error('name')
                                     <div>
                                         <label class="error fail-alert  mt-1">{{ $message }}</label>
@@ -85,9 +84,9 @@
 
                             <div class="col-md-6 form-group">
                                 <label for="direct_number">{{ __('Direct Number') }}</label>
-                                <input id="direct_number" type="number"
+                                <input id="direct_number" type="text"
                                     class="form-control @error('direct_number') {{ 'is-invalid' }} @enderror" name="direct_number"
-                                    value="{{@old('direct_number',$data->direct_number)}}">
+                                    value="{{@old('direct_number',$data->direct_number)}}" placeholder="123-456-7890">
                                 @error('direct_number')
                                     <div>
                                         <label class="error fail-alert  mt-1">{{ $message }}</label>

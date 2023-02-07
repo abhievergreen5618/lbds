@@ -46,7 +46,7 @@ $total_completed_request=RequestModel::where('status','completed')->count();
             <h3>{{ $total_pending_request }}</h3>
             <p>Inspection Requests Received</p>
           </div>
-          <a href="#" class="small-box-footer text-center">More info <i class="fas fa-arrow-circle-right"></i></a>
+          <!-- <a href="#" class="small-box-footer text-center">More info <i class="fas fa-arrow-circle-right"></i></a> -->
         </div>
       </div>
 
@@ -58,7 +58,7 @@ $total_completed_request=RequestModel::where('status','completed')->count();
             <h3>{{ $total_assigned_request }}</h3>
             <p>Inspection Requests Assigned</p>
           </div>
-          <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
         </div>
       </div>
 
@@ -70,7 +70,7 @@ $total_completed_request=RequestModel::where('status','completed')->count();
             <h3>{{$total_underreview_request }}</h3>
             <p>Completed Inspections For Review</p>
           </div>
-          <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
         </div>
       </div>
 
@@ -82,7 +82,7 @@ $total_completed_request=RequestModel::where('status','completed')->count();
             <h3>{{$total_completed_request }}</h3>
             <p>Completed & Delivered Inspections</p>
           </div>
-          <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
         </div>
       </div>
        <!-- ./col -->

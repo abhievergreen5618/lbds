@@ -21,8 +21,9 @@ $(document).ready(function () {
       }
     }
   });
-  jQuery.validator.addMethod("phoneUS", function (phone_number, element) {
-    return (phone_number.match(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im)) ? true : false;
+  $.validator.addMethod("phoneUS", function (phone_number, element) {
+    var re = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+    return (re .test(phone_number)) ? true : false;
   }, "Invalid phone number");
   $('#requestform').validate({
     errorClass: "error fail-alert",
@@ -242,16 +243,14 @@ $(document).ready(function () {
       },
       company_phonenumber: {
         required: true,
-        minlength: 10,
-        maxlength: 10,
+        phoneUS: true,
       },
       name: {
         required: true,
       },
       direct_number: {
         required: true,
-        minlength: 10,
-        maxlength: 10,
+        phoneUS: true,
       },
       zip_code: {
         required: true,
@@ -297,16 +296,14 @@ $(document).ready(function () {
       },
       company_phonenumber: {
         required: true,
-        minlength: 10,
-        maxlength: 10,
+        phoneUS: true,
       },
       name: {
         required: true,
       },
       direct_number: {
         required: true,
-        minlength: 10,
-        maxlength: 10,
+        phoneUS: true,
       },
       zip_code: {
         required: true,
@@ -423,8 +420,7 @@ $('#inspectorform').validate({
     },
     number: {
       required: true,
-      minlength: 10,
-      maxlength: 10,
+      phoneUS: true,
     },
     license_number: {
       required: true,
@@ -471,8 +467,7 @@ $('#inspectorupdateform').validate({
     },
     number: {
       required: true,
-      minlength: 10,
-      maxlength: 10,
+      phoneUS: true,
     },
     license_number: {
       required: true,
@@ -520,16 +515,14 @@ $('#register-form').validate({
     },
     company_phonenumber: {
       required: true,
-      minlength: 10,
-      maxlength: 10,
+      phoneUS: true,
     },
     name: {
       required: true,
     },
     direct_number: {
       required: true,
-      minlength: 10,
-      maxlength: 10,
+      phoneUS: true,
     },
     zip_code: {
       required: true,

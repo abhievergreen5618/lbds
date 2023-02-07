@@ -60,13 +60,13 @@ class RegisterController extends Controller
             'company_address'             => 'required',
             'city'                        => 'required',
             'zip_code'                    => 'required',
-            'company_phonenumber'         => 'required',
-            'direct_number'               => 'required',
+            'company_phonenumber'         => 'required|regex:/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/',
+            'direct_number'               => 'required|regex:/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/',
         ],
         [
             "required" => "Field is required."
         ]
-    );
+        );
     }
     
     protected function create(array $data)

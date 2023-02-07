@@ -43,7 +43,7 @@ class InspectorController extends Controller
         $request->validate([
             'company_name'               => 'required',
             'name'                       => 'required',
-            'number'                     => 'required',
+            'number'                     => 'required|regex:/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/',
             'license_number'             => 'required',
             'area_coverage'              => 'required',
             'color_code'                 => 'required',
@@ -95,7 +95,7 @@ class InspectorController extends Controller
             $request->validate([
                 'company_name'               => 'required',
                 'name'                       => 'required',
-                'number'                     => 'required',
+                'number'                     => 'required|regex:/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/',
                 'license_number'             => 'required',
                 'area_coverage'              => 'required',
                 'color_code'                 => 'required',
