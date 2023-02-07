@@ -206,9 +206,9 @@
         const data = {};
         var arr = $(this).parent().parent().parent().find('input');
         $.each(arr, function (key, value) {
-            var result = $(value).val();
-            payroll_data = $(value).attr("data-id");
-            data[payroll_data] = result;
+              var result = (key == "payment_status") ? $(value).is(":checked") ? $(value).val() : "unpaid" :  $(value).val();
+              payroll_data = $(value).attr("data-id");
+              data[payroll_data] = result;
         });
         // console.log(data);
         Swal.fire({
