@@ -41,7 +41,7 @@ $(document).ready(function () {
       },
       applicantmobile: {
         required: true,
-        // phoneUS: true,
+        phoneUS: true,
       },
       address: {
         required: true,
