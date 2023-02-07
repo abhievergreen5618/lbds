@@ -807,6 +807,15 @@ class RequestController extends Controller
         if ($request['btn'] == "send") {
             try {
                 Mail::to($request['reportmailto'])->cc($request['reportmailcc'])->bcc($request['reportmailbcc'])->send(new Report($data));
+                // check for failures
+                if (Mail::failures()) {
+                    $returnmessage = "There was one or more failures. They were: <br />";
+                    foreach(Mail::failures() as $email_address) {
+                        $returnmessage = $returnmessage." - $email_address <br />";
+                     }
+                    return redirect()->back()->with('error',$returnmessage);
+                    // return response showing failed emails
+                }
                 $reportemail->saveemail($data, "sent");
             } catch (Exception $e) {
                 $reportemail->saveemaildraft($data, "draft");

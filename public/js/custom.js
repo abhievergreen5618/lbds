@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $(".alert").not('.cancelrequest').delay(4000).slideUp(200, function () {
+    $(".alert").not('.cancelrequest').not('.reportmail').delay(4000).slideUp(200, function () {
         $(this).alert('close');
     });
     //employee-list with the DataTables
