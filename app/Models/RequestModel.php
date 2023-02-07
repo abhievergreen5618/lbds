@@ -39,6 +39,8 @@ class RequestModel extends Model
         'invoice',
         'requestnote',
         'remindermailstatus',
+        'pay_range_start',
+        'pay_range_end',
     ];
 
     protected $casts = [

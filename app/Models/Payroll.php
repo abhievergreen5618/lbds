@@ -14,7 +14,8 @@ class Payroll extends Model
         'ins_fee',
         'income',
         // 'pay_start',
-        'pay_range',
+        'pay_range_start',
+        'pay_range_end',
         'pay_date',
         'payment_status'
     ];
