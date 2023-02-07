@@ -473,7 +473,6 @@ class RequestController extends Controller
                     $value->move(public_path('taskfiles'), $fileName);
                     array_push($filearray, $fileName);
                 }
-                dd($filearray);
                 ($request['type'] == "agencyfiles") ? RequestModel::where('id', $id)->update(["agency_related_files" => $filearray]) : RequestModel::where('id', $id)->update(["reports_related_files" => $filearray]);
                 return response()->json(array("msg" => "Added Successfully"), 200);
             }
