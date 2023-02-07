@@ -205,48 +205,49 @@
         const data = {};
         var arr = $(this).parent().parent().parent().find('input');
         $.each(arr, function (key, value) {
-              var result = (key == "payment_status") ? $(value).is(":checked") ? $(value).val() : "unpaid" :  $(value).val();
+              var result = ($(value).attr("id") == "payment_status") ? $(value).is(":checked") ? $(value).val() : "unpaid" :  $(value).val();
               payroll_data = $(value).attr("data-id");
               data[payroll_data] = result;
         });
+        console.log(data);
 
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes'
-        }).then((result) => {
-            if (result.value) {     
-        $.ajax({
-            "url": "submit",
-            "type": "POST",
-            "beforeSend": function (request) {
-                request.setRequestHeader("X-CSRF-TOKEN", jQuery('meta[name="csrf-token"]').attr('content'));
-            },
-            "data": {
-                id: id, data: data
-            },
-            dataType: 'json',
-            success: function (data) {
-                console.log(data.msg, data);
-                toastr.success(data.msg);
-                payrolltable.ajax.reload();
-            },
-            error: function (xhr) {
-                        if (xhr.status == 422 && xhr.responseJSON.msg.length) {
-                            $('.preloader').children().hide();
-                            $('.preloader').css("height", "0");
-                            toastr.error(xhr.responseJSON.msg);
-                        }
-                    }
+        // Swal.fire({
+        //     title: 'Are you sure?',
+        //     text: "You won't be able to revert this!",
+        //     type: 'warning',
+        //     showCancelButton: true,
+        //     confirmButtonColor: '#3085d6',
+        //     cancelButtonColor: '#d33',
+        //     confirmButtonText: 'Yes'
+        // }).then((result) => {
+        //     if (result.value) {     
+        // $.ajax({
+        //     "url": "submit",
+        //     "type": "POST",
+        //     "beforeSend": function (request) {
+        //         request.setRequestHeader("X-CSRF-TOKEN", jQuery('meta[name="csrf-token"]').attr('content'));
+        //     },
+        //     "data": {
+        //         id: id, data: data
+        //     },
+        //     dataType: 'json',
+        //     success: function (data) {
+        //         console.log(data.msg, data);
+        //         toastr.success(data.msg);
+        //         payrolltable.ajax.reload();
+        //     },
+        //     error: function (xhr) {
+        //                 if (xhr.status == 422 && xhr.responseJSON.msg.length) {
+        //                     $('.preloader').children().hide();
+        //                     $('.preloader').css("height", "0");
+        //                     toastr.error(xhr.responseJSON.msg);
+        //                 }
+        //             }
         });
     
-    };
-});
-}); 
-});
+    });
+// });
+// }); 
+// });
 </script>
 @endpush
