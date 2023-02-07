@@ -74,9 +74,6 @@ Route::controller(RequestController::class)->group(function () {
     Route::post('/inspectorrequestdetails', 'displayinspectorlist')->name('inspectorrequestdetails');
     Route::post('/request-reschedule', 'reschedule')->name('request-reschedule');
     Route::post('/request-submit-review', 'submitreview')->name('request-submit-review');
-
-
-    Route::get('/requesttest','test')->name('requesttest');
 });
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

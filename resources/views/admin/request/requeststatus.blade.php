@@ -367,7 +367,7 @@ use Illuminate\Support\Facades\Storage;
                         <input type="hidden" name="id" value="{{encrypt($requestdetails->id)}}">
                         <table class="table table-responsive brequest">
                             <tbody>
-                            @if((Auth::user()->hasRole('admin') || Auth::user()->hasRole('company'))) 
+                            @if((Auth::user()->hasRole('admin') || Auth::user()->hasRole('company')) || Auth::user()->hasRole('employee'))) 
                                 <tr>
                                     <td>Applicant Name</td>
                                     <td><input type="text" class="form-control" id="applicantname" name="applicantname" placeholder="Name" value="{{old('applicantname',$requestdetails->applicantname)}}" class="form-control">

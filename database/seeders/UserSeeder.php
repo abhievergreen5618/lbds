@@ -139,5 +139,6 @@ class UserSeeder extends Seeder
         $role->givePermissionTo(['request-create','request-list','employee-list','employee-create','employee-edit','employee-delete']);
         $user->assignRole([$role->id]);
         $role = Role::create(['name' => 'employee']);
+        $role->givePermissionTo(['request-create','request-list']);
     }
 }

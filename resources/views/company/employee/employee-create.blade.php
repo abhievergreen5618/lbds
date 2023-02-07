@@ -25,7 +25,7 @@
                         <div class="row">
                             <div class="col-lg-4 my-2">
                                 <label for="employeename">{{ __('Name') }}</label>
-                                <input type="text" class="form-control @error('employeename') is-invalid @enderror" id="employeename" name="employeename" placeholder="Name" value="{{@old('name',$data->name)}}">
+                                <input type="text" class="form-control @error('employeename') is-invalid @enderror" id="employeename" name="employeename" placeholder="Name" value="{{@old('employeename',$data->name)}}">
                                 @error('employeename')
                                         <div>
                                             <label class="error fail-alert  mt-1">{{ $message }}</label>
@@ -34,7 +34,7 @@
                             </div>
                             <div class="col-lg-4 my-2">
                                 <label for="employeeemail">{{ __('Email address') }}</label>
-                                <input type="email" class="form-control @error('employeeemail') is-invalid @enderror" id="employeeemail" name="employeeemail" placeholder="Email"  value="{{@old('email',$data->email)}}">
+                                <input type="email" class="form-control @error('employeeemail') is-invalid @enderror" id="employeeemail" name="employeeemail" placeholder="Email"  value="{{@old('employeeemail',$data->email)}}">
                                 @error('employeeemail')
                                         <div>
                                             <label class="error fail-alert  mt-1">{{ $message }}</label>
@@ -43,7 +43,7 @@
                             </div>
                             <div class="col-lg-4 my-2">
                                 <label for="employeemobile">{{ __('Phone') }}</label>
-                                <input type="number" class="form-control  @error('employeemobile') is-invalid @enderror" id="employeemobile" name="employeemobile" placeholder="Phone" value="{{@old('company_phonenumber',$data->company_phonenumber)}}">
+                                <input type="number" class="form-control  @error('employeemobile') is-invalid @enderror" id="employeemobile" name="employeemobile" placeholder="Phone" value="{{@old('employeemobile',$data->company_phonenumber)}}">
                                 @error('employeemobile')
                                         <div>
                                             <label class="error fail-alert  mt-1">{{ $message }}</label>
@@ -65,7 +65,7 @@
                             </div> -->
                             <div class="col-lg-4 my-2">
                                 <label for="employeecity">{{ __('City') }}</label>
-                                <input type="text" class="form-control @error('employeecity') is-invalid @enderror" id="employeecity" name="employeecity" placeholder="City" value="{{@old('city',$data->city)}}">
+                                <input type="text" class="form-control @error('employeecity') is-invalid @enderror" id="employeecity" name="employeecity" placeholder="City" value="{{@old('employeecity',$data->city)}}">
                                 @error('employeecity')
                                         <div>
                                             <label class="error fail-alert  mt-1">{{ $message }}</label>
@@ -74,7 +74,7 @@
                             </div>
                             <div class="col-lg-4 my-2">
                                 <label for="employeestate">{{ __('State') }}</label>
-                                <input type="text" class="form-control @error('employeestate') is-invalid @enderror" id="employeestate" name="employeestate" placeholder="State" value="{{@old('state',$data->state)}}">
+                                <input type="text" class="form-control @error('employeestate') is-invalid @enderror" id="employeestate" name="employeestate" placeholder="State" value="{{@old('employeestate',$data->state)}}">
                                 @error('employeestate')
                                         <div>
                                             <label class="error fail-alert  mt-1">{{ $message }}</label>
@@ -83,7 +83,7 @@
                             </div>
                             <div class="col-lg-4 my-2">
                                 <label for="employeezipcode">{{ __('ZipCode') }}</label>
-                                <input type="number" class="form-control @error('employeezipcode') is-invalid @enderror" id="employeezipcode" name="employeezipcode" placeholder="ZipCode" value="{{@old('zip_code',$data->zip_code)}}">
+                                <input type="number" class="form-control @error('employeezipcode') is-invalid @enderror" id="employeezipcode" name="employeezipcode" placeholder="ZipCode" value="{{@old('employeezipcode',$data->zip_code)}}">
                                 @error('employeezipcode')
                                         <div>
                                             <label class="error fail-alert  mt-1">{{ $message }}</label>

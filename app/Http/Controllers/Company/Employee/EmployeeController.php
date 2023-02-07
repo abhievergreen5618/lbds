@@ -11,6 +11,7 @@ use Spatie\Permission\Models\Permission;
 use DataTables;
 use Illuminate\Support\Carbon;
 use DB;
+use Illuminate\Support\Facades\Auth;
 
 class EmployeeController extends Controller
 {
@@ -33,7 +34,7 @@ class EmployeeController extends Controller
         $request->validate(
             [
                 "employeename" => "required",
-                "employeeemail" => "required",
+                "employeeemail" => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
                 "employeemobile" => "required",
                 // "employeeaddress" => "required",
                 "employeecity" => "required",
@@ -45,11 +46,11 @@ class EmployeeController extends Controller
             [
                 "required" => "This field is required.",
                 "employeepassword" => "The password confirmation does not match.",
+                "unique" => "The email has already been taken.",
             ]
         );
 
         $role = Role::findByName('employee');
-        // dd($request->employeestate);
         $user = User::create([
             "name" => $request['employeename'],
             "email" => $request['employeeemail'],
@@ -59,8 +60,8 @@ class EmployeeController extends Controller
             "zip_code" => $request['employeezipcode'],
             "state" => $request['employeestate'],
             "password" => Hash::make($request['password']),
-            'email_verified_at'=>Carbon::now()->timestamp,
-            // "role" => "4",
+            "email_verified_at"=>Carbon::now()->timestamp,
+            "company_id" => Auth::id(),
         ]);
         $user->assignRole([$role->id]);
         DB::table('users')->where('id',$user->id)->update(['approved'=>"Approved"]);
@@ -91,7 +92,7 @@ class EmployeeController extends Controller
         if ($request->ajax()) {
             $GLOBALS['count'] = 0;
             // $data = User::role('employee')->latest()->get(['id','name', 'email', 'company_phonenumber', 'company_address', 'city', 'state', 'zip_code']);
-            $data = User::role('employee')->latest()->get(['id','name', 'email', 'company_phonenumber', 'city', 'state', 'zip_code']);
+            $data = User::where("company_id",Auth::id())->latest()->get(['id','name', 'email', 'company_phonenumber', 'city', 'state', 'zip_code']);
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     $id = encrypt($row->id);
