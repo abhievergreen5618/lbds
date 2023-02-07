@@ -443,7 +443,7 @@ class RequestController extends Controller
                     } else if ($row->status == "assigned") {
                         $btn = "<div class='d-flex justify-content-around'><a href='javascript:void(0)' data-id='$id' data-time='$time' data-date='$date' class='ml-2 schedule btn red-btn btn-danger'  data-bs-toggle='tooltip' data-bs-placement='top' title='Schedule'>Schedule</a><a href='$editlink' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Edit' class='btn limegreen btn-primary  edit ml-2'>View</a></div>";
                     } else if ($row->status == "completed") {
-                        $schedulestatus = "<span class='btn btn-sm btn-warning text-black font-weight-500 py-0'>Completed</span>";
+                        $schedulestatus = "<div class='d-flex justify-content-around'><span class='btn btn-sm btn-warning text-black font-weight-500 py-0'>Completed</span><a href='$editlink' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Edit' class='btn limegreen btn-primary  edit ml-2'>View</a></div>";
                         $review = "<span class='font-weight-600'>Completed At</span><div>" . date('F d ,Y h:i a', strtotime($row->completed_at)) . "</div>";
                         $btn = $schedulestatus . "<hr class='my-2'><div>" . $schedule . "</div><hr class='my-2'><div>" . $review . "</div>";
                     }
