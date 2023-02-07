@@ -527,7 +527,8 @@ $(document).ready(function () {
         var date = element.attr('data-date');
         var time = element.attr('data-time');
         var status = (element.hasClass("schedule")) ? "schedule" : "reschedule";
-        var CurrentDate = new Date();
+        var yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
         var html = "<div class='d-flex'><input type='date' class='border p-2 form-control' id='date' value='" + date + "' name='date' min='2022-10-21'><input type='time' class='border p-2 form-control ml-2' id='time' value='" + time + "' name='time'><div>";
         Swal.fire({
             title: 'Reschedule Request',
@@ -541,11 +542,8 @@ $(document).ready(function () {
                 if (!redate || !retime) {
                     Swal.showValidationMessage(`Please select date and time`)
                 }
-                else if (redate == date) {
-                    Swal.showValidationMessage(`Please select some different date`)
-                }
-                else if (!(GivenDate > CurrentDate)) {
-                    Swal.showValidationMessage(`Please select date greater than today`)
+                else if (!(GivenDate > yesterday)) {
+                    Swal.showValidationMessage(`Please select date greater than yesterday`)
                 }
                 return { date: redate, time: retime }
             }

@@ -623,6 +623,7 @@ class RequestController extends Controller
                     "status" => "scheduled",
                     "scheduled_at" => $request->date,
                     "schedule_time" => $request->time,
+                    "remindermailstatus" => "notsend",
                 ]);
                 $msg = "Request " . $request['status'] . " Successfully";
                 return response()->json(array("msg" => $msg), 200);
