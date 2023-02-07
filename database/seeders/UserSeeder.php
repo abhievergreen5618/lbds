@@ -125,6 +125,7 @@ class UserSeeder extends Seeder
             "approved"    => "Approved",
         ]);
         $role = Role::create(['name' => 'inspector']);
+        $role->givePermissionTo(['request-list']);
         $user->assignRole([$role->id]);
         
         $user = User::create([
