@@ -201,8 +201,7 @@
     payrolltable.on('click', '.btn', function () {
         var element = $(this);
         var id = $(this).attr('data-id');
-        // console.log($(this));
-    
+
         const data = {};
         var arr = $(this).parent().parent().parent().find('input');
         $.each(arr, function (key, value) {
@@ -210,7 +209,7 @@
               payroll_data = $(value).attr("data-id");
               data[payroll_data] = result;
         });
-        // console.log(data);
+
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
