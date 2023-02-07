@@ -460,9 +460,11 @@ class RequestController extends Controller
             // $request->validate([
             //     'file.*' => 'required|mimes:image/jpeg,image/png,image/jpg,application/pdf|max:2048',
             // ]);
-            if (session()->has('taskid')) {
-                $id = $request->session()->get('taskid');
-                $filearray = array();
+            if(isset($request['id'])) {
+                $id = decrypt($request['taskid']);
+                $type = ($request['type'] == "agencyfiles") ? "agency_related_files" : "reports_related_files";
+                $files = RequestModel::where('id', $id)->first($type);
+                $filearray = (!empty($files[$type]) && count($files[$type]) != 0) ? $files[$type] : array();
                 foreach ($request->file('file') as $key => $value) {
                     $file = $value->getClientOriginalName();
                     $filename = pathinfo($file, PATHINFO_FILENAME);
@@ -471,13 +473,13 @@ class RequestController extends Controller
                     $value->move(public_path('taskfiles'), $fileName);
                     array_push($filearray, $fileName);
                 }
+                dd($filearray);
                 ($request['type'] == "agencyfiles") ? RequestModel::where('id', $id)->update(["agency_related_files" => $filearray]) : RequestModel::where('id', $id)->update(["reports_related_files" => $filearray]);
                 return response()->json(array("msg" => "Added Successfully"), 200);
-            } else {
-                $id = decrypt($request['taskid']);
-                $type = ($request['type'] == "agencyfiles") ? "agency_related_files" : "reports_related_files";
-                $files = RequestModel::where('id', $id)->first($type);
-                $filearray = (!empty($files[$type]) && count($files[$type]) != 0) ? $files[$type] : array();
+            }
+            else if(session()->has('taskid')) {
+                $id = $request->session()->get('taskid');
+                $filearray = array();
                 foreach ($request->file('file') as $key => $value) {
                     $file = $value->getClientOriginalName();
                     $filename = pathinfo($file, PATHINFO_FILENAME);
