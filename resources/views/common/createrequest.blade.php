@@ -153,12 +153,12 @@
                         <label for="comments">{{ __('Comments') }}</label>
                         <textarea class="form-control" rows="3" placeholder="Enter Comments" name="comments" id="comments"></textarea>
                     </div>
-                    @role('company')
+                    @if(Auth::user()->hasRole('company') || Auth::user()->hasRole('employee'))
                     <div class="col-md-12 my-2">
                         <label for="relatedfiles">{{ __('Agency Related Files') }}</label>
                         <div class="dropzone" id="agencyfiles"></div>
                     </div>
-                    @endrole
+                    @endif
                     @role('admin')
                     <div class="col-md-6 my-2">
                         <label for="relatedfiles">{{ __('Agency Related Files') }}</label>
