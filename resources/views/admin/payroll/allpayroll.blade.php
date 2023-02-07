@@ -73,7 +73,7 @@
               <th>Inspector Pay</th>
               <th>Pay Range</th>
               <th>Pay Date</th>
-              <th>Payment Status</th>
+              <th>Is Paid</th>
               <th>Action</th>
             </tr>
           </thead>
