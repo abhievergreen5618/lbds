@@ -809,6 +809,7 @@ class RequestController extends Controller
                 Mail::to($request['reportmailto'])->cc($request['reportmailcc'])->bcc($request['reportmailbcc'])->send(new Report($data));
                 $reportemail->saveemail($data, "sent");
             } catch (Exception $e) {
+                dd($e->getMessage());
                 $reportemail->saveemaildraft($data, "draft");
                 return redirect()->back()->with('error', 'Failed To Send Report Mail');
             }
