@@ -1654,6 +1654,7 @@ $(document).ready(function () {
 
 
     $('.uploadfiles').click(function () {
+        $(this).attr("disabled");
         var id = $(this).attr("data-id");
         var newdropzone = $(this).parent().parent().find('.dropzone');
         if ($(newdropzone).attr("id") == "reportfiles") {

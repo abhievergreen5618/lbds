@@ -613,6 +613,7 @@ use Illuminate\Support\Facades\Storage;
                                 @endif
                             </tbody>
                             <tfoot>
+                            @if(!Auth::user()->hasRole('inspector'))
                                 <tr>
                                     <td colspan="10">
                                         <input type="submit" class="btn btn-primary" value="Update">
@@ -620,6 +621,7 @@ use Illuminate\Support\Facades\Storage;
                                         <input id="btn-cancel" type="button" class="btn btn-danger" value="Cancel"> -->
                                     </td>
                                 </tr>
+                            @endif
                             </tfoot>
                         </table>
                     </form>
