@@ -35,9 +35,12 @@
                         </select>
                     </div>
                     @endrole
-                    @role('company')
+                    @if(Auth::user()->hasRole('company'))
                     <input type="hidden" name="agency" value="{{encrypt(auth()->user()->id)}}">
-                    @endrole
+                    @endif
+                    @if(Auth::user()->hasRole('employee'))
+                    <input type="hidden" name="agency" value="{{encrypt(auth()->user()->company_id)}}">
+                    @endif
                     @if(!empty($data) && count($data) != 0)
                     <div class="col-md-12 my-2">
                         <div class="row">
