@@ -37,8 +37,8 @@ class PayrollController extends Controller
             if(!empty($request->pay_range))
             {
                 $split_date = explode("-", $request->pay_range);
-                $start = date('m/d/Y', strtotime(trim($split_date[0])));
-                $end = date('m/d/Y', strtotime(trim($split_date[1])));
+                $start = date('Y-m-d', strtotime(trim($split_date[0])));
+                $end = date('Y-m-d', strtotime(trim($split_date[1])));
             }   
             if(empty($request->pay_range) && $request->assign_ins == 'all')
             {  
@@ -94,6 +94,8 @@ class PayrollController extends Controller
                 ->addColumn('pay_range', function ($row) {
                     $payroll = Payroll::where('request_id', $row->id)->first(['pay_range_start','pay_range_end']);
                     if (!is_null($payroll) && !empty($payroll)) {
+                        $payroll->pay_range_start = str_replace("-","/",$payroll->pay_range_start);
+                        $payroll->pay_range_end = str_replace("-","/",$payroll->pay_range_end);
                         $payrange = $payroll->pay_range_start." - ".$payroll->pay_range_end;
                         return "<input type='text'  data-id='pay_rangedate' name='date_range' class='pay_rangedate form'  placeholder='dd-mm-yyyy'  value='" .$payrange. "'>";
                     } else {
@@ -110,7 +112,7 @@ class PayrollController extends Controller
                 })
                 ->addColumn('payment_status', function ($row) {
                     $payroll = Payroll::where('request_id', $row->id)->first(['payment_status']);
-                    if (!is_null($payroll) && !empty($payroll)) {
+                    if (!is_null($payroll) && !empty($payroll) && $payroll['payment_status'] == "paid" ) {
                         return "<input type='checkbox' class='payment_status' data-id='payment_status' id='payment_status' name='payment_status' value='paid' checked  readonly onclick='return false'>";
                     } else {
                         return "<input type='checkbox' class='payment_status' data-id='payment_status' id='payment_status' name='payment_status' value='paid'>";
@@ -163,8 +165,8 @@ class PayrollController extends Controller
        
         $format = date('Y-m-d', strtotime($request->data['pay_date']));
         $split_date = explode("-", $request->data['pay_rangedate']);
-        $start = date('m/d/Y', strtotime(trim($split_date[0])));
-        $end = date('m/d/Y', strtotime(trim($split_date[1])));
+        $start = date('Y-m-d', strtotime(trim($split_date[0])));
+        $end = date('Y-m-d', strtotime(trim($split_date[1])));
         $payroll_data = Payroll::where('request_id', decrypt($request->id))->exists();
         if (empty($payroll_data)) {
             $payroll = Payroll::create([
