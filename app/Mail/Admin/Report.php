@@ -62,7 +62,7 @@ class Report extends Mailable
         $data = [];
         if (!empty($this->files)) {
             foreach ($this->files as $key => $value) {
-                $value = asset('taskfiles/' . $value);
+                $value = asset('taskfiles/' .rawurlencode($value));
                 $data[] = Attachment::fromPath($value);
             }
         }
