@@ -294,7 +294,7 @@ class RequestController extends Controller
                 })
                 ->addColumn('invoice', function ($row) {
                     $checkstatus = (!empty($row->invoice) && $row->invoice == "active") ? "checked" :"" ;
-                    return '<input type="checkbox" name="requestinvoice" data-bootstrap-switch="" data-off-color="danger" data-req-id="'.encrypt($row->id).'" data-on-color="success" value="yes" '.$checkstatus.'>';
+                    return '<input type="checkbox" name="requestinvoice" data-bootstrap-switch="" data-off-color="danger" data-on-text="YES" data-off-text="NO" data-req-id="'.encrypt($row->id).'" data-on-color="success" value="yes" '.$checkstatus.'>';
                 })
                 ->addColumn('status', function ($row) {
                     if ($row->status == "pending" || $row->status == "underreview") {
