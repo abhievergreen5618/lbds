@@ -76,9 +76,9 @@ class PayrollController extends Controller
                     return $returnvalue;
                 })
                 ->addColumn('ins_fee', function ($row) {
-                    $payroll = Payroll::where('request_id', $row->id)->first('ins_fee');
+                    $payroll = $row->ins_fee;
                     if (!is_null($payroll) && !empty($payroll)) {
-                        return "<input type='number' class='form-control' name='ins_fee' class='ins_fee form' data-id='ins_fee' value='" . $payroll->ins_fee . "'>";
+                        return "<input type='number' class='form-control' name='ins_fee' class='ins_fee form' data-id='ins_fee' value='" . $payroll . "'>";
                     } else {
                         return "<input type='number' class='form-control' name='ins_fee' class='ins_fee' data-id='ins_fee' value='0'>";
                     }
