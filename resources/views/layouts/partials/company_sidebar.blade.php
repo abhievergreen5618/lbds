@@ -57,7 +57,7 @@ $options = new Options();
 
                         @can('employee-create')
                         <li class="nav-item">
-                            <a href="{{route('company.employee.index')}}" class="nav-link">
+                            <a href="{{route('company.employee.index')}}" class="sub-menu nav-link">
                                 <i class="nav-icon fas fa-user-plus"></i>
                                 <p>
                                     Add new Employee
@@ -68,7 +68,7 @@ $options = new Options();
 
                         @can('employee-list')
                         <li class="nav-item">
-                            <a href="{{ route('company.employee.view') }}" class="nav-link">
+                            <a href="{{ route('company.employee.view') }}" class="sub-menu nav-link">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>
                                     View All Employees
@@ -108,7 +108,7 @@ $options = new Options();
 
                         @can('role-list')
                         <li class="nav-item">
-                            <a href="{{ route('roles.index') }}" class="nav-link {{str_contains(request()->path(), 'admin.request.create') ? 'active' : ''}}">
+                            <a href="{{ route('roles.index') }}" class="sub-menu nav-link {{str_contains(request()->path(), 'admin.request.create') ? 'active' : ''}}">
                                 <i class="nav-icon fas fa-user-plus"></i>
                                 <p>
                                    Manage Rights
@@ -119,7 +119,7 @@ $options = new Options();
 
                         @can('role-create')
                         <li class="nav-item">
-                            <a href="{{ route('roles.create') }}" class="nav-link">
+                            <a href="{{ route('roles.create') }}" class="sub-menu nav-link">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>
                                    Add Rights
@@ -148,7 +148,7 @@ $options = new Options();
 
                         @can('request-create')
                         <li class="nav-item">
-                            <a href="{{route('admin.request.create')}}" class="nav-link">
+                            <a href="{{route('admin.request.create')}}" class="sub-menu nav-link">
                                 <i class="nav-icon fa fa-file-signature"></i>
                                 <p>
                                     Add new Request
@@ -159,7 +159,7 @@ $options = new Options();
 
                         @can('request-list')
                         <li class="nav-item">
-                            <a href="{{route('company.request.list')}}" class="nav-link">
+                            <a href="{{route('company.request.list')}}" class="sub-menu nav-link">
                                 <i class="nav-icon fa fa-file-alt"></i>
                                 <p>
                                     View All Requests

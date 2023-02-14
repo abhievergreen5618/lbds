@@ -75,7 +75,7 @@ Route::currentRouteName() == 'admin.allinspectiontype') ? 'active' : ''}}">
 Route::currentRouteName() == 'admin.allinspectiontype') ? 'display: block;' : ''}}">
                         @can('inspection-create')
                         <li class="nav-item">
-                            <a href="{{route('admin.create.addinspectiontype')}}" class="nav-link">
+                            <a href="{{route('admin.create.addinspectiontype')}}" class="sub-menu nav-link">
                                 <i class="nav-icon fa  fa-file-invoice fa-thin fas"></i>
                                 <p>
                                     Add Inspection Type
@@ -86,7 +86,7 @@ Route::currentRouteName() == 'admin.allinspectiontype') ? 'display: block;' : ''
 
                         @can('inspection-list')
                         <li class="nav-item">
-                            <a href="{{route('admin.allinspectiontype')}}" class="nav-link">
+                            <a href="{{route('admin.allinspectiontype')}}" class="sub-menu nav-link">
                                 <i class="nav-icon fa fa-sharp fa-solid fa-bookmark"></i>
                                 <p>
                                     View All Inspection Types
@@ -114,7 +114,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'active' : ''}}">
 Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}">
                         @can('invoicetype-create')
                         <li class="nav-item">
-                            <a href="{{route('admin.create.addsendinvoice')}}" class="nav-link">
+                            <a href="{{route('admin.create.addsendinvoice')}}" class="sub-menu nav-link">
                                 <i class="nav-icon fa  fa-file-invoice fa-thin fas"></i>
                                 <p>
                                     Add New Invoice type
@@ -125,7 +125,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
 
                         @can('invoicetype-list')
                         <li class="nav-item">
-                            <a href="{{route('admin.allsendinvoice')}}" class="nav-link">
+                            <a href="{{route('admin.allsendinvoice')}}" class="sub-menu nav-link">
                                 <i class="nav-icon fa fa-solid fa-file-contract"></i>
                                 <p>
                                     View All Invoice types
@@ -153,7 +153,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
     'admin.request.list' ) ? 'display: block;' : ''}}">
                         @can('request-create')
                         <li class="nav-item">
-                            <a href="{{route('admin.request.create')}}" class="nav-link">
+                            <a href="{{route('admin.request.create')}}" class="sub-menu nav-link">
                                 <i class="nav-icon fa fa-file-signature"></i>
                                 <p>
                                     Add new Request
@@ -164,7 +164,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
 
                         @can('request-list')
                         <li class="nav-item">
-                            <a href="{{route('admin.request.list')}}" class="nav-link">
+                            <a href="{{route('admin.request.list')}}" class="sub-menu nav-link">
                                 <i class="nav-icon fa fa-file-alt"></i>
                                 <p>
                                     View All Requests
@@ -192,7 +192,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                             'users.create') || (Route::currentRouteName() == 'admin.users.view') ? 'display: block;' : ''}}">
                         @can('user-create')
                         <li class="nav-item">
-                            <a href="{{ route('users.create') }}" class="nav-link">
+                            <a href="{{ route('users.create') }}" class="sub-menu nav-link">
                                 <i class="nav-icon fas fa-user-plus"></i>
                                 <p>
                                     Add new User
@@ -203,7 +203,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
 
                             @can('user-list')
                         <li class="nav-item">
-                            <a href="{{ route('admin.users.view') }}" class="nav-link">
+                            <a href="{{ route('admin.users.view') }}" class="sub-menu nav-link">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>
                                     View All Users
@@ -229,7 +229,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
 (Route::currentRouteName() == 'roles.create') ? 'display: block;' : ''}}">
                         @can('role-list')
                         <li class="nav-item">
-                            <a href="{{ route('roles.index') }}" class="nav-link">
+                            <a href="{{ route('roles.index') }}" class="sub-menu nav-link">
                                 <i class="nav-icon fas fa-user-plus"></i>
                                 <p>
                                     Manage Role
@@ -239,7 +239,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                         @endcan
                         @can('role-create')
                         <li class="nav-item">
-                            <a href="{{ route('roles.create') }}" class="nav-link">
+                            <a href="{{ route('roles.create') }}" class="sub-menu nav-link">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>
                                     Add Roles
@@ -301,7 +301,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
     'admin.inspector.message') ? 'display: block;' : ''}}">
                         @can('inspector-create')
                         <li class="nav-item">
-                            <a href="{{ route('admin.create.addinspector') }}" class="nav-link">
+                            <a href="{{ route('admin.create.addinspector') }}" class="sub-menu nav-link">
                                 <i class="nav-icon fas fa-user-plus"></i>
                                 <p>
                                     Add new Inspector
@@ -312,7 +312,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
 
                         @can('inspector-list')
                         <li class="nav-item">
-                            <a href="{{ route('admin.view.inspector') }}" class="nav-link">
+                            <a href="{{ route('admin.view.inspector') }}" class="sub-menu nav-link">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>
                                     View All Inspectors
@@ -323,7 +323,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
 
                         {{-- @can('') --}}
                         <li class="nav-item">
-                            <a href="{{ route('admin.inspector.message') }}" class="nav-link">
+                            <a href="{{ route('admin.inspector.message') }}" class="sub-menu nav-link">
                                 <i class="nav-icon fas fa-comments"></i>
                                 <p>
                                     Inspector Messages
@@ -346,7 +346,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                     <ul class="nav nav-treeview" style="{{ (Route::currentRouteName() == 'admin.agency.agency-register') ? 'display: block;' : ''}}">
                         @can('agency-create')
                         <li class="nav-item">
-                            <a href="{{ route('admin.agency.agency-register') }}" class="nav-link">
+                            <a href="{{ route('admin.agency.agency-register') }}" class="sub-menu nav-link">
                                 <i class="nav-icon fa fa-plus"></i>
                                 <p>
                                     Add new Agency
@@ -357,7 +357,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
 
                         @can('agency-list')
                         <li class="nav-item">
-                            <a href="{{ route('admin.agency.agency-view') }}" class="nav-link">
+                            <a href="{{ route('admin.agency.agency-view') }}" class="sub-menu nav-link">
                                 <i class="nav-icon  fas fa-building"></i>
                                 <p>
                                     View All Agency
@@ -366,7 +366,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                         </li>
                         @endcan
                         <li class="nav-item">
-                            <a href="{{ route('admin.adminlist.view') }}" class="nav-link">
+                            <a href="{{ route('admin.adminlist.view') }}" class="sub-menu nav-link">
                                 <i class="nav-icon fas fa-times"></i>
                                 <p>
                                     Pending Agencies
@@ -375,7 +375,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('admin.disapproved.view') }}" class="nav-link">
+                            <a href="{{ route('admin.disapproved.view') }}" class="sub-menu nav-link">
                                 <i class="nav-icon fas fa-times"></i>
                                 <p>
                                     Disapproved Agencies
@@ -385,7 +385,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                         </li>
                         {{-- @can('') --}}
                         <li class="nav-item">
-                            <a href="{{ route('admin.agency.message') }}" class="nav-link">
+                            <a href="{{ route('admin.agency.message') }}" class="sub-menu nav-link">
                                 <i class="nav-icon fas fa-comments"></i>
                                 <p>
                                     Agency Messages
@@ -432,7 +432,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                             'admin.portal.setup') || (Route::currentRouteName() == 'admin.portal.emailtemp') ? 'display: block;' : ''}}">
 
                         <li class="nav-item">
-                            <a href="{{route('admin.portal.setup')}}" class="nav-link">
+                            <a href="{{route('admin.portal.setup')}}" class="sub-menu nav-link">
                                 <i class="nav-icon fas fa-cog"></i>
                                 <p>
                                     Portal Setup
@@ -441,7 +441,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                         </li>
             
                         <li class="nav-item">
-                            <a href="{{ route('admin.portal.emailtemp') }}" class="nav-link">
+                            <a href="{{ route('admin.portal.emailtemp') }}" class="sub-menu nav-link">
                                 <i class="nav-icon fas fa-mail-bulk"></i>
                                 <p>
                                   Email Template Config
