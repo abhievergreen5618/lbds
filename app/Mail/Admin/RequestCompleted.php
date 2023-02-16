@@ -40,7 +40,7 @@ class RequestCompleted extends Mailable
             $this->body= str_replace('[company_name]',$companydetails->company_name,$this->body);
             $this->body= str_replace('[company_location]',$companydetails->company_address,$this->body);
             $this->body= str_replace('[applicant_name]',$requestdetails['applicantname'],$this->body);
-            $this->body= str_replace('[applicant_email]',$requestdetail['applicantemail'],$this->body);
+            $this->body= str_replace('[applicant_email]',$requestdetails['applicantemail'],$this->body);
         }
     }
 
