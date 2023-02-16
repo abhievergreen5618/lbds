@@ -25,7 +25,7 @@ class RequestScheduled extends Mailable
         $this->companydetails = $companydetails;
         $this->requestdetails = $requestdetails;
         $this->subject=$subject;
-        $this->body= $options->get_option('requestscheduled_message');     
+        $this->body= ($type=='inspectorassign') ? $options->get_option('inspector_request_scheduled_message') : $options->get_option('company_request_scheduled_message'); 
         if($type=='inspectorassign')
         {
             $this->body= str_replace('[first_name]',$insdetails->name,$this->body);

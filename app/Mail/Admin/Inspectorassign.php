@@ -26,7 +26,7 @@ class Inspectorassign extends Mailable
         $this->companydetails = $companydetails;
         $this->requestdetails = $requestdetails;
         $this->subject=$subject;
-        $this->body= $options->get_option('requestassign_message'); 
+        $this->body= ($type=='inspectorassign') ? $options->get_option('inspector_request_assign_message') : $options->get_option('company_request_assign_message'); 
 
         // $arr = ["['first_name']","['inspector_name']","['company_name']","['company_location']"];
         if($type=='inspectorassign')
