@@ -33,7 +33,8 @@ class RequestScheduled extends Mailable
             $this->body= str_replace('[company_name]',$companydetails->company_name,$this->body);
             $this->body= str_replace('[company_location]',$companydetails->company_address,$this->body);
         }
-        else{
+        else
+        {
             $this->body= str_replace('[first_name]',$companydetails->name,$this->body);
             $this->body= str_replace('[inspector_name]',$insdetails->name,$this->body);
             $this->body= str_replace('[company_name]',$companydetails->company_name,$this->body);
@@ -43,7 +44,6 @@ class RequestScheduled extends Mailable
             $this->body= str_replace('[inspection_date]',$requestdetails['scheduled_at'],$this->body);
             $this->body= str_replace('[inspection_time]',$requestdetails['schedule_time'],$this->body);
         }
-
     }
 
     /**
