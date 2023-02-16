@@ -29,21 +29,22 @@ class Inspectorassign extends Mailable
         $this->body= $options->get_option('requestassign_message'); 
 
         // $arr = ["['first_name']","['inspector_name']","['company_name']","['company_location']"];
-           if($type=='inspectorassign')
+        if($type=='inspectorassign')
         {
             $this->body= str_replace('[first_name]',$insdetails->name,$this->body);
             $this->body= str_replace('[inspector_name]',$insdetails->name,$this->body);
             $this->body= str_replace('[company_name]',$companydetails->company_name,$this->body);
             $this->body= str_replace('[company_location]',$companydetails->company_address,$this->body);
         }
-        else{
+        else
+        {
             $this->body= str_replace('[first_name]',$companydetails->name,$this->body);
             $this->body= str_replace('[inspector_name]',$insdetails->name,$this->body);
             $this->body= str_replace('[company_name]',$companydetails->company_name,$this->body);
             $this->body= str_replace('[company_location]',$companydetails->company_address,$this->body);
+            $this->body= str_replace('[applicant_name]',$requestdetails['applicantname'],$this->body);
+            $this->body= str_replace('[applicant_email]',$requestdetail['applicantemail'],$this->body);
         }
-     
-        
     }
 
     

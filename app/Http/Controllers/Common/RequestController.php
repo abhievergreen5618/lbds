@@ -138,7 +138,10 @@ class RequestController extends Controller
     }
     public function showinspectorlist(Request $request)
     {
-        return view('inspector.request.requestlist');
+        $status = (isset($request->status)) ? $request->status : "all";
+        return view('inspector.request.requestlist')->with([
+            "status" => $status,
+        ]);
     }
 
     public function assign(Request $request)
@@ -337,7 +340,9 @@ class RequestController extends Controller
             {
                 $userid = Auth::user()->id;
             }
-            $data = RequestModel::where(["company_id" => $userid])->latest()->get(["id", "inspectiontype", "applicantname", "address", "city", "zipcode", "inspectiontype", "created_at", "status", "cancel_reason"]);
+            $filter = $request['status'];
+            $data =  ($filter == "all") ? RequestModel::where(["company_id" => $userid])->latest()->get(["id", "inspectiontype", "applicantname", "address", "city", "zipcode", "inspectiontype", "created_at", "status", "cancel_reason"]) 
+            : RequestModel::where(["company_id" => $userid,"status"=>$filter])->latest()->get(["id", "inspectiontype", "applicantname", "address", "city", "zipcode", "inspectiontype", "created_at", "status", "cancel_reason"]);
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('inspectiontype', function ($row) {
                     $returnvalue = "";
@@ -382,7 +387,9 @@ class RequestController extends Controller
     {
         if ($request->ajax()) {
             $GLOBALS['count'] = 0;
-            $data = RequestModel::where(["assigned_ins" => Auth::user()->id])->latest()->get(["id", "company_id", "applicantname", "applicantemail", "applicantmobile", "address", "city", "state", "zipcode", "inspectiontype", "created_at", "status", "scheduled_at", "schedule_time", "underreview_at", "completed_at"]);
+            $filter = $request['status'];
+            $data =  ($filter == "all") ? RequestModel::where(["assigned_ins" => Auth::user()->id])->latest()->get(["id", "company_id", "applicantname", "applicantemail", "applicantmobile", "address", "city", "state", "zipcode", "inspectiontype", "created_at", "status", "scheduled_at", "schedule_time", "underreview_at", "completed_at"]) 
+            : RequestModel::where(["assigned_ins" => Auth::user()->id,"status"=>$filter])->latest()->get(["id", "company_id", "applicantname", "applicantemail", "applicantmobile", "address", "city", "state", "zipcode", "inspectiontype", "created_at", "status", "scheduled_at", "schedule_time", "underreview_at", "completed_at"]);
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('company_id', function ($row) {
                     $heading = ["companyname" => "<span class='font-weight-600'>Company Name</span>", "companyphone" => "<span class='font-weight-600'>Company Phone</span>", "agentname" => "<span class='font-weight-600'>Agent Name</span>"];
@@ -793,7 +800,10 @@ class RequestController extends Controller
 
     public function showcompanylist(Request $request)
     {
-        return view('company.request.requestlist');
+        $status = (isset($request->status)) ? $request->status : "all";
+        return view('company.request.requestlist')->with([
+            "status" => $status,
+        ]);
     }
     public function sendmailreport(Request $request, EmailModel $reportemail)
     {

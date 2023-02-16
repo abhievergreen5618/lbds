@@ -9,7 +9,7 @@
     <div class="card-body pt-2" id="requeststatusajax" data-status="{{$status}}">
         <div class="col-lg-4 offset-lg-8">
           <div class="my-2 px-2 ml-auto">
-              <label for="requeststatus">{{ __('Request Status') }}</label>
+              <label for="requeststatus">{{ __('Filter Status: ') }}</label>
               <select class="form-control" name="requeststatus" id="requeststatus">
                   <option value="all">All</option>
                   <option value="pending" {{($status == "pending") ? 'selected' : ''}}>Pending</option>

@@ -39,7 +39,7 @@ $total_completed_request=RequestModel::where(['assigned_ins'=>Auth::user()->id,'
                         <h3>{{$total_assigned_request}}</h3>
                         <p>Assigned Request</p>
                     </div>
-                    <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+                    <a href="{{route('inspector.request.list',['status'=>'assigned'])}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -50,7 +50,7 @@ $total_completed_request=RequestModel::where(['assigned_ins'=>Auth::user()->id,'
                         <h3>{{$total_scheduled_request}}</h3>
                         <p>Scheduled Requests</p>
                     </div>
-                    <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+                    <a href="{{route('inspector.request.list',['status'=>'scheduled'])}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -61,7 +61,7 @@ $total_completed_request=RequestModel::where(['assigned_ins'=>Auth::user()->id,'
                         <h3>{{$total_underreview_request}}</h3>
                         <p>Submitted for Review Requests</p>
                     </div>
-                    <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+                    <a href="{{route('inspector.request.list',['status'=>'underreview'])}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -72,7 +72,7 @@ $total_completed_request=RequestModel::where(['assigned_ins'=>Auth::user()->id,'
                         <h3>{{$total_completed_request}}</h3>
                         <p>Completed Requests</p>
                     </div>
-                    <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+                    <a href="{{route('inspector.request.list',['status'=>'completed'])}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->

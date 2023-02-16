@@ -1,13 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="col-lg-12">
-  <div class="card">
-    <div class="card-body">
-      <h3 class="card-title">Payroll Tracker</h3>
-    </div>
-  </div>
-</div>
+
 
 <div class="col-lg-12">
   <div class="card card-primary collapsed-card">
@@ -60,11 +54,29 @@
 
 <div class="col-lg-12">
   <div class="card">
+    <div class="card-body">
+    <div class="pl-4 pr-4 p-3 row">
+    <div class="col-12">
+      <h3 class="card-title">Payroll Tracker</h3>
+    </div>
+        <div class="col-6 mt-2">
+            <h6 class="text-grey">Seleted Job Income :   $ <strong class="text-success" id="income">0</strong></h6>
+            <h6 class="text-grey">Seleted Inspector Income : $ <strong class="text-danger" id="payment">0</strong></h6>
+            <h6 class="text-grey">Profit : $ <strong id="profit" class="text-info">0</strong></h6>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-lg-12">
+  <div class="card">
     <div class="card-body pt-2">
       <div class="table-responsive">
         <table id="payrolltable" class="table table-bordered table-striped" cellspacing="0">
           <thead>
             <tr>
+              <th>Select Job</th>
               <th>Assigned Inspector</th>
               <th>Agency</th>
               <th>Location</th>
@@ -156,9 +168,12 @@
         "columnDefs": [
             { "className": "dt-center", "width": "9%", "targets": "_all" },
         ],
-        "order": [0, 'desc'],
+        "order": [1, 'desc'],
         
         "columns": [
+            {
+                "data": "checkbox",
+            },
             {
                 "data": "assigned_ins",
             },
@@ -247,6 +262,35 @@
           }
 });
 }); 
+
+payrolltable.on('click', '.selectbox', function () {
+  var allselectbox = $(".selectbox");
+  if(allselectbox.length)
+  {
+    var selectedjobincome = 0;
+    var selectedinspectorincome = 0;
+    var profit = 0;
+    $.each(allselectbox,(key,value)=>{
+      var income = $(value).closest("tr").find("[name='income']").val().length ? parseInt($(value).closest("tr").find("[name='income']").val()) : 0; 
+      var inspectorfee = $(value).closest("tr").find("[name='ins_fee']").val().length ? parseInt($(value).closest("tr").find("[name='ins_fee']").val()) : 0; 
+      if($(value).is(":checked"))
+      {
+        selectedjobincome = parseInt(selectedjobincome+income); 
+        selectedinspectorincome = parseInt(selectedinspectorincome+inspectorfee);
+        var tempprofit = parseInt(inspectorfee-income);
+        profit = profit+tempprofit;
+        $(value).attr("added","true");
+      }
+      else if(!$(value).is(":checked") && typeof $(value).attr("added") != "undefined" && $(value).attr("added").length) 
+      {
+        $(value).removeAttr("added");
+      }
+    });
+    $("#payment").text(selectedjobincome);
+    $("#income").text(selectedinspectorincome);
+    $("#profit").text(profit);
+  }
+});
 }); 
 </script>
 @endpush

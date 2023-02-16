@@ -62,7 +62,7 @@
 
                   {{-- @can('request-list') --}}
                 <li class="nav-item">
-                    <a href="{{ route('inspector.request.list') }}" class="sub-menu nav-link {{ Route::currentRouteName() == 'inspector.request.list' ? 'active' : ''}}">
+                    <a href="{{ route('inspector.request.list') }}" class="nav-link {{ Route::currentRouteName() == 'inspector.request.list' ? 'active' : ''}}">
                         <i class="nav-icon fas fa-align-left"></i>
                         <p>
                             All Requests

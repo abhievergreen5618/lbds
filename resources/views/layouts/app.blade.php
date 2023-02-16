@@ -32,7 +32,7 @@
   <link rel="stylesheet" href="{{ asset('plugins/bs-stepper/css/bs-stepper.min.css') }}">
 
   <link rel="stylesheet" href="{{asset('/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
-  <!-- <link rel="stylesheet" href="{{asset('/css/datatableselect.min.css')}}"> -->
+  <link rel="stylesheet" href="{{asset('/css/datatableselect.min.css')}}">
   <link rel="stylesheet" href="{{asset('/css/sweetalert.min.css')}}">
   <link rel="stylesheet" href="{{asset('/css/dropzone.min.css')}}">
   <link rel="stylesheet" href="{{asset('/plugins/summernote/summernote-bs4.min.css')}}">
@@ -128,7 +128,7 @@
   <script src="{{asset('/plugins/select2/js/select2.full.min.js')}}"></script>
   <script src="{{asset('/plugins/datatables/jquery.dataTables.min.js')}}"></script>
   <script src="{{asset('/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
-  <!-- <script src="{{asset('/js/dataTableselect.min.js')}}"></script> -->
+  <script src="{{asset('/js/dataTableselect.min.js')}}"></script>
   <script src="{{asset('/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
   <script src="{{asset('/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
   <script src="{{asset('/js/functions.js')}}"></script>

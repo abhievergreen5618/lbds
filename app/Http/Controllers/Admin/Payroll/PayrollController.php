@@ -118,12 +118,15 @@ class PayrollController extends Controller
                         return "<input type='checkbox' class='payment_status' data-id='payment_status' id='payment_status' name='payment_status' value='paid'>";
                     }
                 })
+                ->addColumn('checkbox', function ($row) {
+                   return '<input class="selectbox" type="checkbox">';
+                })
                 ->addColumn('action', function ($row) {
                     $id = encrypt($row->id);
                     $btn = "<div class='d-flex justify-content-around'><a href='javascript:void(0);'id='savebtn'   data-id='$id' data-bs-toggle='tooltip'  data-bs-placement='top' title='Save'  class='btn limegreen btn-primary  save'>Save</a>&nbsp;<a href='javascript:void(0);' id='editbtn'  data-id='$id' data-bs-toggle='tooltip'  data-bs-placement='top' title='Edit' class='btn limegreen btn-danger edit hide' style='display:none;'>Edit</a></div>";
                     return $btn;
                 })
-                ->rawColumns(['id', 'ins_fee', 'income', 'pay_range', 'pay_date', 'payment_status', 'action'])
+                ->rawColumns(['id', 'ins_fee', 'income', 'pay_range', 'pay_date', 'payment_status', 'action','checkbox'])
                 ->make(true);
         }
     }
