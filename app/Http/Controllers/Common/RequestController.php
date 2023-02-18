@@ -611,6 +611,7 @@ class RequestController extends Controller
             "status" => "scheduled",
             "scheduled_at" => $request->date,
             "schedule_time" => $request->time,
+            "remindermailstatus" => "notsend",
         ]);
         return redirect()->back()->with('msg', 'Request Scheduled Successfully');
     }
