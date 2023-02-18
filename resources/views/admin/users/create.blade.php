@@ -28,7 +28,7 @@
     </div>
     <div class="col-sm-6">
         <div class="float-right">
-            <a class="btn btn-primary" href="{{ route('users.index') }}"> Back</a>
+            <a class="btn btn-primary" href="{{ route('admin.users.view') }}"> Back</a>
         </div>
     </div>
 </div>
