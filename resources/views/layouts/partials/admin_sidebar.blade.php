@@ -255,7 +255,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                     <a href="{{route('job.show')}}" class="nav-link">
                         <i class="nav-icon fas fa-calendar"></i>
                         <p>
-                            Job Calender
+                            Job Calendar
                         </p>
                     </a>
                 </li>

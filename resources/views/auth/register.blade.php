@@ -58,11 +58,10 @@
                         <div class="signup-form">
                             <form method="post" action="{{ route('register') }}"  class="register-form"  id="register-form">
                                 @csrf
-                                <h2>{{ __('Register Form') }}</h2>
+                                <h2>{{ __('Company Registration Form') }}</h2>
                                 <div class="form-row">
                                     <div class="form-group">
                                         <label for="company_name">{{ __('Company Name') }}:</label>
-                                       
                                         <input id="company_name" type="text"
                                             class="form-control @error('company_name') is-invalid @enderror"
                                             name="company_name" value="{{ old('company_name') }}">

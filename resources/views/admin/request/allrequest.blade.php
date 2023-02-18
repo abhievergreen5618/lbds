@@ -29,10 +29,10 @@
               <th>Applicant</th>
               <th>Location</th>
               <th>Inspection Type</th>
-              <th>Added At</th>
+              <th>Added On</th>
               <th>Assigned Inspector</th>
               <th>Status</th>
-              <th>Invoice</th>
+              <th>Invoiced</th>
               <th>Action</th>
             </tr>
           </thead>

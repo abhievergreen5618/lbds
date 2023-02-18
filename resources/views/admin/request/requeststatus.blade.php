@@ -695,7 +695,7 @@ use Illuminate\Support\Facades\Storage;
                             font-weight-500 py-0 shadow pointer">
                             @if(!empty($requestdetails->scheduled_at))
                             @php
-                            $link = "https://calendar.google.com/calendar/r/eventedit?text=Inspection&details=test&location=&dates=".$requestdetails->scheduled_at."T".$requestdetails->time."ctz=(GMT+5:30)";
+                            $link = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Inspection&details=&location=&dates=".date("Ymd\THis\Z",strtotime($requestdetails->scheduled_at.$requestdetails->time))."/".date("Ymd\THis\Z",strtotime($requestdetails->scheduled_at.$requestdetails->time))."ctz=(GMT+5:30)";
                             @endphp
                             @else
                             @php

@@ -54,7 +54,7 @@
                     <a href="{{route('job.show')}}" class="nav-link  {{ Route::currentRouteName() == 'job.show' ? 'active' : ''}}">
                         <i class="nav-icon fas fa-calendar"></i>
                         <p>
-                            Job Calender
+                            Job Calendar
                         </p>
                     </a>
                 </li>
