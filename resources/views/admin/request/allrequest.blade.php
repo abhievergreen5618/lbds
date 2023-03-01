@@ -132,7 +132,7 @@
         "columnDefs": [
             { "className": "dt-center", "width": '9%', "targets": "_all" },
         ],
-        "order": [0, 'desc'],
+        "order": [5, 'desc'],
         "columns": [
             {
                 "data": "id",
