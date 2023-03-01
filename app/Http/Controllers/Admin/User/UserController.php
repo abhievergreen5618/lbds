@@ -38,7 +38,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::pluck('name','name')->all();
+        // $roles = Role::pluck('name','name')->all();
+        $roles = ["admin"=>"admin"];
         return view('admin.users.create',compact('roles'));
     }
     
@@ -62,7 +63,10 @@ class UserController extends Controller
     
         $user = User::create($input);
         $user->assignRole($request->input('roles'));
-        DB::table('users')->where('id',$user->id)->update(['approved'=>"Approved"]);
+        DB::table('users')->where('id',$user->id)->update([
+            "approved"=>"Approved",
+            "email_verified_at" => date('Y-m-d H:i:s'),
+        ]);
         return redirect()->route('admin.users.view')
                         ->with('msg','User created successfully');
     }
