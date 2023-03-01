@@ -377,7 +377,7 @@ class RequestController extends Controller
                     } elseif ($row->status == "completed") {
                         $class = "badge btn-success ml-2 status";
                     }
-                    $cancelreason = (!empty($row->status == "cancelled")) ? "<hr class='my-2'><span class='font-weight-600'>Reason</span><div>" . $row->cancel_reason . "</div>" : "";
+                    $cancelreason = (($row->status != "cancelled") && ($row->status != "completed")) ? "<hr class='my-2'><span class='font-weight-600'>Reason</span><div>" . $row->cancel_reason . "</div>" : "";
                     $btntext = ucfirst($row->status);
                     $id = encrypt($row->id);
                     $statusBtn = "<div class='d-flex justify-content-center'><a href='javascript:void(0)' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Task $btntext' class='$class'>$btntext</a></div>" . $cancelreason;
