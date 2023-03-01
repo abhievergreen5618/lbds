@@ -129,6 +129,7 @@
   <script src="{{asset('/plugins/datatables/jquery.dataTables.min.js')}}"></script>
   <script src="{{asset('/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
   <script src="{{asset('/js/dataTableselect.min.js')}}"></script>
+  <script src="{{asset('/js/ckeditor.min.js')}}"></script>
   <script src="{{asset('/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
   <script src="{{asset('/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
   <script src="{{asset('/js/functions.js')}}"></script>
@@ -176,9 +177,9 @@
     });
 
 
-        
-      
-    
+
+
+
     function playAudio() {
       var sound = new Audio('{{ asset('audio/sound.mp3')}}');
       var playPromise = sound.play();

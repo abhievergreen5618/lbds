@@ -156,7 +156,7 @@ class UserController extends Controller
     {
         if ($request->ajax()) {
             $GLOBALS['count'] = 0;
-            $data = User::get(['id','name','email']);
+            $data = User::role('admin')->get(['id','name','email']);
             return Datatables::of($data)->addIndexColumn()
             ->addColumn('sno', function($row){
                 $GLOBALS['count']++;
