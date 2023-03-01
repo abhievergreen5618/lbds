@@ -21,6 +21,9 @@
     }
 
     }
+    span.select2.select2-container.select2-container--default {
+    width: 100%!important;
+    }
 </style>
 @endpush
 
