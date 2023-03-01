@@ -49,7 +49,7 @@
 
 @push('footer_extras')
 <script>
-  var status = $("#requeststatusajax").attr("data-status");
+var status = $("#requeststatusajax").attr("data-status");
 var inspectorrequesttable = $('#inspectorrequesttable').DataTable({
         "processing": true,
         "serverSide": true,

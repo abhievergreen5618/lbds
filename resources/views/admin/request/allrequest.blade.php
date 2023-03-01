@@ -132,7 +132,7 @@
         "columnDefs": [
             { "className": "dt-center", "width": '9%', "targets": "_all" },
         ],
-        "order": [5, 'desc'],
+        "order": [5,'desc'],
         "columns": [
             {
                 "data": "id",
@@ -154,11 +154,11 @@
             },
             {
                 "data": "assigned_inspector",
-                "width": '100px',
+                "width": '1000px',
             },
             {
                 "data": "status",
-                "width": '100px',
+                "width": '1000px',
             },
             {
                 "data": "invoice",

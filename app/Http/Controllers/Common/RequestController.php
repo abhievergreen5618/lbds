@@ -472,7 +472,8 @@ class RequestController extends Controller
             // $request->validate([
             //     'file.*' => 'required|mimes:image/jpeg,image/png,image/jpg,application/pdf|max:2048',
             // ]);
-            if(isset($request['taskid'])) {
+            if(isset($request['taskid'])) 
+            {
                 $id = decrypt($request['taskid']);
                 $type = ($request['type'] == "agencyfiles") ? "agency_related_files" : "reports_related_files";
                 $files = RequestModel::where('id', $id)->first($type);
