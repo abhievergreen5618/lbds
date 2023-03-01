@@ -386,7 +386,8 @@ class RequestController extends Controller
                 ->addColumn('action', function ($row) {
                     $id = encrypt($row->id);
                     $editlink = route('requestcheck', ['id' => $id]);
-                    $btn = "<div class='d-flex justify-content-around'><a href='$editlink' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Edit' class='btn limegreen btn-primary  edit'>View</a></div>";
+                    $cancelbtn = ($row->status != "completed") ? "<a href='javascript:void(0)' data-id='$id' class='ml-2 cancel btn red-btn btn-warning'  data-bs-toggle='tooltip' data-bs-placement='top' title='Delete'>Cancel</a>" : "";
+                    $btn = "<div class='d-flex justify-content-around'><a href='$editlink' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Edit' class='btn limegreen btn-primary  edit'>View</a>$cancelbtn</div>";
                     return $btn;
                 })
                 ->rawColumns(['action', 'inspectiontype', 'created_at', 'status'])
