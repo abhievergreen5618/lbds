@@ -24,6 +24,21 @@
     span.select2.select2-container.select2-container--default {
     width: 100%!important;
     }
+    
+    @media (min-width: 300px) and (max-width: 600px){
+
+
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 26px;
+        position: absolute;
+        top: 1px;
+        right: 1px;
+        width: 20px;
+        left: 210px;
+    }
+
+    }
 </style>
 @endpush
 
