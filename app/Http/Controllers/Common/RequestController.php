@@ -104,7 +104,7 @@ class RequestController extends Controller
                 "zipcode" => $request['zipcode'],
                 "sendinvoice" => $request['sendinvoice'],
                 "comments" => $comment,
-                "custom_created_at " => date('Y-m-d H:i:s'),
+                "custom_created_at" => date('Y-m-d H:i:s'),
             ]);
             session()->forget('taskid');
         }
