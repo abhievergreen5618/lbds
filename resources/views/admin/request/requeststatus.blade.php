@@ -330,7 +330,7 @@ use Illuminate\Support\Facades\Storage;
         <div class="col-md-12 mb-3 nav justify-content-between timeline">
             <div class="text-center single-timeline"> <i class="fas fa-check-circle text-success fa-3x"></i>
                 <h5 class="font-weight-600 mt-2 text-black">Submitted</h5>
-                <h6 class="font-weight-500 mt-2 text-secondary font-95">{{!empty($requestdetails->created_at) ? date('F d ,Y',strtotime($requestdetails->created_at)) : "----
+                <h6 class="font-weight-500 mt-2 text-secondary font-95">{{!empty($requestdetails->custom_created_at) ? date('F d ,Y',strtotime($requestdetails->custom_created_at)) : "----
                     ---- ------ "}}</h6>
             </div>
             <div class="text-center single-timeline"><i class="{{($requestdetails->status == 'scheduled' || $requestdetails->status == 'underreview' || $requestdetails->status == 'completed' || $requestdetails->status == 'assigned') ? 'fas fa-check-circle' : 'far fa-clock'}}  text-success fa-3x"></i>

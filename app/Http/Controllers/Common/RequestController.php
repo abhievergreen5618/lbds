@@ -262,7 +262,7 @@ class RequestController extends Controller
         if ($request->ajax()) {
             $GLOBALS['count'] = 0;
             $filter = $request['status'];
-            $data =  ($filter == "all") ? RequestModel::whereNotNull("company_id", "")->latest()->get(["id", "company_id", "applicantname", "address", "inspectiontype", "created_at", "status", "assigned_ins","invoice"]) : RequestModel::where('status',$filter)->get(["id", "company_id", "applicantname", "address", "inspectiontype", "created_at", "status", "assigned_ins","invoice"]);
+            $data =  ($filter == "all") ? RequestModel::whereNotNull("company_id", "")->latest()->get(["id", "company_id", "applicantname", "address", "inspectiontype", "custom_created_at", "status", "assigned_ins","invoice"]) : RequestModel::where('status',$filter)->get(["id", "company_id", "applicantname", "address", "inspectiontype", "created_at", "status", "assigned_ins","invoice"]);
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('company_id', function ($row) {
                     $company_name = User::role('company')->where(["id" => $row->company_id])->first("company_name");
@@ -298,7 +298,7 @@ class RequestController extends Controller
                     return $returnvalue;
                 })
                 ->addColumn('created_at', function ($row) {
-                    return date('F d ,Y h:i a',strtotime($row->created_at));
+                    return date('F d ,Y h:i a',strtotime($row->custom_created_at));
                 })
                 ->addColumn('invoice', function ($row) {
                     $checkstatus = (!empty($row->invoice) && $row->invoice == "active") ? "checked" :"" ;
