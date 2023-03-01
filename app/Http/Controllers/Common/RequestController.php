@@ -319,7 +319,7 @@ class RequestController extends Controller
                     $returnvalue = "<select class='form-control statusdropdown' name='status' data-req-id='" . encrypt($row->id) . "'><option value=''></option>";
                     foreach ($arr as $key => $value) {
                         $select = ((!empty($row->status)) && $row->status === $value) ? "selected" : "";
-                        $returnvalue = $returnvalue . "<option value='" . $value . "' $select>" . $value . "</option>";
+                        $returnvalue = ($value == "underreview") ? $returnvalue . "<option value='" . $value . "' $select>under-review</option>" : $returnvalue . "<option value='" . $value . "' $select>" . $value . "</option>";
                     }
                     $returnvalue = $returnvalue . "</select>";
                     return $returnvalue;
