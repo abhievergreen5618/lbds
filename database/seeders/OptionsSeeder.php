@@ -30,7 +30,7 @@ class OptionsSeeder extends Seeder
             ["option_name"=>"pusher_app_key","option_value"=>"cdb5dfb1da13d59428cd"],
             ["option_name"=>"pusher_app_secret","option_value"=>"183916ae7c51fb45a86b"],
             ["option_name"=>"pusher_app_cluster","option_value"=>"us3"],
-            ["option_name"=>"login_img","option_value"=>"hh.jpg"],
+            ["option_name"=>"login_img","option_value"=>"loginimage.jpg"],
             ["option_name"=>"registration_img","option_value"=>"regg.jpg"],
             ["option_name"=>"registration_logo_img","option_value"=>"yy.png"],
             ["option_name"=>"verification_message","option_value"=>"<p>Hi,</p><p>&nbsp; &nbsp; &nbsp;Welcome to Our Organization. I hope you are happy to a part of our organiztion.</p>"],

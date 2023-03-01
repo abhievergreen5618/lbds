@@ -41,6 +41,7 @@ class RequestModel extends Model
         'remindermailstatus',
         'pay_range_start',
         'pay_range_end',
+        'created_at',
     ];
 
     protected $casts = [

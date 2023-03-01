@@ -45,6 +45,7 @@ return new class extends Migration
             $table->string('remindermailstatus')->default("notsend");
             $table->date('pay_range_start')->nullable();
             $table->date('pay_range_end')->nullable();
+            $table->timestamp('created_at')->nullable();
             $table->timestamps();
             // $table->softDeletes();
         });
