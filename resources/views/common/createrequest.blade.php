@@ -35,9 +35,8 @@
         top: 1px;
         right: 1px;
         width: 20px;
-        left: 210px;
+        left: 245px;
     }
-
     }
 </style>
 @endpush
