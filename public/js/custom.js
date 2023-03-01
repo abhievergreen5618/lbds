@@ -98,12 +98,8 @@ $(document).ready(function () {
             },
         },
         "columnDefs": [
-            { "className": "dt-center", "targets": "_all", "orderable": false, "className": 'select-checkbox', "targets": 0 },
+            { "className": "dt-center", "targets": "_all"},
         ],
-        "select": {
-            style: 'os',
-            selector: 'td:first-child'
-        },
         "order": [[1, 'asc']],
         "columns": [
             {
