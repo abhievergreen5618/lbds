@@ -314,16 +314,25 @@ class RequestController extends Controller
                     }
                     $btntext = ucfirst($row->status);
                     $id = encrypt($row->id);
-                    // $markcompleted = ($row->status == "underreview") ? "<a href='javascript:void(0)' data-id='$id' class='ml-2 d-flex complete btn align-items-center btn-success'  data-bs-toggle='tooltip' data-bs-placement='top' title='Complete'><i class='fas fa-check-double fa-sm'></i><span class='ml-1'>Mark Completed</span></a>" : "";
-                    // $statusBtn = "<div class='d-flex justify-content-center align-items-center'><a href='javascript:void(0)' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Task $btntext' class='$class'>$btntext</a>" . $markcompleted . "</div>";
-                    $arr = ["pending", "assigned", "scheduled", "underreview", "completed"];
-                    $returnvalue = "<select class='form-control statusdropdown' name='status' data-req-id='" . encrypt($row->id) . "'><option value=''></option>";
-                    foreach ($arr as $key => $value) {
-                        $select = ((!empty($row->status)) && $row->status === $value) ? "selected" : "";
-                        $returnvalue = ($value == "underreview") ? $returnvalue . "<option value='" . $value . "' $select>under-review</option>" : $returnvalue . "<option value='" . $value . "' $select>" . $value . "</option>";
+                    if($row->status == "cancelled")
+                    {
+                        $cancelreason = (!empty($row->status == "cancelled")) ? "<hr class='my-2'><span class='font-weight-600'>Reason</span><div>" . $row->cancel_reason . "</div>" : "";
+                        $statusBtn = "<div class='d-flex justify-content-center'><a href='javascript:void(0)' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Task $btntext' class='$class'>$btntext</a></div>" . $cancelreason;
+                        return $statusBtn;
                     }
-                    $returnvalue = $returnvalue . "</select>";
-                    return $returnvalue;
+                    else
+                    {
+                        // $markcompleted = ($row->status == "underreview") ? "<a href='javascript:void(0)' data-id='$id' class='ml-2 d-flex complete btn align-items-center btn-success'  data-bs-toggle='tooltip' data-bs-placement='top' title='Complete'><i class='fas fa-check-double fa-sm'></i><span class='ml-1'>Mark Completed</span></a>" : "";
+                        // $statusBtn = "<div class='d-flex justify-content-center align-items-center'><a href='javascript:void(0)' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Task $btntext' class='$class'>$btntext</a>" . $markcompleted . "</div>";
+                        $arr = ["pending", "assigned", "scheduled", "underreview", "completed"];
+                        $returnvalue = "<select class='form-control statusdropdown' name='status' data-req-id='" . encrypt($row->id) . "'><option value=''></option>";
+                        foreach ($arr as $key => $value) {
+                            $select = ((!empty($row->status)) && $row->status === $value) ? "selected" : "";
+                            $returnvalue = ($value == "underreview") ? $returnvalue . "<option value='" . $value . "' $select>under-review</option>" : $returnvalue . "<option value='" . $value . "' $select>" . $value . "</option>";
+                        }
+                        $returnvalue = $returnvalue . "</select>";
+                        return $returnvalue;
+                    }
                 })
                 ->rawColumns(['company_id', 'inspectiontype', 'created_at', 'action', 'status', 'assigned_inspector','invoice'])
                 ->make(true);
