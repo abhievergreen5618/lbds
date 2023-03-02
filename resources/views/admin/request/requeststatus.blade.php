@@ -750,6 +750,7 @@ use Illuminate\Support\Facades\Storage;
 
         <div class="col-md-12">
             <div id="accordion">
+            @if(!Auth::user()->hasRole('inspector'))
                 <div class="card card-primary">
                     <div class="card-header">
                         <h4 class="card-title w-100">
@@ -833,6 +834,7 @@ use Illuminate\Support\Facades\Storage;
                         </div>
                     </div>
                 </div>
+                @endif
                 <div class="card card-danger">
                     <div class="card-header">
                         <h4 class="card-title w-100">

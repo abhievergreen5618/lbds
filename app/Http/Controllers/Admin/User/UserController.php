@@ -38,8 +38,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        // $roles = Role::pluck('name','name')->all();
-        $roles = ["admin"=>"admin"];
+        $roles = Role::pluck('name','name')->all();
+        unset($roles['company']);
+        unset($roles['inspector']);
+        unset($roles['employee']);
         return view('admin.users.create',compact('roles'));
     }
     
@@ -95,6 +97,9 @@ class UserController extends Controller
         if (isset($request['id']) && !empty($request['id'])) {
            $user = User::where('id', decrypt($request['id']))->first();
            $roles= Role::pluck('name','name')->all();
+           unset($roles['company']);
+           unset($roles['inspector']);
+           unset($roles['employee']);
            $userRole = $user->roles->pluck('name','name')->all();
            return view('admin.users.edit',compact('user','roles','userRole'));
         }
@@ -160,7 +165,12 @@ class UserController extends Controller
     {
         if ($request->ajax()) {
             $GLOBALS['count'] = 0;
-            $data = User::role('admin')->get(['id','name','email']);
+            // Get the "company" and "inspector" roles
+            $excludedRoles = Role::whereIn('name', ['company', 'inspector','employee'])->get();
+            // Get the users without those roles
+            $data = User::whereDoesntHave('roles', function($query) use ($excludedRoles) {
+                $query->whereIn('name', $excludedRoles->pluck('name'));
+            })->get(['id','name','email']);
             return Datatables::of($data)->addIndexColumn()
             ->addColumn('sno', function($row){
                 $GLOBALS['count']++;
@@ -182,10 +192,8 @@ class UserController extends Controller
                 ->addColumn('action', function ($row) {
                     $id = encrypt($row->id);
                     $editlink = route('admin.users.show', ['id' => $id]);
-                    // $btn = "<div class='d-flex justify-content-around'>
-                    // <a href='$editlink' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Edit' class='btn limegreen btn-primary  edit'><i class='fas fa-edit'></i></a>
-                    // <a href='javascript:void(0)' data-id='$id' class='delete btn red-btn btn-danger  '  data-bs-toggle='tooltip' data-bs-placement='top' title='Delete'><i class='fa fa-trash' aria-hidden='true'></i></a></div>";
-                    $btn = "<div class='d-flex justify-content-around'><a href='javascript:void(0)' data-id='$id' class='delete btn red-btn btn-danger  '  data-bs-toggle='tooltip' data-bs-placement='top' title='Delete'><i class='fa fa-trash' aria-hidden='true'></i></a></div>";
+                    $btn = "<div class='d-flex justify-content-around'><a href='$editlink' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Edit' class='btn limegreen btn-primary  edit'><i class='fas fa-edit'></i></a><a href='javascript:void(0)' data-id='$id' class='delete btn red-btn btn-danger  '  data-bs-toggle='tooltip' data-bs-placement='top' title='Delete'><i class='fa fa-trash' aria-hidden='true'></i></a></div>";
+                    // $btn = "<div class='d-flex justify-content-around'><a href='javascript:void(0)' data-id='$id' class='delete btn red-btn btn-danger  '  data-bs-toggle='tooltip' data-bs-placement='top' title='Delete'><i class='fa fa-trash' aria-hidden='true'></i></a></div>";
                     return $btn;
                 })  
                 ->rawColumns(['id','sno','roles' ,'action'])

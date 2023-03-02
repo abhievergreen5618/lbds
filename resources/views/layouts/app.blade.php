@@ -52,18 +52,18 @@
   <div class="wrapper">
     @include('layouts.partials.loader')
     @include('layouts.partials.header')
-    @role('admin')
-    @include('layouts.partials.admin_sidebar')
-    @endrole
-    @role('inspector')
-    @include('layouts.partials.inspector_sidebar')
-    @endrole
-    @role('company')
-    @include('layouts.partials.company_sidebar')
-    @endrole
-    @role('employee')
-    @include('layouts.partials.company_sidebar')
-    @endrole
+   
+    @if(Auth::user()->hasRole('admin'))
+      @include('layouts.partials.admin_sidebar')
+    @elseif(Auth::user()->hasRole('company') || Auth::user()->hasRole('employee'))
+      @include('layouts.partials.company_sidebar')
+    @elseif(Auth::user()->hasRole('inspector'))
+      @include('layouts.partials.inspector_sidebar')
+    @else
+      @include('layouts.partials.admin_sidebar')
+    @endif
+
+
     <div class="content-wrapper" style="min-height: 214px;">
       <div class="container-fluid mt-2">
         @include('layouts.partials.alert')
