@@ -1462,8 +1462,6 @@
 
       if (usingDefTab) {
         var $el = $__default["default"]("" + SELECTOR_TAB_PANE).first(); // eslint-disable-next-line no-console
-
-        console.log($el);
         var uniqueName = $el.attr('id').replace('panel-', '');
         var navId = "#tab-" + uniqueName;
         this.switchTab(navId, true);
@@ -2994,7 +2992,6 @@
 
       var elementId = this._element.attr('id') !== undefined ? "#" + this._element.attr('id') : '';
       $__default["default"](document).on('click', "" + elementId + this._config.trigger, function (event) {
-        console.log(event);
         _this3.toggle(event);
       });
     };
