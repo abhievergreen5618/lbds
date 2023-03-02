@@ -58,7 +58,7 @@ class RequestModel extends Model
         $prefix = 'REQ_';
         $date = date('Ymd');
         $time = date('His');
-        $uniqueId = $prefix.$date.$time.rand(1,100);
+        $uniqueId = $prefix.$date.$time.rand(1,999);
         $count = RequestModel::where("unique_request_id",$uniqueId)->count();
         if($count == 0)
         {
