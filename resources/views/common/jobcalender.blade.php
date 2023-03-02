@@ -16,41 +16,43 @@
 
     @media (min-width: 400px) and (max-width: 600px)
     {
-        .profile-pic img {
-            width: 70px!important;
-            height: 70px!important;
-            box-shadow: 0 0 10px 0 rgb(255 255 255 / 35%);
+        .fc-daygrid-day
+        {
+            position: relative;
         }
-
-        img#registration_logo_img {
-            width: 110px!important;
-            height: 110px!important;
+        .fc-daygrid-day-events
+        {
+            top: 50%;
+            transform: translate(2px, -5px);
+            overflow: hidden;
+            height: 21px;
         }
     }
 
     @media (min-width: 300px) and (max-width: 400px){
-
-        .profile-pic img {
-            width: 70px!important;
-            height: 70px!important;
-            box-shadow: 0 0 10px 0 rgb(255 255 255 / 35%);
+        .fc-daygrid-day
+        {
+            position: relative;
         }
-
-        img#registration_logo_img {
-            width: 110px!important;
-            height: 110px!important;
+        .fc-daygrid-day-events
+        {
+            top: 50%;
+            transform: translate(2px, -5px);
+            overflow: hidden;
+            height: 21px;
         }
     }
     @media (min-width: 300px) and (max-width: 600px){
-        .profile-pic img {
-            width: 70px!important;
-            height: 70px!important;
-            box-shadow: 0 0 10px 0 rgb(255 255 255 / 35%);
+        .fc-daygrid-day
+        {
+            position: relative;
         }
-
-        img#registration_logo_img {
-            width: 110px!important;
-            height: 110px!important;
+        .fc-daygrid-day-events
+        {
+            top: 50%;
+            transform: translate(2px, -5px);
+            overflow: hidden;
+            height: 21px;
         }
     }
 </style>
