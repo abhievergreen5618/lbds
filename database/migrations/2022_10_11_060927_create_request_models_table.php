@@ -16,6 +16,7 @@ return new class extends Migration
     {
         Schema::create('request_models', function (Blueprint $table) {
             $table->id();
+            $table->string('unique_request_id')->nullable();
             $table->string('company_id')->nullable();
             $table->string('inspectiontype')->nullable();
             $table->string('applicantname')->nullable();

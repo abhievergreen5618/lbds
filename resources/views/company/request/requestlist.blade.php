@@ -18,6 +18,7 @@
                         <option value="scheduled"  {{($status == "scheduled") ? 'selected' : ''}}>Scheduled</option>
                         <option value="underreview"  {{($status == "underreview") ? 'selected' : ''}}>Submitted for Review</option>
                         <option value="completed"  {{($status == "completed") ? 'selected' : ''}}>Completed</option>
+                        <option value="cancelled"  {{($status ==  "cancelled") ? 'selected' : ''}}>Cancelled</option>
                     </select>
                 </div>
               </div>

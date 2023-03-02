@@ -12,11 +12,12 @@
               <label for="requeststatus">{{ __('Filter Status: ') }}</label>
               <select class="form-control" name="requeststatus" id="requeststatus">
                   <option value="all">All</option>
-                  <option value="pending" {{($status == "pending") ? 'selected' : ''}}>Pending</option>
-                  <option value="assigned"  {{($status == "assigned") ? 'selected' : ''}}>Assigned</option>
+                  <option value="pending" {{($status ==  "pending") ? 'selected' : ''}}>Pending</option>
+                  <option value="assigned"  {{($status ==  "assigned") ? 'selected' : ''}}>Assigned</option>
                   <option value="scheduled"  {{($status == "scheduled") ? 'selected' : ''}}>Scheduled</option>
                   <option value="underreview"  {{($status == "underreview") ? 'selected' : ''}}>Under-review</option>
                   <option value="completed"  {{($status == "completed") ? 'selected' : ''}}>Completed</option>
+                  <option value="cancelled"  {{($status ==  "cancelled") ? 'selected' : ''}}>Cancelled</option>
               </select>
           </div>
       </div>
