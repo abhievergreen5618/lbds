@@ -4,11 +4,15 @@
 <div class="col-lg-12">
     <div class="card">
       <div class="card-body">
-        <div class="float-lg-left">
-        <h3 class="card-title">All Inspector Messages</h3>
-        </div>
-        <div class="float-lg-right">
-          <a class="btn btn-success" href="{{ route('chatify') }}">Chat</a>
+        <div class="row align-items-center">
+            <div class="col-lg-12 margin-tb">
+                <div class="float-left">
+                  <h3 class="card-title">All Inspector Messages</h3>
+                </div>
+                <div class="float-right">
+                <a class="btn btn-success" href="{{ route('chatify') }}">Chat</a>
+                </div>
+            </div>
         </div>
       </div>
     </div>

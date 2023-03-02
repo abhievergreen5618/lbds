@@ -1,3 +1,11 @@
+@push("header_extras")
+<style>
+.content-wrapper {
+    padding: 20px;
+}
+</style>
+@endpush
+
 @extends('layouts.app')
 
 @section('content')
