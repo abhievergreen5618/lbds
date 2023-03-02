@@ -13,6 +13,46 @@
     .fc-daygrid-event.fc-daygrid-dot-event.fc-event.fc-event-start.fc-event-end.fc-event-future {
         background: palegoldenrod !important;
     }
+
+    @media (min-width: 400px) and (max-width: 600px)
+    {
+        .profile-pic img {
+            width: 70px!important;
+            height: 70px!important;
+            box-shadow: 0 0 10px 0 rgb(255 255 255 / 35%);
+        }
+
+        img#registration_logo_img {
+            width: 110px!important;
+            height: 110px!important;
+        }
+    }
+
+    @media (min-width: 300px) and (max-width: 400px){
+
+        .profile-pic img {
+            width: 70px!important;
+            height: 70px!important;
+            box-shadow: 0 0 10px 0 rgb(255 255 255 / 35%);
+        }
+
+        img#registration_logo_img {
+            width: 110px!important;
+            height: 110px!important;
+        }
+    }
+    @media (min-width: 300px) and (max-width: 600px){
+        .profile-pic img {
+            width: 70px!important;
+            height: 70px!important;
+            box-shadow: 0 0 10px 0 rgb(255 255 255 / 35%);
+        }
+
+        img#registration_logo_img {
+            width: 110px!important;
+            height: 110px!important;
+        }
+    }
 </style>
 @endpush
 @extends('layouts.app')

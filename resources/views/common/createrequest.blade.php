@@ -3,41 +3,6 @@
     .others {
         margin-left: 10px !important;
     }
-    @media (min-width: 400px) and (max-width: 600px){
-    .select2-container--default .select2-selection--single {
-        border-radius: 4px;
-        width: 273px!important;
-    }
-
-    }
-
-    @media (min-width: 300px) and (max-width: 400px){
-
-
-    .select2-container--default .select2-selection--single {
-        border: 1px solid #aaa;
-        border-radius: 4px;
-        width: 240px!important;
-    }
-
-    }
-    span.select2.select2-container.select2-container--default {
-    width: 100%!important;
-    }
-    
-    @media (min-width: 300px) and (max-width: 600px){
-
-
-
-    .select2-container--default .select2-selection--single .select2-selection__arrow {
-        height: 26px;
-        position: absolute;
-        top: 1px;
-        right: 1px;
-        width: 20px;
-        left: 245px;
-    }
-    }
 </style>
 @endpush
 

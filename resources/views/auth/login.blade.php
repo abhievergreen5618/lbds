@@ -40,10 +40,6 @@ $loginimage = $option->get_option("login_img");
           <form class="formm" method="POST" action="{{ route('login') }}">
             @csrf
             
-            <div class="divider d-flex align-items-center my-4">
-              <p class="text-center fw-bold mx-3 mb-0">{{ __('Or') }}</p>
-            </div>
-  
             <!-- Email input -->
             <div class="form-outline mb-4">
                 <input id="email" type="email" class="form-control form-control-lg @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" placeholder="Enter a valid email address" autocomplete="email" autofocus>
@@ -78,10 +74,12 @@ $loginimage = $option->get_option("login_img");
               <a href="{{ route('password.request') }}" class="text-body">{{ __('Forgot Your Password?') }}</a>
               @endif
             </div>
-  
             <div class="text-center text-lg-start mt-2 pt-2">
               <button type="submit" class="btn btn-primary btn-lg"
                 style="padding-left: 2.5rem; padding-right: 2.5rem;">{{ __('Login') }}</button>
+                <div class="divider d-flex align-items-center my-4">
+                  <p class="text-center fw-bold mx-3 mb-0">{{ __('Or') }}</p>
+                </div>
               <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="{{ route('register') }}"
                   class="link-danger">{{ __('Register') }}</a></p>
             </div>

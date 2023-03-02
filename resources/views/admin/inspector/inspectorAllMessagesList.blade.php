@@ -4,15 +4,9 @@
 <div class="col-lg-12">
     <div class="card">
       <div class="card-body">
-        <div class="row align-items-center">
-            <div class="col-lg-12 margin-tb">
-                <div class="float-left">
+        <div class="d-flex align-items-center justify-content-between">
                   <h3 class="card-title">All Inspector Messages</h3>
-                </div>
-                <div class="float-right">
-                <a class="btn btn-success" href="{{ route('chatify') }}">Chat</a>
-                </div>
-            </div>
+                  <a class="btn btn-success" href="{{ route('chatify') }}">Chat</a>
         </div>
       </div>
     </div>
