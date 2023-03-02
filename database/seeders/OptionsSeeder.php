@@ -42,8 +42,8 @@ class OptionsSeeder extends Seeder
             ["option_name"=>"company_request_underreview_message","option_value"=>"<p>Hi [first_name],</p><p>Your Request has been Successfully Reviewed By [inspector_name].</p>"],
             ["option_name"=>"inspector_request_completed_message","option_value"=>"<p>Hi [first_name],</p><p>Your Inspestion Request has been Successfully Completed.</p>"],
             ["option_name"=>"company_request_completed_message","option_value"=>"<p>Hi [first_name],</p><p>Your Inspestion Request has been Successfully Completed.</p>"],
-            ["option_name"=>"inspectorrequestreminderemail_message","option_value"=>"<p>Hi [inspector_name],</p><p>Reminder for an inspection with [company_name] on [inspection_date] at [inspection_time].<p>Company Location -: [company_location]</p>"],
-            ["option_name"=>"companyrequestreminderemail_message","option_value"=>"<p>Hi [company_name],</p><p>As a reminder, your inspection is booked for [inspection_date] at [inspection_time]. <p>Inspector name -: [inspector_name]</p><p>Company name -: [company_name]</p><p>Company location -: [company_location]</p>"]
+            ["option_name"=>"inspectorrequestreminderemail_message","option_value"=>"<p>Hi [inspector_name],</p><p>Reminder for an inspection with [company_name] on [inspection_date] at [inspection_time].<p>Inspector name -: [inspector_name]</p><p>Company name -: [company_name]</p><p>Company location -: [company_location]</p>"],
+            ["option_name"=>"companyrequestreminderemail_message","option_value"=>"<p>Hi [company_name],</p><p>As a reminder, your inspection is booked for [inspection_date] at [inspection_time].<p>Inspector name -: [inspector_name]</p><p>Company name -: [company_name]</p><p>Company location -: [company_location]</p>"]
         ];
 
         foreach($options as $key => $value)
