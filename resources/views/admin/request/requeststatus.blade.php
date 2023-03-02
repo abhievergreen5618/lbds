@@ -296,8 +296,7 @@ use Illuminate\Support\Facades\Storage;
                 <div>
                     <h3 class="mb-1 font-weight-bold text-black">Request
                         Information</h3>
-                    <h6 class="mb-0 font-95 col-6 px-2 p-1 bg-dark
-                        font-weight-600"><span class="text-white">Request #{{$requestdetails->id}}</span></h6>
+                    <h6 class="mb-0 font-95 col-6 px-2 p-1 bg-dark font-weight-600"><span class="text-white">Request #{{$requestdetails->unique_request_id}}</span></h6>
                 </div>
             </div>
 

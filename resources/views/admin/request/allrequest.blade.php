@@ -136,7 +136,7 @@
         "order": [5,'desc'],
         "columns": [
             {
-                "data": "id",
+                "data": "unique_request_id",
             },
             {
                 "data": "company_id",

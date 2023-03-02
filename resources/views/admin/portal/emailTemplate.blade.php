@@ -858,20 +858,8 @@
 @push('footer_extras')
 <script>
 //  $('.summernote').summernote();
-const textareas = document.querySelectorAll('.summernote');
-
-// Initialize CKEditor 5 for each textarea element
-for (const textarea of textareas) {
-    ClassicEditor
-        .create(textarea)
-        .then( editor => {
-            // editor.model.document.on( 'change:data', () => {
-			// 		console.log( editor.getData() ); // logs the HTML content on change
-			// 	} );
-		})
-        .catch(error => {
-            console.error(error);
-        });
-}
+$(".summernote").each(function(_, ckeditor) {
+    CKEDITOR.replace(ckeditor);
+});
 </script>
 @endpush
