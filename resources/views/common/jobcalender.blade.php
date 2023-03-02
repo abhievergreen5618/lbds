@@ -14,6 +14,10 @@
         background: palegoldenrod !important;
     }
 
+    .fc-header-toolbar:nth-child(3) {
+            display: block;
+    }
+
     @media (min-width: 400px) and (max-width: 600px)
     {
         .fc-daygrid-day
@@ -26,6 +30,9 @@
             transform: translate(2px, -5px);
             overflow: hidden;
             height: 21px;
+        }
+        .fc .fc-header-toolbar .fc-toolbar-chunk:nth-child(3) {
+            display: none !important;
         }
     }
 
@@ -41,6 +48,9 @@
             overflow: hidden;
             height: 21px;
         }
+        .fc .fc-header-toolbar .fc-toolbar-chunk:nth-child(3) {
+            display: !important;
+        }
     }
     @media (min-width: 300px) and (max-width: 600px){
         .fc-daygrid-day
@@ -53,6 +63,9 @@
             transform: translate(2px, -5px);
             overflow: hidden;
             height: 21px;
+        }
+        .fc .fc-header-toolbar .fc-toolbar-chunk:nth-child(3) {
+            display: !important;
         }
     }
 </style>
