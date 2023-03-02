@@ -69,7 +69,7 @@ class RequestController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create(Request $request,RequestModel $reqmodel)
     {
         // dd($request->all());
         $request->validate(
@@ -91,6 +91,7 @@ class RequestController extends Controller
             ]
         );
         if (isset($request['id'])) {
+            $uniqueid = $reqmodel->unique_request_id();
             $comment = isset($request['comments']) ? $request['comments'] : "";
             RequestModel::where("id", decrypt($request['id']))->update([
                 "company_id" => decrypt($request['agency']),
@@ -105,6 +106,7 @@ class RequestController extends Controller
                 "sendinvoice" => $request['sendinvoice'],
                 "comments" => $comment,
                 "custom_created_at" => date('Y-m-d H:i:s'),
+                "unique_request_id" => $uniqueid ,
             ]);
             session()->forget('taskid');
         }
@@ -264,7 +266,7 @@ class RequestController extends Controller
         if ($request->ajax()) {
             $GLOBALS['count'] = 0;
             $filter = $request['status'];
-            $data =  ($filter == "all") ? RequestModel::whereNotNull("company_id", "")->latest()->get(["id", "company_id", "applicantname", "address", "inspectiontype", "custom_created_at", "status", "assigned_ins","invoice","cancel_reason"]) : RequestModel::where('status',$filter)->get(["id", "company_id", "applicantname", "address", "inspectiontype", "created_at", "status", "assigned_ins","invoice","cancel_reason"]);
+            $data =  ($filter == "all") ? RequestModel::whereNotNull("company_id", "")->latest()->get(["id","unique_request_id","company_id", "applicantname", "address", "inspectiontype", "custom_created_at", "status", "assigned_ins","invoice","cancel_reason"]) : RequestModel::where('status',$filter)->get(["id","unique_request_id","company_id", "applicantname", "address", "inspectiontype", "created_at", "status", "assigned_ins","invoice","cancel_reason"]);
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('company_id', function ($row) {
                     $company_name = User::role('company')->where(["id" => $row->company_id])->first("company_name");

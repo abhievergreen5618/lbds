@@ -61,22 +61,21 @@ $loginimage = $option->get_option("login_img");
                 </div>
                 @enderror
             </div>
-  
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="text-center text-lg-start mt-2 pt-2">
+              <button type="submit" class="btn btn-primary btn-lg"
+                style="padding-left: 2.5rem; padding-right: 2.5rem;">{{ __('Login') }}</button>
+                <div class="d-flex justify-content-evenly align-items-center my-3">
               <!-- Checkbox -->
-              <div class="form-check mb-0">
+              <div class="d-flex">
                 <input class="form-check-input me-2" type="checkbox" id="inlineFormCheck">
                 <label class="form-check-label" for="inlineFormCheck">
                     {{ __('Remember Me') }}
                 </label>
               </div>
               @if (Route::has('password.request'))
-              <a href="{{ route('password.request') }}" class="text-body">{{ __('Forgot Your Password?') }}</a>
+                <a href="{{ route('password.request') }}" class="forgot_link">{{ __('Forgot Your Password?') }}</a>
               @endif
             </div>
-            <div class="text-center text-lg-start mt-2 pt-2">
-              <button type="submit" class="btn btn-primary btn-lg"
-                style="padding-left: 2.5rem; padding-right: 2.5rem;">{{ __('Login') }}</button>
                 <div class="divider d-flex align-items-center my-4">
                   <p class="text-center fw-bold mx-3 mb-0">{{ __('Or') }}</p>
                 </div>

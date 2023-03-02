@@ -43,6 +43,7 @@ class RequestModel extends Model
         'pay_range_end',
         'custom_created_at',
         'cancelled_by',
+        'unique_request_id',
     ];
 
     protected $casts = [
@@ -51,4 +52,21 @@ class RequestModel extends Model
         'agency_related_files' => 'array',
         'reports_related_files' => 'array',
     ];
+
+    public function unique_request_id()
+    {
+        $prefix = 'REQ_';
+        $date = date('Ymd');
+        $time = date('His');
+        $uniqueId = $prefix.$date.$time.rand(1,100);
+        $count = RequestModel::where("unique_request_id",$uniqueId)->count();
+        if($count == 0)
+        {
+            return $uniqueId;
+        }
+        else
+        {
+            $uniqueId = $this->unique_request_id();
+        }
+    }
 }

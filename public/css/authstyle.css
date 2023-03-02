@@ -73,13 +73,19 @@ section.one1 {
   }
   }
   
-  @media (min-width: 576px) and (max-width: 1800px) {
+  /* @media (min-width: 576px) and (max-width: 1800px) {
   
   img.img-fluid {
     margin-top: 19.7%;
   }
-  }
+  } */
   
+
+  .forgot-link
+  {
+    font-family: 'Montserrat';    
+    font-size: 14px;
+  }
   
   
   /*registerform*/
