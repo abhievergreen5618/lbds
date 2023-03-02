@@ -437,12 +437,12 @@ $(document).ready(function () {
     });
 
     // Nav sidebar
-    $('nav .nav-item a').click(function (e) {
-        $('.nav-item').removeClass('menu-is-opening menu-open');
-        $('.nav .nav-treeview').css('display', 'none');
-        $(this).parent('li .nav-link').addClass('menu-is-opening menu-open');
-        $(this).find('ul').css('display', 'block');
-    });
+    // $('nav .nav-item').click(function (e) {
+    //     $("li.menu-open").not($(this)).removeClass('menu-is-opening menu-open');
+    //     $(".nav-treeview").not($(this).find(".nav-treeview")).css('display', 'none');
+    //     $(this).addClass("menu-is-opening menu-open");
+    //     $(this).find(".nav-treeview").css('display', 'block');
+    // });
 
 
     var usertable = $('#usertable').DataTable({

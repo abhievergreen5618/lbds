@@ -198,12 +198,14 @@ class RequestController extends Controller
             Mail::to($insemail['email'])->send(new Inspectorassign($insdetails, $companydetails, $requestdetails, $subject,'inspectorassign'));
         }
         $current_date_time = Carbon::now()->toDateTimeString();
+        $status = RequestModel::where(["id" => decrypt($reqid)])->first("status");
+        $status = ($status['status'] == "scheduled") ? $status['status'] : "assigned";
         RequestModel::where(["id" => decrypt($reqid)])->update([
             "assigned_ins" => decrypt($id),
             "assigned_at" => $current_date_time,
             // "scheduled_at" => "",
             // "schedule_time" => "",
-            "status" => "assigned",
+            "status" => $status,
         ]);
     }
 
@@ -351,8 +353,8 @@ class RequestController extends Controller
                 $userid = Auth::user()->id;
             }
             $filter = $request['status'];
-            $data =  ($filter == "all") ? RequestModel::where(["company_id" => $userid])->latest()->get(["id", "inspectiontype", "applicantname", "address", "city", "zipcode", "inspectiontype", "created_at", "status", "cancel_reason"]) 
-            : RequestModel::where(["company_id" => $userid,"status"=>$filter])->latest()->get(["id", "inspectiontype", "applicantname", "address", "city", "zipcode", "inspectiontype", "created_at", "status", "cancel_reason"]);
+            $data =  ($filter == "all") ? RequestModel::where(["company_id" => $userid])->latest()->get(["id", "inspectiontype", "applicantname", "address", "city", "zipcode", "inspectiontype", "created_at", "status", "cancel_reason","custom_created_at"]) 
+            : RequestModel::where(["company_id" => $userid,"status"=>$filter])->latest()->get(["id", "inspectiontype", "applicantname", "address", "city", "zipcode", "inspectiontype", "created_at", "status", "cancel_reason","custom_created_at"]);
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('inspectiontype', function ($row) {
                     $returnvalue = "";
@@ -367,7 +369,7 @@ class RequestController extends Controller
                     return $returnvalue;
                 })
                 ->addColumn('created_at', function ($row) {
-                    return date('F d ,Y h:i a',strtotime($row->created_at));
+                    return date('F d ,Y h:i a',strtotime($row->custom_created_at));
                 })
                 ->addColumn('status', function ($row) {
                     if ($row->status == "pending" || $row->status == "underreview") {
@@ -552,6 +554,7 @@ class RequestController extends Controller
                 $maillist = (!empty($result) && count($result) != 0) ? array_merge($maillist, $result) : $maillist;
             }
             $attachments = $this->get_merged_files($agencyfiles['agency_related_files'], $reportfiles['reports_related_files']);
+            $cancelbyuser = (($requestdetails['status'] == "cancelled")) ? $cancelbyuser = User::where("id",$requestdetails['cancelled_by'])->first() : "";
             return view('admin.request.requeststatus')->with(
                 [
                     "companydetails" => $companydetails,
@@ -566,6 +569,7 @@ class RequestController extends Controller
                     "attachments" => $attachments,
                     "maildraft" => $maildraft,
                     "mailhelper" => $mailhelper,
+                    "cancelbyuser" => $cancelbyuser,
                 ]
             );
         }
@@ -690,6 +694,7 @@ class RequestController extends Controller
         RequestModel::where('id', decrypt($request['id']))->update([
             "status" => "cancelled",
             "cancel_reason" => $request['msg'],
+            "cancelled_by" => Auth::id(),
         ]);
         $msg = "Request Cancelled Successfully";
         return response()->json(["msg" => $msg], 200);

@@ -321,8 +321,13 @@ use Illuminate\Support\Facades\Storage;
             <div class="alert cancelrequest font-weight-600 mb-3 alert-light text-black p-3 rounded-10 h6 border" style="border-left:5px solid red !important;">
                 <h5 class="text-danger font-weight-bold mb-0">{{ucfirst($requestdetails->status)}}</h5>
                 <hr class="my-2">
+                @php
+                            $roles = $cancelbyuser->getRoleNames();
+                            $role = $roles->first();
+                @endphp
                 Reason : {{$requestdetails->cancel_reason}} <br>
-                Cancelled By : Admin <span class="text-dark">[Admin]</span>
+                Cancelled By : {{($role == "admin") ? $cancelbyuser->name : $cancelbyuser->company_name}} 
+                <span class="text-dark">{{(Auth::user()->hasRole('admin')) ? "[".ucfirst($role)."]" : ""}}</span>
                 <p class="mb-0 font-weight-500 mt-1 font-95 text-dark"></p>
             </div>
         </div>
@@ -555,7 +560,7 @@ use Illuminate\Support\Facades\Storage;
                                 </tr>
                                 <tr>
                                     <td>Zip Code</td>
-                                    <td><input type="number" class="form-control" id="zipcode" name="zipcode" placeholder="ZipCode" value="{{old('zipcode',$requestdetails->zipcode)}}" readonly>
+                                    <td><input type="number" class="form-control" id="zipcode" name="zipcode" placeholder="Zip Code" value="{{old('zipcode',$requestdetails->zipcode)}}" readonly>
                                         @error('zipcode')
                                         <div>
                                             <label class="error fail-alert  mt-1">{{$message}}<label>

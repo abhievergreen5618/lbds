@@ -82,8 +82,8 @@
                                 @enderror
                             </div>
                             <div class="col-lg-4 my-2">
-                                <label for="employeezipcode">{{ __('ZipCode') }}</label>
-                                <input type="number" class="form-control @error('employeezipcode') is-invalid @enderror" id="employeezipcode" name="employeezipcode" placeholder="ZipCode" value="{{@old('employeezipcode',$data->zip_code)}}">
+                                <label for="employeezipcode">{{ __('Zip Code') }}</label>
+                                <input type="number" class="form-control @error('employeezipcode') is-invalid @enderror" id="employeezipcode" name="employeezipcode" placeholder="Zip Code" value="{{@old('employeezipcode',$data->zip_code)}}">
                                 @error('employeezipcode')
                                         <div>
                                             <label class="error fail-alert  mt-1">{{ $message }}</label>

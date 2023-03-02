@@ -35,7 +35,7 @@
             <th>Applicant</th>
             <th>Address</th>
             <th>City</th>
-            <th>ZipCode</th>
+            <th>Zip Code</th>
             <th>Added At</th>
             <th>Status</th>
             <th>Action</th>
@@ -47,9 +47,7 @@
     </div>
   </div>
 </div>
-
 @endsection
-
 
 @push('footer_extras')
 <script>
@@ -72,6 +70,7 @@ var companyrequesttable = $('#companyrequesttable').DataTable({
             { "className": "dt-center", "targets": "_all" },
             { "width": "30%", "targets": 5 }
         ],
+         "order": [5,'desc'],
         "columns": [
             {
                 "data": "inspectiontype",

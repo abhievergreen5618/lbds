@@ -2994,6 +2994,7 @@
 
       var elementId = this._element.attr('id') !== undefined ? "#" + this._element.attr('id') : '';
       $__default["default"](document).on('click', "" + elementId + this._config.trigger, function (event) {
+        console.log(event);
         _this3.toggle(event);
       });
     };

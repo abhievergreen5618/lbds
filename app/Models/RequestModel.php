@@ -42,6 +42,7 @@ class RequestModel extends Model
         'pay_range_start',
         'pay_range_end',
         'custom_created_at',
+        'cancelled_by',
     ];
 
     protected $casts = [

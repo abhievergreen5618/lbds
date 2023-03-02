@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('inspectorcomments')->nullable();
             $table->string('agencycomments')->nullable();
             $table->string('sendinvoice')->nullable();
+            $table->string('cancelled_by')->nullable();
             $table->string('assigned_ins')->nullable();
             $table->string('ins_fee')->nullable();
             $table->timestamp('assigned_at')->nullable()->default(null);

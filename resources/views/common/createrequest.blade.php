@@ -154,8 +154,8 @@
                                 <input type="text" class="form-control" id="state" name="state" placeholder="State">
                             </div>
                             <div class="col-lg-4 my-2">
-                                <label for="zipcode">{{ __('ZipCode') }}</label>
-                                <input type="number" class="form-control" id="zipcode" name="zipcode" placeholder="ZipCode">
+                                <label for="zipcode">{{ __('Zip Code') }}</label>
+                                <input type="number" class="form-control" id="zipcode" name="zipcode" placeholder="Zip Code">
                             </div>
                         </div>
                     </div>
@@ -173,17 +173,6 @@
                                 </div>
                             </div>
                             @endforeach
-                            <!-- <div class="col-lg-4 my-2">
-                                <div class="form-check form-check-inline">
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-text align-items-center">
-                                            <label class="form-check-label">{{__('Others')}}</label>
-                                            <input class="form-check-input mt-0 others" type="checkbox" value="" aria-label="Checkbox for following text input">
-                                        </div>
-                                        <input type="text" class="form-control" aria-label="Text input with checkbox">
-                                    </div>
-                                </div>
-                            </div> -->
                         </div>
                     </div>
                     @endif

@@ -710,6 +710,22 @@
                             <label>Inspection Time</label>
                             <input type="text" class="form-control" value="[inspection_time]" disabled>
                            </div>
+                           <div class="form-group">
+                            <label>Applicant Name</label>
+                            <input type="text" class="form-control" value="[applicant_name]" disabled>
+                           </div>
+                           <div class="form-group">
+                            <label>Applicant Email</label>
+                            <input type="text" class="form-control" value="[applicant_email]" disabled>
+                           </div>
+                           <div class="form-group">
+                            <label>Applicant Address</label>
+                            <input type="text" class="form-control" value="[applicant_address]" disabled>
+                           </div>
+                           <div class="form-group">
+                            <label>Applicant Phone</label>
+                            <input type="text" class="form-control" value="[applicant_phone]" disabled>
+                           </div>
                         </div>
 
                     </div>
@@ -789,6 +805,22 @@
                             <label>Inspection Time</label>
                             <input type="text" class="form-control" value="[inspection_time]" disabled>
                            </div>
+                           <div class="form-group">
+                            <label>Applicant Name</label>
+                            <input type="text" class="form-control" value="[applicant_name]" disabled>
+                           </div>
+                           <div class="form-group">
+                            <label>Applicant Email</label>
+                            <input type="text" class="form-control" value="[applicant_email]" disabled>
+                           </div>
+                           <div class="form-group">
+                            <label>Applicant Address</label>
+                            <input type="text" class="form-control" value="[applicant_address]" disabled>
+                           </div>
+                           <div class="form-group">
+                            <label>Applicant Phone</label>
+                            <input type="text" class="form-control" value="[applicant_phone]" disabled>
+                           </div>
                         </div>
 
                     </div>
@@ -825,15 +857,21 @@
 
 @push('footer_extras')
 <script>
- $('.summernote').summernote();
-//  CKEDITOR.replace('.summernote');
-//  ClassicEditor
-// .create( document.querySelector( '.summernote' ) )
-// .then( editor => {
-//         console.log( editor );
-// } )
-// .catch( error => {
-//         console.error( error );
-// } );
+//  $('.summernote').summernote();
+const textareas = document.querySelectorAll('.summernote');
+
+// Initialize CKEditor 5 for each textarea element
+for (const textarea of textareas) {
+    ClassicEditor
+        .create(textarea)
+        .then( editor => {
+            // editor.model.document.on( 'change:data', () => {
+			// 		console.log( editor.getData() ); // logs the HTML content on change
+			// 	} );
+		})
+        .catch(error => {
+            console.error(error);
+        });
+}
 </script>
 @endpush
