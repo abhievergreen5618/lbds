@@ -38,7 +38,7 @@ $loginimage = $option->get_option("login_img");
 <section class="vh-100 one1">
     <div class="container h-custom">
       <div class="row gt d-flex justify-content-center align-items-center h-100">
-         <div class="col-lg-6">
+         <div class="col-lg-6 login-col">
           <div class="logooo">
         <a class="navbar-brand" href="#">
         <img src="images/lg.png" alt="" class="d-inline-block align-text-top">
@@ -93,7 +93,7 @@ $loginimage = $option->get_option("login_img");
   
           </form>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 login-col">
           <img src="{{asset('images/'.$loginimage)}}"
             class="img-fluid" alt="Sample image">
         </div>
