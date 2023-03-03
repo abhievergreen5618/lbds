@@ -30,6 +30,27 @@ $loginimage = $option->get_option("login_img");
     label.form-check-label {
         font-size: 16px!important;
     }
+    .col-lg-6.login-col {
+        padding-right: 25px;
+        border-right: 1px solid #e0e0e0;
+    }
+    .col-md-6.login-col {
+        padding-left: 25px!important;
+    }
+    button.btn.btn-primary.btn-lg {
+    /* font-weight: 400; */
+    border: 1px solid #343a40;
+    /* padding: 0.375rem 0.75rem!important; */
+    /* font-size: 16px!important; */
+    }
+    .col-lg-6.login-col {
+    border-radius: 30px;
+    padding-left: 70px;
+    }
+
+    .col-md-6.login-col {
+        padding: 70px;
+    }
 </style>
 @endpush
 @extends('layouts.auth')
