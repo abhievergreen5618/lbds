@@ -38,18 +38,17 @@ $loginimage = $option->get_option("login_img");
         padding-left: 25px!important;
     }
     button.btn.btn-primary.btn-lg {
-    /* font-weight: 400; */
     border: 1px solid #343a40;
-    /* padding: 0.375rem 0.75rem!important; */
-    /* font-size: 16px!important; */
     }
     .col-lg-6.login-col {
-      /* border-radius: 30px; */
       padding-left: 70px;
     }
 
     .col-md-6.login-col {
         padding: 70px;
+    }
+    .container.h-custom {
+    border-radius: 5px!important;
     }
 </style>
 @endpush
