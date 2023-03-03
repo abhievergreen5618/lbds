@@ -22,6 +22,14 @@ $loginimage = $option->get_option("login_img");
     .form-right i {
         font-size: 100px;
     }
+
+    button.btn.btn-primary.btn-lg {
+    background-color: #FF0000;
+    width: 100%;
+    }
+    label.form-check-label {
+        font-size: 16px!important;
+    }
 </style>
 @endpush
 @extends('layouts.auth')
@@ -30,8 +38,8 @@ $loginimage = $option->get_option("login_img");
 <section class="vh-100 one1">
     <div class="container h-custom">
       <div class="row gt d-flex justify-content-center align-items-center h-100">
-         <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-                       <div class="logooo">
+         <div class="col-lg-6">
+          <div class="logooo">
         <a class="navbar-brand" href="#">
         <img src="images/lg.png" alt="" class="d-inline-block align-text-top">
       
@@ -85,7 +93,7 @@ $loginimage = $option->get_option("login_img");
   
           </form>
         </div>
-        <div class="col-md-9 col-lg-6 col-xl-5">
+        <div class="col-md-6">
           <img src="{{asset('images/'.$loginimage)}}"
             class="img-fluid" alt="Sample image">
         </div>
