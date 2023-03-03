@@ -44,8 +44,8 @@ $loginimage = $option->get_option("login_img");
     /* font-size: 16px!important; */
     }
     .col-lg-6.login-col {
-    border-radius: 30px;
-    padding-left: 70px;
+      /* border-radius: 30px; */
+      padding-left: 70px;
     }
 
     .col-md-6.login-col {
