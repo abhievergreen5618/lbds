@@ -53,12 +53,12 @@ class RequestModel extends Model
         'reports_related_files' => 'array',
     ];
 
-    public function unique_request_id()
+    public function unique_request_id($randnumber = 0)
     {
         $prefix = 'REQ_';
-        $date = date('Ymd');
         $time = date('His');
-        $uniqueId = $prefix.$date.$time.rand(1,999);
+        $randnumber = ($randnumber == 0) ? rand(1,9) : "";
+        $uniqueId = $prefix.$time.$randnumber;
         $count = RequestModel::where("unique_request_id",$uniqueId)->count();
         if($count == 0)
         {
@@ -66,7 +66,8 @@ class RequestModel extends Model
         }
         else
         {
-            $uniqueId = $this->unique_request_id();
+            $uniqueId = $this->unique_request_id(rand(1,9));
+            return $uniqueId;
         }
     }
 }
