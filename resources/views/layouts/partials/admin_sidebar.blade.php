@@ -227,6 +227,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                     </ul>
                 </li>
                 @endif
+                @can('job-calendar')
                 <li class="nav-item">
                     <a href="{{route('job.show')}}" class="nav-link {{  (Route::currentRouteName() == 'job.show') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-calendar"></i>
@@ -235,6 +236,8 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                         </p>
                     </a>
                 </li>
+                @endcan
+                @can('payroll-tracker')
                 <li class="nav-item">
                     <a href="{{route('admin.payroll.index')}}" class="nav-link {{  (Route::currentRouteName() == 'admin.payroll.index') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-dollar-sign"></i>
@@ -243,6 +246,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                         </p>
                     </a>
                 </li>
+                @endcan
                 @if(Gate::check('inspector-create') || Gate::check('inspector-list'))
                 <li class="nav-item {{ (Route::currentRouteName() ==
 'admin.create.addinspector' || Route::currentRouteName() ==
@@ -357,6 +361,8 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                     </ul>
                 </li>
                 @endif
+
+                @can('email-logs')
                 <li class="nav-item">
                     <a href="{{route('mailbox.sent')}}" class="nav-link {{  (Route::currentRouteName() == 'mailbox.sent' || Route::currentRouteName() == 'mailbox.draft' || Route::currentRouteName() == 'mailbox.readmail') ? 'active' : '' }}">
                         <i class="nav-icon far fa-envelope"></i>
@@ -365,8 +371,9 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                             <!-- <i class="fas fa-angle-left right"></i> -->
                         </p>
                     </a>
-               
                 </li>
+                @endcan
+
                 <li class="nav-item">
                     <a href="{{route('profile.show')}}" class="nav-link {{  (Route::currentRouteName() == 'profile.show') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-user-cog"></i>
@@ -376,7 +383,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                     </a>
                 </li>
     
-
+                @can('portal-settings')
                 <li class="nav-item {{ (Route::currentRouteName() ==
                         'admin.portal.setup') ||
                         (Route::currentRouteName() == 'admin.portal.emailtemp') ? 'menu-open menu-is-opening ' : ''}}">
@@ -411,6 +418,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                         </li>
                     </ul>
                 </li>
+                @endcan
             </ul>
         </nav>
     </div>
