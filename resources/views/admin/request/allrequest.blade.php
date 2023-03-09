@@ -120,8 +120,6 @@
     
       var status = $("#requeststatusajax").attr("data-status");
       var requesttable = $('#requesttable').DataTable({
-        "autoWidth": false,
-        responsive: true,
         "preDrawCallback": function (settings) {
             setTimeout(function () {
                 select2call();
@@ -142,9 +140,6 @@
         },
         "columnDefs": [
             { "className": "dt-center","targets": "_all" },
-            { width: '20%', targets: 0 },
-            { width: '30%', targets: 1 },
-            { width: '50%', targets: 2 }
         ],
         "order": [5,'desc'],
         "columns": [
