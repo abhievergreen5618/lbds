@@ -332,7 +332,7 @@ class RequestController extends Controller
                         $returnvalue = "<select class='form-control statusdropdown' name='status' data-req-id='" . encrypt($row->id) . "'><option value=''></option>";
                         foreach ($arr as $key => $value) {
                             $select = ((!empty($row->status)) && $row->status === $value) ? "selected" : "";
-                            $returnvalue = ($value == "underreview") ? $returnvalue . "<option value='" . $value . "' $select>under review</option>" : $returnvalue . "<option value='" . $value . "' $select>" . $value . "</option>";
+                            $returnvalue = ($value == "underreview") ? $returnvalue . "<option value='" . $value . "' $select>Under Review</option>" : $returnvalue . "<option value='" .$value. "' $select>" . ucfirst($value) . "</option>";
                         }
                         $returnvalue = $returnvalue . "</select>";
                         return $returnvalue;
@@ -756,7 +756,11 @@ class RequestController extends Controller
                         "status" => $request['status'],
                         $status => $current_date_time,
                     ]);
-                    $this->send_email($request['id'], "completed");
+                    $assigned_at = RequestModel::where('id', decrypt($request['id']))->first("assigned_at");
+                    if(!empty($assigned_at) && array_key_exists("assigned_at",$assigned_at))
+                    {
+                        $this->send_email($request['id'], "completed");
+                    }
                 }
                 $msg = "Request Status Updated Successfully";
                 return response()->json(array("msg" => $msg), 200);

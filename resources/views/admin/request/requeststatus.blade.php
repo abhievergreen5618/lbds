@@ -778,7 +778,7 @@ use Illuminate\Support\Facades\Storage;
                                 $ext = $info['extension'];
                                 @endphp
                                 @if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg')
-                                <div class="col-lg-4 preview  @if ($i >= 4) {{ 'mt-3' }} @endif" style="cursor: pointer;" data-file="{{ asset('taskfiles/' . $item) }}">
+                                <div class="col-lg-2 preview  @if ($i >= 4) {{ 'mt-3' }} @endif" style="cursor: pointer;" data-file="{{ asset('taskfiles/' . $item) }}">
                                     <img src="{{ asset('taskfiles/' . $item) }}" class="img-thumbnail h-100 preview-images" alt="...">
                                     <a id="" href="#" data-file="{{ $item }}" class="remove-btn d-none">Remove file</a>
                                     <div class="image-overlay  position-absolute" style="display:none;">
@@ -863,7 +863,7 @@ use Illuminate\Support\Facades\Storage;
                                 @endphp
 
                                 @if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg')
-                                <div class="col-lg-4 preview  @if ($i >= 6) {{ 'mt-3' }} @endif" style="cursor: pointer;" data-file="{{ asset('taskfiles/' . $item) }}">
+                                <div class="col-lg-2 preview  @if ($i >= 6) {{ 'mt-3' }} @endif" style="cursor: pointer;" data-file="{{ asset('taskfiles/' . $item) }}">
                                     <img src="{{ asset('taskfiles/' . $item) }}" class="img-thumbnail h-100 preview-images" alt="...">
                                     <a id="" href="#" data-file="{{ $item }}" class="remove-btn d-none">Remove file</a>
                                     <div class="image-overlay  position-absolute" style="display:none;">

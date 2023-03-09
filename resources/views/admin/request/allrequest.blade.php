@@ -1,8 +1,32 @@
 @push("header_extras")
 <style>
-.select2.select2-container.select2-container--default {
-  width: 150px !important;
+ .select2-selection__rendered {
+  line-height: 31px !important;
 }
+
+.select2-container .select2-selection--single {
+  height: 42px !important;
+}
+
+.select2-selection__arrow {
+  height: 34px !important;
+}
+@media (min-width: 1025) and (max-with: 1281px) {
+    table {
+  table-layout: fixed;
+}
+.bigdrop {
+    width: 300px !important;
+}
+}
+
+/*//mobile version */
+ @media (min-width: 400px) and (max-width: 600px){
+    .bigdrop {
+    width: 150px !important;
+} 
+ }
+
 </style>
 
 @endpush
@@ -57,14 +81,36 @@
 @push('footer_extras')
 <script>
     $(function() {
+        
+        function formatState (state) {
+  if (state.id!="completed") {
+    return state.text;
+  }
+console.log(state);
+  var baseUrl = "/user/pages/images/flags";
+  var $state = $(
+    '<span> &#9989; <span></span></span>'
+  );
+
+  // Use .text() instead of HTML string concatenation to avoid script injection issues
+  $state.find("span").text(state.text);
+  //$state.find("img").attr("src", baseUrl + "/" + state.element.value.toLowerCase() + ".png");
+//$state.find("img").attr("src", "https://png.pngtree.com/png-vector/20190223/ourlarge/pngtree-tick-vector-icon-png-image_696437.jpg");
+  return $state;
+};
+
+
       function select2call() {
         $('.inspectorlist').select2({
             placeholder: "Assign Inspector",
             tags: true,
+            dropdownCssClass : 'bigdrop'
         });
         $('.statusdropdown').select2({
             placeholder: "Select Status",
             tags: true,
+            dropdownCssClass : 'bigdrop',
+            templateSelection: formatState
         });
         $("input[data-bootstrap-switch]").each(function() {
            $("input[data-bootstrap-switch]").each(function() {
@@ -163,10 +209,11 @@
             },
             {
                 "data": "assigned_inspector",
-                "width" : "1000px",
+                "width" : "30%",
             },
             {
                 "data": "status",
+                "width" : "30%",
             },
             {
                 "data": "invoice",
