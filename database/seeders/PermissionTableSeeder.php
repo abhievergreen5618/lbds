@@ -48,6 +48,10 @@ class PermissionTableSeeder extends Seeder
             'agency-create',
             'agency-edit',
             'agency-delete',
+            'job-calendar',
+            'payroll-tracker',
+            'email-logs',
+            'portal-settings',
          ];
       
          foreach ($permissions as $permission) {

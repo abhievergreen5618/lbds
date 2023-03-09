@@ -65,6 +65,10 @@ class UserSeeder extends Seeder
             'agency-create',
             'agency-edit',
             'agency-delete',
+            'job-calendar',
+            'payroll-tracker',
+            'email-logs',
+            'portal-settings',
         ]);
      
         $user->assignRole([$role->id]);
@@ -110,6 +114,10 @@ class UserSeeder extends Seeder
             'agency-create',
             'agency-edit',
             'agency-delete',
+            'job-calendar',
+            'payroll-tracker',
+            'email-logs',
+            'portal-settings',
         ]);
         
         // $permissions = Permission::pluck('id','id')->all();
