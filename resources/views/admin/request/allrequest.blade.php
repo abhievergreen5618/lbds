@@ -1,3 +1,11 @@
+@push("header_extras")
+<style>
+.select2.select2-container.select2-container--default {
+  width: 383px !important;
+}
+</style>
+
+@endpush
 @extends('layouts.app')
 
 @section('content')
