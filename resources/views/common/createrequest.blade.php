@@ -11,7 +11,7 @@
 <div class="col-md-12">
     <div class="card card-primary">
         <div class="card-header">
-            <h3 class="card-title">{{ __('Submit New Request') }}</h3>
+            <h3 class="card-title">{{ __('Add New Request') }}</h3>
         </div>
         <!-- /.card-header -->
         <!-- form start -->

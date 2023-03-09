@@ -27,7 +27,7 @@
         <div class="row">
             <div class="col-lg-12 margin-tb">
                 <div class="pull-left">
-                    <h3>Create New Role</h3>
+                    <h3>Add New Role</h3>
                 </div>
                 <div class="pull-right">
                     <a class="btn btn-primary gg" href="{{ route('roles.index') }}"> Back </a>

@@ -73,9 +73,12 @@
 @extends('layouts.app')
 @section('content')
 <div class="col-md-12">
+	<div align="center">
+	<p style="color: #FF0000; padding: 24px 0 10px 0;; font-size: 1.1rem;"><strong>If viewing the calendar on a mobile device, please rotate your device and view in landscape mode (horizontal), not portrait.</strong></p>
+	</div>
     <div class="card card-primary">
         <div class="card-header">
-            <h3 class="card-title">{{ __('Job Calender') }}</h3>
+           <h3 class="card-title">{{ __('Job Calender') }}</h3>
         </div>
         <div class="card-body p-0" id="maincalender" data-id="{{(Auth::user()->hasRole('admin')) ? 'all' : encrypt(Auth::user()->id) }}">
             @role('admin')

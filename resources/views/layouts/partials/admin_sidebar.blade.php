@@ -94,7 +94,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                             <a href="{{route('admin.create.addsendinvoice')}}" class="sub-menu nav-link">
                                 <i class="nav-icon fa  fa-file-invoice fa-thin fas"></i>
                                 <p>
-                                    Add New Invoice type
+                                    Add New Invoice Type
                                 </p>
                             </a>
                         </li>
@@ -105,7 +105,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                             <a href="{{route('admin.allsendinvoice')}}" class="sub-menu nav-link">
                                 <i class="nav-icon fa fa-solid fa-file-contract"></i>
                                 <p>
-                                    View All Invoice types
+                                    View All Invoice Types
                                 </p>
                             </a>
                         </li>
@@ -133,7 +133,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                             <a href="{{route('admin.request.create')}}" class="sub-menu nav-link">
                                 <i class="nav-icon fa fa-file-signature"></i>
                                 <p>
-                                    Add new Request
+                                    Add New Request
                                 </p>
                             </a>
                         </li>
@@ -172,7 +172,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                             <a href="{{ route('users.create') }}" class="sub-menu nav-link">
                                 <i class="nav-icon fas fa-user-plus"></i>
                                 <p>
-                                    Add new User
+                                    Add New User
                                 </p>
                             </a>
                         </li>
@@ -209,7 +209,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                             <a href="{{ route('roles.index') }}" class="sub-menu nav-link">
                                 <i class="nav-icon fas fa-user-plus"></i>
                                 <p>
-                                    Manage Role
+                                    Role Management
                                 </p>
                             </a>
                         </li>
@@ -219,7 +219,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                             <a href="{{ route('roles.create') }}" class="sub-menu nav-link">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>
-                                    Add Roles
+                                    Add New Role
                                 </p>
                             </a>
                         </li>
@@ -239,7 +239,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                     <a href="{{route('admin.payroll.index')}}" class="nav-link {{  (Route::currentRouteName() == 'admin.payroll.index') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-dollar-sign"></i>
                         <p>
-                            Pay Roll Tracker
+                            Payroll Tracker
                         </p>
                     </a>
                 </li>
@@ -295,6 +295,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                     </ul>
                 </li>
                 @endif
+                @if(Gate::check('agency-create') || Gate::check('agency-list'))
                 <li class="nav-item {{ (Route::currentRouteName() == 'admin.agency.agency-register' || Route::currentRouteName() == 'admin.agency.agency-view' || Route::currentRouteName() == 'admin.adminlist.view' || Route::currentRouteName() == 'admin.adminlist.view' || Route::currentRouteName() == 'admin.disapproved.view') ? 'menu-open menu-is-opening' : ''}}">
                     <a href="javascript:void(0);" class="nav-link {{ (Route::currentRouteName() == 'admin.agency.agency-register')? 'active ' : ''}}">
                         <i class="nav-icon fas fa-building"></i>
@@ -355,6 +356,7 @@ Route::currentRouteName() == 'admin.allsendinvoice') ? 'display: block;' : ''}}"
                         {{-- @endcan --}}
                     </ul>
                 </li>
+                @endif
                 <li class="nav-item">
                     <a href="{{route('mailbox.sent')}}" class="nav-link {{  (Route::currentRouteName() == 'mailbox.sent' || Route::currentRouteName() == 'mailbox.draft' || Route::currentRouteName() == 'mailbox.readmail') ? 'active' : '' }}">
                         <i class="nav-icon far fa-envelope"></i>

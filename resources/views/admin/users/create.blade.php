@@ -22,15 +22,22 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="row mb-2">
+    <div class="col-sm-6">
+        <!-- <h4>Users</h4> -->
+    </div>
+    <div class="col-sm-6">
+        <div class="float-right">
+            <a class="btn btn-primary" href="{{ route('admin.users.view') }}"> Back</a>
+        </div>
+    </div>
+</div>
 <div class="card card-primary">
     <div class="card-header">
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="float-left">
-            <h3>Create New User</h3>
-        </div>
-        <div class="float-right">
-            <a class="btn btn-primary d-flex align-items-center" href="{{ route('admin.users.view') }}"><i class="fa fa-arrow-left" aria-hidden="true"></i><span class="ml-2">Back<span></a>
+            <h3>Add New User</h3>
         </div>
     </div>
 </div>

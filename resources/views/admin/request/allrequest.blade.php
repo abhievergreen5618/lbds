@@ -4,7 +4,7 @@
 <div class="col-md-12">
   <div class="card card-primary">
         <div class="card-header">
-            <h3 class="card-title">{{ __('Request Details') }}</h3>
+            <h3 class="card-title">{{ __('View All Requests') }}</h3>
         </div>
     <div class="card-body pt-2" id="requeststatusajax" data-status="{{$status}}">
         <div class="col-lg-4 offset-lg-8">
