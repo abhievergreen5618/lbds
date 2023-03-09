@@ -1,7 +1,7 @@
 @push("header_extras")
 <style>
 .select2.select2-container.select2-container--default {
-  width: 383px !important;
+  width: 150px !important;
 }
 </style>
 
