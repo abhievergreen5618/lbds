@@ -337,7 +337,7 @@ use Illuminate\Support\Facades\Storage;
                 <h6 class="font-weight-500 mt-2 text-secondary font-95">{{!empty($requestdetails->custom_created_at) ? date('F d ,Y',strtotime($requestdetails->custom_created_at)) : "----
                     ---- ------ "}}</h6>
             </div>
-            <div class="text-center single-timeline"><i class="{{(!empty($requestdetails->assigned_at)  ? 'fas fa-check-circle' : 'far fa-clock'}}  text-success fa-3x"></i>
+            <div class="text-center single-timeline"><i class="{{!empty($requestdetails->assigned_at)  ? 'fas fa-check-circle' : 'far fa-clock'}}  text-success fa-3x"></i>
                 <h5 class="font-weight-600 mt-2 text-black">Assigned</h5>
                 <h6 class="font-weight-500 mt-2 text-secondary font-95">{{!empty($requestdetails->assigned_at) ? date('F d ,Y',strtotime($requestdetails->assigned_at)) : "----
                     ---- ------ "}}</h6>
@@ -353,7 +353,7 @@ use Illuminate\Support\Facades\Storage;
                 <h6 class="font-weight-500 mt-2 text-secondary font-95">{{!empty($requestdetails->underreview_at) ? date('F d ,Y',strtotime($requestdetails->underreview_at)) : "----
                     ---- ------ "}}</h6>
             </div>
-            <div class="text-center single-timeline opacity-50"> <i class="{{(!empty($requestdetails->completed_at) ? 'fas fa-check-circle' : 'far fa-clock'}} text-success fa-3x"></i>
+            <div class="text-center single-timeline opacity-50"> <i class="{{!empty($requestdetails->completed_at) ? 'fas fa-check-circle' : 'far fa-clock'}} text-success fa-3x"></i>
                 <h5 class="font-weight-600 mt-2 text-black">Completed</h5>
                 <h6 class="font-weight-500 mt-2 text-secondary font-95">{{!empty($requestdetails->completed_at) ? date('F d ,Y',strtotime($requestdetails->scheduled_at)) : "----
                     ---- ------ "}}</h6>
