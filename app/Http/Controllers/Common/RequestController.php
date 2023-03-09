@@ -473,6 +473,9 @@ class RequestController extends Controller
                         $review = "<span class='font-weight-600'>Completed At</span><div>" . date('F d ,Y h:i a', strtotime($row->completed_at)) . "</div>";
                         $btn = $schedulestatus . "<hr class='my-2'><div>" . $schedule . "</div><hr class='my-2'><div>" . $review . "</div>";
                     }
+                    else{
+                        $btn = "<div class='d-flex justify-content-around'><a href='$editlink' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Edit' class='btn limegreen btn-primary  edit ml-2'>View</a></div>";
+                    } 
                     return $btn;
                 })
                 ->rawColumns(['company_id', 'applicantinformation', 'detailedaddress', 'address', 'otherinfo', 'status', 'action'])
