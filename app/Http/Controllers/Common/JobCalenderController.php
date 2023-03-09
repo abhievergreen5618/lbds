@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Auth;
 
 class JobCalenderController extends Controller
 {
+    function __construct()
+    {
+         $this->middleware('permission:job-calendar', ['only' => ['index','adminevents']]);
+    }
     public function index(Request $request)
     {
         $inslist = User::role('inspector')->pluck("name", "id");

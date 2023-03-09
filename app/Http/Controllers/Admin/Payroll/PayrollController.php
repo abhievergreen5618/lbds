@@ -13,11 +13,10 @@ use DataTables;
 
 class PayrollController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    function __construct()
+    {
+         $this->middleware('permission:payroll-tracker', ['only' => ['index','display','store']]);
+    }
     public function index(Request $request)
     {
         $inspector = User::role('inspector')->pluck("name", "id");

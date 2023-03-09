@@ -9,7 +9,10 @@ use Illuminate\Http\Request;
 
 class MailBoxController extends Controller
 {
-
+    function __construct()
+    {
+        $this->middleware('permission:email-logs', ['only' => ['index', 'draft','show']]);
+    }
     public function index()
     {
         $sentmail = EmailModel::where('status','sent')->limit(10)->get();
