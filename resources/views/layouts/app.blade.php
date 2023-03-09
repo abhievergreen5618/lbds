@@ -45,6 +45,7 @@
     background-color: rgba(255, 255, 255, 0.85);
     }
 </style>
+
   @stack("header_extras")
 </head>
 
