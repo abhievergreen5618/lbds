@@ -306,7 +306,7 @@ use Illuminate\Support\Facades\Storage;
 
                     </div>
 
-                    <h4 class="mb-1 font-weight-bold text-right {{($requestdetails->status == 'completed') ? 'text-success' : 'text-danger' }}">{{ucfirst($requestdetails->status)}} @if($requestdetails->status == 'completed') <i class='fas fa-check-double fa-sm'></i> @endif</h4>
+                    <h4 class="mb-1 font-weight-bold text-right {{($requestdetails->status == 'completed') ? 'text-success' : 'text-danger' }}">{{($requestdetails->status == "underreview") ? "Under Review" : ucfirst($requestdetails->status)}} @if($requestdetails->status == 'completed') <i class='fas fa-check-double fa-sm'></i> @endif</h4>
                     <h6 class="mb-0 font-95 float-end col-6 px-2 p-1 bg-dark font-weight-600 text-white"><span class="font-weight-500">Assigned To:</span>{{!empty($requestdetails->assigned_ins) ? $inspectordetails->name : "" }} </h6>
                 </div>
             </div>
@@ -803,7 +803,7 @@ use Illuminate\Support\Facades\Storage;
                                         $thumbimage =asset('images/defaultdocument.jpg');
                                     }
                                 @endphp
-                                <div class="col-lg-4 pdfview @if ($i >= 4) {{ 'mt-3' }} @endif " style="cursor: pointer;" data-file="{{ asset('taskfiles/' . $item) }}">
+                                <div class="col-lg-2 pdfview @if ($i >= 4) {{ 'mt-3' }} @endif " style="cursor: pointer;" data-file="{{ asset('taskfiles/' . $item) }}">
                                     <div class="preview-images taskpdf h-100" data-file="{{ asset('taskfiles/' . $item) }}" style="background-image:linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 100.65) 100%),url({{$thumbimage}}); background-repeat: no-repeat; background-size: contain; background-position: center;">
                                         <span class="h-100 w-100 d-flex justify-content-end align-items-center flex-column text-light" style=" overflow: hidden;
                                                                                                         text-overflow: ellipsis; word-break: break-all;">
@@ -863,7 +863,7 @@ use Illuminate\Support\Facades\Storage;
                                 @endphp
 
                                 @if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg')
-                                <div class="col-lg-4 preview  @if ($i >= 4) {{ 'mt-3' }} @endif" style="cursor: pointer;" data-file="{{ asset('taskfiles/' . $item) }}">
+                                <div class="col-lg-4 preview  @if ($i >= 6) {{ 'mt-3' }} @endif" style="cursor: pointer;" data-file="{{ asset('taskfiles/' . $item) }}">
                                     <img src="{{ asset('taskfiles/' . $item) }}" class="img-thumbnail h-100 preview-images" alt="...">
                                     <a id="" href="#" data-file="{{ $item }}" class="remove-btn">Remove file</a>
                                     <div class="image-overlay  position-absolute" style="display:none;">
@@ -888,7 +888,7 @@ use Illuminate\Support\Facades\Storage;
                                         $thumbimage =asset('images/defaultdocument.jpg');
                                     }
                                 @endphp
-                                <div class="col-lg-4 pdfview @if ($i >= 4) {{ 'mt-3' }} @endif" style="cursor: pointer;" data-file="{{ asset('taskfiles/' . $item) }}">
+                                <div class="col-lg-2 pdfview @if ($i >= 6) {{ 'mt-3' }} @endif" style="cursor: pointer;" data-file="{{ asset('taskfiles/' . $item) }}">
                                     <div class="preview-images taskpdf h-100" data-file="{{ asset('taskfiles/' . $item) }}"  style="background-image:linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 100.65) 100%),url({{$thumbimage}}); background-repeat: no-repeat; background-size: contain; background-position: center;">
                                         <span class="h-100 w-100 d-flex justify-content-end align-items-center flex-column text-light" style=" overflow: hidden;
                                                                                                         text-overflow: ellipsis; word-break: break-all;">
