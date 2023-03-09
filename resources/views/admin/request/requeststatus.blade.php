@@ -780,7 +780,7 @@ use Illuminate\Support\Facades\Storage;
                                 @if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg')
                                 <div class="col-lg-4 preview  @if ($i >= 4) {{ 'mt-3' }} @endif" style="cursor: pointer;" data-file="{{ asset('taskfiles/' . $item) }}">
                                     <img src="{{ asset('taskfiles/' . $item) }}" class="img-thumbnail h-100 preview-images" alt="...">
-                                    <a id="" href="#" data-file="{{ $item }}" class="remove-btn">Remove file</a>
+                                    <a id="" href="#" data-file="{{ $item }}" class="remove-btn d-none">Remove file</a>
                                     <div class="image-overlay  position-absolute" style="display:none;">
                                         <div class="d-flex">
                                             <a href="{{route('filedownload',['filename' => $item])}}" data-file="{{ $item }}"><i class="fa fa-download" style="font-size:15px !important; padding:6px !important;" aria-hidden="true">Download</i></a>
@@ -810,7 +810,7 @@ use Illuminate\Support\Facades\Storage;
                                             {{ $item }}
                                         </span>
                                     </div>
-                                    <a id="" href="#" data-file="{{ $item }}" class="remove-btn">Remove file
+                                    <a id="" href="#" data-file="{{ $item }}" class="remove-btn d-none">Remove file
                                     </a>
                                     <div class="image-overlay  position-absolute" style="display:none;">
                                         <div class="d-flex">
@@ -865,7 +865,7 @@ use Illuminate\Support\Facades\Storage;
                                 @if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg')
                                 <div class="col-lg-4 preview  @if ($i >= 6) {{ 'mt-3' }} @endif" style="cursor: pointer;" data-file="{{ asset('taskfiles/' . $item) }}">
                                     <img src="{{ asset('taskfiles/' . $item) }}" class="img-thumbnail h-100 preview-images" alt="...">
-                                    <a id="" href="#" data-file="{{ $item }}" class="remove-btn">Remove file</a>
+                                    <a id="" href="#" data-file="{{ $item }}" class="remove-btn d-none">Remove file</a>
                                     <div class="image-overlay  position-absolute" style="display:none;">
                                         <div class="d-flex">
                                             <a href="{{route('filedownload',['filename' => $item])}}"><i class="fa fa-download"  style="font-size:15px !important; padding:6px !important;" aria-hidden="true">Download</i></a>
@@ -895,7 +895,7 @@ use Illuminate\Support\Facades\Storage;
                                             {{ $item }}
                                         </span>
                                     </div>
-                                    <a id="" href="#" class="remove-btn">Remove file
+                                    <a id="" href="#" class="remove-btn d-none">Remove file
                                     </a>
                                     <div class="image-overlay  position-absolute" style="display:none;">
                                         <div class="d-flex">
