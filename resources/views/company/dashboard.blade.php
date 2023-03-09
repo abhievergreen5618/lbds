@@ -69,8 +69,8 @@ $final_reports= RequestModel::where(['company_id'=>Auth::user()->id,'status'=>'c
                 <!-- small box -->
                 <div class="small-box bg-danger">
                     <div class="inner text-white">
-                        <!-- <h3>{{ $final_reports }}</h3> -->
-                        <p>Add New Request</p>
+                        <h3>Submit New Request</h3>
+                        <!-- <p>Add New Request</p> -->
                     </div>
                     <a href="{{route('admin.request.create')}}" class="small-box-footer">Click here <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
