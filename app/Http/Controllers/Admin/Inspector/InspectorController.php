@@ -64,7 +64,7 @@ class InspectorController extends Controller
         ]);
         $user->save();
         $role = Role::findByName('inspector');
-        $role->givePermissionTo(['request-list']);
+        $role->givePermissionTo(['request-list','job-calendar']);
         $user->assignRole([$role->id]);
         DB::table('users')->where('id', $user->id)->update(['approved' => "Approved"]);
         return redirect()->route('admin.view.inspector')->with('msg', 'Record Save Successfully.');
