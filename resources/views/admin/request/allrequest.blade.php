@@ -1,11 +1,3 @@
-@push("header_extras")
-<style>
-.dataTables_wrapper td {
-  width: 100px !important;
-}
-</style>
-@endpush
-
 @extends('layouts.app')
 
 @section('content')
