@@ -321,13 +321,13 @@ class RequestController extends Controller
                     if($row->status == "cancelled")
                     {
                         $cancelreason = (!empty($row->status == "cancelled")) ? "<hr class='my-2'><span class='font-weight-600'>Reason</span><div>" . $row->cancel_reason . "</div>" : "";
-                        $statusBtn = "<div class='d-flex justify-content-center'><a href='javascript:void(0)' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Task $btntext' class='$class'>$btntext</a></div>" . $cancelreason;
+                        $statusBtn = "<div class='d-flex justify-content-center'><a href='javascript:void(0)' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Request $btntext' class='$class'>$btntext</a></div>" . $cancelreason;
                         return $statusBtn;
                     }
                     else
                     {
                         // $markcompleted = ($row->status == "underreview") ? "<a href='javascript:void(0)' data-id='$id' class='ml-2 d-flex complete btn align-items-center btn-success'  data-bs-toggle='tooltip' data-bs-placement='top' title='Complete'><i class='fas fa-check-double fa-sm'></i><span class='ml-1'>Mark Completed</span></a>" : "";
-                        // $statusBtn = "<div class='d-flex justify-content-center align-items-center'><a href='javascript:void(0)' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Task $btntext' class='$class'>$btntext</a>" . $markcompleted . "</div>";
+                        // $statusBtn = "<div class='d-flex justify-content-center align-items-center'><a href='javascript:void(0)' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Request $btntext' class='$class'>$btntext</a>" . $markcompleted . "</div>";
                         $arr = ["pending", "assigned", "scheduled", "underreview", "completed"];
                         $returnvalue = "<select class='form-control statusdropdown' name='status' data-req-id='" . encrypt($row->id) . "'><option value=''></option>";
                         foreach ($arr as $key => $value) {
@@ -384,7 +384,7 @@ class RequestController extends Controller
                     $cancelreason = (!empty($row->status == "cancelled")) ? "<hr class='my-2'><span class='font-weight-600'>Reason</span><div>" . $row->cancel_reason . "</div>" : "";
                     $btntext = ucfirst($row->status);
                     $id = encrypt($row->id);
-                    $statusBtn = "<div class='d-flex justify-content-center'><a href='javascript:void(0)' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Task $btntext' class='$class'>$btntext</a></div>" . $cancelreason;
+                    $statusBtn = "<div class='d-flex justify-content-center'><a href='javascript:void(0)' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Request $btntext' class='$class'>$btntext</a></div>" . $cancelreason;
                     return $statusBtn;
                 })
                 ->addColumn('action', function ($row) {
@@ -449,7 +449,7 @@ class RequestController extends Controller
                     }
                     $btntext = ucfirst($row->status);
                     $id = encrypt($row->id);
-                    $statusBtn = "<div class='d-flex justify-content-center'><a href='javascript:void(0)' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Task $btntext' class='$class'>$btntext</a></div>";
+                    $statusBtn = "<div class='d-flex justify-content-center'><a href='javascript:void(0)' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Request $btntext' class='$class'>$btntext</a></div>";
                     return $statusBtn;
                 })
                 ->addColumn('action', function ($row) {

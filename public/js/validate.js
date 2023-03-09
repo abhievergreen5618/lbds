@@ -56,7 +56,7 @@ $(document).ready(function () {
         required: true,
       },
       comments: {
-        required: true,
+        // required: true,
       },
       report: {
         required: true,
