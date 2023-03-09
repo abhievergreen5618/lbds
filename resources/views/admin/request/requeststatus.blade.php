@@ -813,9 +813,9 @@ use Illuminate\Support\Facades\Storage;
                                     <a id="" href="#" data-file="{{ $item }}" class="remove-btn d-none">Remove file
                                     </a>
                                     <div class="image-overlay  position-absolute" style="display:none;">
-                                        <div class="d-flex">
+                                        <div class="d-flex flex-column">
                                             <a href="{{route('filedownload',['filename' => $item])}}"><i class="fa fa-download"  style="font-size:15px !important; padding:6px !important;" aria-hidden="true">Download</i></a>
-                                            <a class="ml-2" href="{{asset('taskfiles').'/'.$item}}" target="blank" data-file="{{ $item }}"><i class="fa fa-eye"  style="font-size:15px !important; padding:6px !important;" aria-hidden="true">Preview</i></a>
+                                            <a class="ml-2 mt-2" href="{{asset('taskfiles').'/'.$item}}" target="blank" data-file="{{ $item }}"><i class="fa fa-eye"  style="font-size:15px !important; padding:6px !important;" aria-hidden="true">Preview</i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -867,9 +867,9 @@ use Illuminate\Support\Facades\Storage;
                                     <img src="{{ asset('taskfiles/' . $item) }}" class="img-thumbnail h-100 preview-images" alt="...">
                                     <a id="" href="#" data-file="{{ $item }}" class="remove-btn d-none">Remove file</a>
                                     <div class="image-overlay  position-absolute" style="display:none;">
-                                        <div class="d-flex">
+                                        <div class="d-flex flex-column">
                                             <a href="{{route('filedownload',['filename' => $item])}}"><i class="fa fa-download"  style="font-size:15px !important; padding:6px !important;" aria-hidden="true">Download</i></a>
-                                            <a href="#" class="myImg ml-2" data-file="{{asset('taskfiles').'/'.$item}}"><i class="fa fa-eye"  style="font-size:15px !important; padding:6px !important;" aria-hidden="true">Preview</i></a>
+                                            <a href="#" class="myImg ml-2 mt-2" data-file="{{asset('taskfiles').'/'.$item}}"><i class="fa fa-eye"  style="font-size:15px !important; padding:6px !important;" aria-hidden="true">Preview</i></a>
                                         </div>
                                     </div>
                                 </div>
