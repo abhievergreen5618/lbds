@@ -60,6 +60,7 @@ class AgencyController extends Controller
         ]);
         $user->save();
         $role = Role::findByName('company');
+        $role->givePermissionTo(['request-create','request-list','employee-list','employee-create','employee-edit','employee-delete','request-edit']);
         $user->assignRole([$role->id]);
         DB::table('users')->where('id', $user->id)->update(['approved' => "Approved"]);
         return redirect()->route('admin.agency.agency-view')->with('msg','Record Save Successfully.');

@@ -11,8 +11,9 @@
 <div class="col-md-12">
     <div class="card card-primary">
         <div class="card-header">
-            <h3 class="card-title">{{ __('Add New Request') }}</h3>
+           <h3 class="card-title">{{ __('Add New Request') }}</h3>
         </div>
+		  <div align="center" style="padding-top: 18px;"><span style="color: #FF0000;"><strong>*</strong></span> Indicates Required Field</div> 
         <!-- /.card-header -->
         <!-- form start -->
         <form id="requestform">
@@ -24,7 +25,7 @@
                 <div class="row g-3 align-items-end">
                     @role('admin')
                     <div class="col-md-12 my-2">
-                        <label for="report">{{ __('Agencies') }}</label>
+                        <span style="color: #FF0000;"><strong>*</strong></span> <label for="report">{{ __('Agencies') }}</label>
                         <select class="form-control" name="agency" id="agency">
                             <option value="">Select Agency</option>
                             @if(!empty($companydetails) && count($companydetails) != 0)
@@ -45,7 +46,7 @@
                     <div class="col-md-12 my-2">
                         <div class="row">
                             <div class="col-lg-12">
-                                <label for="">{{ __('Select Inspection Type') }}</label>
+                            <span style="color: #FF0000;"><strong>*</strong></span> <label for="">{{ __('Select Inspection Type') }}</label>
                             </div>
                             @foreach($data as $key=>$value)
                             @php
@@ -85,7 +86,7 @@
                     <div class="col-md-12 my-2">
                         <div class="row">
                             <div class="col-lg-12">
-                                <label for="">{{ __('Insured / Applicant Information') }}</label>
+                            <span style="color: #FF0000;"><strong>*</strong></span> <label for="">{{ __('Insured / Applicant Information') }}</label>
                             </div>
                             <div class="col-lg-4 my-2">
                                 <label for="applicantname">{{ __('Name') }}</label>
@@ -97,14 +98,14 @@
                             </div>
                             <div class="col-lg-4 my-2">
                                 <label for="applicantmobile">{{ __('Phone') }}</label>
-                                <input type="text" class="form-control" id="applicantmobile" name="applicantmobile" placeholder="123-456-7890">
+                                <input type="text" class="form-control" id="applicantmobile" name="applicantmobile" placeholder="# Format: 123-456-7890">
                             </div>
                         </div>
                     </div>
                     <div class="col-md-12 my-2">
                         <div class="row">
                             <div class="col-lg-12">
-                                <label for="">{{ __('Subject Property Information') }}</label>
+                            <span style="color: #FF0000;"><strong>*</strong></span> <label for="">{{ __('Subject Property Information') }}</label>
                             </div>
                             <div class="col-lg-12 my-2">
                                 <label for="address">{{ __('Address') }}</label>
@@ -120,7 +121,7 @@
                             </div>
                             <div class="col-lg-4 my-2">
                                 <label for="zipcode">{{ __('Zip Code') }}</label>
-                                <input type="number" class="form-control" id="zipcode" name="zipcode" placeholder="Zip Code">
+                                <input type="text" class="form-control" id="zipcode" name="zipcode" placeholder="Zip Code">
                             </div>
                         </div>
                     </div>
@@ -128,7 +129,7 @@
                     <div class="col-md-12 my-2">
                         <div class="row">
                             <div class="col-lg-12">
-                                <label for="">{{ __('Send Invoice(s) To:') }}</label>
+                            <span style="color: #FF0000;"><strong>*</strong></span> <label for="">{{ __('Send Invoice(s) To:') }}</label>
                             </div>
                             @foreach($invoicedata as $key=>$value)
                             <div class="col-lg-4 my-2">

@@ -434,7 +434,7 @@ use Illuminate\Support\Facades\Storage;
                                 </tr>
                                 <tr>
                                     <td>Zip Code</td>
-                                    <td><input type="number" class="form-control" id="zipcode" name="zipcode" placeholder="ZipCode" value="{{old('zipcode',$requestdetails->zipcode)}}">
+                                    <td><input type="text" class="form-control" id="zipcode" name="zipcode" placeholder="ZipCode" value="{{old('zipcode',$requestdetails->zipcode)}}">
                                         @error('zipcode')
                                         <div>
                                             <label class="error fail-alert  mt-1">{{$message}}<label>

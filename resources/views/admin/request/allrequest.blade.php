@@ -1,3 +1,11 @@
+@push("header_extras")
+<style>
+.dataTables_wrapper td {
+  width: 100px !important;
+}
+</style>
+@endpush
+
 @extends('layouts.app')
 
 @section('content')
@@ -112,6 +120,8 @@
     
       var status = $("#requeststatusajax").attr("data-status");
       var requesttable = $('#requesttable').DataTable({
+        "autoWidth": false,
+        responsive: true,
         "preDrawCallback": function (settings) {
             setTimeout(function () {
                 select2call();
@@ -131,7 +141,10 @@
             }
         },
         "columnDefs": [
-            { "className": "dt-center", "width": '9%', "targets": "_all" },
+            { "className": "dt-center","targets": "_all" },
+            { width: '20%', targets: 0 },
+            { width: '30%', targets: 1 },
+            { width: '50%', targets: 2 }
         ],
         "order": [5,'desc'],
         "columns": [
@@ -155,11 +168,10 @@
             },
             {
                 "data": "assigned_inspector",
-                "width": '1000px',
+                "width" : "1000px",
             },
             {
                 "data": "status",
-                "width": '1000px',
             },
             {
                 "data": "invoice",
