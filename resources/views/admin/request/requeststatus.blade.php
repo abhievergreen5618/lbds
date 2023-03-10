@@ -370,7 +370,8 @@ use Illuminate\Support\Facades\Storage;
                         @csrf
                         <input type="hidden" name="id" value="{{encrypt($requestdetails->id)}}">
                         <table class="table table-responsive brequest">
-                            <tbody> 
+                            <tbody>
+                            @if(!Auth::user()->hasRole('inspector')) 
                                 <tr>
                                     <td>Applicant Name</td>
                                     <td><input type="text" class="form-control" id="applicantname" name="applicantname" placeholder="Name" value="{{old('applicantname',$requestdetails->applicantname)}}" class="form-control">
@@ -492,6 +493,7 @@ use Illuminate\Support\Facades\Storage;
                                     <td>Admin Notes:</td>
                                     <td><textarea class="form-control" rows="3" placeholder="Enter Admin Notes" name="requestnote" id="requestnote">{{old('requestnote',$requestdetails->requestnote)}}</textarea></td>
                                 </tr>
+                                @endif
                                 @endif
                                 <!--inspector -->
                                 @role('inspector')
