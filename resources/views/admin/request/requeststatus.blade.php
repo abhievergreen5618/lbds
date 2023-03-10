@@ -493,7 +493,6 @@ use Illuminate\Support\Facades\Storage;
                                     <td><textarea class="form-control" rows="3" placeholder="Enter Admin Notes" name="requestnote" id="requestnote">{{old('requestnote',$requestdetails->requestnote)}}</textarea></td>
                                 </tr>
                                 @endif
-                                @endif
                                 <!--inspector -->
                                 @role('inspector')
                                 <tr>
