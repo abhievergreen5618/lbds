@@ -28,49 +28,10 @@ class UserSeeder extends Seeder
         ]);
         $role = Role::create(['name' => 'admin']);
         
-        // $permissions = Permission::pluck('id','id')->all();
+        $permissions = Permission::pluck('id','id')->all();
    
-        // $role->syncPermissions($permissions);
-
-        $role->givePermissionTo([
-            'role-list',
-            'role-create',
-            'role-edit',
-            'role-delete',
-            'inspector-list',
-            'inspector-create',
-            'inspector-edit',
-            'inspector-delete',
-            'inspection-list',
-            'inspection-create',
-            'inspection-edit',
-            'inspection-delete',
-            'invoicetype-list',
-            'invoicetype-create',
-            'invoicetype-edit',
-            'invoicetype-delete',
-            'user-list',
-            'user-create',
-            'user-edit',
-            'user-delete',
-            'request-list',
-            'request-create',
-            'request-edit',
-            'request-delete',
-            'employee-list',
-            'employee-create',
-            'employee-edit',
-            'employee-delete',
-            'agency-list',
-            'agency-create',
-            'agency-edit',
-            'agency-delete',
-            'job-calendar',
-            'payroll-tracker',
-            'email-logs',
-            'portal-settings',
-        ]);
-     
+        $role->syncPermissions($permissions);
+   
         $user->assignRole([$role->id]);
 
         $user = User::create([
@@ -80,49 +41,10 @@ class UserSeeder extends Seeder
             "email_verified_at" => Carbon::now()->timestamp,
              "approved"    => "Approved",
         ]);
-
-        $role->givePermissionTo([
-            'role-list',
-            'role-create',
-            'role-edit',
-            'role-delete',
-            'inspector-list',
-            'inspector-create',
-            'inspector-edit',
-            'inspector-delete',
-            'inspection-list',
-            'inspection-create',
-            'inspection-edit',
-            'inspection-delete',
-            'invoicetype-list',
-            'invoicetype-create',
-            'invoicetype-edit',
-            'invoicetype-delete',
-            'user-list',
-            'user-create',
-            'user-edit',
-            'user-delete',
-            'request-list',
-            'request-create',
-            'request-edit',
-            'request-delete',
-            'employee-list',
-            'employee-create',
-            'employee-edit',
-            'employee-delete',
-            'agency-list',
-            'agency-create',
-            'agency-edit',
-            'agency-delete',
-            'job-calendar',
-            'payroll-tracker',
-            'email-logs',
-            'portal-settings',
-        ]);
         
-        // $permissions = Permission::pluck('id','id')->all();
+        $permissions = Permission::pluck('id','id')->all();
    
-        // $role->syncPermissions($permissions);
+        $role->syncPermissions($permissions);
      
         $user->assignRole([$role->id]);
         $user = User::create([

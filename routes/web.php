@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TestController;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\Common\RequestController;
 use App\Http\Controllers\Admin\InspectionController;
@@ -289,3 +290,5 @@ Route::group(['middleware' => ['auth']], function () {
 
 Route::get('login/locked',[LoginController::class, 'locked'])->name('login.locked')->middleware('auth');
 Route::post('login/unlock',[LoginController::class, 'unlock'])->name('login.unlock')->middleware('auth');
+
+Route::get('/import',[TestController::class, 'index'])->name('import');
