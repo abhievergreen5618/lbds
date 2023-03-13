@@ -111,7 +111,7 @@ class RequestController extends Controller
             session()->forget('taskid');
         }
         $msg = "Details Saved Successfully";
-        $newlocation = (Auth::user()->hasRole("admin")) ?  route('admin.request.list') : route('company.request.list');
+        $newlocation = (Auth::user()->hasRole("company") || Auth::user()->hasRole("employee")) ? route('company.request.list') : route('admin.request.list');
         return response()->json(['msg' => $msg, 'newlocation' => $newlocation], 200);
     }
 
