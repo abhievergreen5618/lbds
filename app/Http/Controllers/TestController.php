@@ -30,7 +30,12 @@ class TestController extends Controller
                         {
                             $user = User::create([
                                 "name" => $row[8],
+                                'company_name' => $row[2],
                                 "email" => $row[9],
+                                "company_address" => $row[3],
+                                'company_phonenumber' => $row[7],
+                                'mobile_number' => $row[10],
+                                'color_code' => $row[17],
                                 "password" => Hash::make("12345678"),
                                 "email_verified_at" => Carbon::now()->timestamp,
                                 "approved"    => "Approved",
