@@ -25,7 +25,18 @@ class RequestCompleted extends Mailable
         $this->companydetails = $companydetails;
         $this->requestdetails = $requestdetails;
         $this->subject=$subject;
-        $this->body= ($type=='inspectorassign') ? $options->get_option('inspector_request_completed_message') : $options->get_option('company_request_completed_message');  
+        if($type=='inspectorassign')
+        {
+            $this->body = $options->get_option('inspector_request_completed_message');
+        }
+        else if($type=='companyassign')
+        {
+            $this->body = $options->get_option('company_request_completed_message');
+        }
+        else if($type=='applicantassign')
+        {
+            $this->body = $options->get_option('applicant_request_completed_message');
+        }
         if($type=='inspectorassign')
         {
             $this->body= str_replace('[first_name]',$insdetails->name,$this->body);

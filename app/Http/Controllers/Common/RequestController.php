@@ -462,7 +462,7 @@ class RequestController extends Controller
                     if ($row->status == "scheduled") {
                         $btn = "<div class='d-flex justify-content-around'><a href='javascript:void(0)' data-id='$id' data-time='$time' data-date='$date' class='ml-2 reschedule btn red-btn btn-danger'  data-bs-toggle='tooltip' data-bs-placement='top' title='Reschedule'>Reschedule</a><a href='$editlink' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Edit' class='btn limegreen btn-primary  edit ml-2'>View</a><a href='$link' data-id='$id' target='blank' class='d-flex align-items-center ml-2  btn red-btn btn-warning'  data-bs-toggle='tooltip' data-bs-placement='top' title='Calendar'><i class='fas fa-calendar'></i><span class='ml-2'>Calendar<span></a></div>" . $schedule . "</div></div><div class='mt-2 formsae9e83'><div class='mt-2'><button id='ae9e83' data-id='$id' class='btn btn-sm btn-success col-12 shadow-sm font-weight-500 pointer btn-submit-review submitreview'>Submit for Review <i class='fas fa-check-double fa-sm'></i></button></div></div>";
                     }
-                    if ($row->status == "underreview") {
+                    else if($row->status == "underreview") {
                         $schedulestatus = "<div class='d-flex justify-content-around'><span class='btn btn-sm btn-warning text-black font-weight-500 py-0'>Submitted for Review</span><a href='$editlink' data-id='$id' data-bs-toggle='tooltip' data-bs-placement='top' title='Edit' class='btn limegreen btn-primary  edit ml-2'>View</a></div>";
                         $review = "<span class='font-weight-600'>Submitted for Review at</span><div>" . date('F d ,Y h:i a', strtotime($row->underreview_at)) . "</div>";
                         $btn = $schedulestatus . "<hr class='my-2'><div>" . $schedule . "</div><hr class='my-2'><div>" . $review . "</div>";
@@ -780,33 +780,38 @@ class RequestController extends Controller
         $insdetails = User::where("id", $requestdetails['assigned_ins'])->first();
         $companydetails = User::where("id", $requestdetails['company_id'])->first();
 
-        if ($status == "scheduled") {
+        if($status == "scheduled") 
+        {
             $subject = "Request Scheduled";
             if (!empty($companydetails->notification_settings) && (array_key_exists('request_scheduled', $companydetails->notification_settings))) {
-                Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new RequestScheduled($insdetails, $companydetails, $requestdetails, $subject,'companyassign'));
+                Mail::to($companydetails['email'])->send(new RequestScheduled($insdetails, $companydetails, $requestdetails, $subject,'companyassign'));
+                Mail::to($requestdetails['applicantemail'])->send(new RequestScheduled($insdetails, $companydetails, $requestdetails, $subject,'applicantassign'));
             }
             if (!empty($insdetails->notification_settings) && (array_key_exists('request_scheduled', $insdetails->notification_settings))) {
                 Mail::to($insdetails['email'])->send(new RequestScheduled($insdetails, $companydetails, $requestdetails, $subject,'inspectorassign'));
             }
-        } else if ($status == "rescheduled") {
+        }
+        else if ($status == "rescheduled") 
+        {
             $subject = "Request Rescheduled";
         } else if ($status == "cancelled") {
             $subject = "Request Cancelled";
-            Mail::to($insdetails['email'])->send(new RequestScheduled($insdetails, $companydetails, $requestdetails, $subject,'companyassign'));
-            Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new RequestScheduled($insdetails, $companydetails, $requestdetails, $subject,'inspectorassign'));
+            // Mail::to($insdetails['email'])->send(new RequestScheduled($insdetails, $companydetails, $requestdetails, $subject,'companyassign'));
+            // Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new RequestScheduled($insdetails, $companydetails, $requestdetails, $subject,'inspectorassign'));
         } else if ($status == "underreview") {
             $subject = "Request Underreview";
             if (!empty($companydetails->notification_settings) && (array_key_exists('request_underreview', $companydetails->notification_settings))) {
-                Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new RequestUnderreview($insdetails, $companydetails, $requestdetails, $subject,'companyassign'));
+                Mail::to($companydetails['email'])->send(new RequestUnderreview($insdetails, $companydetails, $requestdetails, $subject,'companyassign'));
+                Mail::to($requestdetails['applicantemail'])->send(new RequestUnderreview($insdetails, $companydetails, $requestdetails, $subject,'applicantassign'));
             }
             if (!empty($insdetails->notification_settings) && (array_key_exists('request_underreview', $insdetails->notification_settings))) {
                 Mail::to($insdetails['email'])->send(new RequestUnderreview($insdetails, $companydetails, $requestdetails, $subject,'inspectorassign'));
             }
         } else if ($status == "completed") {
             $subject = "Request Completed";
-
             if (!empty($companydetails->notification_settings) && (array_key_exists('request_completed', $companydetails->notification_settings))) {
-                Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new RequestCompleted($insdetails, $companydetails, $requestdetails, $subject,'companyassign'));
+                Mail::to($companydetails['email'])->send(new RequestCompleted($insdetails, $companydetails, $requestdetails, $subject,'companyassign'));
+                Mail::to($requestdetails['applicantemail'])->send(new RequestCompleted($insdetails, $companydetails, $requestdetails, $subject,'applicantassign'));
             }
             if (!empty($insdetails->notification_settings) && (array_key_exists('request_completed', $insdetails->notification_settings))) {
                 Mail::to($insdetails['email'])->send(new RequestCompleted($insdetails, $companydetails, $requestdetails, $subject,'inspectorassign'));

@@ -252,6 +252,67 @@
                     </div>
                     </form>
                 </div>
+                <div class="col-md-12 text-center"><h2>Customer Template</h2></div>
+                <div class="col-md-3">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h3 class="card-title">Attributes</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                           <div class="form-group">
+                            <label>Name:</label>
+                            <input type="text" class="form-control" value="[first_name]" disabled>
+                           </div>
+                           <div class="form-group">
+                            <label>Assigned Inspector</label>
+                            <input type="text" class="form-control" value="[inspector_name]" disabled>
+                           </div>
+                           <div class="form-group">
+                            <label>Company</label>
+                            <input type="text" class="form-control" value="[company_name]" disabled>
+                           </div>
+                           <div class="form-group">
+                            <label>Company Location</label>
+                            <input type="text" class="form-control" value="[company_location]" disabled>
+                           </div>
+                           <div class="form-group">
+                            <label>Applicant Name</label>
+                            <input type="text" class="form-control" value="[applicant_name]" disabled>
+                           </div>
+                           <div class="form-group">
+                            <label>Applicant Email</label>
+                            <input type="text" class="form-control" value="[applicant_email]" disabled>
+                           </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-9">
+                    <form action="{{route('admin.portal.emailAssign')}}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <div class="card-title">{{__('Edit Email Template')}}</div>
+                        </div>
+                        <div class="card-body">
+                         <div class="form-group">
+                         <textarea id="textarea-summernote" class="form-control summernote" style="height: 700px" name="applicant_request_assign_message">{{$data['applicant_request_assign_message']}}</textarea>
+                         </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="float-right">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -383,6 +444,75 @@
                         <div class="card-body">
                          <div class="form-group">
                          <textarea id="textarea-summernote" class="form-control summernote" style="height: 700px" name="company_request_scheduled_message">{{$data['company_request_scheduled_message']}}</textarea>
+                         </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="float-right">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+                <div class="col-md-12 text-center"><h2>Customer Template</h2></div>
+                <div class="col-md-3">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h3 class="card-title">Attributes</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                           <div class="form-group">
+                            <label>Name:</label>
+                            <input type="text" class="form-control" value="[first_name]" disabled>
+                           </div>
+                           <div class="form-group">
+                            <label>Assigned Inspector</label>
+                            <input type="text" class="form-control" value="[inspector_name]" disabled>
+                           </div>
+                           <div class="form-group">
+                            <label>Company</label>
+                            <input type="text" class="form-control" value="[company_name]" disabled>
+                           </div>
+                           <div class="form-group">
+                            <label>Company Location</label>
+                            <input type="text" class="form-control" value="[company_location]" disabled>
+                           </div>
+                           <div class="form-group">
+                            <label>Applicant Name</label>
+                            <input type="text" class="form-control" value="[applicant_name]" disabled>
+                           </div>
+                           <div class="form-group">
+                            <label>Applicant Email</label>
+                            <input type="text" class="form-control" value="[applicant_email]" disabled>
+                           </div>
+                           <div class="form-group">
+                            <label>Inspection Date</label>
+                            <input type="text" class="form-control" value="[inspection_date]" disabled>
+                           </div>
+                           <div class="form-group">
+                            <label>Inspection Time</label>
+                            <input type="text" class="form-control" value="[inspection_time]" disabled>
+                           </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-9">
+                    <form action="{{route('admin.portal.emailAssign')}}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <div class="card-title">{{__('Edit Email Template')}}</div>
+                        </div>
+                        <div class="card-body">
+                         <div class="form-group">
+                         <textarea id="textarea-summernote" class="form-control summernote" style="height: 700px" name="applicant_request_scheduled_message">{{$data['applicant_request_scheduled_message']}}</textarea>
                          </div>
                         </div>
                         <div class="card-footer">
@@ -525,6 +655,67 @@
                     </div>
                     </form>
                 </div>
+                <div class="col-md-12 text-center"><h2>Customer Template</h2></div>
+                <div class="col-md-3">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h3 class="card-title">Attributes</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                           <div class="form-group">
+                            <label>Name:</label>
+                            <input type="text" class="form-control" value="[first_name]" disabled>
+                           </div>
+                           <div class="form-group">
+                            <label>Assigned Inspector</label>
+                            <input type="text" class="form-control" value="[inspector_name]" disabled>
+                           </div>
+                           <div class="form-group">
+                            <label>Company</label>
+                            <input type="text" class="form-control" value="[company_name]" disabled>
+                           </div>
+                           <div class="form-group">
+                            <label>Company Location</label>
+                            <input type="text" class="form-control" value="[company_location]" disabled>
+                           </div>
+                           <div class="form-group">
+                            <label>Applicant Name</label>
+                            <input type="text" class="form-control" value="[applicant_name]" disabled>
+                           </div>
+                           <div class="form-group">
+                            <label>Applicant Email</label>
+                            <input type="text" class="form-control" value="[applicant_email]" disabled>
+                           </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-9">
+                    <form action="{{route('admin.portal.emailAssign')}}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <div class="card-title">{{__('Edit Email Template')}}</div>
+                        </div>
+                        <div class="card-body">
+                         <div class="form-group">
+                         <textarea id="textarea-summernote" class="form-control summernote" style="height: 700px" name="applicant_request_underreview_message">{{$data['applicant_request_underreview_message']}}</textarea>
+                         </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="float-right">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -648,6 +839,67 @@
                         <div class="card-body">
                          <div class="form-group">
                          <textarea id="textarea-summernote" class="form-control summernote" style="height: 700px" name="company_request_completed_message">{{$data['company_request_completed_message']}}</textarea>
+                         </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="float-right">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+                <div class="col-md-12 text-center"><h2>Customer Template</h2></div>
+                <div class="col-md-3">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h3 class="card-title">Attributes</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                           <div class="form-group">
+                            <label>Name:</label>
+                            <input type="text" class="form-control" value="[first_name]" disabled>
+                           </div>
+                           <div class="form-group">
+                            <label>Assigned Inspector</label>
+                            <input type="text" class="form-control" value="[inspector_name]" disabled>
+                           </div>
+                           <div class="form-group">
+                            <label>Company</label>
+                            <input type="text" class="form-control" value="[company_name]" disabled>
+                           </div>
+                           <div class="form-group">
+                            <label>Company Location</label>
+                            <input type="text" class="form-control" value="[company_location]" disabled>
+                           </div>
+                           <div class="form-group">
+                            <label>Applicant Name</label>
+                            <input type="text" class="form-control" value="[applicant_name]" disabled>
+                           </div>
+                           <div class="form-group">
+                            <label>Applicant Email</label>
+                            <input type="text" class="form-control" value="[applicant_email]" disabled>
+                           </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-9">
+                    <form action="{{route('admin.portal.emailAssign')}}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <div class="card-title">{{__('Edit Email Template')}}</div>
+                        </div>
+                        <div class="card-body">
+                         <div class="form-group">
+                         <textarea id="textarea-summernote" class="form-control summernote" style="height: 700px" name="applicant_request_completed_message">{{$data['applicant_request_completed_message']}}</textarea>
                          </div>
                         </div>
                         <div class="card-footer">
