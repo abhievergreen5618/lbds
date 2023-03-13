@@ -56,7 +56,7 @@ class RequestController extends Controller
         $data = Inspectiontype::where("status", "active")->pluck("name", "id");
         $roleid = Role::where("name", Auth::user()->roles->pluck('name')[0])->first("id");
         // session()->forget('taskid');
-        if (Auth::user()->hasRole("admin")) {
+        if (!Auth::user()->hasRole('company') && !Auth::user()->hasRole('employee')) {
             $companydetails = User::role('company')->where(["status" => "active"])->pluck("company_name", "id");
             return view('common.createrequest')->with(["data" => $data, "roleid" => $roleid, "invoicedata" => $invoicedata, "companydetails" => $companydetails, "id" => $id, "option" => $option]);
         } else {
