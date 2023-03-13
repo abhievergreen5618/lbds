@@ -80,8 +80,8 @@
         <div class="card-header">
            <h3 class="card-title">{{ __('Job Calender') }}</h3>
         </div>
-        <div class="card-body p-0" id="maincalender" data-id="{{(Auth::user()->hasRole('admin')) ? 'all' : encrypt(Auth::user()->id) }}">
-            @role('admin')
+        <div class="card-body p-0" id="maincalender" data-id="{{(Auth::user()->hasRole('inspector')) ? encrypt(Auth::user()->id) : 'all' }}">
+            @if(!Auth::user()->hasRole("inspector"))
             <div class="row">
                 <div class="col-lg-6">
                     <div class="my-2 px-2 ml-auto">
@@ -110,7 +110,7 @@
                     </div>
                 </div>
             </div>
-            @endrole
+            @endif
             <div id="calendar"></div>
         </div>
         <!-- /.card-body -->
