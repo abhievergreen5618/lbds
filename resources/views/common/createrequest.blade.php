@@ -151,8 +151,7 @@
                         <label for="relatedfiles">{{ __('Agency Related Files') }}</label>
                         <div class="dropzone" id="agencyfiles"></div>
                     </div>
-                    @endif
-                    @role('admin')
+                    @else
                     <div class="col-md-6 my-2">
                         <label for="relatedfiles">{{ __('Agency Related Files') }}</label>
                         <div class="dropzone" id="agencyfiles"></div>
@@ -161,7 +160,7 @@
                         <label for="relatedfiles">{{ __('Reports Related Files') }}</label>
                         <div class="dropzone" id="reportfiles"></div>
                     </div>
-                    @endrole
+                    @endif
                 </div>
             </div>
             <div class="card-footer">
