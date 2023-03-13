@@ -235,10 +235,11 @@ class AgencyController extends Controller
     // for store the values of options
      public function updateAgencyMail(Request $request, User $user)
      {  
-      User::where('id',decrypt($request['id']))->update(['notification_settings'=>$request['notification_settings']]);
-         return back()->with('msg', 'Email Configuration Updated Successfully');
+        if(!isset($request['notification_settings']))
+        {
+            $request['notification_settings'] = "";
+        }
+        User::where('id',decrypt($request['id']))->update(['notification_settings'=>$request['notification_settings']]);
+        return back()->with('msg', 'Email Configuration Updated Successfully');
      }
- 
-
-
 }

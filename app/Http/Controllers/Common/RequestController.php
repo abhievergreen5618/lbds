@@ -757,7 +757,7 @@ class RequestController extends Controller
                         $status => $current_date_time,
                     ]);
                     $assigned_at = RequestModel::where('id', decrypt($request['id']))->first("assigned_at");
-                    if(!empty($assigned_at) && array_key_exists("assigned_at",$assigned_at))
+                    if(!empty($assigned_at) && !is_null($assigned_at['assigned_at']))
                     {
                         $this->send_email($request['id'], "completed");
                     }
@@ -782,7 +782,6 @@ class RequestController extends Controller
 
         if ($status == "scheduled") {
             $subject = "Request Scheduled";
-
             if (!empty($companydetails->notification_settings) && (array_key_exists('request_scheduled', $companydetails->notification_settings))) {
                 Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new RequestScheduled($insdetails, $companydetails, $requestdetails, $subject,'companyassign'));
             }
@@ -793,12 +792,10 @@ class RequestController extends Controller
             $subject = "Request Rescheduled";
         } else if ($status == "cancelled") {
             $subject = "Request Cancelled";
-
             Mail::to($insdetails['email'])->send(new RequestScheduled($insdetails, $companydetails, $requestdetails, $subject,'companyassign'));
             Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new RequestScheduled($insdetails, $companydetails, $requestdetails, $subject,'inspectorassign'));
         } else if ($status == "underreview") {
             $subject = "Request Underreview";
-
             if (!empty($companydetails->notification_settings) && (array_key_exists('request_underreview', $companydetails->notification_settings))) {
                 Mail::to($companydetails['email'])->cc($requestdetails['applicantemail'])->send(new RequestUnderreview($insdetails, $companydetails, $requestdetails, $subject,'companyassign'));
             }

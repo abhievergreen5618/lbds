@@ -394,7 +394,7 @@ use Illuminate\Support\Facades\Storage;
                                 </tr>
                                 <tr>
                                     <td>Applicant Phone</td>
-                                    <td><input type="number" class="form-control" id="applicantmobile" name="applicantmobile" placeholder="Phone" value="{{old('applicantmobile',$requestdetails->applicantmobile)}}">
+                                    <td><input type="text" class="form-control" id="applicantmobile" name="applicantmobile" placeholder="# Format: 123-456-7890" value="{{old('applicantmobile',$requestdetails->applicantmobile)}}">
                                         @error('applicantmobile')
                                         <div>
                                             <label class="error fail-alert  mt-1">{{$message}}<label>

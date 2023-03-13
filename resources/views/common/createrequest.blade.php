@@ -23,7 +23,7 @@
             @endif
             <div class="card-body">
                 <div class="row g-3 align-items-end">
-                    @role('admin')
+                    @if(!Auth::user()->hasRole('company') && !Auth::user()->hasRole('employee'))
                     <div class="col-md-12 my-2">
                         <span style="color: #FF0000;"><strong>*</strong></span> <label for="report">{{ __('Agencies') }}</label>
                         <select class="form-control" name="agency" id="agency">
@@ -35,7 +35,7 @@
                             @endif
                         </select>
                     </div>
-                    @endrole
+                    @endif
                     @if(Auth::user()->hasRole('company'))
                     <input type="hidden" name="agency" value="{{encrypt(auth()->user()->id)}}">
                     @endif

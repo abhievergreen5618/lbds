@@ -200,7 +200,6 @@
             </div>
             <!-- /.tab-pane -->
             <div class="tab-pane" id="settings">
-            
                 <form class="form-horizontal" id="agencyemailconfiguration" action="{{ route('admin.update.agency-mail') }}" method="POST">
                   @csrf
                 <input type="hidden" name="id" value="{{encrypt($data->id )}}">
@@ -211,7 +210,7 @@
                   </div>
                   <div class="col-md-6">
                     <input type="checkbox" name="notification_settings[request_assigned]" data-bootstrap-switch="" data-off-color="danger"  data-on-color="success" value="on" 
-                    {{!empty($data->notification_settings) ? (array_key_exists('request_assigned',$data->notification_settings))? "checked" :"" :"checked"  }}>
+                    {{!empty($data->notification_settings) ? (array_key_exists('request_assigned',$data->notification_settings))? "checked" :"" :""  }}>
                   </div>
                 </div>
                 <div class="form-group mb-2 row">
@@ -220,7 +219,7 @@
                   </div>
                   <div class="col-md-6">
                     <input type="checkbox" name="notification_settings[request_scheduled]" data-bootstrap-switch="" data-off-color="danger" data-on-color="success" value="on" 
-                    {{!empty($data->notification_settings) ? (array_key_exists('request_scheduled',$data->notification_settings))? "checked" :"" :"checked"  }}>
+                    {{!empty($data->notification_settings) ? (array_key_exists('request_scheduled',$data->notification_settings))? "checked" : "" :""  }}>
                   </div>
                 </div>
                 <div class="form-group mb-2 row">
@@ -229,7 +228,7 @@
                   </div>
                   <div class="col-md-6">
                     <input type="checkbox" name="notification_settings[request_underreview]" data-bootstrap-switch="" data-off-color="danger" data-on-color="success" value="on"
-                    {{!empty($data->notification_settings) ? (array_key_exists('request_underreview',$data->notification_settings))? "checked" :"" :"checked"  }}>
+                    {{!empty($data->notification_settings) ? (array_key_exists('request_underreview',$data->notification_settings))? "checked" :"" :""  }}>
                   </div>
                 </div>
                 <div class="form-group mb-2 row">
@@ -238,7 +237,7 @@
                   </div>
                   <div class="col-md-6">
                     <input type="checkbox" name="notification_settings[request_completed]"  data-bootstrap-switch="" data-off-color="danger" data-on-color="success" value="on"
-                    {{!empty($data->notification_settings) ? (array_key_exists('request_completed',$data->notification_settings))? "checked" :"" :"checked"  }}>
+                    {{!empty($data->notification_settings) ? (array_key_exists('request_completed',$data->notification_settings))? "checked" :"" :""  }}>
                   </div>
                 </div>
                 <div class="form-group row mt-3">
