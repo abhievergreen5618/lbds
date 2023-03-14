@@ -1,20 +1,15 @@
 @php
+use App\Models\Options;
+$options = new Options();
 $pendingCount= DB::table('users')->where('approved','Pending')->count();
 $disapprovedCount= DB::table('users')->where('approved','Disapproved')->count();
 @endphp
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
-    <a href="{{route('home')}}" class="brand-link">
-        <img
-            src="{{ asset('public/images/logo.png') }}"
-            alt="Logo"
-            class="elevation-3"
-            style="max-height: 28px !important;"
-        >
-        {{--
-        <span class="brand-text font-weight-light">WINDMITIGATION</span>
-        --}}
+     <!-- Brand Logo -->
+     <a href="{{route('home')}}" class="brand-link">
+        <img src="{{ asset('public/images').'/'.$options->get_option('website_logo') }}" alt="Logo" class="elevation-3" style="max-height: 28px !important;">
+        {{-- <span class="brand-text font-weight-light">WINDMITIGATION</span> --}}
     </a>
     <!-- Sidebar -->
     <div class="sidebar">
