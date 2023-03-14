@@ -863,7 +863,7 @@ class RequestController extends Controller
                 // }
                 $reportemail->saveemail($data, "sent");
             } catch (Exception $e) {
-                dd($e->getMessage());
+                // dd($e->getMessage());
                 $reportemail->saveemaildraft($data, "draft");
                 return redirect()->back()->with('error', 'Failed To Send Report Mail');
             }
