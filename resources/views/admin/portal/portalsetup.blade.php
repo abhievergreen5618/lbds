@@ -91,6 +91,9 @@
             height: 110px!important;
         }
     }
+    .profile-pic {
+    border: 1px solid red;
+    }
     </style>
 @endpush
 @extends('layouts.app')
@@ -115,6 +118,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group mb-2">
+                                                <label for="file" class="form-label text-center w-100">Siderbar Logo</label>
                                                 <div class="profile-pic">
                                                     <label class="-label" for="file">
                                                         <span class="glyphicon glyphicon-camera"></span>
@@ -129,6 +133,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group mb-2">
+                                                 <label for="file_logo" class="form-label text-center w-100">Website Logo</label>
                                                 <div class="profile-pic">
                                                     <label class="-label" for="file_logo">
                                                         <span class="glyphicon glyphicon-camera"></span>
@@ -347,6 +352,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group mb-2">
+                                                <label for="login_img" class="form-label text-center w-100">Login Image</label>
                                                 <div class="profile-pic">
                                                     <label class="-label" for="login_img">
                                                         <span class="glyphicon glyphicon-camera"></span>
@@ -361,6 +367,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group mb-2">
+                                                <label for="registration_img" class="form-label text-center w-100">Registration Image</label>
                                                 <div class="profile-pic">
                                                     <label class="-label" for="registration_img">
                                                         <span class="glyphicon glyphicon-camera"></span>
@@ -378,6 +385,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group mb-2">
+                                                <label for="registration_logo_img" class="form-label text-center w-100">Registration Image</label>
                                                 <div class="profile-pic">
                                                     <label class="-label" for="registration_logo_img">
                                                         <span class="glyphicon glyphicon-camera"></span>
